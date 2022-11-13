@@ -1,0 +1,16 @@
+export enum MEMBER_STATE {
+    NOT_A_MEMBER = 0,
+    ADMIN = 1,
+    PENDING_MEMBER = 3,
+    MEMBER = 4,
+    SKIPPED = 9
+}
+
+export enum MEMBER_RIGHT {
+    CREATE_ROOMS = 0,
+    CREATE_POLL = 1,
+    CREATE_EVENT = 2,
+    RESPOND_IN_ROOM = 3,
+    INVITE_PRIVATE_LINK = 4,
+    AUTO_APPROVE = 5
+}

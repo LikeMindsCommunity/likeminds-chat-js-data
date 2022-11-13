@@ -1,0 +1,35 @@
+<section class="image-chooser-wrapper">
+    <div class="cross-div" (click)="close()">
+        <span class="close-icon"><img src="https://web.likeminds.community/assets/images/svg/cross.svg" /></span>
+    </div>
+
+    <div class="icons">
+        <div class="icon">
+            <label>
+                <img src="https://web.likeminds.community/assets/images/svg/camera-icon.svg" />
+                <h4>Camera</h4>
+                <input
+                    #imageFileUpload
+                    type="file"
+                    accept="image/*"
+                    capture="camera"
+                    (change)="uploadImage($event, 'camera')"
+                    (click)="imageFileUpload.value = ''"
+                />
+            </label>
+        </div>
+        <div class="icon">
+            <label>
+                <img src="https://web.likeminds.community/assets/images/svg/gallery.svg" />
+                <h4>Gallery</h4>
+                <input
+                    #imageFileUpload
+                    type="file"
+                    accept="image/*"
+                    (change)="uploadImage($event, 'gallery')"
+                    (click)="imageFileUpload.value = ''"
+                />
+            </label>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,170 @@
+<section>
+    <main>
+        <form [formGroup]="pollRoomForm" (ngSubmit)="onCreatePollRoom()">
+            <div class="mb-4">
+                <div class="text-area d-flex flex-column">
+                    <textarea
+                        class="form-control"
+                        formControlName="pollQuestion"
+                        placeholder="Ask a question* sdlfjslkdfj"
+                        rows="1"
+                    ></textarea>
+
+                    <div class="d-flex justify-content-between text-muted">
+                        <!-- Secretc: Chatroom Type -->
+                        <ng-container *ngIf="is_cm">
+                            <div class="crType me-1 suffix align-self-end" (click)="secretChatroomDialog()">
+                                <span class="me-1">
+                                    <img
+                                        src="https://web.likeminds.community/assets/images/svg/open.svg"
+                                        alt="Icon"
+                                        *ngIf="crType === 'open'; else lockIcon"
+                                        width="18px"
+                                        height="16px"
+                                    />
+                                    <ng-template #lockIcon>
+                                        <img src="https://web.likeminds.community/assets/images/svg/secret_lock.svg" alt="Icon" />
+                                    </ng-template>
+                                </span>
+                                <span class="me-1">
+                                    {{ crType }}
+                                </span>
+                                <img src="https://web.likeminds.community/assets/images/svg/secret_down_arrow.svg" alt="down arrow" />
+                            </div>
+                        </ng-container>
+                        <!-- Secretc: Chatroom Type -->
+
+                        <div>&nbsp;</div>
+                        <div class="mt-2">
+                            <span *ngIf="pollRoomForm.value.pollQuestion?.length < 10; else counts"
+                                >Min {{ 10 - pollRoomForm.value.pollQuestion?.length }} characters</span
+                            >
+                            <ng-template #counts>
+                                <span>{{ pollRoomForm.value.pollQuestion?.length }} characters</span>
+                            </ng-template>
+                            <circle-progress
+                                class="circle"
+                                [percent]="(pollRoomForm.value.pollQuestion?.length || 0) * 10"
+                                [radius]="4"
+                                [outerStrokeWidth]="2"
+                                [innerStrokeWidth]="2"
+                                [space]="-2"
+                                [innerStrokeColor]="'#CFF7F3'"
+                                [outerStrokeColor]="'#00CAB3'"
+                                [titleFontSize]="2"
+                                [unitsFontSize]="2"
+                                [showTitle]="false"
+                                [showUnits]="false"
+                                [showSubtitle]="false"
+                                [animation]="true"
+                                [animationDuration]="300"
+                                [startFromZero]="false"
+                                [responsive]="true"
+                            >
+                            </circle-progress>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div formArrayName="options">
+                <label class="label">Poll Options</label>
+                <div class="mb-4" *ngFor="let item of pollOptions.controls; let optionIndex = index" [formGroupName]="optionIndex">
+                    <div class="text-area d-flex justify-content-between">
+                        <input type="text" class="form-control" formControlName="text" placeholder="Option {{ optionIndex + 1 }}" />
+                        <div>
+                            <img
+                                src="https://web.likeminds.community/assets/images/svg/cancel_gray.svg"
+                                alt="about event"
+                                (click)="deletePollOption(optionIndex)"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <div class="add_option text-area d-flex justify-content-between">
+                    <div (click)="addPollOption()">
+                        <img src="https://web.likeminds.community/assets/images/svg/cancel_green.svg" alt="Add an option" class="me-1" />
+                        <span class="text-primary">Add an option</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="label">Poll Expires on</label>
+                <div class="date_picker_poll text-area d-flex justify-content-between">
+                    <div class="me-1"><img src="https://web.likeminds.community/assets/images/svg/calendar.svg" alt="date" /></div>
+                    <mat-form-field floatLabel="never">
+                        <input
+                            matInput
+                            [ngxMatDatetimePicker]="pickerFrom"
+                            placeholder="DD-MM-YYYY hh:mm"
+                            formControlName="expiryDate"
+                            [min]="minDate"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #pickerFrom [enableMeridian]="true"></ngx-mat-datetime-picker>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <ng-container *ngIf="advanceOptions">
+                <div class="mb-3">
+                    <div class="text-area d-flex justify-content-between">
+                        <div>Allow voters to add options</div>
+                        <mat-slide-toggle formControlName="allowAddOption"></mat-slide-toggle>
+                    </div>
+                    <div class="text-area custom-text-area d-flex justify-content-between">
+                        <div>Anonymous Poll</div>
+                        <mat-slide-toggle formControlName="anonymousPoll"></mat-slide-toggle>
+                    </div>
+                    <div class="text-area custom-text-area d-flex justify-content-between">
+                        <div>Don't show live results</div>
+                        <mat-slide-toggle formControlName="liveResult"></mat-slide-toggle>
+                    </div>
+                    <div class="text-area custom-text-area d-flex justify-content-between">
+                        <div class="w-100">
+                            <label class="custom-label mb-1">User can vote for</label>
+                            <div class="row">
+                                <div class="col-5 userVote">
+                                    <select class="form-control custom-select" formControlName="multipleSelectState">
+                                        <Option value="Exactly">Exactly</Option>
+                                        <Option value="At Most">At Most</Option>
+                                        <Option value="At Least">At Least</Option>
+                                    </select>
+                                    <span class="arrowDown">
+                                        <img src="https://web.likeminds.community/assets/images/svg/poll-vote.svg" alt="Poll Vote For" />
+                                    </span>
+                                </div>
+                                <div class="col-2 text-center pt-2">=</div>
+                                <div class="col-5 userVote">
+                                    <select class="form-control custom-select" formControlName="multipleSelectNo">
+                                        <option [value]="number" *ngFor="let number of multiSelectOption">{{ number }}</option>
+                                    </select>
+                                    <span class="arrowDown">
+                                        <img src="https://web.likeminds.community/assets/images/svg/poll-vote.svg" alt="Poll Vote For" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="mb-3 text-center">
+                <label (click)="showAdvanceOption()" class="label m-0"
+                    >Advanced
+                    <img
+                        class="cursor-pointer advanced-option-arrow-icon"
+                        [ngClass]="{ 'inverted-arrow': advanceOptions }"
+                        src="https://web.likeminds.community/assets/images/svg/down-arrow-light.svg"
+                /></label>
+            </div>
+
+            <div class="mb-3 d-flex justify-content-center">
+                <button type="submit" class="btn btn-lm-round btn-color" [disabled]="!pollRoomForm.valid">
+                    <img src="https://web.likeminds.community/assets/images/svg/completed.svg" alt="back arrow" />
+                </button>
+            </div>
+        </form>
+    </main>
+</section>

@@ -1,0 +1,130 @@
+::ng-deep {
+    .mat-snack-bar-container {
+        border-radius: 0 !important;
+    }
+    .mat-simple-snackbar-action {
+        color: var(--buttons_icons_colour, #06c3af);
+    }
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+        background-color: var(--buttons_icons_colour, #06c3af) !important;
+        filter: brightness(0.6);
+    }
+    .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+        background-color: var(--buttons_icons_colour, #06c3af) !important;
+        filter: brightness(1.6)
+    }
+    .mat-snack-bar-container {
+        margin-left: 90px !important;
+    }
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 6px;
+    display: block;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f5f5f5;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #999;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+.snackbar_custom {
+    margin-left: 90px !important;
+}
+
+.participants {
+    background: #ffffff;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 15px;
+
+    .cursorPointer {
+        cursor: pointer;
+    }
+
+    &--counts {
+        color: #666666;
+        font-weight: 400;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    &__card {
+        margin-bottom: 24px;
+        width: 100%;
+        float: left;
+
+        .bg {
+            background: var(--buttons_icons_colour, #06c3af);
+            text-align: center;
+
+            img {
+                width: 24px !important;
+            }
+        }
+        &--profile {
+            width: 54px;
+            height: 54px;
+            margin-right: 16px;
+            overflow: hidden;
+            float: left;
+            border-radius: 50%;
+
+            img {
+                width: 54px;
+                height: 54px;
+                border-radius: 50%;
+            }
+        }
+
+        &__info {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(208, 216, 226, 0.5);
+            padding-bottom: 16px;
+
+            &__desc {
+                &--title {
+                    color: #000;
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 18px;
+                }
+                &--intro {
+                    color: #666666;
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 18px;
+                }
+            }
+
+            &__actions {
+                .menuIcon {
+                    cursor: pointer;
+                }
+                button {
+                    width: 129px;
+                    height: 48px;
+                    border-radius: 24px;
+                    border: 1px solid #666666;
+                    color: #666666;
+                    background: #ffffff;
+                    box-sizing: border-box;
+                    font-size: 15px;
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+}

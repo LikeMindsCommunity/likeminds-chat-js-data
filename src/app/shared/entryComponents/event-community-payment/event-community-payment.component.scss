@@ -1,0 +1,429 @@
+.dialogue-box {
+    width: 368px;
+    padding: 11px;
+    .heading {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 18px;
+        /* identical to box height, or 112% */
+        color: #000000;
+    }
+    .sub-heading {
+        padding-top: 8px;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 22px;
+        color: #4a4a4a;
+        margin-bottom: 24px;
+    }
+
+    .checkbox-holder {
+        background: rgba(6, 195, 175, 0.04);
+        border: 1px solid rgba(6, 195, 175, 0.3);
+        box-sizing: border-box;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding-top: 11px;
+            .label_ {
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 22px;
+                /* identical to box height, or 157% */
+                color: #000000;
+                margin-left: 11px;
+            }
+            .sub-label_ {
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 13px;
+                line-height: 22px;
+                color: rgba(60, 60, 67, 0.6);
+                margin-left: 11px;
+            }
+
+            .top-heading {
+                margin-bottom: 4px;
+                .offer {
+                    background: #06c3af;
+                    border-radius: 4px;
+                    padding: 5px 3px;
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: bold;
+                    font-size: 10px;
+                    line-height: 12px;
+                    color: #ffffff;
+                    margin-left: -22px;
+                }
+                .infoBox {
+                    position: relative;
+                    width: 20px;
+                    height: 20px;
+
+                    img {
+                        cursor: pointer;
+                        width: 20px;
+                        height: 20px;
+                    }
+
+                    .infoContent {
+                        display: none;
+                        position: absolute;
+                        top: -159px;
+                        left: 35px;
+                        background-color: rgba(0, 0, 0, 0.8);
+                        padding: 23px 16px;
+                        width: 273px;
+                        font-size: 14px;
+                        color: #fff;
+                        transition: 0.3s all ease-in-out;
+
+                        .arrow-left {
+                            left: -15px;
+                            top: 155px;
+                            position: absolute;
+                            width: 0;
+                            height: 0;
+                            border-top: 15px solid transparent;
+                            border-bottom: 15px solid transparent;
+                            border-right: 15px solid #333333;
+                        }
+
+                        p {
+                            margin: 0 0 16px 0px;
+                            font-size: 15px;
+                            line-height: 22px;
+                        }
+                        ul {
+                            margin: 0;
+                            padding: 0;
+
+                            li {
+                                line-height: 19px;
+                                margin: 0 0 10px 16px;
+                                font-size: 13px;
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        .infoContent {
+                            display: block;
+                        }
+                    }
+                }
+            }
+
+            .top-subheading {
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 12px;
+                color: #06c3af;
+                margin-left: -22px;
+                margin-bottom: 4px;
+            }
+        }
+
+        /* Hide the browser's default checkbox */
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 18px;
+            width: 18px;
+            background-color: transparent;
+            margin: 13px;
+            border: 1px solid #666666;
+            border-radius: 2px;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .container input:checked ~ .checkmark {
+            // background-color: #abb3b2;
+            background: #009688;
+            border-radius: none !important;
+        }
+
+        .container input:checked ~ .uncheckable {
+            background: #abb3b2 !important;
+            border-radius: none !important;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: '';
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .container .checkmark:after {
+            left: 6px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    }
+
+    .payment-preview {
+        background: rgba(208, 216, 226, 0.3);
+        border-radius: 8px;
+        padding: 12px 16px 8px 16px;
+        margin-bottom: 36px;
+
+        &__box {
+            border-bottom: solid 1px #d0d8e2;
+            &__text {
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 15px;
+                line-height: 22px;
+                /* identical to box height, or 147% */
+                color: #666666;
+                margin-bottom: 10px;
+
+                .arrow {
+                    border: solid #666666;
+                    border-width: 0 2px 2px 0;
+                    display: inline-block;
+                    padding: 3px;
+                    margin-left: 5px;
+                    margin-bottom: 2px;
+                    color: #666666;
+                }
+                .down {
+                    transform: rotate(45deg);
+                    -webkit-transform: rotate(45deg);
+                }
+
+                .up {
+                    transform: rotate(225deg);
+                    -webkit-transform: rotate(225deg);
+                }
+            }
+
+            .all-plans {
+                width: 100%;
+                // max-height: 249px;
+                top: 30px;
+                background-color: white;
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+                border-radius: 4px;
+                // overflow-y: scroll;
+
+                .all-plan-box {
+                    overflow: auto;
+                    max-height: 249px;
+                }
+
+                .infoBox {
+                    position: relative;
+                    width: 20px;
+                    height: 20px;
+                    float: left;
+
+                    img {
+                        cursor: pointer;
+                        width: 20px;
+                        height: 20px;
+                    }
+
+                    .infoContent {
+                        display: none;
+                        position: absolute;
+                        top: -10px;
+                        left: 35px;
+                        background-color: rgba(0, 0, 0, 0.8);
+                        padding: 23px 16px;
+                        width: 273px;
+                        font-size: 14px;
+                        color: #fff;
+                        transition: 0.3s all ease-in-out;
+
+                        .arrow-left {
+                            left: -15px;
+                            top: 10px;
+                            position: absolute;
+                            width: 0;
+                            height: 0;
+                            border-top: 15px solid transparent;
+                            border-bottom: 15px solid transparent;
+                            border-right: 15px solid #333333;
+                        }
+
+                        p {
+                            margin: 0 0 16px 0px;
+                            font-size: 15px;
+                            line-height: 22px;
+                        }
+                        ul {
+                            margin: 0;
+                            padding: 0;
+
+                            li {
+                                line-height: 19px;
+                                margin: 0 0 10px 16px;
+                                font-size: 13px;
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        .infoContent {
+                            display: block;
+                        }
+                    }
+                }
+
+                .plans-container {
+                    border-bottom: solid 1px #c4c4c4;
+                    padding: 15px;
+                    width: 100%;
+                    cursor: pointer;
+                    float: left;
+
+                    .plan-div {
+                        width: 90%;
+                        float: left;
+                        &__heading {
+                            font-family: Roboto;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 15px;
+                            line-height: 22px;
+                            color: #000000;
+                        }
+                        &__subheading {
+                            font-family: Roboto;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 14px;
+                            color: #06c3af;
+
+                            .strike-cost {
+                                text-decoration: line-through;
+                                color: #666666;
+                                margin-right: 5px;
+                            }
+                        }
+                    }
+                }
+
+                .plans-container:hover {
+                    background-color: rgba($color: #000000, $alpha: 0.1);
+                }
+            }
+        }
+
+        .total_cost {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 15px;
+            line-height: 22px;
+            color: #000000;
+            padding-top: 8px;
+        }
+    }
+
+    .payment-button {
+        background: #00897b;
+        border-radius: 22px;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 14px;
+        /* identical to box height */
+        text-align: center;
+        letter-spacing: 0.5px;
+        color: #ffffff;
+        padding: 13px 0px;
+        cursor: pointer;
+    }
+}
+
+.offers-holder {
+    position: relative;
+    .heading {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        color: rgba(0, 0, 0, 0.87);
+        margin-bottom: 16px;
+    }
+
+    .sub-paras {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 22px;
+        color: #4a4a4a;
+        margin-bottom: 10px;
+    }
+
+    .btn-ok {
+        position: absolute;
+        right: 0px;
+        margin-top: -14px;
+        color: #009688;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 15px;
+    }
+}
+
+::ng-deep .mat-dialog-container {
+    overflow: inherit !important;
+}

@@ -1,0 +1,32 @@
+<section class="report-member">
+    <div class="cross-div">
+        <span class="close-icon" (click)="close()"><img src="https://web.likeminds.community/assets/images/svg/cross.svg" /></span>
+    </div>
+
+    <div class="primary-header">Report Member</div>
+
+    <div class="details">
+        <div class="secondary-header">Please specify the problem to continue</div>
+        <div class="description">You would be able to report this community after selecting a problem.</div>
+    </div>
+
+    <div class="buttons" *ngIf="reportTagsList?.length > 0">
+        <div *ngFor="let tag of reportTagsList">
+            <button
+                [ngClass]="{ 'selected-problem': clickedTag?.id === tag?.id, 'not-selected-problem': clickedTag?.id != tag?.id }"
+                (click)="clickButton(tag)"
+            >
+                {{ tag?.name }}
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="clickedTag.name === 'Others'" class="others-input">
+        <label>Please describe in brief why you are reporting this user</label>
+        <input type="text" [ngModel]="othersValue" (ngModelChange)="onTextChange($event)" />
+    </div>
+
+    <div class="report-button">
+        <button [ngClass]="{ 'selected-button': submitActive, 'not-selected-button': !submitActive }" (click)="report()">REPORT</button>
+    </div>
+</section>

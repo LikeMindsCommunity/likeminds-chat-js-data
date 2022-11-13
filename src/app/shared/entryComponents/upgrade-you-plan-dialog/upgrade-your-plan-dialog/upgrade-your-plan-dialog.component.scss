@@ -1,0 +1,51 @@
+.upgrade-plan-header {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 16px;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.upgrade-plan-content {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 22px;
+    color: #4a4a4a;
+    margin-bottom: 36px;
+    .contact {
+        text-decoration: none;
+        color: #01897b;
+    }
+}
+
+.upgrade-plan-btn {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    text-align: right;
+    letter-spacing: 0.464286px;
+    color: #009688;
+    text-transform: uppercase;
+    a {
+        text-decoration: none;
+        color: #009688;
+    }
+}
+.upgrade-plan-btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 30px;
+}
+.cancel_color {
+    color: #9b9b9b;
+}
+
+.space-bottom {
+    margin-bottom: 36px;
+}

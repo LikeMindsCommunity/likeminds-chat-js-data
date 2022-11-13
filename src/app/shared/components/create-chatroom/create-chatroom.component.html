@@ -1,0 +1,129 @@
+<section>
+    <header *ngIf="creatRoomOptions != 'Select Community'">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid justify-content-start">
+                <img
+                    [src]="
+                        !branding?.advanced?.header_colour
+                            ? 'https://web.likeminds.community/assets/images/svg/back-navigation-arrow.svg'
+                            : 'https://web.likeminds.community/assets/images/svg/white-back-arrow.svg'
+                    "
+                    class="cursor-pointer"
+                    alt="back arrow"
+                    (click)="closeSectionComponent.emit('close')"
+                />
+
+                <div class="dropdownBox">
+                    <div class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ creatRoomOptions }}
+                    </div>
+                    <div class="communityName">in {{ community?.name }}</div>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <ng-container *ngIf="memberState">
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0)"
+                                    *ngIf="memberState.member_rights[0].is_selected"
+                                    (click)="roomType('New chat room')"
+                                    ><img src="https://web.likeminds.community/assets/images/svg/createchatroom.svg" alt="Chat Room" /> Chat
+                                    Room</a
+                                >
+                            </li>
+                            <li>
+                                <a class="dropdown-item disable" href="javascript:void(0)" *ngIf="!memberState.member_rights[0].is_selected"
+                                    ><img src="https://web.likeminds.community/assets/images/svg/createchatroom.svg" alt="Chat Room" /> Chat
+                                    Room</a
+                                >
+                            </li>
+
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0)"
+                                    *ngIf="memberState.member_rights[2].is_selected"
+                                    (click)="roomType('New event room')"
+                                    ><img src="https://web.likeminds.community/assets/images/svg/createevent.svg" alt="Event Room" /> Event
+                                    Room</a
+                                >
+                            </li>
+                            <li>
+                                <a class="dropdown-item disable" href="javascript:void(0)" *ngIf="!memberState.member_rights[2].is_selected"
+                                    ><img src="https://web.likeminds.community/assets/images/svg/createevent.svg" alt="Event Room" /> Event
+                                    Room</a
+                                >
+                            </li>
+
+                            <!-- Hiding create poll room from web -->
+                            <!-- <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0)"
+                                    *ngIf="memberState.member_rights[1].is_selected"
+                                    (click)="roomType('New poll room')"
+                                    ><img src="https://web.likeminds.community/assets/images/svg/createpoll.svg" alt="Poll Room" /> Poll Room</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="dropdown-item disable"
+                                    href="javascript:void(0)"
+                                    *ngIf="!memberState.member_rights[1].is_selected"
+                                    (click)="roomType(false)"
+                                    ><img src="https://web.likeminds.community/assets/images/svg/createpoll.svg" alt="Poll Room" /> Poll Room</a
+                                >
+                            </li> -->
+                        </ng-container>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <header *ngIf="creatRoomOptions === 'Select Community'">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid justify-content-start">
+                <img
+                    [src]="
+                        !branding?.advanced?.header_colour
+                            ? 'assets/images/svg/back-navigation-arrow.svg'
+                            : 'assets/images/svg/white-back-arrow.svg'
+                    "
+                    class="cursor-pointer"
+                    alt="back arrow"
+                    (click)="closeSectionComponent.emit('close')"
+                />
+                <div class="dropdownBox">
+                    <div class="nav-link dropdown-toggle communityList">
+                        {{ creatRoomOptions }}
+                    </div>
+                    <div class="communityName">{{ myCommunities.length }} Communities</div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <ng-container *ngIf="creatRoomOptions === createType.SELECT_COMMUNITY">
+        <app-community-list [communitiesList]="myCommunities" (selectedCommunity)="selectedCommunityInfo($event)"> </app-community-list>
+    </ng-container>
+
+    <!-- Chat Room -->
+    <ng-container *ngIf="creatRoomOptions === createType.NEW_CHAT_ROOM">
+        <app-chatroomform
+            [community]="community"
+            (chatRoomSuccess)="chatRoomCreatedSuccess($event)"
+            (formValues)="chatRoomFormValue($event)"
+        ></app-chatroomform>
+    </ng-container>
+
+    <!-- Event Room -->
+    <ng-container *ngIf="creatRoomOptions === createType.NEW_EVENT_ROOM">
+        <app-eventroomform [community]="community" (chatRoomSuccess)="chatRoomCreatedSuccess($event)"> </app-eventroomform>
+    </ng-container>
+
+    <!-- Event Room -->
+    <ng-container *ngIf="creatRoomOptions === createType.NEW_POLL_ROOM">
+        <app-polls-chat-card [community]="community" (chatRoomSuccess)="chatRoomCreatedSuccess($event)" [isPollChatRoom]="true">
+        </app-polls-chat-card>
+    </ng-container>
+</section>

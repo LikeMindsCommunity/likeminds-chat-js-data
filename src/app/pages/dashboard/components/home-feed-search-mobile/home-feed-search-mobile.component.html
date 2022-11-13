@@ -1,0 +1,43 @@
+<div class="header-search-mobile">
+    <div (clickOutside)="handleMobileSearch($event)" class="header-search-mobile__input">
+        <img
+            class="header-search-mobile__back"
+            src="https://web.likeminds.community/assets/images/svg/back-navigation-arrow.svg"
+            alt="search"
+            (click)="handleMobileSearch($event)"
+        />
+        <input
+            [(ngModel)]="searchValue"
+            (ngModelChange)="handleSearch($event)"
+            type="text"
+            [placeholder]="'Search ' + (currentCommunityData?.name ? currentCommunityData?.name : '')"
+            (focus)="handleSearchResultsList(true)"
+            [cdkTrapFocusAutoCapture]="true"
+            [cdkTrapFocus]="true"
+        />
+        <img
+            class="header-search-mobile__clear"
+            *ngIf="searchValue"
+            (click)="clearInput()"
+            src="https://web.likeminds.community/assets/images/svg/search_cross.svg"
+            alt="clear"
+        />
+    </div>
+    <div
+        *ngIf="showSearchList || isLoading"
+        infiniteScroll
+        [infiniteScrollDistance]="3"
+        [infiniteScrollThrottle]="150"
+        (scrolled)="onScroll()"
+        [scrollWindow]="true"
+        class="header-search-mobile__search-list"
+    >
+        <app-home-feed-search-list
+            [isLoading]="isLoading"
+            [searchResultsConversations]="searchResultsConversations"
+            [searchResultsChatrooms]="searchResultsChatrooms"
+            [searchValue]="searchValue"
+            (closeSearchResults)="handleMobileSearch($event)"
+        ></app-home-feed-search-list>
+    </div>
+</div>

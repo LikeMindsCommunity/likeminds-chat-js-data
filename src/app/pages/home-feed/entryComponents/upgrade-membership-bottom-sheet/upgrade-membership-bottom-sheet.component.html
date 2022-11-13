@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-end" mat-dialog-title>
+    <img
+        src="https://web.likeminds.community/assets/images/svg/X.svg"
+        mat-dialog-close
+        class="cursor-pointer btn-cancel d-sm-block d-none"
+        alt="cancel"
+    />
+</div>
+<mat-dialog-content>
+    <div class="d-flex flex-column align-items-center custom-container text-center">
+        <img src="https://web.likeminds.community/assets/images/svg/g12.svg" alt="growth" />
+        <div class="title">
+            <div>Get the most out of</div>
+            <div class="color-primary">
+                {{ mySubscription?.community?.name }}
+            </div>
+        </div>
+        <div class="sub-title">Upgrade Your Membership Plan to get more benefits</div>
+        <div class="color-primary mt-16">Choose plans starting from ₹99/month</div>
+        <div>
+            <button (click)="route()" class="text-uppercase btn-view-benefits">View Benefits</button>
+        </div>
+        <button class="text-uppercase btn-not-now" mat-dialog-close>Not Now</button>
+    </div>
+</mat-dialog-content>

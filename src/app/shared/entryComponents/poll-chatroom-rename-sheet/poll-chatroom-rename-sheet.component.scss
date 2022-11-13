@@ -1,0 +1,70 @@
+.seperator { 
+    .lg-seperator {
+        width: 78px;
+        height: 5px;
+        background-color: #eeeeee;
+        border-radius: 4px;
+    }
+}
+
+.eventContent{
+    // max-width: 378px;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+
+    h2{
+        color: #000000;
+        font-size: 1rem;
+        font-weight: 500;
+        margin: 0 0 5px 0;
+        line-height: 18px;
+    }
+    p{
+        color: #666666;
+        font-size: .825rem;
+        margin: 0px;
+
+    } 
+
+    &__header{
+        margin: 0 0 25px;
+    }
+    
+    .form-control{
+        height: 48px;
+        color: #000000;
+        border-radius: 10px;
+    }
+
+    .count{
+        color: #9b9b9b;
+        font-size: 12px;
+        margin: 5px 5px 0 0;
+    }
+
+    .btn-poll{
+        color: #ffffff;
+        text-transform: uppercase;
+        height: 44px;
+        padding: 0px 40px;
+        border-radius: 20px;
+        font-size: 14px;
+        letter-spacing: 0.3px;
+    }
+    .btn-create{
+        background: #d0d8e2;
+        box-shadow: 0 0 8px 0 rgba(224, 224, 224, 0.4);
+    }
+    .btn-green{
+        background: #00897b;
+        box-shadow: 0 0 8px 0 rgba(0, 67, 34, 0.4);
+    }
+     
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #cccccc !important;
+}

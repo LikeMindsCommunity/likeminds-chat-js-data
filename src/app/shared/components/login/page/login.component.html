@@ -1,0 +1,90 @@
+<div class="login-container">
+    <div class="card border-0">
+        <div class="card-header">
+            <img src="https://web.likeminds.community/assets/images/svg/logo-icon.svg" alt="Login" />
+            <h2>Basic Profile</h2>
+            <p class="mx-auto c6 fs14">Please provide your name, email and a profile photo Or, fetch your info from a social account</p>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="login-form">
+                <form [formGroup]="form" (ngSubmit)="submitLoginForm()">
+                    <ng-container formGroupName="user">
+                        <div class="d-flex justify-content-between">
+                            <mat-form-field
+                                class="login-name align-self-center simple-input w70"
+                                floatLabel="never"
+                                [ngClass]="{
+                                    'invalid-border':
+                                        formSubmitted &&
+                                        (form.get('user.name').hasError('required') ||
+                                            form.get('user.name').hasError('whitespace') ||
+                                            form.get('user.name').hasError('pattern'))
+                                }"
+                            >
+                                <span matPrefix>
+                                    <img src="https://web.likeminds.community/assets/images/svg/ic-person.svg" alt="" />
+                                </span>
+                                <input
+                                    matInput
+                                    placeholder="Type your full name"
+                                    formControlName="name"
+                                    maxlength="30"
+                                    type="text"
+                                    autocomplete="off"
+                                />
+                            </mat-form-field>
+
+                            <div class="upload-container position-relative ms-2">
+                                <img src="{{ imageUrl | defaultImage }}" class="user-img rounded-circle" [width]="90" height="90" alt="" />
+                                <img
+                                    (click)="uploadImage()"
+                                    src="https://web.likeminds.community/assets/images/svg/edit-pic.svg"
+                                    class="edit-icon position-absolute"
+                                />
+                            </div>
+                        </div>
+
+                        <mat-form-field
+                            class="login-email simple-input w-100 mt-2"
+                            floatLabel="never"
+                            [ngClass]="{ 'invalid-border': formSubmitted && form.get('user.email').hasError('pattern') }"
+                        >
+                            <span matPrefix>
+                                <img src="https://web.likeminds.community/assets/images/svg/ic-email.svg" alt="" />
+                            </span>
+                            <input
+                                matInput
+                                #emailInput
+                                placeholder="Your email ID"
+                                formControlName="email"
+                                type="email"
+                                autocomplete="off"
+                            />
+                        </mat-form-field>
+                        <div
+                            class="invalid-feedback d-block text-start"
+                            *ngIf="form.get('user.email').hasError('pattern') && formSubmitted"
+                        >
+                            {{ 'login.emailPattern' | translate }}
+                        </div>
+
+                        <button type="submit" class="btn-create text-uppercase br24 w-100 fs13 fw500 border-0 cF">
+                            {{ 'login.createMyProfile' | translate }}
+                        </button>
+                    </ng-container>
+                </form>
+
+                <div class="seperator">
+                    <div class="seperator-text text-uppercase">{{ 'common.or' | translate }}</div>
+                </div>
+
+                <div class="social-buttons">
+                    <google-button></google-button>
+                    <facebook-button></facebook-button>
+                    <!-- <linkedin-button (lnUserData)="linkedInFn($event);" ></linkedin-button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

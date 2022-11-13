@@ -1,0 +1,36 @@
+<ng-container *ngIf="question?.state === 6">
+    <label class="fs14 c6 float-start ms-2 mt-4" for="select"
+        >{{ question?.question_title }} <span *ngIf="!question?.optional" class="text-danger">*</span></label
+    >
+    <mat-form-field
+        appearance="fill"
+        class="date-picker date-and-time w-100 mb-4"
+        [ngClass]="{ invalid: control.errors && formSubmitted }"
+        floatLabel="never"
+    >
+        <input
+            matInput
+            name="date-time"
+            [placeholder]="question?.help_text"
+            readonly
+            bsDatepicker
+            [bsConfig]="bsConfig"
+            [isOpen]="isDatepickerOpen"
+            class="cursor-pointer"
+            [formControl]="control"
+            autocomplete="off"
+            [value]="question?.value"
+            [required]="!question?.optional"
+        />
+        <img
+            class="cursor-pointer"
+            matSuffix
+            src="https://web.likeminds.community/assets/images/svg/calendar.svg"
+            (click)="isDatepickerOpen = !isDatepickerOpen"
+            alt="Calendar"
+        />
+    </mat-form-field>
+    <div class="invalid-feedback question-form-error ms-2 d-block text-start" *ngIf="control.errors && formSubmitted">
+        This is a mandatory field
+    </div>
+</ng-container>

@@ -1,0 +1,63 @@
+<div class="audio-container d-flex flex-column justify-content-center h-100" style="border-radius: 10px">
+    <div class="d-flex align-items-center position-relative audio-container-body">
+        <div class="headphone-container d-flex flex-column align-items-center justify-content-center position-relative">
+            <img *ngIf="!audioState?.playing" src="https://web.likeminds.community/assets/images/svg/headphone.svg" alt="" />
+            <div *ngIf="!audioState?.playing" class="headphone-container__duration">{{ audioDuration }}</div>
+            <img
+                *ngIf="audioState?.playing"
+                class="sound-wave-img"
+                src="https://web.likeminds.community/assets/images/gif/audio-wave-orange.gif"
+                alt=""
+            />
+            <div *ngIf="audioState?.playing" class="headphone-container__currentTime">
+                <!-- {{ audioState?.readableCurrentTime }} -->
+                {{ formatCurrentTime() }}
+            </div>
+        </div>
+
+        <div class="right-section-container">
+            <ng-container *ngIf="!audioAttachmentsUploaded || (this.homeFeedService.currentlyLoadingMediaIds$$ | async)[messageId]">
+                <div class="right-section-audio-frames-contaiener d-flex justify-content-center align-items-center">
+                    <img src="https://web.likeminds.community/assets/images/svg/audio-frames.svg" alt="" />
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="!(this.homeFeedService.currentlyLoadingMediaIds$$ | async)[messageId] && audioAttachmentsUploaded">
+                <div class="right-section d-flex align-items-center position-relative">
+                    <div class="controls d-flex align-items-center justify-content-center">
+                        <img
+                            *ngIf="!audioState?.playing"
+                            src="https://web.likeminds.community/assets/images/svg/play-audio-file.svg"
+                            alt="play-audio"
+                            (click)="play()"
+                            class="cursor-pointer"
+                        />
+                        <img
+                            *ngIf="audioState?.playing"
+                            src="https://web.likeminds.community/assets/images/svg/pause-audio-file.svg"
+                            alt="pause-audio"
+                            (click)="pause()"
+                            class="cursor-pointer"
+                        />
+                    </div>
+
+                    <div class="audio-container__timeline">
+                        <div class="audio-container__timeline__duration" id="rangeContainer" #rangeContainer>
+                            <mv-slider
+                                class="prog-slider"
+                                [(value)]="audioState['currentTime']"
+                                [min]="0"
+                                [max]="audMax"
+                                [enabled]="enabled"
+                                (slideStop)="onSliderChangeEnd($event)"
+                                (slideStart)="onSliderChangeStart($event)"
+                                [ngClass]="{ 'incoming-audio': !isMyMsg, 'sent-audio': isMyMsg }"
+                            ></mv-slider>
+                        </div>
+                    </div>
+                </div>
+                <p class="mb-0 audio-container__audio-name">{{ audioName?.length > 21 ? audioName?.slice(0, 21) + '...' : audioName }}</p>
+            </ng-container>
+        </div>
+    </div>
+</div>

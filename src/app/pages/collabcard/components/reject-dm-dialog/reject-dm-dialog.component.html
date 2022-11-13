@@ -1,0 +1,9 @@
+<h3 mat-dialog-title class="fw-bold">Reject DM request?</h3>
+<mat-dialog-content class="content">
+    Member would be blocked from sending you further messages. The sender will not be notified of this.
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="actions d-flex flex-column align-items-end">
+    <button mat-button (click)="rejectDMRequest()">Reject</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="rejectDMRequest(true)">Report and Reject</button>
+</mat-dialog-actions>

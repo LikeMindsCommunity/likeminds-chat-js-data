@@ -1,0 +1,45 @@
+.popup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    max-width: 300px;
+
+    .close-icon {
+        width: 20px;
+        height: 20px;
+
+        img {
+            float: right
+        }
+    }
+
+    .text-heading {
+        font-weight: 500;
+        margin: 15px 25px 10px;
+        font-size: 16px;
+    }
+
+    .text-body {
+        color: #7d7d7d;
+        margin: 10px 25px;
+        font-size: 14px;
+
+        a {
+            color: var(--text_links_colour, #009688);
+        }
+    }
+
+    .button-div {
+
+        button {
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--buttons_icons_colour, #009688);
+            margin: 15px;
+            float: right
+        }
+    }
+}

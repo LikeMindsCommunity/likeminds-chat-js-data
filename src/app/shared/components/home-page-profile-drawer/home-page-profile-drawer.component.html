@@ -1,0 +1,71 @@
+<div class="home-page-profile-drawer">
+    <div class="home-page-profile-drawer-top">
+        <img
+            (click)="closeProfileDrawer()"
+            class="profile-drawer-cancel-btn"
+            src="https://web.likeminds.community/assets/images/svg/home_page_profile_drawer_cancel.svg"
+            alt="cancel-btn"
+        />
+        <div class="image-container">
+            <img class="profile-image" [src]="user?.image_url" onerror="this.src='../../../../../assets/images/png/avatar.png'" />
+            <label>
+                <app-camera class="camera"></app-camera>
+
+                <input #imageFileUpload type="file" accept="image/*" (change)="uploadImage($event)" (click)="imageFileUpload.value = ''" />
+            </label>
+        </div>
+
+        <div class="profile-details">
+            <div class="profile-detail">
+                <img src="https://web.likeminds.community/assets/images/svg/home_page_profile_drawer-name.svg" alt="person-icon" />
+                <div class="details">
+                    <div class="details__heading">Name</div>
+                    <div class="details__value">{{ user?.name }}</div>
+                </div>
+                <img
+                    *ngIf="false"
+                    src="https://web.likeminds.community/assets/images/svg/home_page_profile_drawer_pencil.svg"
+                    alt="pencil-icon"
+                />
+                <div class="profile-drawer-border-bottom"></div>
+            </div>
+            <div *ngIf="user?.emails" class="profile-detail">
+                <img src="https://web.likeminds.community/assets/images/svg/home_page_profile_drawer_email.svg" alt="email-icon" />
+                <div class="details">
+                    <div class="details__heading">Email</div>
+                    <div class="details__value">{{ user?.emails ? user?.emails[0]?.email : null }}</div>
+                </div>
+                <img
+                    *ngIf="false"
+                    src="https://web.likeminds.community/assets/images/svg/home_page_profile_drawer_arrow.svg"
+                    alt="arrow-icon"
+                />
+                <div class="profile-drawer-border-bottom"></div>
+            </div>
+            <div class="profile-detail">
+                <img src="https://web.likeminds.community/assets/images/svg/home_page_profile_drawer_phone.svg" alt="phone-icon" />
+                <div class="details">
+                    <div class="details__heading">Phone</div>
+                    <div class="details__value" *ngIf="user?.mobiles">
+                        +{{ user?.mobiles[0]?.country_code }} {{ user?.mobiles[0]?.mobile_no }}
+                    </div>
+                </div>
+                <img
+                    *ngIf="false"
+                    src="https://web.likeminds.community/assets/images/svg/home_page_profile_drawer_arrow.svg"
+                    alt="pencil-icon"
+                />
+                <div class="profile-drawer-border-bottom"></div>
+            </div>
+        </div>
+
+        <!-- <div class="power_btn" (click)="onLogout()">
+            <img src="https://web.likeminds.community/assets/images/svg/home_page_profile_drawer_powerbtn.svg" alt="power-btn" />Log out
+        </div> -->
+    </div>
+
+    <div class="home-page-profile-drawer-bottom">
+        Your name and profile pic are visible to the commmunities that you join. Some communities might require other profile info. Such
+        information will only be shared with your consent.
+    </div>
+</div>

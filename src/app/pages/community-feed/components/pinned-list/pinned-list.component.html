@@ -1,0 +1,25 @@
+<div class="community-feed-pinned">
+    <div class="community-feed-pinned__header">
+        <div class="community-feed-pinned__header__back" [routerLink]="[communityFeedRoute]">
+            <img src="https://web.likeminds.community/assets/images/svg/pinned_back_arrow.svg" alt="back-arrow" />
+        </div>
+        <div class="community-feed-pinned__header__title">Pinned Chat rooms</div>
+    </div>
+    <!-- <div class="community-feed-panel__search-div">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    </div> -->
+    <div
+        class="community-feed-pinned__body"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="50"
+        (scrolled)="onScroll()"
+        [scrollWindow]="false"
+    >
+        <ng-container *ngIf="chatrooms?.length > 0">
+            <ng-container *ngFor="let chatroom of chatrooms">
+                <app-community-feed-chatroom-card [chatroom]="chatroom" [isPinnedList]="true"></app-community-feed-chatroom-card>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

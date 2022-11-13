@@ -1,0 +1,12 @@
+<div class="modDialog">
+    <div class="cancelBtn" (click)="close()">
+        <img src="../../../../../assets/images/svg/secret_cancel_icon.svg" alt="cancel" />
+    </div>
+    <p class="modDialog__contentTitle">Remove participant?</p>
+    <p class="modDialog__content">Are you sure you want to remove {{ data.name }} from this chat room?</p>
+
+    <div class="modDialog__btnBox">
+        <button type="button" class="modDialog__btnBox--confirm text-uppercase btn-custom" (click)="confirm()">Remove</button>
+        <button type="button" class="modDialog__btnBox--cancel text-uppercase btn-custom" (click)="close()">Cancel</button>
+    </div>
+</div>

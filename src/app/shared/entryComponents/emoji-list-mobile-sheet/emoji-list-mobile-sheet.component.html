@@ -1,0 +1,44 @@
+<div class="emoji-list-mobile">
+    <div class="emoji-list-mobile__header">
+        <div class="top-graphic"></div>
+        <div class="emoji-list-mobile__header-text">Reactions</div>
+        <div class="emoji-details">
+            <div
+                class="emoji-details__box"
+                (click)="sortMessageReactions($event)"
+                [ngClass]="{ 'selected-emoji': selectedEmoji === 'All' }"
+            >
+                All ({{ messageReactions.length }})
+                <div class="box-bottom-border"></div>
+            </div>
+            <div
+                #emojiDetailsBox
+                *ngFor="let sortedReaction of sortedReactionsList"
+                class="emoji-details__box"
+                (click)="sortMessageReactions($event)"
+                [ngClass]="{ 'selected-emoji': sortedReaction?.emoji === selectedEmoji }"
+            >
+                <div class="emoji-details__box-info">
+                    <div class="emoji">{{ sortedReaction?.emoji }}</div>
+                    <div class="value">{{ sortedReaction?.value }}</div>
+                </div>
+                <div class="box-bottom-border"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="emoji-list-mobile__body">
+        <div *ngFor="let messageReaction of sortedMessageReactions" class="member-details">
+            <div class="member-details__left">
+                <img [src]="messageReaction?.member?.image_url" />
+                <div class="member-details__left-info">
+                    <div class="member-name">{{ messageReaction?.member?.name }}</div>
+                    <div (click)="removeEmoji($event)" *ngIf="messageReaction?.member?.id === user?.id" class="remove-emoji-btn">
+                        Tap to remove
+                    </div>
+                </div>
+            </div>
+            <div class="member-details__right">{{ messageReaction?.reaction }}</div>
+        </div>
+    </div>
+</div>

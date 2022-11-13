@@ -1,0 +1,27 @@
+<ng-container>
+    <label class="fs14 c6 float-start text-start ms-2"
+        >{{ question?.question_title }} <span *ngIf="!question?.optional" class="text-danger">*</span></label
+    >
+    <mat-form-field
+        class="text-area paragraph w-100"
+        [ngClass]="{ invalid: control.errors && formSubmitted, 'mb-3': !formSubmitted }"
+        floatLabel="never"
+    >
+        <textarea
+            matInput
+            [placeholder]="question?.help_text"
+            [formControl]="control"
+            name="paragraph"
+            autocomplete="off"
+            [value]="question?.value"
+            [required]="!question?.optional"
+        ></textarea>
+    </mat-form-field>
+    <div
+        class="invalid-feedback ms-2 d-block text-start"
+        [ngClass]="{ 'mb-3': formSubmitted && control.errors }"
+        *ngIf="control.errors && formSubmitted"
+    >
+        This is a mandatory field
+    </div>
+</ng-container>

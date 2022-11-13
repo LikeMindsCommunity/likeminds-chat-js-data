@@ -1,0 +1,132 @@
+<ng-container *ngIf="user['task'] === 'leaveCommunityPopup'">
+    <!-- <mat-dialog-actions mat-button mat-dialog-close>
+        <div class="w-100 close">
+            <img src="https://web.likeminds.community/assets/images/svg/cross.svg" (click)="close()" class="float-end cursor-pointer" alt="Close">
+        </div>
+    </mat-dialog-actions> -->
+    <!-- <div class="p-4">
+        <div *ngIf="user['state'] === 3">
+            <h2><b>Cancel membership request?</b></h2>
+            <h3>Are you sure you want to cancel your request to join this community</h3>
+            <div class="d-flex justify-content-end">
+                <div class="btn" (click)="submit()">CANCEL</div>
+                <div (click)="cancelSubscription(user['commmunityId'])" class="confirm-btn btn">CONFIRM</div>
+            </div>
+        </div>
+        <div *ngIf="user['state'] === 4 || user['state'] === 0 ">
+            <h4><b>Leave commununity?</b></h4>            
+            <p *ngIf="screenType === 'mobile'">Are you sure you want to leave this community permanently? Your community profile will be removed whereas any content created you would remain.</p>
+            <p *ngIf="screenType !== 'mobile'">Are you sure you want to leave this community <br> permanently? Your community profile will be <br> removed whereas any content created you would remain.</p>
+            <div class="d-flex justify-content-end">
+                <mat-dialog-actions mat-button mat-dialog-close>
+                    <div class="cursor-pointer cancel-btn">
+                        <b>CANCEL</b>
+                    </div>
+                </mat-dialog-actions>
+                <div class="confirm-btn btn" (click)="cancelSubscription(user['commmunityId'])">OK, LEAVE NOW</div>
+            </div>
+        </div>
+    </div> -->
+
+    <h4><b>Leave commununity?</b></h4>
+    <p *ngIf="screenType === 'mobile'">
+        Are you sure you want to leave this community permanently? Your community profile will be removed whereas any content created you
+        would remain.
+    </p>
+    <p *ngIf="screenType !== 'mobile'">
+        Are you sure you want to leave this community <br />
+        permanently? Your community profile will be <br />
+        removed whereas any content created you would remain.
+    </p>
+    <div class="d-flex justify-content-end">
+        <div class="cursor-pointer cancel-btn" (click)="closeModalBox()">
+            <b>CANCEL</b>
+        </div>
+        <div class="confirm-btn btn" (click)="cancelSubscription(user['commmunityId'])">OK, LEAVE NOW</div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="user['task'] === 'leaveCommunityPopup2'">
+    <mat-dialog-actions mat-button mat-dialog-close>
+        <div class="w-100 close">
+            <img
+                src="https://web.likeminds.community/assets/images/svg/cross.svg"
+                (click)="close()"
+                class="float-end cursor-pointer"
+                alt="Close"
+            />
+        </div>
+    </mat-dialog-actions>
+    <div class="p-4">
+        <div *ngIf="user['state'] === 3">
+            <h2><b>Cancel membership request?</b></h2>
+            <h3>Are you sure you want to cancel your request to join this community</h3>
+            <div class="d-flex justify-content-end">
+                <div class="btn" (click)="submit()">CANCEL</div>
+                <div (click)="cancelSubscription(user['commmunityId'])" class="confirm-btn btn">CONFIRM</div>
+            </div>
+        </div>
+        <div *ngIf="user['state'] === 4 || user['state'] === 0">
+            <h4><b>Leave commununity?</b></h4>
+            <p *ngIf="screenType === 'mobile'">
+                Are you sure you want to leave this community permanently? Your community profile will be removed whereas any content
+                created you would remain.
+            </p>
+            <p *ngIf="screenType !== 'mobile'">
+                Are you sure you want to leave this community <br />
+                permanently? Your community profile will be <br />
+                removed whereas any content created you would remain.
+            </p>
+            <div class="d-flex justify-content-end">
+                <!-- <div class="btn" (click)="close()">CANCEL</div> -->
+                <mat-dialog-actions mat-button mat-dialog-close>
+                    <div class="cursor-pointer cancel-btn">
+                        <b>CANCEL</b>
+                    </div>
+                </mat-dialog-actions>
+                <div class="confirm-btn btn" (click)="cancelSubscription(user['commmunityId'])">OK, LEAVE NOW</div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="user['task'] === 'leaveCommunityPopupMobile'">
+    <div *ngIf="!confirmLeaveCommunityPopup">
+        <h3><b>Membership Expired</b></h3>
+        <h4>
+            Your subscription to "{{ user['community']?.name }}" community has expired. Buy a membership plan of your choice to regain
+            access to community events, chat rooms and member profiles.
+        </h4>
+        <div class="d-flex justify-content-end">
+            <div class="d-flex flex-column">
+                <div class="cursor-pointer membership-plan-btn" (click)="openRenewal(user['commmunityId'])">
+                    <b>CHOOSE MEMBERSHIP PLAN</b>
+                </div>
+                <br />
+                <div class="cursor-pointer" (click)="openLeaveCommunityPopup()" style="color: red"><b>LEAVE COMMUNITY</b></div>
+                <div style="margin-bottom: 5px"></div>
+                <div (click)="closeModalBox()" style="color: gray; padding-top: 15px" class="cursor-pointer">
+                    <b>CANCEL</b>
+                </div>
+
+                <br />
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="confirmLeaveCommunityPopup">
+        <h4><b>Leave commununity?</b></h4>
+        <p *ngIf="screenType === 'mobile'">
+            Are you sure you want to leave this community permanently? Your community profile will be removed whereas any content created
+            you would remain.
+        </p>
+        <div class="d-flex justify-content-end">
+            <!-- <div class="btn" (click)="close()">CANCEL</div> -->
+
+            <div class="cursor-pointer cancel-btn" style="margin-top: 34px" (click)="closeModalBox()">
+                <b>CANCEL</b>
+            </div>
+            <div class="confirm-btn btn" (click)="leaveCommunity(user['commmunityId'])">OK, LEAVE NOW</div>
+        </div>
+    </div>
+</ng-container>

@@ -1,0 +1,140 @@
+<div class="reply-text-wrapper" *ngIf="reply" [ngClass]="wrapperClass">
+    <div
+        class="content-wrap"
+        [ngStyle]="{
+            width: reply?.attachment_count
+                ? 'calc(100% - 60px)'
+                : reply.og_tags || ['community', 'directory'].includes(reply.preview?.preview_type)
+                ? 'calc(100% - 60px)'
+                : '100%'
+        }"
+    >
+        <h4>{{ reply.member.name }}</h4>
+        <ng-container *ngIf="reply.deleted_by; else nonDeletedReply">
+            <h5 class="normal-text">{{ replyDeletedText }}</h5>
+        </ng-container>
+        <ng-template #nonDeletedReply>
+            <div class="event-card-reply" *ngIf="reply?.state === 1; else normalReply">
+                <img src="https://web.likeminds.community/assets/images/svg/home_page_events-icon.svg" alt="event" />
+                <div>{{ chatroomData?.title }}</div>
+            </div>
+            <ng-template #normalReply>
+                <div class="sub-content-wrap">
+                    <ng-container *ngIf="reply.images as images">
+                        <ng-container *ngIf="images.length as imgLength">
+                            <img src="https://web.likeminds.community/assets/images/svg/photo.svg" alt="Photos" />
+                            <h5 class="reply_text" *ngIf="reply.answer" [innerHTML]="reply?.answer | memberTag"></h5>
+                            <h5 *ngIf="!reply.answer">
+                                Photo
+                                <span *ngIf="imgLength > 1">s (+{{ imgLength - 1 }} more)</span>
+                            </h5>
+                        </ng-container>
+                    </ng-container>
+
+                    <!-- For GIFs -->
+                    <ng-container *ngIf="reply?.attachments && reply?.attachments[0]?.type == 'gif'">
+                        <img
+                            src="https://web.likeminds.community/assets/images/svg/GIF-image.svg"
+                            style="height: 12px; width: auto"
+                            alt="GIF"
+                        />
+                        <h5 class="reply_text" *ngIf="reply.answer" [innerHTML]="reply?.answer | memberTag"></h5>
+                        <h5 *ngIf="!reply.answer">
+                            GIF
+                            <span *ngIf="imgLength > 1">s (+{{ imgLength - 1 }} more)</span>
+                        </h5>
+                    </ng-container>
+
+                    <!-- For videos -->
+
+                    <ng-container *ngIf="reply.videos as videos">
+                        <ng-container *ngIf="videos.length as vidLength">
+                            <img src="https://web.likeminds.community/assets/images/svg/play.svg" alt="Videos" />
+                            <h5 class="reply_text" *ngIf="reply.answer" [innerHTML]="reply?.answer | memberTag"></h5>
+                            <h5 *ngIf="!reply.answer">
+                                Video
+                                <span *ngIf="vidLength > 1">s (+{{ imgLength - 1 }} more)</span>
+                            </h5>
+                        </ng-container>
+                    </ng-container>
+
+                    <!-- For audios -->
+                    <ng-container *ngIf="reply?.attachments && reply?.attachments[0]?.type == 'audio'">
+                        <ng-container *ngIf="reply?.attachments.length as audLength">
+                            <img
+                                src="https://web.likeminds.community/assets/images/svg/headphone-gray.svg"
+                                alt="Audio"
+                                style="margin-bottom: 2px"
+                            />
+                            <h5 class="reply_text" *ngIf="reply.answer" [innerHTML]="reply?.answer | memberTag"></h5>
+                            <h5 *ngIf="!reply.answer">
+                                Audio
+                                <span *ngIf="audLength > 1">s (+{{ audLength - 1 }} more)</span>
+                            </h5>
+                        </ng-container>
+                    </ng-container>
+
+                    <!-- FOR VOICE NOTES -->
+                    <ng-container *ngIf="reply?.attachments && reply?.attachments[0]?.type == 'voice_note'">
+                        <ng-container *ngIf="reply?.attachments.length as audLength">
+                            <img
+                                src="https://web.likeminds.community/assets/images/svg/microphone.svg"
+                                alt="Voice Note"
+                                style="margin-bottom: 2px"
+                            />
+                            <!-- <h5 class="reply_text" *ngIf="reply.answer" [innerHTML]="reply?.answer | memberTag"></h5> -->
+                            <h5 *ngIf="!reply.answer">
+                                Voice Note
+                                <span *ngIf="audLength > 1">s (+{{ audLength - 1 }} more)</span>
+                            </h5>
+                        </ng-container>
+                    </ng-container>
+
+                    <!-- <span class="link-style float-start"><img
+          src="https://web.likeminds.community/assets/images/svg/film-strip.svg" alt="videos" /> video</span> -->
+
+                    <ng-container *ngIf="reply.pdf as pdfs">
+                        <ng-container *ngIf="pdfs.length as pdfLength">
+                            <img src="https://web.likeminds.community/assets/images/svg/document.svg" alt="Document" />
+                            <h5 class="reply_text" *ngIf="reply.answer" [innerHTML]="reply?.answer | memberTag"></h5>
+                            <h5 *ngIf="!reply.answer">
+                                Document
+                                <span *ngIf="pdfLength > 1">s (+{{ pdfLength - 1 }} more)</span>
+                            </h5>
+                        </ng-container>
+                    </ng-container>
+
+                    <h5
+                        class="reply_text"
+                        *ngIf="(!reply.images || !reply.images.length) && (!reply.pdf || !reply.pdf.length)"
+                        [innerHTML]="reply?.answer | memberTag"
+                    ></h5>
+                </div>
+            </ng-template>
+        </ng-template>
+    </div>
+
+    <ng-container *ngIf="!replyDeletedText">
+        <div *ngIf="reply.images && reply.images.length" class="side-img-wrap">
+            <img [src]="reply.images[0].image_url" alt="Photo" />
+        </div>
+
+        <div
+            *ngIf="reply?.attachments && (reply?.attachments[0]?.type == 'gif' || reply?.attachments[0]?.type == 'video')"
+            class="side-img-wrap"
+        >
+            <img [src]="reply?.attachments[0].thumbnail_url" alt="Photo" />
+        </div>
+
+        <div
+            *ngIf="reply?.attachments && reply?.attachments[0]?.type == 'audio'"
+            class="audio-img-wrapper d-flex justify-content-center align-items-center"
+        >
+            <img src="https://web.likeminds.community/assets/images/svg/headphone.svg" alt="Photo" />
+        </div>
+    </ng-container>
+    <div class="preview" *ngIf="reply.og_tags || ['community', 'directory'].includes(reply.preview?.preview_type)">
+        <img *ngIf="reply.og_tags?.image" [src]="reply.og_tags?.image" alt="og_tags_image" />
+        <img *ngIf="reply.preview?.community?.image_url" [src]="reply.preview?.community?.image_url" alt="preview_image" />
+    </div>
+</div>

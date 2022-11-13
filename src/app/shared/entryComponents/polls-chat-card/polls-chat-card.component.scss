@@ -1,0 +1,190 @@
+@import '../../../../assets/scss/abstracts/mixin';
+@import '../../../../assets/scss/abstracts/variables';
+
+.btn-color {
+    background: #dfe1e3 !important;
+    border-color: transparent !important;
+}
+.heading {
+    font-weight: bold;
+    font-size: 16px;
+}
+.label {
+    text-transform: uppercase;
+    color: #acb7c0;
+    font-size: 11px;
+    margin: 0 0 0px 15px;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+}
+
+.custom-text-area {
+    margin-top: -4px;
+    border-radius: 0 0 5px 5px !important;
+}
+
+.expire {
+    padding: 10px 15px !important;
+}
+
+.custom-label {
+    color: #acb7c0;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+}
+.custom-select {
+    border-bottom: 1px solid #d0d8e2 !important;
+    border-radius: 0px !important;
+    padding: 5px 0px !important;
+}
+
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: var(--buttons_icons_colour, #00897b) !important;
+    filter: brightness(0.5);
+}
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background-color: var(--buttons_icons_colour, #00897b) !important;
+    filter: brightness(1.6);
+}
+
+.round-button {
+    height: 54px !important;
+    width: 54px !important;
+    border-radius: 50% !important;
+}
+
+.bg-green {
+    background-color: var(--buttons_icons_colour, #00d64f) !important;
+}
+
+mat-form-field .mat-form-field-wrapper .mat-form-field-flex {
+    border-radius: 0px;
+    box-shadow: none;
+    border: 0 none;
+    background-color: #ffffff;
+    padding: 0 10px;
+    padding-top: 8px;
+    line-height: 1.43;
+    font-size: 14px;
+    height: 30px;
+    width: 265px;
+    margin-top: -5px !important;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+ngx-mat-datetime-picker {
+    margin-top: 25px;
+}
+
+.date-picker-container {
+    @include border-radius(8px);
+    border: 1px solid #ced4da;
+    padding: 12px;
+}
+
+.cancel-date {
+    right: 0;
+}
+
+section main .circle {
+    margin: -5px -10px -17px -10px !important;
+}
+
+.mat-datepicker-content .time-container {
+    mat-form-field .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix {
+        width: 25px !important;
+        min-height: auto;
+        flex: none;
+        margin: 7px 0 0 -12px;
+    }
+}
+
+// input::-webkit-input-placeholder {
+//     color: orange !important;
+// }
+
+.cross-image-holder {
+    right: 0;
+    height: 100%;
+}
+
+.border-0 {
+    width: 100%;
+    .mat-form-field {
+        width: 100%;
+    }
+    mat-form-field .mat-form-field-wrapper .mat-form-field-flex {
+        border-top: solid 1px #d0d8e2;
+    }
+}
+
+mat-form-field .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix {
+    min-height: 42px;
+}
+
+.advanced-options-container {
+    //padding : 0.75rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+    font-size: 1rem;
+
+    .advanced-options-containe__div {
+        padding: 0.75rem;
+        border-bottom: 1px solid #ced4da;
+        margin-bottom: 3px;
+        border-radius: 0px !important;
+    }
+
+    .advanced-options-containe__lastdiv {
+        padding: 0.75rem;
+    }
+}
+
+.userVote {
+    position: relative;
+
+    span.arrowDown {
+        position: absolute;
+        right: 7px;
+        top: 7px;
+    }
+}
+
+.poll-textarea {
+    @include border-radius(8px);
+}
+
+.color-primary {
+    color: var(--buttons_icons_colour, #00897b);
+}
+
+.add_option {
+    background-color: $light;
+    border: 1px solid $input-border;
+    @include padding(10px);
+    @include border-radius(8px);
+    @include margin-bottom(24px);
+}
+
+.poll-option {
+    @include padding(14px);
+    @include border-radius(8px);
+}
+
+.advanced-option-arrow-icon {
+    @include height(10px);
+    @include width(10px);
+    @include margin-left(5px);
+}
+
+.inverted-arrow {
+    @include margin-bottom(2px);
+    transform: rotate(180deg);
+}
+
+@media screen and (max-width: 480px) {
+    section {
+        height: 100vh;
+        width: 100vw;
+    }
+}

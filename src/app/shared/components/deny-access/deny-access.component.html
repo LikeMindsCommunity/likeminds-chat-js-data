@@ -1,0 +1,13 @@
+<div class="box d-flex flex-column align-items-center justify-content-center">
+    <img class="cross-img" src="../../../../assets/images/svg/cross-sign.svg" (click)="closeModal()"  alt="">
+    <div class="d-flex justify-content-center">
+        <img src="../../../../assets/images/svg/warning-danger.png" class="warning-img" alt="">
+    </div>
+    <div class="heading">Renew community membership</div>
+    <div class="sub-heading">
+        Your subscription to {{data?.communityName}} community has expired. Buy a membership plan of your choice to create new chat rooms in this community.
+    </div>
+    <div class="button d-flex align-items-center justify-content-center" (click)="openRenewal()" >
+        <div class="button-text">RENEW MEMBERSHIP</div>
+    </div>
+</div>

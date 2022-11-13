@@ -1,0 +1,72 @@
+<div class="via-email-mobile">
+   <div >
+    <div class="invite-header-wrapper-mobile">
+        <div class="invite-header_image">
+            <img
+            height="24"
+            width="24"
+            (click)="handleBackClick()"
+            class="cursor-pointer"
+            [src]="!branding?.advanced?.header_colour ? 'assets/images/svg/back-navigation-arrow.svg' : 'assets/images/svg/back-arrow-white.svg'"
+        />
+        </div>
+        <div class="invite-header_content">Invite Members Via Email</div>
+    </div>
+    <div class="info-section">
+        Invite Free Members Via Email. <br>
+Invitation link sent can be used only once.
+    </div>
+    <div class="invite-content-container">
+        <div class="invite-member" [ngClass] = "{'mat-field-error':errorInEmailList}">
+            <mat-form-field errorInEmailList class="example-chip-list"  appearance="fill">
+                <mat-chip-list #chipList aria-label="Fruit selection" (click)="setFoucusOnInput()">
+                    <mat-chip
+                      *ngFor="let email of emailList"
+                      (removed)="remove(email)"
+                      (click) = "onChipClick($event)"
+                      [ngClass] = "{'mat-chip-error':!checkIfEmailIsCorrectorNot(email)}"
+                      >
+                      {{email}}
+                      <mat-icon matChipRemove [ngClass] = "{'icon-error-style':!checkIfEmailIsCorrectorNot(email)}">cancel</mat-icon>
+                    </mat-chip>
+                    <input
+                        matInput class="email-input " 
+                        [placeholder]="showPlaceHolderText()"
+                        formControlName="emailString"
+                      #emailInput
+                      [formControl]="emailCtrl"
+                      [matChipInputFor]="chipList"
+                      
+                      (keyup) = "addNew($event)"
+                      autocomplete="off"
+                      >
+                  </mat-chip-list>
+            </mat-form-field>
+            <!-- <input matInput class="email-input mt-1 pt-2" placeholder="Add upto 100 emails here."
+                       formControlName="emailString" type="text" autocomplete="off" /> -->
+            <div class='upload-download-wrapper'>
+                <span class="download-csv" (click)="downloadSampleEmailCsvFile()">
+                    Download Sample CSV
+                </span>
+                <span class="upload-csv" (click)="uploadEmails.click()">
+                    <input hidden  type="file" accept=".csv" (change)="convertFile($event)" (click)="$event.target.value=null" #uploadEmails>
+                    Upload CSV
+                </span>
+            </div>      
+        </div>
+        <form [formGroup]="invitationForm" (ngSubmit)="checkDataAndSendInvite()">
+            <div>
+                <textarea matInput  rows="7" class="text-area-input form-control" id="aboutInput" formControlName="invitationText"
+                placeholder="Write invitation message here."></textarea>
+                
+            </div>
+            <div class="send-btn-wrapper-mobile">
+                <button class='send-btn-cta-mobile' type="submit">Send</button>
+            </div>
+        </form>
+        
+    </div>
+</div>
+    
+    
+</div>

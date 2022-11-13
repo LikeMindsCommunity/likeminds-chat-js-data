@@ -1,0 +1,44 @@
+.popup-wrapper {
+    &__header {
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.87);
+        line-height: 1.25;
+        margin-bottom: 15px;
+    }
+
+    &__body {
+        font-size: 15px;
+        color: #4a4a4a;
+        max-width: 232px;
+        line-height: 1.47;
+        margin-bottom: 15px;
+    }
+
+    &__post-body {
+        font-size: 15px;
+        color: #4a4a4a;
+        line-height: 1.47;
+        margin-bottom: 35px;
+
+        input {
+            margin-right: 5px;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        font-size: 13px;
+        font-weight: 500;
+        justify-content: flex-end;
+
+        &__cancel {
+            color: rgba(0, 0, 0, 0.4);
+            margin-right: 25px;
+        }
+
+        &__confirm {
+            color: #009688;
+        }
+    }
+}

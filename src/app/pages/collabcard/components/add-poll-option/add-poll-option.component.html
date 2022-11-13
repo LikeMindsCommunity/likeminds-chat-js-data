@@ -1,0 +1,17 @@
+<section class="add-poll-option">
+    <div class="cross-div">
+        <span class="close-icon"><img src="https://web.likeminds.community/assets/images/svg/cross.svg" (click)="close.emit()" /></span>
+    </div>
+
+    <div class="text-heading">Add new poll option</div>
+
+    <div class="text-body">Enter an option that you think is missing in this poll. This can not be undone.</div>
+
+    <div class="option-input">
+        <input type="text" placeholder="Type new option" [(ngModel)]="option" />
+    </div>
+
+    <div class="card-button" [ngClass]="{ enabled: option.length > 0 }">
+        <button (click)="submitOption(option)">SUBMIT</button>
+    </div>
+</section>

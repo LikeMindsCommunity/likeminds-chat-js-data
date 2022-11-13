@@ -1,0 +1,63 @@
+.add-poll-option {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+
+
+    .close-icon {
+        width: 10px;
+        height: 10px;
+
+        img {
+            float: right
+        }
+    }
+
+    .text-heading {
+        font-weight: bolder;
+        margin: 5px 15px;
+    }
+
+    .text-body {
+        color: #727272;
+        margin: 5px 15px;
+    }
+
+    .option-input {
+        margin: 10px 15px;
+
+        input {
+            border: solid 2px #727272;
+            border-radius: 10px;
+            color: black;
+            padding: 10px; 
+            height: 40px;
+            width: 100%
+        }
+    }
+
+    .card-button {
+        display: flex;
+        justify-content: space-around;
+
+        button {
+            width: 60%;
+            height: 50px;
+            border: none;
+            border-radius: 25px;
+            font-size: 15px;
+            padding: 5px 2px;
+            color: #ffffff;
+            background: #727272;
+            margin: 10px;
+            margin-bottom: 20px;
+        }
+
+        &.enabled {
+            button {
+                background: var(--buttons_icons_colour, #075e54);
+            }
+        }
+    }
+}

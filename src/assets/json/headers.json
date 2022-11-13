@@ -1,0 +1,112 @@
+{
+    "terms": {
+        "back": true,
+        "title": "Terms",
+        "backLink": "/",
+        "subTitle": false,
+        "background": "bg-black",
+        "color": "F",
+        "showLogo": true,
+        "showDownloadLink": false,
+        "isChatroom": false
+    },
+    "privacy": {
+        "back": true,
+        "title": "Privacy Policy",
+        "backLink": "/",
+        "subTitle": false,
+        "background": "bg-black",
+        "color": "F",
+        "showLogo": true,
+        "showDownloadLink": false,
+        "isChatroom": false
+    },
+    "generateOtp": {
+        "back": false,
+        "title": "Login to continue",
+        "backLink": "/",
+        "subTitle": false,
+        "background": "bg-theme1",
+        "color": "F",
+        "showLogo": true,
+        "showDownloadLink": false,
+        "isChatroom": false
+    },
+    "joinCommunity": {
+        "back": false,
+        "title": "Join community",
+        "backLink": "/",
+        "subTitle": false,
+        "background": "bg-theme1",
+        "color": "F",
+        "showLogo": true,
+        "showDownloadLink": false,
+        "isChatroom": false
+    },
+    "verifyOtp": {
+        "back": true,
+        "title": "Login to continue",
+        "backLink": "/generate_otp",
+        "subTitle": false,
+        "background": "bg-theme1",
+        "color": "F",
+        "showLogo": true,
+        "showDownloadLink": false,
+        "isChatroom": false
+    },
+    "login": {
+        "back": true,
+        "title": "Basic profile",
+        "backLink": "/",
+        "subTitle": false,
+        "background": "bg-theme1",
+        "color": "F",
+        "showLogo": true,
+        "showDownloadLink": false,
+        "isChatroom": false
+    },
+    "question": {
+        "back": true,
+        "title": "One last step",
+        "backLink": "/community",
+        "subTitle": false,
+        "background": "bg-theme1",
+        "color": "F",
+        "showLogo": true,
+        "showDownloadLink": false,
+        "isChatroom": false
+    },
+    "communityDetail": {
+        "back": true,
+        "title": null,
+        "backLink": "/community",
+        "subTitle": false,
+        "background": "bg-theme1",
+        "color": "F",
+        "showLogo": true,
+        "showDownloadLink": true,
+        "isChatroom": false
+    },
+    "chatroom": {
+        "back": true,
+        "title": null,
+        "backLink": "/",
+        "subTitle": true,
+        "background": "bg-theme1",
+        "color": "F",
+        "showLogo": false,
+        "showDownloadLink": false,
+        "isChatroom": true
+    },
+    "memberDirectory": {
+        "back": true,
+        "title": null,
+        "backLink": "/",
+        "subTitle": true,
+        "background": "bg-theme1",
+        "color": "F",
+        "showLogo": false,
+        "showDownloadLink": false,
+        "isChatroom": true
+    }
+}

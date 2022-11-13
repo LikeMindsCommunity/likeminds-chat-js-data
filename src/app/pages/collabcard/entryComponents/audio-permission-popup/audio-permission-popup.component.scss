@@ -1,0 +1,39 @@
+.icon-container {
+    border-radius: 50%;
+    background-color: #c4c4c4;
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .icon {
+        transform: scale(1.5);
+    }
+}
+
+.body {
+    .title {
+        font-weight: 300;
+        font-size: 24px;
+        line-height: 28px;
+    }
+    .sub {
+        color: #d0d8e2 !important;
+        font-size: 16px;
+        line-height: 19px;
+        color: #d0d8e2;
+    }
+    .btn-ok {
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        width: 128px;
+        background-color: var(--buttons_icons_colour, #06c3af);
+        color: white;
+        margin-top: 30px;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+    }
+}

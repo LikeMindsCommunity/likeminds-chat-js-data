@@ -1,0 +1,61 @@
+.poll-option {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 100%;
+    border: 1px solid #d3d3d3;
+    border-radius: 8px;
+    background: #ffffff;
+    padding: 8px;
+
+    .option-info {
+        .option-text {
+            word-wrap: break-word;
+            margin: 0;
+            font-size: 0.95rem;
+            max-width: 270px;
+            width: 100%;
+        }
+
+        .option-creator {
+            font-size: 0.8rem;
+            color: #727272;
+        }
+    }
+
+    .option-check {
+        background: var(--text_links_colour, #06c3af);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+
+        img {
+            height: 10px;
+            width: 17px;
+            margin: -4px 0px 0 1px;
+        }
+    }
+}
+
+.selected-button {
+    color: var(--buttons_icons_colour, #06c3af);
+    border: 1px solid var(--buttons_icons_colour, #06c3af);
+}
+
+.selected {
+    color: var(--text_links_colour, #06c3af);
+}
+
+.not-selected {
+    color: #727272;
+}
+
+.not-selected-button {
+    color: black;
+    border: 1px solid #d3d3d3;
+}
+
+.vote_count {
+    margin: 2px 0 10px 2px;
+    font-size: 14px;
+}

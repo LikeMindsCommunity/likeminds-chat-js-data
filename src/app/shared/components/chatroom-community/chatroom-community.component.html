@@ -1,0 +1,52 @@
+<p class="chatroom-title fs14 fw500 cF d-inline">
+    <span class="text-capitalize">{{ chatroom?.member?.name }}</span>
+    started this chat room in:
+</p>
+<div class="mx-auto rounded-circle">
+    <img
+        *ngIf="community?.image_url_round"
+        class="rounded-circle mt-4 bg-theme1"
+        [src]="community?.image_url_round"
+        width="85"
+        height="85"
+        alt="{{ community?.name }}"
+    />
+</div>
+<h4 class="mt-3 fw-bold text-capitalize c0 fs20">{{ community?.name }}</h4>
+<p class="managed-span c6 fs14 mb-0 mx-2">
+    Managed by
+    <ng-container *ngIf="admins && admins.length === 1">
+        <span class="text-capitalize">{{ admins[0]?.name }}</span>
+    </ng-container>
+    <ng-container *ngIf="admins && admins.length > 1">
+        <span class="text-capitalize">{{ admins[0]?.name }}</span> + {{ admins.length - 1 }}
+    </ng-container>
+
+    <span class="dot-seperator mb-1 mx-1"></span>
+    <span
+        class="member-count"
+        routerLink="/member_directory/{{ community?.id }}"
+        [queryParams]="{ source: 'chatroom', chatRoomId: chatroom.id, page: 1 }"
+        (click)="viewedDirectory()"
+        >{{ community?.members_count }} Members</span
+    >
+</p>
+<div class="line-seperator mx-auto my-2"></div>
+<h5 class="fw500 c0 fs14">Private community on LikeMinds</h5>
+<read-more [classes]="'font-weight-normal c6 fs14 w85 mx-auto'" [characterCount]="40" [data]="community?.about || community?.purpose">
+</read-more>
+
+<ng-container *ngIf="!nonMember">
+    <button
+        (click)="joinCommunity()"
+        *ngIf="memberState && !memberState.state"
+        class="btn cF w85 h48 br24 fs13 bg-theme2 fw500 mx-auto text-uppercase"
+        type="submit"
+    >
+        Join community
+    </button>
+    <div *ngIf="memberState?.state === 3" class="request-pending-info mx-3 d-flex mx-auto">
+        <img src="https://web.likeminds.community/assets/images/svg/information.svg" />
+        <p class="fs12 cF mb-0 ms-2 my-auto">Request to join this community is pending.</p>
+    </div>
+</ng-container>

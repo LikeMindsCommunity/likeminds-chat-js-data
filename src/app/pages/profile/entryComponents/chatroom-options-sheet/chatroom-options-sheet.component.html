@@ -1,0 +1,10 @@
+<section class="options-wrapper">
+    <div class="option" (click)="clickOption(0)">
+        <input type="radio" id="chatroomcreated" name="chatroomoptions" value=0 [checked]="data?.value === 0">
+        <label for="chatroomcreated">Chat rooms created</label>
+    </div>
+    <div class="option" (click)="clickOption(1)">
+        <input type="radio" id="chatroomfollowed" name="chatroomoptions" value=1 [checked]="data?.value === 1">
+        <label for="chatroomfollowed" class="special">Chat rooms followed</label>
+    </div>
+</section>

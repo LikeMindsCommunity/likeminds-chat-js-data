@@ -1,0 +1,438 @@
+<div class="chatroom-input-wrapper">
+    <ng-container *ngIf="chatroom.member_can_message || is_cm">
+        <div class="chatroom-reply-wrap d-flex align-items-center" [ngClass]="{ visible: replyMessage }">
+            <app-reply-preview [chatroom]="chatroom" [wrapperClass]="'input'" [user]="user" [reply]="replyMessage"> </app-reply-preview>
+            <img
+                src="https://web.likeminds.community/assets/images/svg/cross-grey.svg"
+                alt="close"
+                (click)="homeFeedService.clearReplyMessage()"
+            />
+        </div>
+
+        <div class="chatroom-reply-wrap d-flex align-items-center" [ngClass]="{ visible: editMessage }">
+            <app-reply-preview [chatroom]="chatroom" [wrapperClass]="'input'" [user]="user" [reply]="editMessage"> </app-reply-preview>
+            <img
+                src="https://web.likeminds.community/assets/images/svg/cross-grey.svg"
+                alt="close"
+                (click)="homeFeedService.clearEditMessage()"
+            />
+        </div>
+    </ng-container>
+    <ng-container *ngIf="linkPreview && showLinkPreview?.status !== 'never' && screenType !== 'mobile'">
+        <div
+            class="link-preview-wrap d-flex align-items-center"
+            *ngIf="linkPreview.og_tags?.title"
+            [ngClass]="{ visible: linkPreview && linkPreview.og_tags }"
+        >
+            <app-link-preview [linkPreview]="linkPreview"></app-link-preview>
+            <img src="https://web.likeminds.community/assets/images/svg/cross-grey.svg" alt="close" (click)="removePreview()" />
+        </div>
+        <div
+            class="internal-link-preview-wrap d-flex align-items-center justify-content-center"
+            *ngIf="linkPreview.preview"
+            [ngClass]="{ visible: linkPreview && linkPreview.preview }"
+        >
+            <span> Preview of chatroom will be added later. </span>
+        </div>
+    </ng-container>
+
+    <div *ngIf="!user" class="chatbox-not-loggedin" (click)="joinCommunity()">
+        <p class="mb-0 bg-white p-3 text-center br24 cursor-pointer fs13">You must be logged in to post a response</p>
+    </div>
+
+    <div *ngIf="user" class="chatroom-form d-flex align-items-center b0">
+        <div class="chatroom-inner" *ngIf="disableInput">
+            <div class="chatbox-restricted">
+                <p
+                    class="mb-0 fs13 bg-white br24"
+                    [ngClass]="{ 'text-start py-2 px-3': screenType === 'mobile', 'text-center p-3': screenType !== 'mobile' }"
+                >
+                    {{ inputBlockMessage }}
+                </p>
+            </div>
+        </div>
+        <div class="chatroom-inner" *ngIf="!disableInput">
+            <ng-container *ngIf="!chatroom.member_can_message && !is_cm; else memberCanMsgEnable">
+                <div class="chatbox-restricted">
+                    <p
+                        class="mb-0 fs13 bg-white br24"
+                        [ngClass]="{ 'text-start py-2 px-3': screenType === 'mobile', 'text-center p-3': screenType !== 'mobile' }"
+                    >
+                        Only community managers can send messages
+                    </p>
+                </div>
+            </ng-container>
+
+            <ng-template #memberCanMsgEnable>
+                <ng-container *ngIf="chatroom.type === 9; else nonIntroRooms">
+                    <div class="chatbox-restricted">
+                        <p
+                            class="mb-0 fs13 bg-white br24"
+                            [ngClass]="{ 'text-start py-2 px-3': screenType === 'mobile', 'text-center p-3': screenType !== 'mobile' }"
+                        >
+                            Responding is disabled. Greet members in their respective intro rooms.
+                        </p>
+                    </div>
+                </ng-container>
+                <ng-template #nonIntroRooms>
+                    <ng-container *ngIf="memberState.state === 3 && !chatroom.is_guest && !ajExpired; else chatroomInput">
+                        <div class="chatbox-restricted">
+                            <p
+                                class="mb-0 fs13 bg-white br24"
+                                [ngClass]="{ 'text-start py-2 px-3': screenType === 'mobile', 'text-center p-3': screenType !== 'mobile' }"
+                            >
+                                Continue to join the community and wait for a community manager's approval.
+                            </p>
+                        </div>
+                    </ng-container>
+
+                    <ng-template #chatroomInput>
+                        <div *ngIf="memberState && !memberCanRespondInRoom" class="chatbox-restricted">
+                            <p
+                                class="mb-0 fs13 bg-white br24"
+                                [ngClass]="{ 'text-center py-2 px-3': screenType === 'mobile', 'text-center p-3': screenType !== 'mobile' }"
+                            >
+                                The community managers have restricted you from responding here.
+                            </p>
+                        </div>
+                        <ng-container *ngIf="memberState && memberCanRespondInRoom">
+                            <ng-container *ngIf="chatroom && !chatroom?.deleted_by">
+                                <span class="align-self-center">
+                                    <img
+                                        class="cursor-pointer emojis"
+                                        *ngIf="false"
+                                        src="https://web.likeminds.community/assets/images/svg/smiley.svg"
+                                        alt="Smiley"
+                                    />
+                                </span>
+
+                                <span class="align-self-sm-center align-self-center attachment">
+                                    <!-- <img
+                                        matSuffix
+                                        class="h24 w-24 op5 cursor-pointer"
+                                        *ngIf="guestUser"
+                                        (click)="sdkGuestuser()"
+                                        src="https://web.likeminds.community/assets/images/svg/paperclip.svg"
+                                        alt="Attach"
+                                        [ngClass]="{ disabled: sendingMessage }"
+                                    /> -->
+                                    <img
+                                        matSuffix
+                                        class="h24 w-24 op5 cursor-pointer"
+                                        [matMenuTriggerFor]="uploadMenu"
+                                        src="https://web.likeminds.community/assets/images/svg/paperclip.svg"
+                                        alt="Attach"
+                                        [ngClass]="{ disabled: sendingMessage }"
+                                    />
+                                    <mat-menu #uploadMenu xPosition="after" yPosition="above" class="upload-menu">
+                                        <label class="upload-menu-tile">
+                                            <img src="https://web.likeminds.community/assets/images/svg/gallery.svg" alt="Gallery" />
+                                            <h4>Photos & Videos</h4>
+                                            <input
+                                                multiple
+                                                #imageFileUpload
+                                                type="file"
+                                                accept=".jpg,.jpeg,.png,.psd,.tiff,.ai,.indd,.raw,.eps"
+                                                (change)="uploadImage($event)"
+                                                (click)="imageFileUpload.value = ''"
+                                            />
+                                        </label>
+                                        <label class="upload-menu-tile">
+                                            <img
+                                                src="https://web.likeminds.community/assets/images/svg/document-chatroom.svg"
+                                                alt="Document"
+                                            />
+                                            <h4>Document</h4>
+                                            <input
+                                                multiple
+                                                #pdfFileUpload
+                                                type="file"
+                                                accept="application/pdf"
+                                                (change)="startDocumentUpload($event)"
+                                                (click)="pdfFileUpload.value = ''"
+                                            />
+                                        </label>
+                                        <label class="upload-menu-tile ms-4" [hidden]="chatroom.type === 10">
+                                            <img
+                                                (click)="openPollsModal()"
+                                                src="https://web.likeminds.community/assets/images/svg/pollsIcon.svg"
+                                                alt="Document"
+                                            />
+                                            <h4>Poll</h4>
+                                        </label>
+                                        <label class="upload-menu-tile ms-4">
+                                            <div class="audio-image-wrapper d-flex justify-content-center align-items-center">
+                                                <img src="https://web.likeminds.community/assets/images/svg/headphone.svg" alt="Document" />
+                                            </div>
+                                            <input
+                                                multiple
+                                                #audioFileUpload
+                                                type="file"
+                                                accept="audio/mpeg,audio/wav,audio/flac"
+                                                (change)="uploadAudio($event)"
+                                                (click)="audioFileUpload.value = ''"
+                                            />
+                                            <h4>Audio</h4>
+                                        </label>
+                                    </mat-menu>
+                                </span>
+
+                                <div
+                                    [ngClass]="{ 'border-link-preview-mobile': linkPreview && screenType === 'mobile' }"
+                                    class="input-link-wrapper w-100 mx-2"
+                                >
+                                    <ng-container *ngIf="linkPreview && showLinkPreview?.status !== 'never' && screenType === 'mobile'">
+                                        <div
+                                            class="link-preview-wrap d-flex align-items-center w-100"
+                                            *ngIf="linkPreview.og_tags?.title"
+                                            [ngClass]="{ visible: linkPreview && linkPreview?.og_tags }"
+                                        >
+                                            <app-link-preview [linkPreview]="linkPreview"></app-link-preview>
+                                            <img
+                                                src="https://web.likeminds.community/assets/images/svg/cross-tags-2@2x.svg"
+                                                alt="close"
+                                                (click)="removePreview()"
+                                            />
+                                        </div>
+                                        <div
+                                            class="internal-link-preview-wrap d-flex align-items-center justify-content-center w-100"
+                                            *ngIf="linkPreview.preview"
+                                            [ngClass]="{ visible: linkPreview && linkPreview.preview }"
+                                        >
+                                            <span> Preview of chatroom will be added later. </span>
+                                        </div>
+                                    </ng-container>
+                                    <div
+                                        #inputBox
+                                        (click)="checkPurposeRoom($event)"
+                                        class="conversation-input bg-white d-flex align-items-center justify-content-between"
+                                        [ngClass]="{
+                                            'input-link-preview':
+                                                (linkPreview?.preview || linkPreview?.og_tags?.title) && screenType === 'mobile',
+                                            brT0: screenType !== 'desktop' && mentionTemplateOpen,
+                                            'align-items-start': screenType !== 'mobile' && linkPreview,
+                                            'padding-less': audioRecorder || audioFile
+                                        }"
+                                    >
+                                        <ng-container *ngIf="chatroom.type === 10; else noDMChatroom">
+                                            <div
+                                                class="textarea w-100 text-center mx-1"
+                                                [ngClass]="{ 'text-center': !canSendMessage }"
+                                                [attr.contenteditable]="canSendMessage && !(audioRecorder || audioFile)"
+                                                #textArea
+                                                [attr.placeholder]="placeholder"
+                                                (input)="setPlaceholder($event)"
+                                                (paste)="pasteItem($event)"
+                                                (keydown)="handleInputChange($event)"
+                                                (searchTerm)="getSerchResult($event)"
+                                                (opened)="setMentionTemplateOpen(true)"
+                                                (closed)="setMentionTemplateOpen(false)"
+                                                id="editor"
+                                            ></div>
+                                        </ng-container>
+
+                                        <ng-template #noDMChatroom>
+                                            <div
+                                                class="textarea w-100 text-center mx-1"
+                                                [ngClass]="{ 'text-center': !canSendMessage }"
+                                                [attr.contenteditable]="canSendMessage && !(audioRecorder || audioFile)"
+                                                #textArea
+                                                [attr.placeholder]="placeholder"
+                                                (input)="setPlaceholder($event)"
+                                                (paste)="pasteItem($event)"
+                                                (keydown)="handleInputChange($event)"
+                                                [mention]="chatroomMembers"
+                                                [mentionConfig]="mentionConfig"
+                                                [mentionListTemplate]="tagMemberList"
+                                                (searchTerm)="getSerchResult($event)"
+                                                (opened)="setMentionTemplateOpen(true)"
+                                                (closed)="setMentionTemplateOpen(false)"
+                                                id="editor"
+                                            ></div>
+                                        </ng-template>
+                                        <div [ngStyle]="{ display: mentionTemplateOpen ? 'block' : 'none' }" class="arrow-down"></div>
+                                        <div
+                                            *ngIf="(audioRecorder || audioFile) && screenType !== 'mobile'"
+                                            class="recorder-stats d-flex align-items-center"
+                                        >
+                                            <img
+                                                src="https://web.likeminds.community/assets/images/svg/x-circle-red.svg"
+                                                alt=""
+                                                width="35"
+                                                height="35"
+                                                (click)="clearRecording()"
+                                                class="me-3 cursor-pointer"
+                                            />
+                                            <div class="recorder-dot me-2 text-danger" *ngIf="!recorded"></div>
+                                            <mat-icon
+                                                class="cursor-pointer text-black me-1"
+                                                *ngIf="recorded && playerState !== 'playing'"
+                                                (click)="playAudio()"
+                                            >
+                                                play_arrow</mat-icon
+                                            >
+                                            <mat-icon
+                                                class="cursor-pointer text-black me-1"
+                                                *ngIf="recorded && playerState === 'playing'"
+                                                (click)="pauseAudio()"
+                                            >
+                                                pause</mat-icon
+                                            >
+                                            <div class="me-4">
+                                                {{ playerState === 'stopped' ? formatCurrentTime(true) : formatCurrentTime(false) }}
+                                            </div>
+                                            <app-check-circle-icon
+                                                (click)="stopRecording()"
+                                                *ngIf="!recorded; else sendBtn"
+                                                class="cursor-pointer"
+                                            >
+                                            </app-check-circle-icon>
+                                            <ng-template #sendBtn>
+                                                <img
+                                                    (click)="createAudioMessageConversation()"
+                                                    class="cursor-pointer"
+                                                    src="https://web.likeminds.community/assets/images/svg/scv_chatroom_send.svg"
+                                                    width="35"
+                                                    height="35"
+                                                    alt=""
+                                                />
+                                            </ng-template>
+                                        </div>
+                                        <div
+                                            class="recorder-stats-mobile d-flex align-items-center justify-content-between"
+                                            *ngIf="(audioRecorder || audioFile) && screenType === 'mobile'"
+                                        >
+                                            <div class="d-flex align-items-center">
+                                                <mat-icon *ngIf="!recorded; else playerCtrl" class="recorder-icon">mic </mat-icon>
+                                                <!-- <img src="https://web.likeminds.community/assets/images/svg/microphone.svg" alt=""> -->
+                                                <ng-template #playerCtrl>
+                                                    <div class="cursor-pointer text-black me-1 d-flex align-items-center">
+                                                        <mat-icon *ngIf="playerState !== 'playing'" (click)="playAudio()">
+                                                            play_arrow</mat-icon
+                                                        >
+                                                        <mat-icon *ngIf="playerState === 'playing'" (click)="pauseAudio()"> pause</mat-icon>
+                                                    </div>
+                                                </ng-template>
+
+                                                <div class="ms-2">
+                                                    {{ playerState === 'stopped' ? formatCurrentTime(true) : formatCurrentTime(false) }}
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <div *ngIf="recording && recordingLock">
+                                                    <div (click)="stopRecording()" class="recorder-dot me-2">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="recording && !recordingLock" class="me-2 d-flex align-items-center slider-zone">
+                                                    <div (dragenter)="droppedInto('deleteZone')">
+                                                        <mat-icon class="text-muted arrow me-1">chevron_left</mat-icon>
+                                                    </div>
+                                                    <div>Slide to cancel</div>
+                                                </div>
+                                                <img
+                                                    *ngIf="recorded || recordingLock"
+                                                    src="https://web.likeminds.community/assets/images/svg/cancel.svg"
+                                                    width="24"
+                                                    height="24"
+                                                    (click)="clearRecording()"
+                                                    class="delete-btn cursor-pointer"
+                                                    alt="cancel"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button
+                                    class="submit-btn align-self-sm-center align-self-end mb-sm-0 mb-1"
+                                    *ngIf="messageExist"
+                                    (click)="createConversation()"
+                                >
+                                    <img
+                                        src="https://web.likeminds.community/assets/images/svg/scv_chatroom_send.svg"
+                                        width="48"
+                                        height="48"
+                                        alt="send button"
+                                    />
+                                </button>
+                                <button
+                                    class="record-btn align-self-center"
+                                    *ngIf="!messageExist && !(audioRecorder || audioFile) && screenType !== 'mobile'"
+                                    (click)="startRecording()"
+                                >
+                                    <img
+                                        src="https://web.likeminds.community/assets/images/svg/microphone_outline.svg"
+                                        width="45"
+                                        height="45"
+                                        alt="microhpone"
+                                    />
+                                </button>
+                                <div
+                                    class="voice-recorder-mobile d-flex"
+                                    *ngIf="screenType === 'mobile'"
+                                    [ngClass]="{ recording: recording && !recordingLock }"
+                                >
+                                    <div *ngIf="recording && !recordingLock" class="locking-zone d-flex flex-column align-items-center">
+                                        <div class="helper-tooltip" *ngIf="showLockHelperTooltip">Slide up to record without holding</div>
+                                        <div (dragenter)="droppedInto('lockingZone')">
+                                            <img src="https://web.likeminds.community/assets/images/svg/lock.svg" class="mb-2" alt="lock" />
+                                        </div>
+                                        <mat-icon class="text-muted arrow">expand_less</mat-icon>
+                                    </div>
+                                    <div class="helper-tooltip" *ngIf="showHelperTooltip">Tap & Hold to record a voice message</div>
+                                    <button
+                                        class="record-btn-mobile align-self-center"
+                                        #recordBtnMobile
+                                        [draggable]="recording"
+                                        *ngIf="!messageExist && recorded === false && !recordingLock"
+                                        (mousedown)="mousedown()"
+                                        (mouseup)="mouseup()"
+                                        (touchstart)="mousedown()"
+                                        (touchend)="mouseup()"
+                                        (touchmove)="onTouchMove($event)"
+                                        (contextmenu)="disableContextMenu($event)"
+                                    >
+                                        <img src="https://web.likeminds.community/assets/images/svg/microphone.svg" alt="microhpone" />
+                                    </button>
+                                    <button
+                                        class="submit-btn align-self-end mb-1"
+                                        (click)="createAudioMessageConversation()"
+                                        *ngIf="(!messageExist && recorded) || recordingLock"
+                                    >
+                                        <img
+                                            src="https://web.likeminds.community/assets/images/svg/scv_chatroom_send.svg"
+                                            width="48"
+                                            height="48"
+                                            alt="send button"
+                                        />
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </ng-template>
+                </ng-template>
+            </ng-template>
+        </div>
+    </div>
+
+    <div *ngIf="imagesToBeUpload[0]">
+        <app-chatroom-image-upload
+            *ngIf="showImageUpload"
+            [items]="chatroomMembers"
+            [selectedFile]="imagesToBeUpload[0]"
+            [files]="imagesToBeUpload"
+            (closeUpload)="closeDialog()"
+            (sendFiles)="sendImages($event)"
+        >
+        </app-chatroom-image-upload>
+    </div>
+</div>
+
+<ng-template let-item="item" #tagMemberList>
+    <div class="member-list" [ngStyle]="{ width: getMemberListWidth() }">
+        <div class="image-wrap">
+            <img [src]="item.image_url || defaultProfileLink" (error)="onImgError($event)" [alt]="item.name" />
+        </div>
+        <h4>{{ item.name }}</h4>
+    </div>
+</ng-template>

@@ -1,0 +1,24 @@
+section.modal-small {
+    p.heading {
+        height: 20px;
+        color: rgba(0, 0, 0, 0.87);
+    }
+    p.content {
+        font-size: 15px;
+        color: #4a4a4a;
+    }
+    p.link {
+        color: #009688;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    section.modal-small {
+        div.body,
+        .body p.heading {
+            margin-right: 0 !important;
+            margin-top: 0 !important;
+            margin-left: 0 !important;
+        }
+    }
+}

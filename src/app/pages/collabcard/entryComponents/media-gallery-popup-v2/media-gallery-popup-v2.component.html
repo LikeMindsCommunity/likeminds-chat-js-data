@@ -1,0 +1,199 @@
+<div class="media-popup-container">
+    <!-- For mobile view -->
+
+    <div class="media-content-mobile">
+        <div class="media-content-mobile-container">
+            <div
+                class="close-icon d-flex align-items-center"
+                *ngIf="data?.media.length > 1"
+                [ngClass]="{ 'show-single-image-mobile': showSingleMedia, 'show-multiple-media-mobile': !showSingleMedia }"
+            >
+                <div class="d-flex">
+                    <div>
+                        <img
+                            class="back-navigation-arrow"
+                            src="https://web.likeminds.community/assets/images/svg/white-back-navigation-arrow.svg"
+                            alt="back"
+                            (click)="hideMediaPopup()"
+                        />
+                    </div>
+
+                    <div class="header-details">
+                        <div>
+                            <p class="member-name">
+                                <strong>{{ data?.message.member.id === user.id ? 'You' : data?.message.member.name }}</strong>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="media-detail">
+                                {{ numberOfMedia() }} {{ data?.media.length }} photos <span>&bull;</span> {{ formatDate() }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="data?.media && data?.media.length > 1 && !showSingleMedia" class="multiple-medias-container">
+                <div *ngFor="let media of data?.media; let i = index" (click)="openSingleMedia(i)">
+                    <!-- style = "position: relative; margin-bottom : 15px; box-shadow: 4px 4px 5px grey;"  style="height: 100%; width: 100%; object-fit: fill;" -->
+                    <div class="multiple-media-container">
+                        <img [src]="media.url" *ngIf="media.type === 'image'" />
+                        <video *ngIf="media?.type === 'video'">
+                            <source [src]="media.url" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <span class="no-message">{{ data?.message.created_at }}</span>
+                        <img [src]="media.url" *ngIf="media.type === 'gif'" />
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="showSingleMedia" class="single-media-container">
+                <div class="media-wrapper-outer">
+                    <div class="media-wrapper">
+                        <img
+                            [src]="data?.media[mediaIndex].url"
+                            alt="Image"
+                            *ngIf="data?.media[mediaIndex].type === 'image'"
+                            (touchstart)="swipe($event, 'start')"
+                            (touchend)="swipe($event, 'end')"
+                        />
+                        <video
+                            *ngIf="data?.media?.type === 'video'"
+                            controls
+                            (touchstart)="swipe($event, 'start')"
+                            (touchend)="swipe($event, 'end')"
+                        >
+                            <source [src]="data?.media[mediaIndex].url" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <img *ngIf="data?.media[mediaIndex].type === 'gif'" [src]="data?.media[mediaIndex].url" alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="data?.media.length === 1" class="single-media-container-one-attatchment">
+            <div class="close-icon d-flex align-items-center" [ngClass]="{ 'show-single-image-mobile': true }">
+                <div class="d-flex">
+                    <div>
+                        <img
+                            #leftButton
+                            src="https://web.likeminds.community/assets/images/svg/white-back-navigation-arrow.svg"
+                            alt="back"
+                            (click)="hideMediaPopup()"
+                        />
+                    </div>
+
+                    <div class="header-info" style="margin-left: 13px">
+                        <div>
+                            <p class="member-name">
+                                <strong>{{ data?.message.member.id === user.id ? 'You' : data?.message.member.name }}</strong>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="member-details">
+                                {{ numberOfMedia() }} {{ data?.media.length }} photos
+                                <span style="font-size: 20px; color: white">&bull;</span> {{ formatDate() }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="media-wrapper-outer">
+                <div class="media-wrapper">
+                    <div class="media-wrapper-img">
+                        <img
+                            [src]="data?.media[0].url"
+                            alt="Image"
+                            *ngIf="data?.media[0].type == 'image' || data?.media[0].type == 'gif'"
+                        />
+                    </div>
+                    <div class="media-wrapper-video">
+                        <video *ngIf="data?.media[0].type === 'video'" controls>
+                            <source [src]="data?.media[0].url" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- For desktop view -->
+
+    <div class="media-content">
+        <div class="media-content__header close-icon d-flex align-items-center" [ngClass]="{ 'show-single-image-mobile': showSingleMedia }">
+            <div class="d-flex">
+                <div>
+                    <img
+                        class="back-navigation-arrow"
+                        src="https://web.likeminds.community/assets/images/svg/media-back-icon.svg"
+                        alt="back"
+                        (click)="hideMediaPopup()"
+                    />
+                </div>
+                <div class="profile-pic">
+                    <img [src]="data?.message.member.image_url" alt="Image" class="profile-pic-image" />
+                </div>
+                <div class="header-details">
+                    <div>
+                        <p class="member-name">
+                            <strong>{{ data?.message.member.id === user.id ? 'You' : data?.message.member.name }}</strong>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="media-info">{{ formatDate() }} at {{ data?.message.created_at }}</p>
+                    </div>
+                </div>
+            </div>
+            <img src="https://web.likeminds.community/assets/images/svg/close-media-popup.svg" (click)="hideMediaPopup()" alt="close" />
+        </div>
+        <div class="media-content__body">
+            <owl-carousel-o
+                *ngIf="data?.media && data?.media.length"
+                [ngClass]="data?.answer ? 'media-carousel-with-answer' : 'media-carousel'"
+                [options]="customOptionsWeb"
+                (change)="stopMedia($event)"
+            >
+                <ng-template carouselSlide [dotContent]="showThumnailImage(media.url)" *ngFor="let media of data?.media">
+                    <div
+                        [ngClass]="data?.media.length === 1 ? 'slide-with-padding' : 'slide'"
+                        style="display: flex; flex-direction: column"
+                    >
+                        <div style="flex: 1">
+                            <video
+                                style="display: block"
+                                controls
+                                disablePictureInPicture
+                                controlslist="nodownload"
+                                #videoElement
+                                *ngIf="media?.type === 'video'"
+                            >
+                                <source [src]="media.url" />
+                                Your browser does not support the video tag.
+                            </video>
+                            <img style="display: block" [src]="media.url" alt="image" *ngIf="media?.type === 'image'" />
+                            <img [src]="media.url" *ngIf="media?.type === 'gif'" alt="" />
+                        </div>
+                        <div
+                            style="z-index: 5; height: 20px"
+                            class="answer-text text-center mb-0 mt-3"
+                            *ngIf="data?.answer as answer"
+                            [innerHTML]="answer | memberTag | ellipsisWord: 50"
+                            [ngStyle]="{ style: expression }"
+                            style="margin-bottom: 20px !important"
+                        ></div>
+                    </div>
+                    <!-- <h3 style="z-index: 5;" class="answer-text text-center mb-0 mt-3" *ngIf="data?.answer as answer" [innerHTML]="answer| memberTag | ellipsisWord:50" [ngStyle]="{style: expression}" style="margin-bottom: 20px !important;"></h3>        -->
+                </ng-template>
+            </owl-carousel-o>
+            <!-- <div [ngClass]="{'owl-dots-border-hide' : data?.media.length === 1}" class="owl-dots-border-display"></div> -->
+            <div
+                *ngIf="data?.media.length > 1"
+                class="thubmnail-top-border"
+                style="background-color: #d0d8e2; height: 1px; position: fixed; bottom: 101px; left: 455px; width: calc(100% - 455px)"
+            ></div>
+        </div>
+    </div>
+</div>

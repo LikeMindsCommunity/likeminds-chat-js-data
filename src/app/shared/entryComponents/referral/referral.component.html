@@ -1,0 +1,16 @@
+<div class="referral_box d-flex align-items-center p-2" *ngIf="screenType != 'mobile'">
+    <img src="../../../../assets/images/svg/referral-image.svg" alt="">
+    <div>
+        <div class="referral_box__info">
+            <h4 class="referral_box__info__heading">Refer your friends to community</h4>
+            <p class="para">Get FREE membership days when your referrals join via your shared links.</p>
+            <div class="referral_box__info__box" *ngFor="let plan of plans['plans']">
+                <h4 class="referral_box__info__box__sub_heading">{{plan?.referral_free_days}} free days</h4>
+                <p class="para">If your referral chooses a {{plan?.duration_name}} plan</p>
+            </div>
+        </div>
+        <div class="referral_box__btn cursor-pointer" (click)="openShareUrl()">
+            INVITE NOW
+        </div>
+    </div>
+</div>

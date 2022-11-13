@@ -1,0 +1,268 @@
+<app-mobile-image-cropper
+    *ngIf="showImageCropper && screenType === 'mobile'"
+    (close)="closeCropper($event)"
+    (update)="updateProfile($event)"
+    [event]="showImageCropperEvent"
+    [member_id]="userId"
+    [community_id]="communityId"
+>
+</app-mobile-image-cropper>
+<app-report-page
+    *ngIf="showReportPage && screenType === 'mobile'"
+    [member_id]="userId"
+    [community_id]="communityId"
+    [viewed_member_state]="memberProfile?.state"
+    (close)="closeReport($event)"
+></app-report-page>
+<div
+    class="row no-gutters"
+    [ngStyle]="{ 'margin-top': screenType !== 'mobile' ? '48px' : '0px' }"
+    *ngIf="!showImageCropper && !showReportPage"
+>
+    <div class="col-md-12 no-gutters">
+        <div class="container p-0">
+            <div class="profile-card">
+                <div class="menuIcon" *ngIf="!userRightsData?.userObject?.is_owner && !userRightsData?.userObject?.custom_title">
+                    <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+                    <mat-menu #menu="matMenu" xPosition="before">
+                        <button mat-menu-item (click)="removeCommunityMember(userRightsData.userObject, 'remove')">
+                            Remove from community
+                        </button>
+                        <button mat-menu-item (click)="removeCommunityMember(userRightsData, 'editRights')">Edit management rights</button>
+                    </mat-menu>
+                </div>
+
+                <div class="image-name-section">
+                    <div class="image">
+                        <div class="image-container">
+                            <div
+                                *ngIf="!imgInitShow"
+                                class="img d-flex justify-content-center align-items-center text-white"
+                                [ngStyle]="{ 'background-color': circleColor }"
+                            >
+                                <span>{{ imgInit1 }}</span>
+                            </div>
+                            <img
+                                [src]="memberProfile?.image_url"
+                                *ngIf="imgInitShow"
+                                (error)="onImgError($event, memberProfile?.name)"
+                                alt="{{ memberProfile?.name }}"
+                                title="{{ memberProfile?.name }}"
+                            />
+                            <div class="dm-btn cursor-pointer" (click)="openDmFeed()" *ngIf="screenType != 'mobile' && show_dm">
+                                <img src="https://web.likeminds.community/assets/images/svg/Pathdm-btn.svg" />
+                            </div>
+                            <ng-container *ngIf="selfProfile">
+                                <div *ngIf="screenType === 'mobile'">
+                                    <span class="img camera">
+                                        <app-camera (click)="openImageChooser()"></app-camera>
+                                    </span>
+                                </div>
+                                <label *ngIf="screenType != 'mobile'">
+                                    <span class="img camera">
+                                        <app-camera></app-camera>
+                                    </span>
+
+                                    <input
+                                        #imageFileUpload
+                                        type="file"
+                                        accept="image/*"
+                                        (change)="uploadImage($event)"
+                                        (click)="imageFileUpload.value = ''"
+                                    />
+                                </label>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="description-box">
+                        <div class="title">
+                            <span *ngIf="memberProfile?.is_owner">
+                                <img class="img" src="https://web.likeminds.community/assets/images/svg/badge-white.svg" />
+                                Owner</span
+                            >
+                        </div>
+                        <div class="mobile-container">
+                            <div class="name text-capitalize">{{ memberProfile?.name }}</div>
+                            <div *ngIf="member_since" class="description">Member since {{ member_since }}</div>
+                        </div>
+                        <div class="title">
+                            <span *ngIf="!memberProfile?.is_owner && memberProfile?.custom_title">{{ memberProfile?.custom_title }}</span>
+                        </div>
+                    </div>
+                    <div class="dm-icon-wrapper" (click)="openDmFeed()" *ngIf="screenType == 'mobile' && show_dm">
+                        <img src="https://web.likeminds.community/assets/images/png/direct message profile.png" />
+                    </div>
+                    <ng-container *ngIf="screenType != 'mobile' && selfProfile">
+                        <div class="edit-profile" (click)="openEditProfile()"><button>EDIT PROFILE</button></div>
+                    </ng-container>
+                </div>
+
+                <ng-container *ngIf="memberProfile?.state != 9">
+                    <ng-container
+                        *ngIf="memberProfile?.question_answers | getElementFromState: 'directory_fields':true:'':'' as objectList"
+                    >
+                        <ng-container *ngIf="objectList?.length > 0">
+                            <div class="block-section">
+                                <div class="heading">Info</div>
+                                <div class="body">
+                                    <div class="sub-block block" *ngFor="let object of objectList" (click)="infoClicked(object)">
+                                        <div class="icon"><img src="{{ object?.image_url }}" /></div>
+                                        <div class="details">
+                                            <div class="key">{{ object?.question_title }}</div>
+                                            <div class="value">
+                                                <div [innerHtml]="object?.value | memberTag"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="memberProfile?.question_answers | getElementFromState: 'state':7:'':'' as object">
+                    <div class="block-section" *ngIf="object[0]">
+                        <div class="heading">About</div>
+                        <ng-container *ngIf="!showFullAbout">
+                            <div class="body" *ngIf="object[0]">
+                                <div [innerHtml]="object[0]?.value | memberTag | ellipsisWord: maxCharLength"></div>
+                            </div>
+                            <span *ngIf="object[0].value.length > maxCharLength" class="show-button" (click)="changeShowFullAbout(true)"
+                                >Show More</span
+                            >
+                        </ng-container>
+                        <ng-container *ngIf="showFullAbout">
+                            <div class="body" *ngIf="object[0]">
+                                <div [innerHtml]="object[0]?.value | memberTag"></div>
+                            </div>
+                            <span class="show-button" (click)="changeShowFullAbout(false)">Show Less</span>
+                        </ng-container>
+                        <div class="body" *ngIf="!object[0] && !memberProfile?.is_owner && memberProfile?.state === 9">
+                            Created this community on {{ member_since }}
+                        </div>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="memberProfile?.state != 9">
+                    <ng-container
+                        *ngIf="memberProfile?.question_answers | getElementFromState: 'directory_fields':false:'state':7 as objectList"
+                    >
+                        <ng-container *ngIf="objectList?.length > 0">
+                            <div class="block-section">
+                                <div class="heading">Other details</div>
+                                <div class="body">
+                                    <div class="details block" *ngFor="let object of objectList">
+                                        <div class="key">{{ object?.question_title }}</div>
+                                        <div class="value">
+                                            <div [innerHtml]="object?.value | memberTag"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+
+                <div class="block-section" *ngIf="chatrooms?.total_chatrooms_created > 0 || chatrooms?.total_chatrooms_followed > 0">
+                    <div class="heading">
+                        <ng-container *ngIf="screenType != 'mobile'">
+                            <div class="dropdown">
+                                <div
+                                    [ngClass]="{ 'd-none': !showButton }"
+                                    id="bd-versions"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                    data-bs-display="static"
+                                    (click)="showDropdown()"
+                                >
+                                    {{ buttonText }} <app-down-arrow-icon class="ms-1"></app-down-arrow-icon>
+                                </div>
+                                <div class="dropdown-menu" aria-labelledby="bd-versions">
+                                    <div class="dropdown-item" (click)="updateChatroomsSection(0)">Chat rooms created</div>
+                                    <div class="dropdown-item" (click)="updateChatroomsSection(1)">Chat rooms followed</div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="screenType === 'mobile'">
+                            <div class="non-dropdown" (click)="showChatroomOptionSheet(buttonText)">
+                                {{ buttonText }} <app-down-arrow-icon class="ms-1"></app-down-arrow-icon>
+                            </div>
+                        </ng-container>
+                        <div>
+                            {{
+                                chatrooms?.total_chatrooms_created
+                                    ? chatrooms?.total_chatrooms_created
+                                    : chatrooms?.total_chatrooms_followed
+                            }}
+                        </div>
+                    </div>
+                    <div class="body">
+                        <ng-container *ngFor="let chatroom of chatrooms?.chatrooms">
+                            <div class="sub-block block chatroom-card" (click)="openChatroom(chatroom?.id)">
+                                <div class="icon profile-image">
+                                    <img
+                                        src="{{ chatroom?.image_url_round }}"
+                                        onerror="this.src='https://web.likeminds.community/assets/images/svg/profile-img-bg-gray.svg'"
+                                    />
+                                </div>
+                                <div class="details">
+                                    <div class="value">
+                                        <div>{{ chatroom?.header }}</div>
+                                        <div class="date">{{ chatroom?.date }}</div>
+                                    </div>
+                                    <div class="key">{{ chatroom?.title | ellipsisWord: 100 }}</div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <div class="more-loader" *ngIf="remainingChatroomsCount > 0" (click)="getMoreChatrooms()">
+                            <div style="cursor: pointer">
+                                {{ remainingChatroomsCount }} more <app-down-arrow-icon class="ms-1"> </app-down-arrow-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block-section" *ngIf="common_communities?.total_count > 0">
+                    <div class="heading">
+                        <div *ngIf="selfProfile">My Communities</div>
+                        <div *ngIf="!selfProfile">Communities in common</div>
+                        <div>{{ common_communities?.total_count }}</div>
+                    </div>
+                    <div class="body">
+                        <ng-container *ngFor="let community of common_communities?.communities">
+                            <div class="sub-block block chatroom-card" (click)="openCommunity(community?.id)">
+                                <div class="icon profile-image">
+                                    <img
+                                        src="{{ community?.image_url }}"
+                                        onerror="this.src='https://web.likeminds.community/assets/images/svg/profile-img-bg-gray.svg'"
+                                    />
+                                </div>
+                                <div class="details">
+                                    <div class="value">{{ community?.name }}</div>
+                                    <div class="key">{{ community?.members_count }} members</div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <div class="more-loader" *ngIf="remainingCommunitiesCount > 0" (click)="getMoreCommunities()">
+                            <div>{{ remainingCommunitiesCount }} more <app-down-arrow-icon class="ms-1"> </app-down-arrow-icon></div>
+                        </div>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="!selfProfile && canReport">
+                    <div class="report-member">
+                        <button (click)="OpenReportMemberPopup()">
+                            <img src="https://web.likeminds.community/assets/images/svg/thumbs-down.svg" /> Report Member
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer" *ngIf="screenType === 'mobile' && selfProfile && !showImageCropper && !showReportPage">
+    <button (click)="openEditProfile()">EDIT PROFILE</button>
+</div>

@@ -1,0 +1,27 @@
+<!-- <div class="white-overlay">
+
+</div> -->
+
+<div class="mainBlock">
+    <div class="community row" *ngFor="let community of communitiesList" (click)="selecteCommunity(community)">
+        <div class="community__imageBox col-3">
+            <img
+                [src]="community.image_url"
+                *ngIf="community.image_url"
+                [alt]="community.name"
+                class="community__imageBox__image"
+                onerror="this.src='https://web.likeminds.community/assets/images/svg/default-gray.svg'"
+            />
+            <img
+                src="https://web.likeminds.community/assets/images/svg/default-gray.svg"
+                *ngIf="!community.image_url"
+                [alt]="community.name"
+                class="community__imageBox__image"
+            />
+        </div>
+        <div class="community__details col-9">
+            <div class="community__details--name">{{ community.name }}</div>
+            <div class="community__details--count">{{ community.members_count }} members</div>
+        </div>
+    </div>
+</div>

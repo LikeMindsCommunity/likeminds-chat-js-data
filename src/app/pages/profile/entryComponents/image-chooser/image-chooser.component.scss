@@ -1,0 +1,47 @@
+.image-chooser-wrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    .cross-div {
+        margin-right: -10px;
+
+        .close-icon {
+            width: 8px;
+            height: 8px;
+    
+            img {
+                float: right
+            }
+        }
+    }
+
+    .icons {
+        display: flex;
+        flex-direction: row;
+        margin: 10px;
+
+        .icon {
+            display: flex;
+            flex-direction: column;
+            margin-right: 25px;
+
+            label {
+                input[type="file"] {
+                    display: none;
+                }
+
+                img {
+                    height: 40px;
+                    width: 40px;
+                }
+    
+                h4 {
+                    color: #7d7d7d;
+                    font-size: 14px;
+                    margin: 10px 0;
+                }
+            }
+        }
+    }
+}

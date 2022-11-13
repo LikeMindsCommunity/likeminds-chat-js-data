@@ -1,0 +1,21 @@
+<section class="join-community">
+    <div class="text-heading" *ngIf="!isMobile">Join Community</div>
+
+    <div><p class="text-body">Join this community to access detailed member profiles.</p></div>
+
+    <div class="community-card">
+        <div class="community-image"><img src="{{community?.image_url_round}}" /></div>
+        <div class="community-detail">
+            <div class="community-name">{{community?.name}}</div>
+            <div class="community-member-name">Managed by {{admins[0].name.slice(0, 9)}}... +{{ admins.length -1 }}</div>
+            <div class="members-count">{{community?.members_count}} Members</div>
+        </div>
+        <div class="next-icon"><img src="../../../../assets/images/svg/right-arrow-grey.svg" /></div>
+    </div>
+
+    <div class="join-button" (click)="joinCommunity()">
+        <button>JOIN COMMUNITY</button>
+    </div>
+</section>
+
+

@@ -1,0 +1,30 @@
+<section class="card-wrapper">
+    <div class="cross-div">
+        <span class="close-icon"><img src="https://web.likeminds.community/assets/images/svg/cross.svg" (click)="close()" /></span>
+    </div>
+
+    <div class="header">Member profile not accessible</div>
+
+    <div class="body">
+        <div class="para">
+            Your account is pending for approval from the community managers. Once a manager approves, you would be able to view the member
+            profiles.
+        </div>
+        <div class="para">Once verified, we will notify you.</div>
+        <div class="para">Meanwhile you can download the app.</div>
+    </div>
+
+    <div class="desktop-buttons" *ngIf="data?.isDesktop">
+        <button click="downloadApp('appstore')">
+            <img src="https://web.likeminds.community/assets/images/svg/appstore-grey.svg" /> DOWNLOAD IOS APP
+        </button>
+        <button (click)="downloadApp('playstore')">
+            <img src="https://web.likeminds.community/assets/images/svg/playstore.svg" /> DOWNLOAD ANDROID APP
+        </button>
+    </div>
+
+    <div class="mobile-buttons" *ngIf="!data?.isDesktop">
+        <button class="not-selected" click="close()">DISMISS</button>
+        <button class="selected" (click)="download()">DOWNLOAD APP</button>
+    </div>
+</section>

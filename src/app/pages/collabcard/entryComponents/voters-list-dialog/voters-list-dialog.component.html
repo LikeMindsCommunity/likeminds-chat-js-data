@@ -1,0 +1,54 @@
+<div class="voters-list-dialog">
+    <div class="header d-flex justify-content-between">
+        <div class="d-flex align-items-center">
+            <img
+                src="https://web.likeminds.community/assets/images/svg/back-navigation-arrow.svg"
+                (click)="close()"
+                class="back-btn d-block d-sm-none"
+            />
+            <span class="title"> Poll Results </span>
+        </div>
+        <div class="d-sm-block d-none">
+            <img src="https://web.likeminds.community/assets/images/svg/cm-cancel-icon.svg" mat-dialog-close class="close-btn" />
+        </div>
+    </div>
+    <div class="polls-scroll d-flex">
+        <div
+            class="poll-option d-flex flex-column align-items-center"
+            [ngClass]="{ selected: poll.selected, 'not-selected': !poll.selected }"
+            (click)="switchPoll(poll.id)"
+            [ngStyle]="{ width: getWidth() }"
+            *ngFor="let poll of polls"
+        >
+            <div class="no">{{ poll.no_votes }}</div>
+            <div class="text text-center">{{ poll.text }}</div>
+        </div>
+    </div>
+    <div class="poll-users" *ngIf="poll_users?.length > 0">
+        <div *ngFor="let user of poll_users; index as i" class="user">
+            <div class="user-img">
+                <img
+                    [src]="user.image_url || 'https://web.likeminds.community/assets/images/png/avatar.png'"
+                    alt="user_img"
+                    (click)="openProfile(user)"
+                />
+            </div>
+            <div class="details">
+                <div class="name">{{ user.name }}</div>
+                <div class="about" *ngIf="!user.custom_intro_text; else noProfile">{{ getIntroduction(i) | ellipsisWord: 45 }}</div>
+                <ng-template #noProfile>
+                    <div class="about">{{ user.custom_intro_text }}</div>
+                </ng-template>
+            </div>
+
+            <!-- <hr class="divider" *ngIf="i !== poll_users.length - 1" /> -->
+        </div>
+        <div class="spacer" *ngIf="poll_users?.length > 0"></div>
+    </div>
+    <div *ngIf="poll_users?.length === 0" class="no-users">
+        <div class="text-center">
+            <img src="https://web.likeminds.community/assets/images/svg/fallback-tree.svg" />
+            <div class="text">No Responses</div>
+        </div>
+    </div>
+</div>

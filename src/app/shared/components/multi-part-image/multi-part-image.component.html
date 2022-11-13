@@ -1,0 +1,72 @@
+<div [ngClass]="{'multipart-image-group-small': size === 'small', 'multipart-image-group-large': size === 'large'}" >
+  <!-- One Profile Pic -->
+  <ng-container *ngIf="data.length === 1">
+    <div class="d-flex wid-100 justify-content-center align-items-center" *ngFor="let item of data">
+      <img [src]="item.image_url" class="image-single" [alt]="item.name" (error)="setDefaultPic1($event, item.name)"
+      *ngIf="imgInitShow1" />
+      <div *ngIf="!imgInitShow1" class="name" [ngStyle]="{'background-color': circleColor}"><span>{{imgInit1}}</span></div>
+    </div>   
+  </ng-container>
+
+  <!-- Two Profile Pic -->
+  <ng-container *ngIf="data.length === 2">
+    <ng-container *ngFor="let item of data; let i = index">
+      <ng-container *ngIf="i === 0" >
+        <div class="d-flex justify-content-center col-6 align-items-center" [ngClass]="{'border-left': i === 1 }">
+          <img [src]="item.image_url" class="image-single" [alt]="item.name" (error)="setDefaultPic1($event, item.name)" *ngIf="imgInitShow1"/>
+          <div *ngIf="!imgInitShow1" class="nameInit leftImgName" [ngStyle]="{'background-color': circleColor}"><span>{{imgInit1}}</span></div>
+        </div>   
+      </ng-container>
+    </ng-container>
+    <ng-container *ngFor="let item of data; let i = index">
+      <ng-container *ngIf="i === 1" >
+        <div class="d-flex justify-content-center col-6 align-items-center" [ngClass]="{'border-left': i === 1 }">
+          <img [src]="item.image_url" class="image-single" [alt]="item.name" (error)="setDefaultPic2($event, item.name)" *ngIf="imgInitShow2"/>
+          <div *ngIf="!imgInitShow2" class="nameInit leftImgName" [ngStyle]="{'background-color': circleColor}"><span>{{imgInit2}}</span></div>
+        </div>   
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <!-- Three Profile Pic -->
+  <ng-container *ngIf="data.length === 3">
+      <div class="col-6">
+        <ng-container *ngFor="let item of data; let i = index">
+          <ng-container *ngIf="i === 0" >
+            <img 
+            [src]="item.image_url" 
+            class="image-single" 
+            [alt]="item.name"
+            (error)="setDefaultPic1($event, item.name)"
+            *ngIf="imgInitShow1"
+            />
+            <div *ngIf="!imgInitShow1" class="nameInit-left" [ngStyle]="{'background-color': circleColor}"><span>{{imgInit1}}</span></div>
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="col-6 border-left rightTwoImg">
+        <div class="col-12" *ngFor="let item of data | slice:1; let i = index">
+          <ng-container *ngIf="i === 0">
+            <img 
+              [src]="item.image_url" 
+              class="image-single" 
+              [ngClass]="{'border-bottom': i === 0 }"
+              (error)="setDefaultPic2($event, item.name)"
+              *ngIf="imgInitShow2"
+            />
+            <div *ngIf="!imgInitShow2" class="nameInit" [ngStyle]="{'background-color': circleColor}"><span>{{imgInit2}}</span></div>
+          </ng-container>
+          <ng-container *ngIf="i === 1">
+            <img 
+              [src]="item.image_url" 
+              class="image-single" 
+              [ngClass]="{'border-bottom': i === 0 }"
+              (error)="setDefaultPic3($event, item.name)"
+              *ngIf="imgInitShow3"
+              />
+              <div *ngIf="!imgInitShow3" class="nameInit" [ngStyle]="{'background-color': circleColor}"><span>{{imgInit3}}</span></div>
+          </ng-container>
+        </div>
+      </div>
+  </ng-container>
+</div>

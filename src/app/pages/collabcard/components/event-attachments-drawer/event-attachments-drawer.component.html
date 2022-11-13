@@ -1,0 +1,189 @@
+<div class="event-attachment">
+    <div class="event-attachment__top">
+        <div class="header d-flex align-items-center justify-content-between">
+            <p class="header__title">Add Recording/Attachments</p>
+            <img
+                (click)="hideAttachmentDrawer()"
+                src="https://web.likeminds.community/assets/images/svg/attachment-drawer-cancel.svg"
+                alt="cancel"
+            />
+        </div>
+
+        <div *ngIf="edit; else savedScreen" class="body-edit">
+            <div class="about">
+                <span class="about__title">About recording/attachment</span>
+                <textarea
+                    class="about__input"
+                    type="text"
+                    placeholder="e.g. here are the the recordings for the last event session"
+                    [(ngModel)]="aboutRecording"
+                    (ngModelChange)="handleAboutRecordingChange($event)"
+                ></textarea>
+            </div>
+            <div class="recording-url">
+                <span class="recording-url__title">Recording URL</span>
+                <input
+                    [(ngModel)]="recordingUrl"
+                    (ngModelChange)="handleRecordingUrlChange($event)"
+                    class="recording-url__input"
+                    type="url"
+                    placeholder="Enter URL"
+                />
+            </div>
+            <div class="attachments">
+                <div class="attachments__title">Attachments</div>
+                <div class="body">
+                    <div class="items">
+                        <div *ngFor="let attachment of attachmentData" class="item">
+                            <div (click)="openFileNewTab(attachment)" class="attachment-title">{{ attachment?.name }}</div>
+                            <img
+                                (click)="confirmDeleteAttachmentFile(attachment?.id)"
+                                class="remove-icon"
+                                src="https://web.likeminds.community/assets/images/svg/remove-event-attachment.svg"
+                                alt="remove"
+                            />
+                            <div class="attachment-metadata">
+                                <ng-container [ngSwitch]="attachment?.type">
+                                    <img
+                                        *ngSwitchCase="'image'"
+                                        src="https://web.likeminds.community/assets/images/svg/add-attachments-image.svg"
+                                        alt="attachment-image"
+                                    />
+                                    <img
+                                        *ngSwitchCase="'video'"
+                                        src="https://web.likeminds.community/assets/images/svg/add-attachments-video.svg"
+                                        alt="attachment-video"
+                                    />
+                                    <img
+                                        *ngSwitchCase="'pdf'"
+                                        src="https://web.likeminds.community/assets/images/svg/add-attachments-pdf.svg"
+                                        alt="attachment-pdf"
+                                    />
+                                </ng-container>
+                                <div class="filetype">{{ attachment?.type }}</div>
+                                <div class="invisible-triangle"></div>
+                                <ng-container [ngSwitch]="attachment?.type">
+                                    <img
+                                        *ngSwitchCase="'image'"
+                                        class="red-traingle"
+                                        src="https://web.likeminds.community/assets/images/svg/bottom-right-red-triangle.svg"
+                                        alt="red-triangle"
+                                    />
+                                    <img
+                                        *ngSwitchCase="'video'"
+                                        class="yellow-traingle"
+                                        src="https://web.likeminds.community/assets/images/svg/bottom-right-yellow-triangle.svg"
+                                        alt="yellow-triangle"
+                                    />
+                                    <img
+                                        *ngSwitchCase="'pdf'"
+                                        class="blue-traingle"
+                                        src="https://web.likeminds.community/assets/images/svg/bottom-right-blue-traingle.svg"
+                                        alt="blue-triangle"
+                                    />
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <label for="picture">
+                        <div class="add-attachment">
+                            <img src="https://web.likeminds.community/assets/images/svg/add-attachment-gray.svg" alt="add-attachment" />
+                            <input
+                                multiple
+                                type="file"
+                                id="picture"
+                                #fileInput
+                                (change)="uploadAllFiles($event.target.files)"
+                                accept="image/*, video/*,application/pdf"
+                            />
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #savedScreen>
+            <div class="body-saved">
+                <div *ngIf="aboutRecording" class="about">
+                    {{ aboutRecording }}
+                </div>
+                <div *ngIf="recordingUrlOgTags" class="recording-url">
+                    <div class="recording-url__title">Recording URL</div>
+                    <div (click)="openLinkNewTab(recordingUrlOgTags?.url)" class="recording-url__body">
+                        <img *ngIf="recordingUrlOgTags?.image" class="thumbnail" [src]="recordingUrlOgTags?.image" alt="thumbnail" />
+                        <div [ngStyle]="{ width: recordingUrlOgTags?.image ? '70%' : '100%' }" class="details">
+                            <div *ngIf="recordingUrlOgTags?.title" class="title">
+                                {{ recordingUrlOgTags?.title }}
+                            </div>
+                            <div *ngIf="recordingUrlOgTags?.description" class="sub-title">{{ recordingUrlOgTags?.description }}</div>
+                            <div *ngIf="recordingUrlOgTags?.url" class="url" [innerHTML]="recordingUrlOgTags?.url | memberTag"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="attachmentData.length > 0" class="attachments">
+                    <div class="attachments__title">Attachments</div>
+
+                    <div class="body">
+                        <div *ngFor="let attachment of attachmentData" class="item">
+                            <div (click)="openFileNewTab(attachment)" class="attachment-title">{{ attachment?.name }}</div>
+
+                            <div class="attachment-metadata">
+                                <ng-container [ngSwitch]="attachment?.type">
+                                    <img
+                                        *ngSwitchCase="'image'"
+                                        src="https://web.likeminds.community/assets/images/svg/add-attachments-image.svg"
+                                        alt="attachment-image"
+                                    />
+                                    <img
+                                        *ngSwitchCase="'video'"
+                                        src="https://web.likeminds.community/assets/images/svg/add-attachments-video.svg"
+                                        alt="attachment-video"
+                                    />
+                                    <img
+                                        *ngSwitchCase="'pdf'"
+                                        src="https://web.likeminds.community/assets/images/svg/add-attachments-pdf.svg"
+                                        alt="attachment-pdf"
+                                    />
+                                </ng-container>
+                                <div class="filetype">{{ attachment?.type }}</div>
+                                <div class="invisible-triangle"></div>
+                                <ng-container [ngSwitch]="attachment?.type">
+                                    <img
+                                        *ngSwitchCase="'image'"
+                                        class="red-traingle"
+                                        src="https://web.likeminds.community/assets/images/svg/bottom-right-red-triangle.svg"
+                                        alt="red-triangle"
+                                    />
+                                    <img
+                                        *ngSwitchCase="'video'"
+                                        class="yellow-traingle"
+                                        src="https://web.likeminds.community/assets/images/svg/bottom-right-yellow-triangle.svg"
+                                        alt="yellow-triangle"
+                                    />
+                                    <img
+                                        *ngSwitchCase="'pdf'"
+                                        class="blue-traingle"
+                                        src="https://web.likeminds.community/assets/images/svg/bottom-right-blue-traingle.svg"
+                                        alt="blue-triangle"
+                                    />
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="attachmentView === 2" class="edit-btn"><span (click)="goToEdit()" style="cursor: pointer">EDIT</span></div>
+            </div>
+        </ng-template>
+    </div>
+
+    <div *ngIf="edit" class="event-attachment__bottom">
+        <div
+            [ngClass]="{ 'enable-done': enableDoneBtn, 'disable-done': !enableDoneBtn }"
+            (click)="uploadRecordingsMeta()"
+            class="btn-submit"
+        >
+            DONE
+        </div>
+    </div>
+</div>

@@ -1,0 +1,326 @@
+.left-panel {
+    position: fixed;
+    height: calc(100vh - 64px);
+    width: 96px;
+    background: #ffffff;
+    z-index: 99;
+    justify-content: space-between;
+    text-align: left;
+    border-right: 1px solid #dae1ee;
+
+    .icon {
+        padding: 14.2px 30px;
+        border-left: 2px solid #ffffff;
+        position: relative;
+
+        img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .warning-image {
+            position: absolute;
+            height: 25px;
+            width: 25px;
+            border-radius: 0%;
+            bottom: 8px;
+            right: 27px;
+        }
+
+        .counter {
+            height: 20px;
+            width: 20px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+            background-color: #f02849;
+            border-radius: 50%;
+            color: #ffffff;
+            text-align: center;
+            position: absolute;
+            top: 15%;
+            right: 26%;
+        }
+
+        &:hover,
+        &.active {
+            border-left: 2px solid #0ad260;
+            transition: 0.3s all ease-in-out;
+        }
+    }
+
+    &__top {
+        &--nav-item {
+            display: flex;
+            justify-content: center;
+            margin-top: 12px;
+            width: 100%;
+            height: 64px;
+            border-left: 4px solid #ffffff;
+            position: relative;
+
+            .hide_dm_snackbar {
+                position: absolute;
+                left: 17px;
+                padding: 8px;
+                background: #484f67;
+                color: white;
+                border-radius: 4px;
+                width: 296px;
+                font-size: 12px;
+                line-height: 16px;
+                z-index: 99;
+                bottom: -44px;
+                &::after {
+                    position: absolute;
+                    content: '';
+                    width: 0px;
+                    height: 0px;
+                    border-top: 7px solid transparent;
+                    border-right: 7px solid transparent;
+                    border-bottom: 7px solid #484f67;
+                    border-left: 7px solid transparent;
+                    top: -14px;
+                    left: 24px;
+                }
+            }
+
+            &:hover,
+            &.active-route {
+                border-left-color: var(--buttons_icons_colour, #00897b);
+                transition: 0.3s all ease-in-out;
+                .item-container {
+                    background-color: #e6ebf5;
+                }
+            }
+            .dm-btn {
+                position: relative;
+                border-radius: 20px;
+                padding: 17px 15px 16px 14px;
+
+                img {
+                    margin-bottom: 0;
+                    height: 35px;
+                    width: 34px;
+                    cursor: pointer;
+                    z-index: 45;
+                }
+                &__new-tag {
+                    background: var(--chatroom-count-background);
+                    border-radius: 9px;
+                    font-weight: 700;
+                    font-size: 12px;
+                    line-height: 14px;
+                    color: #ffffff;
+                    padding: 3px 5px;
+                    position: absolute;
+                    top: 10px;
+                    left: 35px;
+                }
+
+                &__count-tag {
+                    background: var(--chatroom-count-background);
+                    border-radius: 50%;
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 15px;
+                    letter-spacing: 0.155844px;
+                    color: #ffffff;
+                    padding: 5px;
+                    width: auto;
+                    text-align: center;
+                    min-width: 25px;
+                    min-height: 25px;
+                    position: absolute;
+                    top: 10px;
+                    left: 35px;
+                }
+            }
+
+            .item-container {
+                border-radius: 20px;
+                padding: 17px 15px 16px 14px;
+                width: fit-content;
+                cursor: pointer;
+                position: relative;
+
+                img {
+                    height: 31px;
+                    width: 33px;
+                }
+
+                .red-dot {
+                    height: 10px;
+                    width: 10px;
+                    background: #ff0000;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 19px;
+                    right: 11px;
+                }
+
+                .new-chatroom-count {
+                    height: 25px;
+                    width: 25px;
+                    position: absolute;
+                    background: var(--chatroom-count-background);
+                    border-radius: 50%;
+                    top: 2px;
+                    right: 5px;
+
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 14px;
+                    text-align: center;
+                    color: #ffffff;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+
+    &__bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .active-route {
+            .dm-btn {
+                background-color: #e6ebf5;
+            }
+        }
+        .dm-wrapper {
+            &:hover {
+                .dm-btn {
+                    background-color: #e6ebf5;
+                }
+            }
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        img {
+            margin-bottom: 32px;
+            height: 33px;
+            width: 31px;
+            cursor: pointer;
+        }
+    }
+
+    .border {
+        background: #d0d8e2;
+        height: 1px;
+        width: 65px;
+        margin: 0px auto;
+    }
+
+    &__body {
+        max-height: calc(100vh - 310px);
+        height: 100%;
+        overflow: hidden;
+
+        .content {
+            float: left;
+        }
+        .content:hover {
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            overflow-y: scroll;
+        }
+    }
+
+    &__footer {
+        margin: 2px 0 0;
+        max-width: 96px;
+        .position-relative {
+            position: relative !important;
+
+            button {
+                padding: 5px 0px;
+            }
+        }
+
+        button {
+            border: none;
+            background-color: transparent;
+        }
+    }
+}
+
+.counter-1 {
+    height: 19px;
+    width: 19px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    background-color: #f02849;
+    border-radius: 50%;
+    color: #ffffff;
+    text-align: center;
+    position: absolute;
+    top: 15%;
+    right: 26%;
+    position: absolute;
+    right: -14px;
+    margin-top: 13px;
+}
+
+.counter-menu {
+    margin-top: 12px !important;
+    right: 20px !important;
+}
+
+::ng-deep .mat-menu-content {
+    padding: 0px !important;
+}
+
+::ng-deep .left-panel-options {
+    margin-left: 51px;
+    border-radius: 10px !important;
+    width: 200px;
+    margin-top: -112px;
+    box-shadow: 0px 0px 20px rgb(0 0 0 / 16%) !important;
+    .left-panel-option {
+        margin-bottom: 0px !important;
+        padding: 16px !important;
+    }
+    .first {
+        margin-top: 0px !important;
+    }
+    .left-panel-option:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+}
+
+::ng-deep .left-panel__card {
+    margin-left: 83px;
+    margin-bottom: -44px !important;
+    border-radius: 8px !important;
+    padding: 0px !important;
+    width: 180px;
+    .mat-items {
+        padding: 10px 25px !important;
+        margin-bottom: 0px !important;
+    }
+    .first {
+        padding-top: 18px !important;
+    }
+    .red {
+        color: red;
+        //padding-bottom: 18px !important;
+    }
+    .mat-items:hover {
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .left-panel {
+        display: none;
+    }
+}

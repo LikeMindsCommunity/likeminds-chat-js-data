@@ -1,0 +1,120 @@
+.report-page-wrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background: #ffffff;
+    z-index: 1082;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 5px;
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px 40px 15px;
+        margin: 0 -20px;
+        border-bottom: 1px solid #7d7d7d;
+
+        .title {
+            font-size: 20px;
+            color: #e60000;
+            font-weight: bold;
+        }
+
+        .close-icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .body {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+
+        .details {
+            margin: 10px 15px;
+            font-size: 14px;
+    
+            .secondary-header {
+                font-weight: 500;
+                margin-bottom: 10px;
+            }
+    
+            .description {
+                margin-top: 5px;
+                color: #666666;
+            }
+        }
+
+        button {
+            border-radius: 25px;
+            padding: 9px 18px;
+            margin: 10px 7px;
+        }
+    
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 10px 5px;
+            font-size: 15px;
+            max-width: 325px;
+    
+            .not-selected-problem {
+                border: 1px solid #9b9b9b;
+                color: #9b9b9b;
+                background: #ffffff;
+            }
+    
+            .selected-problem {
+                border: 1px solid #ffffff;
+                color: #ffffff;
+                background: #075e54;
+            }
+        }
+    
+        .others-input {
+            margin: 10px 15px;
+            font-size: 15px;
+            color: #9b9b9b;
+    
+            input {
+                border-radius: 25px;
+                border: 1px solid #9b9b9b;
+                padding: 5px 25px;
+                width: 320px;
+                height: 40px;
+            }
+        }
+    
+        .report-button {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            padding: 10px 20px;
+            font-size: 12px;
+    
+            button {
+                border: none;
+                justify-content: center;
+                color: #ffffff;
+                width: 50%;
+                font-size: 13px;
+            }
+    
+            .selected-button {
+                background: #d0021b;
+            }
+    
+            .not-selected-button {
+                background: #9b9b9b;
+            }
+        }
+    }
+}

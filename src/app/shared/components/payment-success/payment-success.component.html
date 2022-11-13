@@ -1,0 +1,26 @@
+<!-- *ngIf="showContent" -->
+<div class="wrapper">
+    <div class="flex-column d-flex justify-content-center align-items-center body__section">
+        <div class="d-flex flex-column justify-content-center align-content-between text-center body__section-inner">
+            <div class="body__container">
+                <div class="tick"></div>
+                <!-- <img  src="https://web.likeminds.community/assets/images/png/tick-inside-circle.png" alt="tick"> -->
+                <h4 class="body_heading_paymentId">PAYMENT ID {{ paymentId }}</h4>
+                <h1 class="body_heading_renew"><b>Payment Successfully received </b></h1>
+                <br />
+                <h3 class="explore__heading">Continue to join community <br /></h3>
+                <!-- <button class="community-button" *ngIf="!feed_url" [routerLink]="['/community_feed/' + communityId]" >JOIN COMMUNITY</button> -->
+                <button class="community-button">
+                    <a style="text-decoration: none; color: white" target="_blank" [href]="privateLink">JOIN COMMUNITY</a>
+                </button>
+                <!-- <p class="invoice__para">Print Invoice</p> -->
+            </div>
+        </div>
+        <div class="mail_holder">
+            <p class="mail_para">
+                For further queries, contact us at <br />
+                <a class="mail" href="mailto:hello@likeminds.community">hello@likeminds.community</a>
+            </p>
+        </div>
+    </div>
+</div>

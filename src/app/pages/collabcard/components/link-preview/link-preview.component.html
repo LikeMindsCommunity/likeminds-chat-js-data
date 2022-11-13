@@ -1,0 +1,17 @@
+<div class="link-preview d-flex" (click)="redirect(linkPreview.og_tags.url)">
+    <div [ngClass]="{'no-image': !linkPreview.og_tags.image}"
+        class="img d-flex align-items-center justify-content-center">
+        <img [src]="linkPreview.og_tags.image ? linkPreview.og_tags.image : 'assets/images/svg/Frame1.svg'" alt="">
+    </div>
+    <div class="text text-start d-flex flex-column">
+        <div class="title">
+            {{linkPreview.og_tags.title}}
+        </div>
+        <div class="description">
+            {{linkPreview.og_tags.description}}
+        </div>
+        <div class="url">
+            {{linkPreview.og_tags.url}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="7" viewBox="0 0 100 7">
+    <g fill="none" fill-rule="evenodd">
+        <g fill="#EEE">
+            <g>
+                <g transform="translate(-130 -156) translate(0 143) translate(130 13)">
+                    <rect width="100" height="7" rx="3.5"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,75 @@
+header.base-header {
+    height: 64px;
+    vertical-align: middle;
+    z-index: 1;
+
+    .trancate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+    }
+
+
+    .back-img {
+      cursor: pointer;
+    }
+    a img {
+        position: absolute;
+        width: 24px;
+        left: 0;
+        margin: 18px 15px;
+    }
+    .heading {
+        display: block;
+    }
+    .download-links {
+        padding: 18px;
+    }
+    .chatroom-detail {
+        margin-top: 13px;
+        .title-group {
+            flex: 1 1 0;
+            text-align: left;
+            overflow: auto;
+            .title {
+                font-weight: normal !important;
+                font-size: 20px !important;
+                white-space: nowrap;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .sub-title {
+                color: #b8d5d3 !important;
+                font-size: 14px !important;
+                white-space: nowrap;
+            } 
+        }
+    }
+    .chatroom-action {
+        margin-top: 20px;
+        img {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+    }
+}
+
+@media screen and (max-width: 425px) {
+    header.base-header {
+        .heading {
+            display: block !important;
+            p.title {
+                margin-left: 35px;
+                padding: 20px;
+            }
+        }
+        .download-link-section {
+            position: absolute;
+            right: -12px;
+            top: 3px;
+            width: 85%;
+        }
+    }
+}

@@ -1,0 +1,46 @@
+.country-selector {
+    height: 100%;
+    .fixed {
+      padding: 8px 16px 0;
+    }
+    input {
+        height: 48px;
+        border: solid 1px #d0d8e2;
+        background-color: #ffffff;
+    }
+    input::placeholder {
+        font-size: 15px;
+        color: #d0d8e2;
+    }
+    .country-list {
+        overflow: auto;
+        padding: 0 8px 0 16px;
+        max-height: calc(80vh - 109px);
+        min-height: 10vh;
+        .item {
+            height: 48px;
+            div .flag {
+                font-size: 29px;
+            }
+        }
+        .item:hover {
+            background-color: #edf1f5;
+        }
+        &::-webkit-scrollbar {
+            display: block;
+            width: 8px;
+        }
+        &::-webkit-scrollbar-thumb {
+            display: block;
+            background: rgba(0,0,0,0.6);
+            border-radius: 4px;
+            height: 28px;
+        }
+    }
+}
+
+::ng-deep .country-list {
+  overflow: hidden;
+  max-height: 100%;
+  padding: 0;
+}

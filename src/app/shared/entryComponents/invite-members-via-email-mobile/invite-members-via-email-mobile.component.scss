@@ -1,0 +1,107 @@
+.via-email-mobile {
+    height: 100vh;
+    font-family: Roboto;
+    font-style: normal;
+    .info-section {
+        font-weight: normal;
+        font-size: 14px;
+        width: 300px;
+        margin: 13px auto;
+        line-height: 18px;
+        text-align: center;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        color: rgba(72, 79, 103, 0.5);
+    }
+    .invite-header-wrapper-mobile {
+        display: flex;
+        background: var(--header_colour, white);
+        padding: 20px;
+        gap: 20px;
+        box-shadow: 0px 0px 4px rgb(0 0 0 / 12%), 0px 4px 4px rgb(0 0 0 / 4%);
+    }
+    .invite-header_content {
+        font-weight: normal;
+        font-size: 20px;
+        line-height: 23px;
+        color: var(--header_text_colour, black);
+    }
+    .invite-content-container {
+        padding: 20px;
+    }
+}
+.upload-download-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+.download-csv {
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: right;
+    color: #979797;
+    cursor: pointer;
+}
+.upload-csv {
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: right;
+    color: var(--buttons_icons_colour, #00897b);
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.send-btn-wrapper-mobile {
+    width: 100%;
+    height: 48px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 24px;
+    .send-btn-cta-mobile {
+        height: 100%;
+        width: 100%;
+        border-radius: 4px;
+        opacity: 1;
+        padding: 0;
+        border: 0;
+        background: var(--buttons_icons_colour, #00897b);
+        color: #ffffff;
+        font-weight: 500;
+    }
+}
+
+.email-input {
+    width: 100%;
+    background: #ffffff;
+    box-sizing: border-box;
+    border-radius: 4px;
+    height: 48px;
+    margin-bottom: 10px !important;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.text-area-input {
+    padding: 20px;
+    min-height: 245px;
+    background: #ffffff;
+    border: 1px solid rgba(72, 79, 103, 0.2);
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+.mat-chip-error {
+    color: #fb1609;
+    background: rgba(251, 22, 9, 0.1);
+}
+.invite-member {
+    .icon-error-style {
+        color: #fb1609;
+        opacity: 1;
+    }
+}

@@ -1,0 +1,140 @@
+.emoji-list-mobile {
+    &__header {
+        border-bottom: 1px solid rgba(208, 216, 226, 0.5);
+        .top-graphic {
+            width: 100px;
+            height: 7px;
+            background: #eeeeee;
+            border-radius: 4px;
+            margin: 0 auto;
+            margin-top: 8px;
+        }
+
+        &-text {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 18px;
+            color: #000000;
+
+            text-align: left;
+            margin: 24px 0 18px 24px;
+        }
+
+        .emoji-details {
+            overflow-x: auto;
+            display: flex;
+            &__box {
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 24px;
+                color: #666666;
+
+                white-space: nowrap;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                margin: 0 16px;
+                height: 30px;
+
+                &-info {
+                    display: flex;
+
+                    .emoji {
+                        font-family: Roboto;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 20px;
+                        line-height: 24px;
+                        color: #000000;
+
+                        margin-right: 9px;
+                    }
+
+                    .value {
+                        font-family: Roboto;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 24px;
+                        color: #666666;
+                    }
+                }
+
+                .box-bottom-border {
+                    height: 2px;
+                    background: none;
+                    border-radius: 2px;
+                    width: 62px;
+                    margin-top: 4px;
+                }
+
+                &.selected-emoji {
+                    .box-bottom-border {
+                        background: var(--text_links_colour, #06c3af);;
+                    }
+                    .value {
+                        color: var(--text_links_colour, #06c3af);;
+                    }
+                }
+            }
+        }
+    }
+
+    &__body {
+        padding: 14px 18px 0 23px;
+        height: 173px;
+        overflow-y: auto;
+        .member-details {
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            &__left {
+                display: flex;
+                align-items: center;
+                img {
+                    height: 42px;
+                    width: 42px;
+                    border-radius: 50%;
+                }
+
+                &-info {
+                    margin-left: 9px;
+                    .member-name {
+                        font-family: Roboto;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 14px;
+                        line-height: 18px;
+                        color: #000000;
+                    }
+
+                    .remove-emoji-btn {
+                        font-family: Roboto;
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 14px;
+                        line-height: 18px;
+                        color: #666666;
+                    }
+                }
+            }
+            &__right {
+                font-family: Roboto;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 30px;
+                line-height: 35px;
+            }
+        }
+    }
+}
+
+::ng-deep .mat-bottom-sheet-container {
+    padding: 0 !important;
+}

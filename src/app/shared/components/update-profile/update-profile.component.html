@@ -1,0 +1,35 @@
+<div class="update-profile-sheet-container mx-2">
+    <div class="text-center show-sm">
+        <img class="rectangle" src="https://web.likeminds.community/assets/images/svg/rectangle.svg" alt="Rectangle" />
+    </div>
+    <div class="text-end">
+        <img
+            class="cursor-pointer"
+            (click)="close.emit(false)"
+            src="https://web.likeminds.community/assets/images/svg/cross.svg"
+            alt="Cancel"
+        />
+    </div>
+    <div class="text-center my-3">
+        <img
+            class="user-img br50"
+            [src]="user?.image_url"
+            onerror="this.src='assets/images/svg/profile-img-bg-gray.svg';"
+            alt="{{ user?.name }}"
+            width="64"
+            height="64"
+        />
+    </div>
+    <div class="seperator text-center">
+        <div class="sm-seperator mx-auto mb-1"></div>
+        <div class="lg-seperator mx-auto mb-3"></div>
+    </div>
+    <p class="heading fs16 fw500 c0 text-start">Update profile to continue</p>
+    <p class="content fs14 text-start my-3">
+        You need to update your community profile to attend a private event, see the list of members attending and view other members’
+        profiles.
+    </p>
+    <div class="text-center">
+        <button class="update-profile cF fs13 fw500 border-0 px-5" (click)="update.emit()">UPDATE PROFILE</button>
+    </div>
+</div>

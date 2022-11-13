@@ -1,0 +1,66 @@
+:focus, button:focus{
+    outline: transparent !important;
+    box-shadow: none;
+}
+.eventContent{
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 20px;
+
+    .close{
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        cursor: pointer;
+    }
+    h2{
+        color: #000000;
+        font-size: 1rem;
+        font-weight: 500;
+        margin: 0 0 8px 0;
+        line-height: 18px;
+    }
+    p{
+        color: #666666;
+        font-size: .825rem;
+        margin: 0px;
+        padding: 0;
+    } 
+
+    &__header{
+        margin: 0 0 25px;
+    }
+
+    .btn-box{
+        justify-content: flex-end;
+
+         button{
+            text-decoration: none;
+            text-transform: uppercase; 
+            font-size: 14px;
+            margin: 0 0 0 40px;
+            padding: 0;
+            letter-spacing: 0.5px;
+         }
+         button.text-custom{
+             color: #666666;
+         }
+         button.text-success{
+             color: #00897b;
+         }
+    }
+    
+      
+    .btn-create{
+        background: #d0d8e2;
+        box-shadow: 0 0 8px 0 rgba(224, 224, 224, 0.4);
+    }
+    .btn-green{
+        background: #00897b;
+        box-shadow: 0 0 8px 0 rgba(0, 67, 34, 0.4);
+    }
+     
+}
+ 

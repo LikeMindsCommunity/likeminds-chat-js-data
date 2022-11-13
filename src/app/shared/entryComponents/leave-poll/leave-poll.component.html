@@ -1,0 +1,17 @@
+<section class="modal-small p-2 position-relative">
+    <div class="d-flex justify-content-end close postion-absolute t0 r0 hide-sm">
+        <img class="cursor=pointer" (click)="dialogRef.close()" src="https://web.likeminds.community/assets/images/svg/cross.svg" alt="" />
+    </div>
+    <div class="body mx-2">
+        <p class="heading d-flex justify-content-start fs16 mt-4 fw500">Poll not submitted</p>
+
+        <p class="content text-start">
+            You are moving away from participating in this poll. Your selected options will be discarded if you leave now without submitting
+            your vote.
+        </p>
+    </div>
+    <div class="fs13 fw500 d-flex justify-content-end text-uppercase mt-5 pe-4">
+        <p (click)="leave()" class="link cursor-pointer">EXIT POLL</p>
+        <p (click)="stay()" class="link cursor-pointer ps-5 cG">CONTINUE TO POLL</p>
+    </div>
+</section>

@@ -1,0 +1,25 @@
+<div class="notifications">
+    <div *ngFor="let notification of notifications" class="notification" [ngClass]="className(notification)">
+        <ng-container *ngTemplateOutlet="notificationTpl; context: { notification: notification }"></ng-container>
+    </div>
+</div>
+
+<ng-template #notificationTpl let-notification="notification">
+    <div class="contentBox" (click)="goToLocation(notification)">
+        <img [src]="notification.logo" class="rounded me-2" alt="logo" *ngIf="notification.logo; else defaultLogo" />
+        <ng-template #defaultLogo>
+            <img src="../../../../assets/images/png/logo.png" class="rounded me-2" alt="logo" />
+        </ng-template>
+        <div>
+            <div class="title" fxLayout="row" fxLayoutAlign="space-between center">
+                <div>{{ notification.communityName }}</div>
+                <div>{{ notification.title }}</div>
+                <!-- <button mat-icon-button (click)="close(notification)" matTooltip="Close the notification" matTooltipPosition="before"> -->
+                <!-- &times; -->
+                <!-- <mat-icon>cancel</mat-icon> -->
+                <!-- </button> -->
+            </div>
+            <div class="message">{{ notification.message }}</div>
+        </div>
+    </div>
+</ng-template>

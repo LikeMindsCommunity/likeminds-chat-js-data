@@ -1,0 +1,51 @@
+.choice-dialog-wrap {
+  font-family: "Roboto", serif;
+  position: relative;
+  .handle-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: none;
+  }
+  h2, h3 {
+    text-align: center;
+  }
+  h2 {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: rgba(0, 0, 0, 0.87);
+  }
+  h3 {
+    font-size: 16px;
+    line-height: 1.43;
+    color: #666666;
+  }
+  .button-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    button {
+      width: 100%;
+      border-radius: 22px;
+      color: white;
+      box-shadow: 0 0 8px 0 rgb(0 67 34 / 40%);
+      background-color: #00897b;
+    }
+  }
+
+  @media screen and (max-width: 425px) {
+    & {
+      padding: 16px;
+      .handle-wrap {
+        display: flex;
+      }
+      .button-wrap {
+        button {
+          width: auto;
+        }
+      }
+    }
+  }
+}

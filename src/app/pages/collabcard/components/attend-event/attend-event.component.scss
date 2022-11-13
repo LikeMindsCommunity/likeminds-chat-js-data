@@ -1,0 +1,40 @@
+.send-response-section {
+    .joined-community-section,
+    .leave-community-section {
+        margin: 20px 20px 20px 10px;
+    }
+    .joined-community-section .form-check,
+    .leave-community-section .form-check {
+        display: flex;
+        padding-left: 15px;
+        justify-content: space-between;
+        width: 100%;
+        font-size: 16px;
+        line-height: 1.13;
+    }
+    .joined-community-section {
+        p.content {
+            line-height: 1.31;
+            color: #9b9b9b;
+        }
+        button.add-to-calendar {
+            border-radius: 20px;
+            border: solid 1px #00897b;
+            background-color: #ffffff;
+            letter-spacing: 0.5px;
+            text-align: justify;
+            color: #00897b;
+        }
+    }
+    .seperator {
+        height: 1px;
+        background-color: rgba(0, 0, 0, 0.12);
+        margin: 0 40px 0 25px;
+    }
+    button.btn-submit {
+        height: 44px;
+        border-radius: 22px;
+        box-shadow: 0 0 8px 0 rgba(0, 67, 34, 0.4);
+        background-color: #00897b;
+    }
+}

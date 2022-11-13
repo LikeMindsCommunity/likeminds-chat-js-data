@@ -1,0 +1,71 @@
+<ng-container>
+    <div class="label fs14 c6 float-start ms-2 mb-2 d-flex position-relative w-100">
+        <div class="text-start w90">{{ question?.question_title }} <span *ngIf="!question?.optional" class="text-danger"> *</span></div>
+
+        <div
+            class="intro-tooltip position-absolute wow animate__animated animate__bounceIn {{ tooltip?.className }}"
+            *ngIf="tooltip?.display"
+        >
+            {{ tooltip?.message }}
+        </div>
+        <circle-progress
+            style="width: 43px; height: 43px; right: 23px; bottom: -10px"
+            class="position-absolute circle"
+            [percent]="progress"
+            [radius]="4"
+            [outerStrokeWidth]="2"
+            [innerStrokeWidth]="2"
+            [space]="-2"
+            [outerStrokeColor]="
+                branding?.advanced?.buttons_icons_colour
+                    ? branding?.advanced?.buttons_icons_colour
+                    : branding?.basic?.primary_colour
+                    ? branding?.basic?.primary_colour
+                    : outerStroke
+            "
+            [innerStrokeColor]="
+                branding?.advanced?.buttons_icons_colour
+                    ? branding?.advanced?.buttons_icons_colour
+                    : branding?.basic?.primary_colour
+                    ? branding?.basic?.primary_colour
+                    : innerStroke
+            "
+            [titleFontSize]="2"
+            [unitsFontSize]="2"
+            [showTitle]="false"
+            [showUnits]="false"
+            [showSubtitle]="false"
+            [animation]="true"
+            [animationDuration]="300"
+            [startFromZero]="false"
+            [responsive]="true"
+        >
+        </circle-progress>
+    </div>
+    <mat-form-field
+        class="text-overflow text-area introduction w-100"
+        [ngClass]="{ invalid: control.errors && formSubmitted }"
+        floatLabel="never"
+    >
+        <textarea
+            matInput
+            [placeholder]="question?.help_text"
+            (keyup)="textareaInput($event, question?.options?.min_chars, question?.options?.max_chars)"
+            (focus)="tooltip.display = false"
+            [formControl]="control"
+            name="introduction"
+            autocomplete="off"
+            [value]="question?.value"
+            [required]="!question?.optional"
+        ></textarea>
+    </mat-form-field>
+    <div class="invalid-feedback ms-2 d-block text-start" *ngIf="control.errors && formSubmitted">This is a mandatory field</div>
+    <div class="hint w-100 d-flex">
+        <p (click)="openHint()" class="float-start fs13 ms-2 mt-1 cursor-pointer hide-sm bs-open">
+            Here are few examples <img src="https://web.likeminds.community/assets/images/svg/arrow-drop-up.svg" alt="" />
+        </p>
+        <p (click)="openHintBottomSheet()" class="float-start fs13 ms-2 mt-1 cursor-pointer show-sm bs-open">
+            Here are few examples <img src="https://web.likeminds.community/assets/images/svg/arrow-drop-up.svg" alt="" />
+        </p>
+    </div>
+</ng-container>

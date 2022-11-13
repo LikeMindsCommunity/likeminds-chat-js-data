@@ -1,0 +1,73 @@
+.verify-otp-container {
+    min-height: calc(100vh - 60px);
+    background-color: #d0d8e2;
+    .row {
+        .message span {
+            box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.24), 0 0 6px 0 rgba(0, 0, 0, 0.12);
+        }
+        .card {
+            width: 30%;
+            padding-left: 50px;
+            padding-right: 50px;
+            border-radius: 8px !important;
+            box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.24);
+            section .container {
+                button {
+                    box-shadow: 0 0 8px 0 rgba(0, 67, 34, 0.4);
+                    background-color: #00897b;
+                    height: 48px;
+                    width: 40%;
+                }
+                p.timer,
+                span.timer {
+                    color: #06c3af;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1440px) {
+    .verify-otp-container .row {
+        .card {
+            width: 40%;
+            section .container {
+                button {
+                    width: 55%;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .verify-otp-container .row {
+        .card {
+            width: 55%;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .verify-otp-container .row {
+        .card {
+            width: 75%;
+        }
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .verify-otp-container .row {
+        .card {
+            width: 100%;
+            min-height: calc(100vh - 7vh);
+            margin-top: 0;
+            padding-top: 50px !important;
+            section .container {
+                button {
+                    width: 85%;
+                }
+            }
+        }
+    }
+}

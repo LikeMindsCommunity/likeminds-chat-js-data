@@ -1,0 +1,14 @@
+<section class="modal-small p-3 position-relative">
+    <div class="d-flex justify-content-end close position-absolute t0 r0 hide-sm">
+        <img class="cursor=pointer" (click)="dialogRef.close()" src="https://web.likeminds.community/assets/images/svg/cross.svg" alt="" />
+    </div>
+    <div class="body mx-2">
+        <p class="heading d-flex justify-content-start fs16 mt-4 fw500">Email already taken</p>
+
+        <p class="content text-start">{{ content }}</p>
+    </div>
+    <p (click)="mergeAccount()" class="link cursor-pointer fs13 fw500 d-flex justify-content-end text-uppercase mt-4">Merge Accounts</p>
+    <p (click)="useAnotherEmail()" class="link cursor-pointer fs13 fw500 d-flex justify-content-end text-uppercase mt-4 mb-0">
+        Use Another Email ID
+    </p>
+</section>

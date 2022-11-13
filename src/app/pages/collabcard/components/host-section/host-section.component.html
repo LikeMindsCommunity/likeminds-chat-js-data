@@ -1,0 +1,38 @@
+<div class="event-hosts">
+  <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item" data-bs-interval="10000" *ngFor="let host of hosts; let i = index"
+        [ngClass]="{ active: i == 0 }">
+        <div class="slide">
+          <div class="admin-detail position-relative" (click)="openProfile(host)">
+            <img class="user-image" [src]="host.image_url" onerror="src='assets/images/svg/default.jpg'"
+              alt="{{ host.name }}" />
+
+            <div class="member-details position-absolute b0 text-center">
+              <p class="cF fs15 fw500 mb-0 mt-1">
+                {{ host?.name | ellipsisWord: 17 }}
+              </p>
+              <div class="member-status d-inline-flex text-center mx-auto">
+                <app-badge-icon></app-badge-icon>
+                <p class="fs12 fw500 custom-title" style="margin-left: 4px">
+                  {{ host?.custom_title | ellipsisWord: 17 }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <p class="intro c0 fs16 pt-3">
+            {{ getIntro(host) | ellipsisWord: 180 }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>

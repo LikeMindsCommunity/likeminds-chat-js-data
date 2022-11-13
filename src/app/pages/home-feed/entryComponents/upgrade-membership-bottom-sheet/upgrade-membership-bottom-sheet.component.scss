@@ -1,0 +1,59 @@
+@import '../../../../../assets/scss/abstracts/variables';
+@import '../../../../../assets/scss/abstracts/functions';
+@import '../../../../../assets/scss/abstracts/mixin';
+
+.custom-container {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    @include font-size(14px);
+    @include line-height(20px);
+    img {
+        max-width: 136px;
+        max-height: 158px;
+    }
+    .title {
+        @include font-size(18px);
+        @include line-height(24px);
+        @include margin-top(8px);
+    }
+    .sub-title {
+        @include width(243px);
+        font-weight: normal;
+        color: $bs-sub-title;
+        @include margin-top(6px);
+    }
+    .btn-view-benefits {
+        background: $primary;
+        @include border-radius(22px);
+        @include padding-top-bottom(10px);
+        color: $light;
+        @include margin-top(8px);
+    }
+    .btn-not-now {
+        color: $btn-not-now;
+        @include margin-top(8px);
+    }
+}
+
+.btn-cancel {
+    @include height(20px);
+    object-fit: contain;
+}
+
+.color-primary {
+    color: $primary;
+}
+
+button {
+    @include width(312px);
+    display: block;
+    outline: none;
+    border: none;
+    background: transparent;
+}
+
+.mt-16 {
+    @include margin-top(16px);
+}
+

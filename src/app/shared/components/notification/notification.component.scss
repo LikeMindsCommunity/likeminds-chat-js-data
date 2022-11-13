@@ -1,0 +1,66 @@
+.notifications {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 99999;
+    width: 350px;
+    transition: 0.3s all ease-in-out;
+  
+    .notification {
+      margin: 5px;
+      border-radius: 5px;
+      color: #fff;
+      overflow: hidden;
+      padding: 10px;
+      box-shadow: 0 0 1px #ccc;
+
+      .contentBox{
+       display: flex; 
+       position: relative;
+       cursor: pointer;
+      }
+      img{
+        height: 60px;
+        width: 60px;
+      }
+      .title {
+        // background: rgba(0, 0, 0, 0.6);
+        margin: 0px;
+        padding: 0px;
+        color: #393939;
+        font-weight: bold;
+        font-size: 14px;
+      }
+      button{
+        background: none;
+        border: none;
+        position: absolute;
+        right: -11px;
+        top: -5px;
+      }
+      .message {
+        // background: rgba(0, 0, 0, 0.4);
+        font-size: 14px;
+        color: #666666;
+        margin: 0px;
+        padding: 0px; 
+      }
+  
+      &.info {
+        background-color: rgb(236 240 244 / 95%)
+      }
+  
+      &.success {
+        background-color: rgba(27, 158, 119, 0.9);
+      }
+  
+      &.warning {
+        background-color: rgba(217, 95, 2, 0.9);
+      }
+  
+      &.error {
+        background-color: rgba(246, 71, 71, 0.9);
+      }
+    }
+  }
+  

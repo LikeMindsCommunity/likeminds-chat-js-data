@@ -1,0 +1,94 @@
+<div class="chatroom-header">
+    <div class="chatroom-header__left-part">
+        <!-- Intro-room thread view -->
+        <div *ngIf="showIntroThreadView; else normalView" class="intro-thread">
+            <img
+                (click)="handleBackButtonClick()"
+                class="cursor-pointer"
+                src="https://web.likeminds.community/assets/images/svg/back-navigation-arrow.svg"
+            />
+            <div class="intro-thread__details">
+                <div class="intro-thread__details__title">Active Threads</div>
+                <div class="intro-thread__details__sub-title">
+                    {{ introRoomThreadConvCount === 0 ? 'No' : introRoomThreadConvCount }} Active Threads
+                </div>
+            </div>
+        </div>
+
+        <ng-template #normalView>
+            <img
+                (click)="back()"
+                class="cursor-pointer me-2"
+                src="https://web.likeminds.community/assets/images/svg/back-navigation-arrow.svg"
+            />
+
+            <div class="chatroom-header__left-part__image">
+                <app-multi-part-image [size]="'small'" [data]="imageList"></app-multi-part-image>
+            </div>
+            <div class="chatroom-header__left-part__details">
+                <div class="chatroom-header__left-part__details__name">
+                    <span *ngIf="chatroom?.type == 10">{{ getChatroomName() | ellipsisWord: 32 }}</span>
+                    <span *ngIf="chatroom?.type !== 10">{{ chatroom?.header | ellipsisWord: 32 }}</span>
+
+                    <img
+                        *ngIf="chatroom?.is_secret"
+                        src="https://web.likeminds.community/assets/images/svg/secret_lock_icon.svg"
+                        class="imgLock"
+                    />
+                    <span [ngSwitch]="chatroom?.type">
+                        <span *ngSwitchCase="1">
+                            <img src="https://web.likeminds.community/assets/images/svg/1.svg" />
+                        </span>
+                        <span *ngSwitchCase="2">
+                            <app-calendar-round-icon class="margin-icon"></app-calendar-round-icon>
+                        </span>
+                        <span *ngSwitchCase="3">
+                            <app-poll-icon class="margin-icon scale-0-9"></app-poll-icon>
+                        </span>
+                        <span *ngSwitchCase="6">
+                            <app-calendar-round-icon class="margin-icon"></app-calendar-round-icon>
+                        </span>
+                        <span *ngSwitchCase="7">
+                            <img src="https://web.likeminds.community/assets/images/svg/7.svg" />
+                        </span>
+                    </span>
+                </div>
+                <ng-container *ngIf="isIntroductionsRoom; else participantCount">
+                    <div class="chatroom-header__left-part__details__participants-count">{{ community?.name }}</div>
+                </ng-container>
+                <ng-template #participantCount>
+                    <div class="chatroom-header__left-part__details__participants-count" *ngIf="participantsCount">
+                        {{ participantsCount }} participants
+                    </div>
+                </ng-template>
+            </div>
+        </ng-template>
+    </div>
+    <div *ngIf="!showIntroThreadView" class="chatroom-header__right-part">
+        <!--        <img src="https://web.likeminds.community/assets/images/svg/search-icon.svg" />-->
+        <div *ngIf="isIntroductionsRoom" class="thread-button" (click)="handleThreadButtonClick()">
+            <span *ngIf="introRoomThreadConvCount" class="d-flex align-items-center justify-content-center thread-button__count">
+                {{ introRoomThreadConvCount }}
+            </span>
+            <img src="https://web.likeminds.community/assets/images/svg/thread-button.svg" />
+        </div>
+        <mat-icon [matMenuTriggerFor]="menu">more_vert</mat-icon>
+        <mat-menu #menu="matMenu">
+            <ng-container *ngFor="let action of chatroomActions">
+                <button mat-menu-item (click)="takeAction(action)">{{ action.title }}</button>
+            </ng-container>
+
+            <!-- <ng-container *ngFor="let action of chatroomActions">
+                <ng-container *ngIf="action.id !== 17 && action.id !== 6">
+                    <button *ngIf="action.id !== 12" mat-menu-item (click)="takeAction(action)">{{ action.title }}</button>
+                </ng-container>
+                <ng-container *ngIf="action.id === 17">
+                    <button *ngIf="action.id !== 12" mat-menu-item (click)="goToPage()">{{ action.title }}</button>
+                </ng-container>
+            </ng-container>
+            <ng-container>
+                <button mat-menu-item (click)="viewParticipants()" *ngIf="chatroom?.is_secret">View Participants</button>
+            </ng-container> -->
+        </mat-menu>
+    </div>
+</div>

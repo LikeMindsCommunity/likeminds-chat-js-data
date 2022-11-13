@@ -1,0 +1,13 @@
+<p class="{{ classes }}" style="word-break: break-word; white-space: pre-wrap">
+    {{ data | ellipsis: showMore:characterCount }}
+    <img
+        *ngIf="dataLength > characterCount && !showMore"
+        title="Read More"
+        (click)="toggleShowMore()"
+        class="cursor-pointer show-more"
+        src="https://web.likeminds.community/assets/images/svg/expand.svg"
+    />
+    <span class="cursor-pointer d-inline-block btn-readless" (click)="toggleShowMore()" *ngIf="dataLength > characterCount && showMore"
+        >Show less</span
+    >
+</p>

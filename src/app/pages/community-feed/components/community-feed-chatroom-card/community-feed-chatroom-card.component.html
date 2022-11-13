@@ -1,0 +1,104 @@
+<div class="chatroom-card" [routerLink]="url" routerLinkActive="active-card" (click)="hideMediaPopup()">
+    <div class="chatroom-card__image">
+        <app-profile-image [photoUrl]="chatroom?.member?.image_url" [name]="chatroom?.member?.name" [size]="'large'"></app-profile-image>
+        <div *ngIf="chatroom?.is_pinned" class="pinned-chatroom-icon">
+            <app-explore-feed-chatroom-pinned-green-icon></app-explore-feed-chatroom-pinned-green-icon>
+        </div>
+        <div *ngIf="!chatroom?.is_pinned && !newChatroomBtn" class="new-chatroom-btn">NEW</div>
+    </div>
+    <div class="chatroom-card__details">
+        <div class="chatroom-card__details__chatroom-header">
+            <div class="chatroom-header">
+                <div class="chatroom-header__top">
+                    <div class="chatroom-name">
+                        {{ chatroom?.header }} <span *ngIf="isPinnedChatroom">Pinned #{{ indexOfElementProp + 1 }}</span>
+                    </div>
+                    <img
+                        *ngIf="chatroom?.is_secret"
+                        src="https://web.likeminds.community/assets/images/svg/secret_lock_icon.svg"
+                        class="imgLock"
+                    />
+                    <span [ngSwitch]="chatroom?.type">
+                        <span *ngSwitchCase="1">
+                            <img src="https://web.likeminds.community/assets/images/svg/1.svg" />
+                        </span>
+                        <span *ngSwitchCase="2">
+                            <app-calendar-round-icon class="margin-icon"></app-calendar-round-icon>
+                        </span>
+                        <span *ngSwitchCase="3">
+                            <app-poll-icon class="margin-icon scale-0-9"></app-poll-icon>
+                        </span>
+                        <span *ngSwitchCase="6">
+                            <app-calendar-round-icon class="margin-icon"></app-calendar-round-icon>
+                        </span>
+                        <span *ngSwitchCase="7">
+                            <img src="https://web.likeminds.community/assets/images/svg/7.svg" />
+                        </span>
+                    </span>
+                </div>
+                <div class="chatroom-header__bottom">
+                    <div class="chatroom-header__bottom__participants">
+                        <img
+                            src="https://web.likeminds.community/assets/images/svg/explore-feed_chatroom_participants.svg"
+                            alt="participants"
+                        />
+                        {{ chatroom?.participants_count }}
+                    </div>
+                    <div class="ellipse"></div>
+                    <div class="chatroom-header__bottom__messages">
+                        <img src="https://web.likeminds.community/assets/images/svg/explore-feed_chatroom_messages.svg" alt="messages" />
+                        {{ chatroom?.total_response_count }}
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!chatroom?.access_without_subscription && membershipState === 1; else joinBtnSection" class="chatroom-non-member">
+                <img src="https://web.likeminds.community/assets/images/svg/explore-feed_non-member-chatroom.svg" alt="non-member" />
+            </div>
+            <ng-template #joinBtnSection>
+                <ng-container *ngIf="!guestUser">
+                    <ng-container *ngIf="!chatroom?.is_secret">
+                        <div *ngIf="chatroomFollowStatus; else joinBtn" (click)="followChatroom($event, false)" class="chatroom-joined-btn">
+                            <app-explore-feed-joined-chatroom-icon class="chatroom-joined-btn__svg"></app-explore-feed-joined-chatroom-icon>
+                            Joined
+                        </div>
+                        <ng-template #joinBtn>
+                            <div (click)="followChatroom($event, true)" class="chatroom-join-btn">
+                                <img
+                                    src="https://web.likeminds.community/assets/images/svg/explore-feed_join-chatroom.svg"
+                                    alt="join-chatroom"
+                                />
+                                Join
+                            </div>
+                        </ng-template>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="guestUser">
+                    <ng-container *ngIf="!chatroom?.is_secret">
+                        <div *ngIf="chatroomFollowStatus; else joinBtn" (click)="sdkGuestUser()" class="chatroom-joined-btn">
+                            <app-explore-feed-joined-chatroom-icon class="chatroom-joined-btn__svg"></app-explore-feed-joined-chatroom-icon>
+                            Joined
+                        </div>
+                        <ng-template #joinBtn>
+                            <div (click)="sdkGuestUser()" class="chatroom-join-btn">
+                                <img
+                                    src="https://web.likeminds.community/assets/images/svg/explore-feed_join-chatroom.svg"
+                                    alt="join-chatroom"
+                                />
+                                Join
+                            </div>
+                        </ng-template>
+                    </ng-container>
+                </ng-container>
+            </ng-template>
+        </div>
+
+        <div class="chatroom-card__details__last-message">
+            <span [innerHTML]="chatroom?.title | memberTag"></span>
+        </div>
+
+        <!-- <div class="chatroom-card__details__counters">
+            29 2
+        </div> -->
+    </div>
+</div>

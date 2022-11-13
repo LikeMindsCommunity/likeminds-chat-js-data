@@ -1,0 +1,44 @@
+.circle-large {
+    border-radius: 50%;
+    width: 54px;
+    height: 54px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+    .img { 
+        width: 54px;
+        background-size: cover;
+        background-position: center;
+        height: 54px;
+    }
+
+    .initials {
+        color: #ffffff;
+        font-size: 20px;
+        line-height: 19px;
+        letter-spacing: 0.2625px;
+    }
+}
+
+.circle-small {
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    overflow: hidden;
+    
+    .img { 
+        width: 42px;
+        background-size: cover;
+        background-position: center;
+        height: 42px;
+    }
+
+    .initials {
+        color: #ffffff;
+        font-size: 20px;
+        line-height: 19px;
+        letter-spacing: 0.2625px;
+    }
+}

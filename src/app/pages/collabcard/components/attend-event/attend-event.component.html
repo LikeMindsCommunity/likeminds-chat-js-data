@@ -1,0 +1,63 @@
+<section class="send-response-section w-100">
+    <div class="text-center" *ngIf="isSheet">
+        <img src="https://web.likeminds.community/assets/images/svg/rectangle.svg" alt="" />
+    </div>
+    <div class="w-100 d-flex justify-content-end close hide-sm">
+        <img
+            src="https://web.likeminds.community/assets/images/svg/cross.svg"
+            (click)="close.emit({ value: false, attending: false })"
+            class="cursor-pointer"
+            alt="Close"
+        />
+    </div>
+    <div class="content mx-4 mb-5">
+        <p class="heading fs24 font-weight-bold c0">Your response</p>
+    </div>
+
+    <div class="joined-community-section">
+        <div class="form-check">
+            <label class="form-check-label" for="joinedCommunity"> Attending </label>
+            <input
+                class="form-check-input"
+                type="radio"
+                name="exampleRadios"
+                [checked]="choice"
+                [value]="true"
+                [(ngModel)]="choice"
+                id="joinedCommunity"
+                value="option2"
+            />
+        </div>
+        <p class="content fs13 my-3 px-3">
+            You have responded to attend this event. You can also add this event to your personal calendar and get notification when the
+            event starts.
+        </p>
+
+        <button *ngIf="choice" class="add-to-calendar fs12 fw500 ml-3 py-2 px-3" (click)="addToCalendar()">ADD TO CALENDAR</button>
+    </div>
+    <div class="seperator"></div>
+    <div class="leave-community-section">
+        <div class="form-check">
+            <label class="form-check-label" for="leaveCommunity"> Not Attending </label>
+            <input
+                class="form-check-input"
+                type="radio"
+                name="exampleRadios"
+                [checked]="!choice"
+                [value]="false"
+                [(ngModel)]="choice"
+                id="leaveCommunity"
+                value="option2"
+            />
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-submit px-5 my-4" (click)="attendEvent()">
+            <p class="fs13 fw500 cF mb-0" *ngIf="!isLoading">Done</p>
+            <div class="spinner-border spinner-border-custom text-light" *ngIf="isLoading" role="status">
+                <!-- <span class="sr-only">Loading...</span> -->
+            </div>
+        </button>
+    </div>
+</section>

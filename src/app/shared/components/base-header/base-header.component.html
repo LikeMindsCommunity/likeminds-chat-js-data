@@ -1,0 +1,74 @@
+<header class="base-header w-100 {{ data?.background }} text-center" *ngIf="!data?.isChatroom">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4">
+            <ng-container *ngIf="data?.back">
+                <ng-container *ngIf="data?.backLink; then backLinkTemplate"></ng-container>
+                <ng-template #backLinkTemplate>
+                    <a (click)="goBack()" class="cursor-pointer">
+                        <img src="https://web.likeminds.community/assets/images/svg/white-back-arrow.svg" alt="back arrow" />
+                    </a>
+                </ng-template>
+            </ng-container>
+            <div
+                class="title-group text-start mt-3 ms-5"
+                *ngIf="data.title === 'Members' || data.title === 'Participants' || data.title === 'Members Attending'"
+            >
+                <p class="title cF fs18 fw500 mb-0">{{ data?.title }}</p>
+                <p class="trancate sub-title mb-0 cF">{{ data?.subTitle }}</p>
+            </div>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 pl-0">
+            <div class="d-flex justify-content-center" *ngIf="data?.showLogo">
+                <img
+                    [routerLink]="['/']"
+                    src="https://web.likeminds.community/assets/images/svg/logo-with-name.svg"
+                    class="logo p-3 cursor-pointer hide-sm"
+                    alt="LikeMindsWeb"
+                />
+            </div>
+        </div>
+
+        <div class="download-link-section col-sm-4 col-md-4 col-lg-4 my-3 text-end">
+            <div
+                class="download-links d-inline hide-sm"
+                [ngClass]="{ 'd-inline': screenType === 'desktop' || screenType === 'tab', 'd-none': screenType === 'mobile' }"
+            >
+                <ng-container *ngIf="data?.showDownloadLink">
+                    <span class="cF fs14">Try mobile apps: </span>
+                    <img
+                        (click)="openLink('playstore')"
+                        class="mx-3 cursor-pointer"
+                        src="https://web.likeminds.community/assets/images/svg/playstore.svg"
+                        alt="PlayStore"
+                    />
+                    <img
+                        (click)="openLink('appstore')"
+                        class="cursor-pointer"
+                        src="https://web.likeminds.community/assets/images/svg/appstore.svg"
+                        alt="AppStore"
+                    />
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</header>
+
+<header class="base-header w-100 {{ data?.background }} text-center" *ngIf="data?.isChatroom">
+    <div class="d-flex justify-content-between">
+        <div class="chatroom-detail d-inline-flex w-100">
+            <img
+                (click)="redirectBack()"
+                *ngIf="data?.back"
+                src="https://web.likeminds.community/assets/images/svg/white-back-arrow.svg"
+                class="back-img ms-3"
+                alt=""
+            />
+            <app-chatroom-image class="ms-3 my-auto" [data]="data"></app-chatroom-image>
+            <div class="title-group text-start ms-2">
+                <p class="title cF fs18 fw500 mb-0">{{ data?.title }}</p>
+                <p class="sub-title mb-0 cF">{{ data?.subTitle }}</p>
+            </div>
+        </div>
+    </div>
+</header>

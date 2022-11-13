@@ -1,0 +1,32 @@
+.chatroom-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    right: 0;
+    max-width: calc(100% - 455px);
+    height: calc(100vh - 63px);
+    width: 100%;
+    z-index: 10;
+
+    .cross-img {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        cursor: pointer;
+    }
+
+    .overlay-message {
+        max-width: 610px;
+        padding: 250px 70px 30px 40px;
+        .message p {
+            line-height: 1.65;
+            font-size: 17px;
+            text-align: left;
+        }
+    }
+    img.cancel {
+        position: absolute;
+        cursor: pointer;
+        top: 10px;
+        right: 10px;
+    }
+}

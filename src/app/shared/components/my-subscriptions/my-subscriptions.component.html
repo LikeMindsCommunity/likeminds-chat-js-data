@@ -1,0 +1,233 @@
+<div *ngIf="mySubscription; else showExploreCommunityInfo" class="my-subscription-container">
+    <div class="my-subscription-container__header d-flex align-items-center">
+        <div class="my-subscription-container__header__div">Subscription</div>
+    </div>
+
+    <div class="my-subscription-container__body position-relative">
+        <div class="my-subscription-container__body__card position-relative">
+            <div class="my-subscription-container__body__card__header align-items-center justify-content-center">
+                <div class="d-flex flex-column justify-content-between align-items-center">
+                    <img [src]="mySubscription?.community?.image_url" alt="" />
+                    <h4>{{ mySubscription?.community?.name }}</h4>
+                </div>
+            </div>
+
+            <div class="my-subscription-container__body__card__body d-flex flex-column">
+                <div class="my-subscription-container__body__card__body__section d-flex flex-column">
+                    <div class="d-flex pb-1 justify-content-between">
+                        <div class="d-flex flex-column pb-2">
+                            <p
+                                class="fw-bold mb-2 membership-title"
+                                *ngIf="mySubscription?.membership_state == 1 || mySubscription?.membership_state == 2"
+                            >
+                                Membership plan
+                            </p>
+                            <p
+                                class="fw-bold mb-2 membership-title"
+                                *ngIf="mySubscription?.membership_state == 0 || mySubscription?.membership_state == 3"
+                            >
+                                Active Membership plan
+                            </p>
+                            <div *ngIf="mySubscription?.membership_state == 0 || mySubscription?.membership_state == 3">
+                                <p class="mb-0 section-para" *ngIf="mySubscription?.duration_name?.split('_').length == 1">
+                                    {{
+                                        mySubscription?.duration_name?.split('_')[0]?.charAt(0).toUpperCase() +
+                                            mySubscription?.duration_name?.split('_')[0]?.slice(1)
+                                    }}
+                                    - Rs. {{ mySubscription?.cost }} for {{ mySubscription?.duration_in_months }} month
+                                </p>
+                                <p class="mb-0 section-para" *ngIf="mySubscription?.duration_name?.split('_').length > 1">
+                                    {{
+                                        mySubscription?.duration_name?.split('_')[0]?.charAt(0).toUpperCase() +
+                                            mySubscription?.duration_name?.split('_')[0]?.slice(1) +
+                                            ' ' +
+                                            mySubscription?.duration_name?.split('_')[1]
+                                    }}
+                                    - Rs. {{ mySubscription?.cost }} for {{ mySubscription?.duration_in_months }} month
+                                </p>
+                                <p *ngIf="mySubscription?.type === 'free'" class="mb-0 section-para">FREE</p>
+                            </div>
+                            <div
+                                class="expire-danger d-flex"
+                                *ngIf="mySubscription?.membership_state == 1 || mySubscription?.membership_state == 2"
+                            >
+                                <img class="warning-img" src="../../../../assets/images/svg/warning-exclamation.svg" alt="" />
+                                <div class="warning-mssg">Expired on {{ formatDate(mySubscription?.valid_till) }}</div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="mySubscription?.type !== 'free'" class="d-flex justify-content-end align-items-center flex-grow-1">
+                            <div
+                                *ngIf="mySubscription?.membership_state == 0 || mySubscription?.plan?.is_paid === false"
+                                (click)="
+                                    openRenewal(
+                                        mySubscription?.community?.id,
+                                        mySubscription?.community?.name,
+                                        mySubscription?.membership_state,
+                                        true
+                                    )
+                                "
+                                class="my-subscription-container__body__card__body__section__btn cursor-pointer mr-1"
+                            >
+                                UPGRADE
+                            </div>
+                            <div
+                                *ngIf="mySubscription?.membership_state != 0 && mySubscription?.plan?.is_paid === true"
+                                (click)="
+                                    openRenewal(
+                                        mySubscription?.community?.id,
+                                        mySubscription?.community?.name,
+                                        mySubscription?.membership_state
+                                    )
+                                "
+                                class="my-subscription-container__body__card__body__section__btn cursor-pointer mr-1"
+                            >
+                                RENEW
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expire-danger d-flex mb-2" *ngIf="mySubscription?.membership_state == 3">
+                        <img class="warning-img" src="../../../../assets/images/svg/warning-exclamation.svg" alt="" />
+                        <div class="warning-mssg">
+                            Renewal due in {{ formatRemainingTime(mySubscription?.valid_till)['days'] }} days
+                            {{ formatRemainingTime(mySubscription?.valid_till)['hours'] }} hours
+                        </div>
+                    </div>
+                    <p class="view-history">
+                        <span class="cursor-pointer" (click)="fetchSubscriptionHistory(mySubscription?.community?.id)">View History</span>
+                    </p>
+                </div>
+
+                <div
+                    *ngIf="
+                        (mySubscription?.membership_state == 0 || mySubscription?.membership_state == 3) && mySubscription?.type !== 'free'
+                    "
+                    class="my-subscription-container__body__card__body__section d-flex flex-column"
+                >
+                    <div class="d-flex flex-column pb-3">
+                        <p
+                            class="fw-bold next-payment"
+                            *ngIf="mySubscription?.membership_state == 1 || mySubscription?.membership_state == 2"
+                        >
+                            Next payment on
+                        </p>
+                        <p
+                            class="fw-bold next-payment"
+                            *ngIf="mySubscription?.membership_state == 0 || mySubscription?.membership_state == 3"
+                        >
+                            Next payment on
+                        </p>
+                        <p class="mb-0 section-para">{{ formatDate(mySubscription?.valid_till) }}</p>
+                    </div>
+                </div>
+
+                <div
+                    *ngIf="mySubscription?.membership_state == 0 || mySubscription?.membership_state == 3"
+                    class="my-subscription-container__body__card__body__section d-flex flex-column"
+                >
+                    <div class="d-flex flex-column pb-3 benefits">
+                        <p class="benefits__text">Benefits taken</p>
+                        <div class="d-flex flex-column benefits__info">
+                            <div class="d-flex mb-2">
+                                <app-subscription-calendar-icon class="img"></app-subscription-calendar-icon>
+                                <div>Attended {{ mySubscription?.events_attended }} events</div>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <app-subscription-chats-icon class="img"></app-subscription-chats-icon>
+                                <div>Participated in {{ mySubscription?.chatroom_participated }} chat rooms</div>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <app-subscription-connection-icon class="img"></app-subscription-connection-icon>
+                                <div>Connected to {{ mySubscription?.community_members }} members</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    *ngIf="mySubscription?.community?.referral_enabled"
+                    class="my-subscription-container__body__card__body__section d-flex flex-column align-items-center"
+                >
+                    <div class="text-center refer-and-earn">REFER & EARN</div>
+                    <div class="referral-container py-4 d-flex align-items-center justify-content-center">
+                        <div class="d-flex align-items-center justify-content-center referral-sub-container">
+                            <div class="text-center d-flex flex-column align-items-center justify-content-center">
+                                <p style="margin-bottom: 4px">Refer your friends and earn free</p>
+                                <p>membership.</p>
+                                <div
+                                    (click)="openReferral(mySubscription?.community?.id)"
+                                    class="my-subscription-container__body__card__body__section__btn referral-btn cursor-pointer"
+                                >
+                                    REFER NOW
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="horizontal-line"></div>
+
+                <div class="footer">
+                    <p class="text-center mb-0">
+                        Have any feedback/query?
+                        <span
+                            ><a class="get-in-touch" href="mailto:{{ mySubscription?.get_in_touch_route?.split('=')[1].slice(0, -2) }}"
+                                >Get in touch</a
+                            ></span
+                        >
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="my-subscription-container__body__bottom mt-4 p-2">
+            <h3 class="mb-3 fw-bold">FAQs</h3>
+            <div class="my-subscription-container__body__bottom__faq_holder">
+                <div class="d-flex justify-content-between">
+                    <h4 class="question">On what platform the community is hosted?</h4>
+                    <div class="cursor-pointer" *ngIf="!showAns1" (click)="toggle(1)" >&#x2304;</div>
+                    <div class="cursor-pointer" *ngIf="showAns1" (click)="toggle(1)" >&#x2303;</div>
+                </div>
+                <h4 *ngIf="showAns1" class="answer">LikeMinds Chat App</h4>
+            </div>
+            <div class="my-subscription-container__body__bottom__faq_holder">
+                <div class="d-flex justify-content-between">
+                    <h4 class="question">Is this community paid??</h4>
+                    <div class="cursor-pointer" *ngIf="!showAns2" (click)="toggle(2)">&#x2304;</div>
+                    <div class="cursor-pointer" *ngIf="showAns2" (click)="toggle(2)">&#x2303;</div>
+                </div>
+                <h4 *ngIf="showAns2" class="answer">Yes. The community is paid and the price is starting from Rs. 99/-</h4>
+            </div>
+            <div class="my-subscription-container__body__bottom__faq_holder">
+                <div class="d-flex justify-content-between">
+                    <h4 class="question">Can people outside from India pay and join?</h4>
+                    <div class="cursor-pointer" *ngIf="!showAns3" (click)="toggle(3)">&#x2304;</div>
+                    <div class="cursor-pointer" *ngIf="showAns3" (click)="toggle(3)">&#x2303;</div>
+                </div>
+                <h4 *ngIf="showAns3" class="answer">Yes. LikeMinds is a global platform.</h4>
+            </div>
+        </div> -->
+
+        <div class="my-subscription-container__body__payment pt-4 text-center">
+            In case, your purchased a membership plan already for some other community,
+            <span class="px-0 payment-id cursor-pointer" (click)="openPaymentModal()">enter the Payment ID here.</span>
+        </div>
+    </div>
+</div>
+
+<ng-template #showExploreCommunityInfo>
+    <div class="d-flex justify-content-start flex-column align-items-center p-4 no-subscriptions-container">
+        <div class="mt-5 pt-4 d-flex flex-column justify-content-center align-items-center">
+            <img src="../../../../assets/images/png/no-data.png" alt="" />
+            <div class="no-subscriptions-container__info">
+                You are not subscribed to any paid community yet. Explore new communities and select a membership plan to subscribe.
+            </div>
+        </div>
+        <div class="no-subscriptions-container__payment pt-4 text-center">
+            In case, your purchased a membership plan already for some other community,
+            <span class="px-0 payment-id-no-data cursor-pointer" (click)="openPaymentModal()"
+                >enter the Payment ID here.</span
+            >
+        </div>
+    </div>
+</ng-template>

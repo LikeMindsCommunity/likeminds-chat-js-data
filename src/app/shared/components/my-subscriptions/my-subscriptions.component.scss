@@ -1,0 +1,274 @@
+@import '../../../../assets/scss/abstracts/_variables';
+
+.my-subscription-container {
+    height: 100%;
+    background-color: #fff;
+    &__header {
+        height: 60px;
+        width: 100%;
+        border-bottom: 1px solid #dae1ee;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 20px;
+        color: #484f67;
+
+        &__div {
+            padding: 0px 16px;
+        }
+    }
+
+    &__body {
+        // padding: 16px 16px 0px 16px;
+        overflow: scroll;
+        // height: calc(100vh - 124px);
+        height: calc(100vh - 109px);
+
+        .payment-id-no-data {
+            color: var(--buttons_icons_colour, #00897b);
+        }
+
+        &__card {
+            // border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+            background-color: #fff;
+
+            &__header {
+                height: 134px;
+                background-image: linear-gradient(to right, #075e54, #35a89b 100%);
+                border-radius: 10px 10px 0 0;
+                // display: flex;
+                display: none;
+
+                img {
+                    height: 64px;
+                    width: 64px;
+                    border-radius: 50%;
+                }
+
+                h4 {
+                    margin: 0px;
+                    margin-top: 16px;
+                    font-size: 16px;
+                    color: #fff;
+                    font-weight: 425;
+                }
+            }
+
+            &__body {
+                padding: 16px;
+
+                &__section {
+                    border-bottom: 1px solid rgba(208, 216, 226, 0.5);
+                    margin-bottom: 13px;
+
+                    .benefits {
+                        &__text {
+                            font-weight: 500 !important;
+                        }
+
+                        &__info {
+                            color: #666666;
+                        }
+                    }
+
+                    .next-payment {
+                        font-family: Roboto;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 14px;
+                    }
+
+                    .membership-title {
+                        font-family: Roboto;
+                        font-style: normal;
+                        font-weight: 500 !important;
+                        font-size: 14px;
+                        line-height: 21px;
+                        margin-bottom: 0 !important;
+                    }
+
+                    .section-para {
+                        color: #666666;
+                    }
+
+                    &__btn {
+                        padding: 8px 20px;
+                        font-weight: 425;
+                        border-radius: 20px;
+                        border: 1px solid var(--buttons_icons_colour, #00897b);
+                        color: var(--buttons_icons_colour, #00897b);
+                        margin-bottom: 8px;
+                    }
+
+                    .view-history {
+                        color: var(--buttons_icons_colour, #00897b);
+                        line-height: 16px !important;
+                    }
+
+                    .img {
+                        margin-right: 12px;
+                        height: 24px;
+                        width: 24px;
+                    }
+
+                    .referral-container {
+                        width: 280px;
+                        height: 146px;
+                        background-image: url('../../../../assets/images/svg/referral-image.svg');
+                        margin-bottom: 20px !important;
+                        margin-top: 6px !important;
+
+                        .referral-sub-container {
+                            font-size: 14px;
+                            color: #fff !important;
+                            font-weight: bold !important;
+                            background-color: rgba(0, 0, 0, 0.7);
+                            width: 100%;
+                            height: 146px;
+                            padding: 0 0 0 2px;
+                            border-radius: 8px;
+
+                            .referral-btn {
+                                border: 1px solid #fff;
+                                width: 124px;
+                                color: #fff;
+                                margin-bottom: 0px;
+                                padding: 8px 12px !important;
+                            }
+                        }
+                    }
+
+                    .refer-and-earn {
+                        color: #9b9b9b;
+                        font-size: 12px;
+                    }
+
+                    .expire-danger {
+                        color: #d0021b;
+                        margin-left: -2px;
+                    }
+
+                    .expire-danger-2 {
+                        color: #d0021b;
+                        margin-left: -3px;
+                        margin-bottom: 10px;
+                    }
+
+                    .warning-img {
+                        margin-right: 4px !important;
+                    }
+
+                    .warning-mssg {
+                        margin-top: 2px;
+                        color: #d0021b;
+                        font-weight: 425;
+                    }
+                }
+
+                .horizontal-line {
+                    width: 327px;
+                    height: 1px;
+                    background-color: #d7dde2;
+                    margin-top: -14px;
+                    margin-left: -20px;
+                }
+
+                .footer {
+                    //border-top: 1px solid #d7dde2;
+                    width: 100%;
+                    padding-top: 16px;
+
+                    .get-in-touch {
+                        color: var(--buttons_icons_colour, #00897b);
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+
+        &__bottom {
+            &__faq_holder {
+                margin-bottom: 14px;
+                border-bottom: 1px solid #d7dde2;
+                padding-bottom: 8px;
+                h4.question {
+                    font-weight: 500;
+                    margin-bottom: 7px !important;
+                    margin-right: 15px;
+                }
+
+                h4.answer {
+                    color: #666666;
+                }
+            }
+        }
+
+        &__payment {
+            font-size: 13px;
+            margin-bottom: 16px;
+            .payment-id {
+                color: var(--buttons_icons_colour, #00897b);
+                padding: 0px 10px;
+            }
+        }
+    }
+}
+
+.no-subscriptions-container {
+    color: #666666;
+    position: relative;
+    height: calc(100vh - 48px);
+    &__info {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    img {
+        height: 100px;
+        width: 100px;
+    }
+
+    &__payment {
+        position: absolute;
+        width: 100%;
+        bottom: 20px;
+        padding: 0px 20px;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .my-subscription-container {
+        background-color: #d0d8e2;
+        &__header {
+            display: none !important;
+        }
+
+        .horizontal-line {
+            width: calc(100vw - 32px);
+        }
+
+        &__body {
+            height: calc(100vh - 60px);
+            padding: 0;
+            .referral-container {
+                width: 100%;
+                height: auto;
+                padding: 0px !important;
+                .referral-sub-container {
+                    height: 146px;
+                    width: 100%;
+                    padding: 1.5rem 0px !important;
+                }
+            }
+        }
+    }
+
+    .no-subscriptions-container {
+        height: calc(100vh - 60px);
+    }
+}

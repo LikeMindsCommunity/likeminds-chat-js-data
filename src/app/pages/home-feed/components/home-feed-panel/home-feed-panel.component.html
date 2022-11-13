@@ -1,0 +1,133 @@
+<!-- Community Detail Block -->
+
+<ng-container *ngIf="showNewChatroomCommunityDetail; else homeFeed">
+    <app-community-detail
+        [communityId]="communityId"
+        [community]="community"
+        [subscribedCommunity]="subscribedCommunity"
+        [memberState]="memberState"
+        [membershipState]="membership_state"
+        (hideChatroomDetailEmitter)="hideChatroomDetailEmitter($event)"
+        [buyMembershipUrl]="buyMembershipUrl"
+        [chatroom_type]="chatroom_type"
+    ></app-community-detail>
+</ng-container>
+
+<ng-template #homeFeed>
+    <ng-container *ngIf="showChatroomDetail; else feedList">
+        <div class="text-center pt-5">
+            <chatroom-community-detail
+                [community]="community"
+                [memberState]="memberState"
+                [admins]="user"
+                [user]="user"
+                [chatroom]="chatroom"
+            >
+            </chatroom-community-detail>
+        </div>
+    </ng-container>
+
+    <ng-template #feedList>
+        <div class="home-feed-panel" *ngIf="!showMySubscription">
+            <div class="home-feed-panel__search-div">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+            </div>
+            <div (click)="openCommunityFeed()" class="home-feed-panel__community-feed">
+                <app-explore-feed-mobile-icon class="explore-icon"></app-explore-feed-mobile-icon>
+                <div class="details">
+                    <div class="details__heading">Explore</div>
+                </div>
+                <div *ngIf="newChatroomsCount" class="new-count">{{ newChatroomsCount }} NEW</div>
+            </div>
+            <div
+                class="home-feed-panel__body"
+                infiniteScroll
+                [infiniteScrollDistance]="2"
+                [infiniteScrollThrottle]="50"
+                (scrolled)="onScroll()"
+                [scrollWindow]="false"
+            >
+                <div
+                    *ngIf="warningBanner && screenType != 'mobile'"
+                    class="home-feed-panel__body__warning-banner d-flex justify-content-between align-items-center"
+                >
+                    <div class="home-feed-panel__body__warning-banner__warning">
+                        {{ warningBanner }}
+                    </div>
+                    <div (click)="openRenewal()" class="renew-div cursor-pointer">
+                        <b>RENEW</b>
+                    </div>
+                </div>
+
+                <div class="home-feed-panel__body__followed-chatrooms-heading">Joined Chat Rooms ({{ myChatrooms?.length }})</div>
+                <ng-container *ngIf="myChatrooms?.length === 0">
+                    <div class="home-feed-panel__body__no-chatrooms">
+                        <div class="home-feed-panel__body__no-chatrooms__image">
+                            <img src="https://web.likeminds.community/assets/images/png/no-data.png" />
+                        </div>
+                        <div class="home-feed-panel__body__no-chatrooms__heading">It's time to participate</div>
+                        <div class="home-feed-panel__body__no-chatrooms__body">
+                            All the chatrooms you followed have become inactive. Participate to make them active or create a new chatroom.
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="myChatrooms?.length > 0">
+                    <ng-container *ngFor="let chatroom of myChatrooms; let indexOfElement = index">
+                        <app-feed-chatroom-card
+                            [indexOfElement]="indexOfElement"
+                            [totalChatroomsCount]="myChatrooms?.length"
+                            [chatroom]="chatroom"
+                            [user]="user"
+                            (click)="markRead(chatroom)"
+                        ></app-feed-chatroom-card>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="showInactiveList">
+                    <app-feed-chatroom-card
+                        *ngFor="let chatroom of inactiveChatrooms"
+                        [chatroom]="chatroom"
+                        [user]="user"
+                        (click)="markRead(chatroom)"
+                    ></app-feed-chatroom-card>
+                </ng-container>
+
+                <div *ngIf="myChatrooms?.length" class="home-feed-panel__body__info-text">
+                    Showing above are the chatrooms joined by you. Either community managers added you to these rooms or you opted to join
+                    them.
+                </div>
+            </div>
+
+            <div
+                class="createSection"
+                *ngIf="state"
+                [ngStyle]="{ 'z-index': (chatroomService.mediaToBeUploaded$$ | async).length > 0 ? '0' : '99' }"
+            >
+                <app-create-chatroom class="w-100 h-auto" (closeSectionComponent)="createSectionComponent($event)"></app-create-chatroom>
+            </div>
+
+            <!-- <div
+                class="new-chatroom-button"
+                [ngClass]="{ 'new-chatroom-button-space-below': warningBanner }"
+                *ngIf="user && !state && newChatroomButtonStatus"
+            >
+                <button [ngStyle]="{ left: screenType !== 'mobile' ? '176px' : 'none' }" (click)="createSectionComponent('open')">
+                    <span class="img float-start"></span> NEW CHAT ROOM
+                </button>
+            </div> -->
+
+            <div *ngIf="warningBanner && screenType == 'mobile'" class="home-feed-panel__warning-banner d-flex align-items-center">
+                <div>
+                    {{ warningBanner }}
+                </div>
+                <div (click)="openRenewal()" class="renew-div cursor-pointer">
+                    <b>RENEW</b>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="showMySubscription">
+            <app-my-subscriptions [user]="user" [mySubscription]="mySubscription"></app-my-subscriptions>
+        </div>
+    </ng-template>
+</ng-template>

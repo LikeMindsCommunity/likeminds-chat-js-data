@@ -1,0 +1,184 @@
+.mb-70 {
+    margin-bottom: 70px !important;
+}
+.community-question-container .row {
+    .card {
+        width: 30%;
+        padding-left: 50px;
+        padding-right: 50px;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.24);
+        min-height: 300px;
+        margin-bottom: 50px;
+
+        .image-container,
+        .image-container img {
+            width: 85px;
+            height: 85px;
+        }
+        .image-container {
+            border-radius: 50%;
+            border: solid 1px #ffffff;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5);
+            margin-top: 15px;
+        }
+
+        .image-container {
+            position: relative;
+
+            img {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            img.camera {
+                position: absolute;
+                top: 50%;
+                left: 50%;  
+                height: 60px;
+                width: 60px;
+            }
+
+            input {
+                display: none;
+            }
+        }
+
+        .question-form {
+            .progressRing {
+                position: absolute;
+                right: 20px;
+            }
+            button.submit {
+                height: 44px;
+                width: 182px;
+                border-radius: 22px;
+                box-shadow: 0 0 8px 0 rgba(0, 67, 34, 0.4);
+                background-color: var(--buttons_icons_colour, #00897b);
+            }
+            .footer .show-sm {
+                display: none;
+            }
+        }
+        form .hint p {
+            color: var(--buttons_icons_colour, #00897b);
+        }
+        form .uploaded-file .file {
+            .file-detail .file-name {
+                width: 95px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                height: 20px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1440px) {
+    .community-question-container .row {
+        .card {
+            width: 40%;
+        }
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .community-question-container .row {
+        .card {
+            width: 55%;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .community-question-container .row {
+        .card {
+            width: 75%;
+        }
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .community-question-container .row {
+        .card {
+            width: 100%;
+            height: 100vh;
+            background-color: transparent;
+            box-shadow: none;
+            border: none;
+            position: absolute;
+            .content {
+                margin-top: 10px;
+                .community-admin-info {
+                    p {
+                        color: #ffffff !important;
+                    }
+                }
+                .image-container {
+                    margin-top: 14%;
+                }
+            }
+        } 
+    }
+
+    .mobile-footer {
+        position: fixed;
+        padding: 10px;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background: #ffffff;
+        border-top: 0.1px solid #7d7d7d;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
+        button {
+            border: none;
+            width: 40%;
+            border-radius: 25px;
+            background: var(--buttons_icons_colour, #075e54);
+            color: #ffffff;
+            padding: 5px 15px;
+            font-size: 13px;
+        }
+    }
+}
+.mb10-5 {
+    margin-bottom: 10.5rem !important;
+}
+
+@media screen and (max-width: 400px) {
+    .community-question-container .row {
+        .card .content .image-container {
+            margin-top: 13%;
+        }
+    }
+}
+
+@media screen and (max-width: 385px) {
+    .community-question-container .row {
+        .card .content .image-container {
+            margin-top: 8%;
+        }
+    }
+}
+
+@media screen and (max-width: 365px) {
+    .community-question-container .row {
+        .card .content .image-container {
+            margin-top: 0;
+        }
+    }
+}
+
+@-moz-document url-prefix() {
+    .community-question-container .row {
+        .card {
+            .question-form form {
+                margin-bottom: 70px;
+            }
+        }
+    }
+}

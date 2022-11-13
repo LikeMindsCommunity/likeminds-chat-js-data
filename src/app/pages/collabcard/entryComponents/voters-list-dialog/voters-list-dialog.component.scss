@@ -1,0 +1,148 @@
+@import '../../../../../assets/scss/abstracts/mixin';
+@import '../../../../../assets/scss/abstracts/variables';
+
+.voters-list-dialog {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .header {
+        @include padding(24px 24px 27px 24px);
+        .title {
+            @include font-size(17px);
+            @include line-height(18px);
+            font-weight: 500;
+        }
+        .close-btn {
+            @include width(24px);
+            @include height(24px);
+            cursor: pointer;
+        }
+        .back-btn {
+            @include margin-right(8px);
+            @include width(24px);
+            @include height(24px);
+            cursor: pointer;
+        }
+    }
+    .polls-scroll {
+        overflow: auto;
+        white-space: nowrap;
+        padding-block: 0.1em;
+        .poll-option {
+            @include padding-left-right(5px);
+            @include padding-bottom(6px);
+            position: relative;
+            color: $gray-medium;
+            cursor: pointer;
+            .no {
+                @include font-size(17px);
+                @include margin-bottom(3px);
+            }
+            .text {
+                @include font-size(14px);
+                width: 100%;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+    }
+    .no-users {
+        @include padding-top(150px);
+        img {
+            @include width(100px);
+            @include height(100px);
+        }
+        .text {
+            @include margin-top(16px);
+            color: $gray-medium;
+            @include font-size(14px);
+        }
+    }
+    .poll-users {
+        width: 100%;
+        max-height: 80%;
+        padding: 25px;
+        float: left;
+        overflow: auto;
+        .user {
+            width: 100%;
+            border-bottom: 1px solid #d0d8e280;
+            float: left;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+
+            .user-img {
+                @include width(54px);
+                @include height(54px);
+                border-radius: 50%;
+                overflow: hidden;
+                float: left;
+                img {
+                    cursor: pointer;
+                    @include width(54px);
+                    @include height(54px);
+                }
+            }
+            .details {
+                float: left;
+                width: 81%;
+                @include margin-left(12px);
+                @include font-size(14px);
+                @include line-height(18px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                .name {
+                    font-weight: 500;
+                    color: $dark;
+                    text-transform: capitalize;
+                    margin-top: 5px;
+                }
+                .about {
+                    color: $gray-medium;
+                }
+            }
+            // .divider {
+            //     @include margin-top-bottom(16px);
+            //     @include margin-left(66px);
+            //     @include height(1px);
+            //     mix-blend-mode: difference;
+            //     background: #d0d8e280;
+            // }
+        }
+    }
+    .spacer {
+        @include height(180px);
+        width: 100%;
+    }
+}
+
+.selected {
+    .no {
+        color: var(--text_links_colour, #06c3af);
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        width: 100%;
+        border-top: 2px solid var(--text_links_colour, #06c3af);
+    }
+}
+.not-selected {
+    &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 2px;
+        box-shadow: 0px 1px 1px 0px #0000001a;
+    }
+}

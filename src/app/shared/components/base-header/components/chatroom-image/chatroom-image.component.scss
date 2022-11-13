@@ -1,0 +1,46 @@
+.chatroom-image-group {
+    height: 36px;
+    width: 36px;
+    display: flex;
+    overflow: hidden;
+    .image-single {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+    }
+    .left-hemisphere {
+      &.half-image {
+        width: 18px;
+        img {
+          border-radius: 18px 0 0 18px;
+        }
+      }
+    }
+    .right-hemisphere {
+      display: flex;
+      flex-direction: column;
+      width: 18px;
+      .image-single {
+        border: 1px solid white;
+      }
+      &.single-half {
+        img {
+          &:first-child{
+            border-radius: 0 18px 18px 0;
+          }
+        }
+      }
+      &.double-half {
+        img {
+          height: 18px;
+          &:first-child{
+            border-radius: 0 18px 0 0;
+          }
+          &:last-child {
+            border-radius: 0 0 18px 0;
+          }
+        }
+      }
+    }
+}

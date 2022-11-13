@@ -1,0 +1,25 @@
+<div class="country-selector br8">
+    <div class="fixed">
+        <div class="d-block text-center mb-2">
+            <img src="https://web.likeminds.community/assets/images/svg/rectangle.svg" />
+            <img
+                class="position-absolute cursor-pointer r0 me-3"
+                (click)="close()"
+                src="https://web.likeminds.community/assets/images/svg/cross.svg"
+            />
+        </div>
+        <p class="fs16 fw500 c0">Select your country</p>
+        <input type="text" class="form-control br8" [(ngModel)]="searchValue" placeholder="Search country name or code" autofocus />
+    </div>
+    <div class="country-list mt-3">
+        <ng-container *ngFor="let country of countries | searchCountry: searchValue">
+            <div class="item d-flex justify-content-between cursor-pointer" (click)="select(country)">
+                <div>
+                    <span class="flag">{{ country?.flag }}</span> <span class="ms-2">{{ country?.name }}</span>
+                </div>
+                <div class="pt-3">{{ country?.dial_code }}</div>
+            </div>
+        </ng-container>
+        <div class="text-center" *ngIf="!countries || (countries && !countries.length)">No country matches with your search</div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+.card-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .close-icon {
+        width: 10px;
+        height: 10px;
+
+        img {
+            float: right
+        }
+    }
+
+    .header {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .body {
+        max-width: 250px;
+        font-size: 14px;
+
+        .para {
+            margin-bottom: 10px;
+        }
+    }
+
+    .desktop-buttons {
+        margin: 10px 0;
+        display: flex;
+        flex-direction: column;
+
+        button {
+            border: none;
+            color: #009688;
+            font-size: 13px;
+            margin: 10px 0;
+            text-align: right;
+            background: #ffffff;
+
+            img {
+                height: 27px;
+                width: 23px;
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .mobile-buttons {
+        display: flex;
+        flex-direction: row;
+        margin: 10px 0;
+        margin-left: auto;
+
+        button {
+            border: none;
+            background: #ffffff;
+            font-size: 13px;
+            text-align: right;
+            margin-right: 5px;
+        }
+
+        .not-selected {
+            color: #9b9b9b;
+        }
+
+        .selected {
+            color: #00897b;
+        }
+    }
+}

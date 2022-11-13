@@ -1,0 +1,124 @@
+@import '../../../../../assets/scss/abstracts/mixin';
+
+:host {
+    flex: 1 1 0;
+    max-width: calc(100% - 50px);
+}
+.reply-text-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(208, 216, 226, 0.5);
+    border-radius: 8px;
+    min-width: 270px;
+
+    // changes
+    overflow: hidden;
+    width: calc(100% - 8px);
+    // max-width: 380px;
+    ///
+    margin: 4px;
+    &.input {
+        max-width: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+    .content-wrap {
+        width: calc(100% - 60px);
+        border-left: 3px solid var(--buttons_icons_colour, #008274);
+        padding: 0;
+    }
+    h4 {
+        font-size: 13px;
+        color: var(--text_links_colour, #11c5b2);
+        margin: 0;
+        padding: 4px 8px 0 8px;
+        font-weight: bold;
+        max-width: 380px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
+    }
+    h5 {
+        margin: 0;
+        font-size: 13px;
+        color: #666666;
+        word-break: break-word;
+        &.normal-text {
+            padding: 0 8px 4px;
+        }
+        ::ng-deep {
+            b {
+                color:#007AFF;
+                font-weight: normal;
+            }
+            a {
+                text-underline: none;
+                cursor: pointer;
+                color: #007AFF;
+            }
+        }
+        span {
+            margin-left: -3px;
+        }
+    }
+
+    .event-card-reply {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        color: #666666;
+        word-break: break-word;
+        padding: 0 0 4px 8px;
+
+        img {
+            height: 13px;
+            width: 13px;
+            margin-right: 5px;
+        }
+    }
+
+    .sub-content-wrap {
+        display: flex;
+        align-items: center;
+        padding: 0 8px 4px;
+        img {
+            width: 15px;
+            height: 15px;
+            border-radius: 2px;
+            margin-right: 4px;
+            object-fit: contain;
+        }
+        .reply_text {
+            @include text-overflow-ellipsis();
+        }
+    }
+
+    .audio-img-wrapper {
+        background-color: #ff9500;
+        width: 53px;
+        height: 53px;
+        img {
+            height: 28px;
+            width: 28px;
+        }
+    }
+
+    .side-img-wrap {
+        width: 53px;
+        height: 53px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .preview {
+        overflow: hidden;
+        img {
+            max-width: 100%;
+            max-height: 3.5rem;
+            object-fit: contain;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+<header class="d-flex justify-content-start">
+    <div class="d-flex justify-content-between mx-3 align-items-center">
+        <img routerLink=".." class="cursor-pointer" src="../../../../assets/images/svg/back-navigation-arrow.svg" alt="">
+        <img class="community-img" src="{{communityImageUrl}}" alt="">
+        <h3 class="membership-history">Membership History</h3>        
+    </div>
+</header>
+
+<section class="d-flex flex-column align-items-center">
+    <div class="history-card" *ngFor="let history of subscriptionHistory; let i = index">
+        <div class="d-flex justify-content-between">
+            <p class="para-small">{{formatStartDate(history?.start_date)}}</p>
+            <p class="para-small active" *ngIf="i == 0">Currently Active</p>
+        </div>
+        
+        <ng-container *ngIf="history?.plan?.duration_name; else freeSubscription">
+            <h1 class="duration-heading" *ngIf="history?.plan?.duration_name?.split('_').length == 1">
+                {{history?.plan?.duration_name?.split("_")[0]?.charAt(0).toUpperCase() + history?.plan?.duration_name?.split("_")[0]?.slice(1)}}
+            </h1> 
+            <h1 class="duration-heading" *ngIf="history?.plan?.duration_name?.split('_').length > 1">
+                {{history?.plan?.duration_name?.split("_")[0]?.charAt(0).toUpperCase() + history?.plan?.duration_name?.split("_")[0]?.slice(1)}}
+            </h1>
+        </ng-container>
+
+        <ng-template #freeSubscription >
+            <h1 class="duration-heading">
+                Free
+            </h1> 
+        </ng-template>
+        <!-- *ngIf="history?.plan?.strike_cost" -->
+        <h4 class="plan-description" *ngIf="history?.plan?.cost"><span class="plan-description__strike_cost" *ngIf="history?.plan?.strike_cost || history?.plan?.strike_cost == 0">&#8377; {{history?.plan?.strike_cost}}</span> &#8377;  {{history?.plan?.cost}} for {{history?.plan?.duration_in_months}} {{history?.plan?.duration_in_months.toString().length == 1 ? 'month' : 'months'}}</h4>
+        <p class="para-small" *ngIf="history?.order_id">Order id: {{history?.order_id}}</p>
+        <p class="para-small">Subscription period: {{subscriptionPeriod(history)}}</p>
+    </div>
+</section>
+

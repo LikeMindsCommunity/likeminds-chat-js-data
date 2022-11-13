@@ -1,0 +1,109 @@
+<div *ngIf="backgroundBackdropEnabled" style="background-color: white; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh"></div>
+
+<mat-drawer-container hasBackdrop="true" *ngIf="!backgroundBackdropEnabled">
+    <mat-drawer #drawer mode="over" class="side-drawer">
+        <app-side-drawer (toggleDrawer)="drawer.toggle()"></app-side-drawer>
+    </mat-drawer>
+    <mat-drawer-content>
+        <!-- Header -->
+        <!-- *ngIf="user_exist" -->
+
+        <!-- <app-header
+            *ngIf="!hideHeader"
+            (toggleDrawer)="drawer.toggle()"
+            [changeAppHeader]="changeAppHeader"
+            [ngClass]="{ increaseHeight: hideSideBar }"
+            ></app-header> -->
+
+        <!-- /Header -->
+
+        <!-- Left Panel -->
+        <app-left-panel *ngIf="!hideSideBar"></app-left-panel>
+        <!-- /Left Panel -->
+
+        <app-media-upload-preview
+            *ngIf="(chatroomService.mediaToBeUploaded$$ | async).length > 0 && (chatroomService.showOverlayAudioUpload$$ | async)"
+            style="z-index: 2000"
+            [items]="{}"
+            [selectedFile]="(chatroomService.mediaToBeUploaded$$ | async)[0]"
+            [files]="chatroomService.mediaToBeUploaded$$ | async"
+            (closeUpload)="closeDialog()"
+            (sendFiles)="sendImages($event)"
+        ></app-media-upload-preview>
+
+        <!-- Right Panel -->
+
+        <section
+            class="dashboard dashboard_height"
+            [ngClass]="{ fullWidthDashboard: hideSideBar && !user_exist, fullHeightSection: fullHeightSection || showFullHeight }"
+        >
+            <router-outlet></router-outlet>
+
+            <!-- Footer Tabs -->
+            <div
+                class="footer-tabs"
+                *ngIf="
+                    !((chatroomService.mediaToBeUploaded$$ | async).length > 0 && (chatroomService.showOverlayAudioUpload$$ | async)) &&
+                    !(chatroomService.mediaPreviewOpened$$ | async) &&
+                    !showAttachmentScreenProps?.show &&
+                    !(utilsService.showAccountHeader$$ | async) &&
+                    user_exist &&
+                    !isChatroom &&
+                    (isHomeFeed || isEventFeed || isDM)
+                "
+            >
+                <div class="row">
+                    <div class="col">
+                        <div
+                            class="d-flex justify-content-center flex-column align-items-center"
+                            [ngClass]="{ active: activeTab === 'home-feed' }"
+                            [routerLink]="['/']"
+                        >
+                            <app-subscription-chats-icon
+                                (click)="selectTab()"
+                                [inactive]="activeTab !== 'home-feed'"
+                            ></app-subscription-chats-icon>
+                            <span class="label"> Chats </span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div
+                            class="d-flex justify-content-center flex-column align-items-center"
+                            [ngClass]="{ active: activeTab === 'event-feed' }"
+                            [routerLink]="'/event_feed/' + this.communityId"
+                        >
+                            <div class="event-tab">
+                                <app-subscription-calendar-icon
+                                    (click)="selectTab()"
+                                    [inactive]="activeTab !== 'event-feed'"
+                                ></app-subscription-calendar-icon>
+                                <span class="label"> Events </span>
+                                <span class="counts" *ngIf="unseenFeed?.count > 0"> {{ unseenFeed.count }} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col position-relative" *ngIf="showDmButton">
+                        <div class="hide_dm_snackbar" *ngIf="show_dm_text">
+                            {{ hide_dm_text }}
+                        </div>
+                        <div
+                            class="d-flex justify-content-center flex-column align-items-center"
+                            [ngClass]="{ active: activeTab === 'direct-message' }"
+                            [routerLink]="'/direct_messages/' + this.communityId"
+                        >
+                            <div class="tab dm-tab">
+                                <app-dm-tab-icon (click)="selectTab()" [inactive]="activeTab !== 'direct-message'"></app-dm-tab-icon>
+                                <span class="label"> DMs </span>
+                                <span class="counts" *ngIf="unreadDmCount && unreadDmCount > 0"> {{ unreadDmCount }} </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Tabs -->
+        </section>
+        <!--/Right Panel -->
+    </mat-drawer-content>
+</mat-drawer-container>
+
+<!-- <app-notification></app-notification> -->

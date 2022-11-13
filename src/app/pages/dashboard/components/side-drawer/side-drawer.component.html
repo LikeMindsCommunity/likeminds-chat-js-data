@@ -1,0 +1,125 @@
+<div class="side-drawer">
+    <div class="side-drawer__header">
+        <img class="side-drawer__header-image" src="https://web.likeminds.community/assets/images/svg/home_page_drawer-gray.svg" />
+        <div class="side-drawer__header-text">Your Communities</div>
+    </div>
+
+    <div class="side-drawer__body">
+        <div class="side-drawer__body-top">
+            <div class="community-list">
+                <!-- <div class="community-2">
+                    <div class="community-2__left">
+                        <img
+                            class="community-2__left__image"
+                            src="https://firebasestorage.googleapis.com/v0/b/collabmates-beta.appspot.com/o/files%2Fcommunity%2F49646%2Fimage_community_49646?alt=media&token=680d4818-21d6-4994-8d71-dbf22ff12cc3"
+                            alt="community-image"
+                        />
+                        <div class="community-2__left__details">
+                            <div class="community-2__left__details-name">Data Science Gurgaon</div>
+                            <div *ngIf="community?.click_state_value" class="community-2__left__details-subtext">{{community?.click_state_value}}</div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="community?.click_state_value" class="community-2__right">
+                        <img
+                            class="community-2__right-image"
+                            src="https://web.likeminds.community/assets/images/svg/warning-exclamation.svg"
+                            alt="warning-exclamation"
+                        />
+                    </div>
+                </div> -->
+                <div
+                    (click)="openCommunity(community)"
+                    *ngFor="let community of myCommunities"
+                    class="community-2"
+                    [ngClass]="{ 'not-selected-community': currentCommunityData?.id !== community?.id }"
+                >
+                    <div class="community-2__left-border-green"></div>
+                    <div class="community-2__details">
+                        <div class="community-2__details__left">
+                            <img
+                                [ngClass]="{ 'image-opacity': community?.click_state_value || community?.click_state_subscription_value }"
+                                class="community-2__details__left__image"
+                                [src]="community?.image_url"
+                                alt="community-image"
+                                onerror="this.src='../../../../../assets/images/png/generic_community_banner.png'"
+                            />
+                            <div class="community-2__details__left__details">
+                                <div
+                                    [ngClass]="{
+                                        'image-opacity': community?.click_state_value || community?.click_state_subscription_value
+                                    }"
+                                    class="community-2__details__left__details-name"
+                                >
+                                    {{ community?.name }}
+                                </div>
+                                <div
+                                    *ngIf="community?.click_state_value || community?.click_state_subscription_value"
+                                    class="community-2__details__left__details-subtext"
+                                >
+                                    {{
+                                        community?.click_state_value
+                                            ? community?.click_state_value
+                                            : community?.click_state_subscription_value
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            *ngIf="community?.click_state_value || community?.click_state_subscription_value"
+                            class="community-2__details__right"
+                        >
+                            <img
+                                class="community-2__details__right-image"
+                                src="https://web.likeminds.community/assets/images/svg/warning-exclamation.svg"
+                                alt="warning-exclamation"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="joinNewCommunity" (click)="openJoinCommunityModal()" class="join-community">
+                <div class="join-community__btn">
+                    <img src="https://web.likeminds.community/assets/images/svg/home_page_drawer-plus.svg" alt="plus" />
+                </div>
+                <div class="join-community__text">Join new community</div>
+            </div>
+        </div>
+
+        <div class="side-drawer__body-bottom">
+            <ng-container *ngIf="false">
+                <div *ngFor="let option of bottomMenuOptions" class="bottom-options">{{ option?.title }}</div>
+            </ng-container>
+            <div class="bottom-options likeminds-text">Powered by LikeMinds</div>
+            <div class="links">
+                <img
+                    (click)="openLink('playstore')"
+                    src="https://web.likeminds.community/assets/images/svg/google-play-image.svg"
+                    alt="google-play-image"
+                />
+                <img
+                    (click)="openLink('appstore')"
+                    src="https://web.likeminds.community/assets/images/svg/app-store-image.svg"
+                    alt="app-store-image"
+                />
+            </div>
+            <div (click)="openAccount()" class="profile-link">
+                <div class="profile-link__left">
+                    <img
+                        class="profile-link__left-image"
+                        src="https://firebasestorage.googleapis.com/v0/b/collabmates-beta.appspot.com/o/files%2Fprofile%2F765?alt=media&token=72514cae-01c9-4da9-ba72-8f557515d8a6"
+                        alt="profile-image"
+                    />
+                    <div class="profile-link__left-name">{{ user?.name }}</div>
+                </div>
+                <img
+                    class="profile-link__arrow"
+                    src="https://web.likeminds.community/assets/images/svg/home_page_drawer-arrow.svg"
+                    alt="arrow"
+                />
+            </div>
+        </div>
+    </div>
+</div>

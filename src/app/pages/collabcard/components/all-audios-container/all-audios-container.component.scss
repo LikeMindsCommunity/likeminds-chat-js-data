@@ -1,0 +1,24 @@
+.voice-message {
+    // height: 62px;
+}
+
+.more-audio-para-container {
+    // height: 30px;
+    // width: 100%;
+    height: 30px;
+    width: 100%;
+    margin-bottom: -6px;
+    margin-top: 4px;
+    .more-audio-para {
+        margin: 9px 0px 15px 9px;
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.29;
+        letter-spacing: normal;
+        color: #06c3af;
+        cursor: pointer;
+    }
+}

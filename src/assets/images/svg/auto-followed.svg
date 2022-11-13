@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="87" height="87" viewBox="0 0 87 87">
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g transform="translate(-906 -448) translate(788 448) translate(118)">
+                    <circle cx="43.5" cy="43.5" r="43" fill="#FFF" stroke="#FFF"/>
+                    <g transform="translate(7 7)">
+                        <circle cx="36.5" cy="36.5" r="39.5" fill="#3D9FCF" stroke="#A1D9AB" stroke-width="6"/>
+                        <g fill="#FFF">
+                            <path fill-opacity="0" d="M0 0H38V38H0z" transform="translate(18 18)"/>
+                            <path fill-rule="nonzero" d="M0 14.773V2.813C0 1.258 1.26 0 2.813 0h11.96c.745 0 1.46.296 1.988.824l12.415 12.415c1.099 1.098 1.099 2.879 0 3.977l-11.96 11.96c-1.098 1.099-2.879 1.099-3.977 0L.824 16.761C.296 16.234 0 15.518 0 14.773zM6.563 3.75c-1.554 0-2.813 1.26-2.813 2.813 0 1.553 1.26 2.812 2.813 2.812 1.553 0 2.812-1.26 2.812-2.813 0-1.553-1.26-2.812-2.813-2.812z" transform="translate(18 18) translate(4 4)"/>
+                        </g>
+                        <text fill="#3D9FCF" font-family="Roboto-Bold, Roboto" font-size="14" font-weight="bold">
+                            <tspan x="31.235" y="40">@</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

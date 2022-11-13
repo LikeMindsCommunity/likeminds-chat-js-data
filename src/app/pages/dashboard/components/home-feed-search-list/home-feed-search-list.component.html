@@ -1,0 +1,90 @@
+<div class="home-feed-search-list">
+    <ng-container *ngIf="isLoading; else searchResultsContainer"
+        ><div class="home-feed-search-list__loading">Searching...</div>
+    </ng-container>
+    <ng-template #searchResultsContainer>
+        <ng-container *ngIf="searchResultsChatrooms.length || searchResultsConversations.length; else noResults">
+            <div *ngIf="searchResultsChatrooms?.length" class="home-feed-search-list__chatrooms">
+                <ng-container *ngFor="let chatroom of searchResultsChatrooms">
+                    <div
+                        (click)="openChatroom(chatroom.chatroom_id, chatroom.community_id)"
+                        class="home-feed-search-list__chatrooms__chatroom"
+                    >
+                        {{ chatroom?.header }}
+                        <img
+                            *ngIf="chatroom?.is_secret"
+                            src="https://web.likeminds.community/assets/images/svg/secret_lock_icon.svg"
+                            class="imgLock"
+                        />
+                        <span [ngSwitch]="chatroom?.chatroom_type">
+                            <span *ngSwitchCase="1">
+                                <img src="https://web.likeminds.community/assets/images/svg/1.svg" />
+                            </span>
+                            <span *ngSwitchCase="2">
+                                <app-calendar-round-icon class="margin-icon"></app-calendar-round-icon>
+                            </span>
+                            <span *ngSwitchCase="3">
+                                <app-poll-icon class="margin-icon scale-0-9"></app-poll-icon>
+                            </span>
+                            <span *ngSwitchCase="6">
+                                <app-calendar-round-icon class="margin-icon"></app-calendar-round-icon>
+                            </span>
+                            <span *ngSwitchCase="7">
+                                <img src="https://web.likeminds.community/assets/images/svg/7.svg" />
+                            </span>
+                        </span>
+                    </div>
+                </ng-container>
+            </div>
+
+            <div *ngIf="searchResultsConversations?.length" class="home-feed-search-list__messages">
+                <div class="home-feed-search-list__messages__heading">Messages</div>
+
+                <ng-container *ngFor="let message of searchResultsConversations">
+                    <div
+                        (click)="openChatroom(message.chatroom_id, message.community_id, message.conversation_id)"
+                        class="home-feed-search-list__messages__message"
+                    >
+                        <div class="title">
+                            <div class="title__chatroom-name">
+                                {{ message?.header }}
+                                <img
+                                    *ngIf="message?.is_secret"
+                                    src="https://web.likeminds.community/assets/images/svg/secret_lock_icon.svg"
+                                    class="imgLock"
+                                />
+                                <span [ngSwitch]="message?.chatroom_type">
+                                    <span *ngSwitchCase="1">
+                                        <img src="https://web.likeminds.community/assets/images/svg/1.svg" />
+                                    </span>
+                                    <span *ngSwitchCase="2">
+                                        <app-calendar-round-icon class="margin-icon"></app-calendar-round-icon>
+                                    </span>
+                                    <span *ngSwitchCase="3">
+                                        <app-poll-icon class="margin-icon scale-0-9"></app-poll-icon>
+                                    </span>
+                                    <span *ngSwitchCase="6">
+                                        <app-calendar-round-icon class="margin-icon"></app-calendar-round-icon>
+                                    </span>
+                                    <span *ngSwitchCase="7">
+                                        <img src="https://web.likeminds.community/assets/images/svg/7.svg" />
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text">
+                            {{ message?.member_id === user?.id ? 'You' : message?.member_name }} :
+                            <span class="link-style" [innerHTML]="message?.text | memberTag: 'message':true:true:searchString"> </span>
+                        </div>
+                        <div [ngStyle]="{ visibility: message.follow_status ? 'hidden' : 'unset' }" class="not-joined">
+                            chatroom not joined yet
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+        <ng-template #noResults>
+            <div class="home-feed-search-list__no-results">No results found</div>
+        </ng-template>
+    </ng-template>
+</div>

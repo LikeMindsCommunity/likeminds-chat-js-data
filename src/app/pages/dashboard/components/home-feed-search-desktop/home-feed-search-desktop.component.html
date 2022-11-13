@@ -1,0 +1,36 @@
+<div (clickOutside)="handleClickOutside()" class="header__search">
+    <div [ngStyle]="{ background: showSearchList ? 'white' : 'rgba(255, 255, 255, 0.7)' }" class="header__search__input">
+        <img src="https://web.likeminds.community/assets/images/svg/search_home-feed.svg" /><input
+            type="text"
+            [placeholder]="'Search ' + (currentCommunityData?.name ? currentCommunityData?.name : '')"
+            [(ngModel)]="searchValue"
+            (ngModelChange)="handleSearch($event)"
+            (focus)="handleSearchResultsList(true)"
+        />
+        <img
+            class="header__search__input--cancel"
+            *ngIf="searchValue"
+            (click)="clearInput()"
+            src="https://web.likeminds.community/assets/images/svg/search_cross.svg"
+            alt="clear"
+        />
+    </div>
+    <div
+        *ngIf="showSearchList || isLoading"
+        infiniteScroll
+        [infiniteScrollDistance]="1"
+        [infiniteScrollThrottle]="50"
+        (scrolled)="onScroll()"
+        [scrollWindow]="false"
+        class="header__search__search-list"
+    >
+        <app-home-feed-search-list
+            [isLoading]="isLoading"
+            [searchResultsConversations]="searchResultsConversations"
+            [searchResultsChatrooms]="searchResultsChatrooms"
+            [searchValue]="searchValue"
+            (closeSearchResults)="clearInput()"
+        ></app-home-feed-search-list>
+    </div>
+</div>
+<div *ngIf="showBackdrop" class="header__backdrop"></div>

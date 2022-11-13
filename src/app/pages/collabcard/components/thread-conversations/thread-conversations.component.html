@@ -1,0 +1,123 @@
+<div class="messages px-2 h-100" [ngClass]="{ 'mb-4-5': screenType === 'mobile' }">
+    <ng-container
+        *ngIf="
+            !chatroom?.deleted_by &&
+            ([0, 1, 6, 3, 7, 9, 10].includes(chatroom?.type) || ([2].includes(chatroom?.type) && [1, 4].includes(memberState?.state))) &&
+            introData
+        "
+    >
+        <div
+            style="padding-bottom: 10px"
+            [ngClass]="{
+                'd-flex align-items-center justify-content-center h-100 ': introRoomThreadConvCount === 0
+            }"
+        >
+            <div *ngIf="introRoomThreadConvCount === 0; else threadConv" class="fallback">
+                <img class="fallback__image" src="https://web.likeminds.community/assets/images/png/57210@2x.png" />
+                <div class="fallback__text">There are no Active threads</div>
+            </div>
+            <ng-template #threadConv>
+                <div class="message" *ngFor="let message of introData; let i = index">
+                    <div class="text-center" *ngIf="message?.date !== 'undefined'">
+                        <p class="data-pill first-message d-inline-block fs14 fw500 cF">
+                            {{ message?.date }}
+                        </p>
+                    </div>
+
+                    <ng-container [ngSwitch]="message?.state">
+                        <ng-container *ngSwitchCase="0">
+                            <normal-chat-card
+                                id="{{ message?.id }}"
+                                [ngClass]="{ selected: selectedMsgs[message?.id] }"
+                                [chatroomId]="chatroom?.id"
+                                [chatroomType]="chatroom?.type"
+                                [selected]="selectedMsgs[message?.id] || false"
+                                [selectedMsgLength]="selectedMsgsLength"
+                                [communityId]="community?.id"
+                                [isOtherMember]="true"
+                                [message]="message"
+                                [isNewMessage]="isNewMessage"
+                                [wrapperClass]="message?.wrapperClass"
+                                [playingAudioId]="playingAudioId"
+                                (showGallery)="openGallery($event)"
+                                (showMediaGallery)="openMediaGallery($event)"
+                                [playGifFile]="playGifFile"
+                                [preventScrollToBottom]="preventScrollToBottom"
+                                [user]="user"
+                                [hideRetryButton]="hideRetryButton"
+                                (playingAudioIdEvent)="playingAudioIdEventFunc($event)"
+                            >
+                            </normal-chat-card>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="10">
+                            <normal-chat-card
+                                id="{{ message?.id }}"
+                                [ngClass]="{ selected: selectedMsgs[message?.id] }"
+                                [chatroomId]="chatroom?.id"
+                                [chatroomType]="chatroom?.type"
+                                [selected]="selectedMsgs[message?.id] || false"
+                                [selectedMsgLength]="selectedMsgsLength"
+                                [communityId]="community?.id"
+                                [isOtherMember]="true"
+                                [message]="message"
+                                [user]="user"
+                                [isNewMessage]="isNewMessage"
+                                [wrapperClass]="message?.wrapperClass"
+                                (showGallery)="openGallery($event)"
+                                (showMediaGallery)="openMediaGallery($event)"
+                                [playGifFile]="playGifFile"
+                                [preventScrollToBottom]="preventScrollToBottom"
+                                (playingAudioIdEvent)="playingAudioIdEventFunc($event)"
+                                [playingAudioId]="playingAudioId"
+                            >
+                            </normal-chat-card>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="1">
+                            <div class="text-center" id="{{ message?.id }}">
+                                <p class="first-message d-inline-block fs14 fw500 cF">
+                                    {{ message?.member?.name }} started this chatroom in
+                                    <span class="text-capitalize">{{ community?.name }}</span>
+                                </p>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="2">
+                            <div class="text-center" id="{{ message?.id }}">
+                                <p class="follow-text d-inline-block fs14 fw500 cF">{{ message?.member?.name }} followed this chatroom</p>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="3">
+                            <div class="text-center" id="{{ message?.id }}">
+                                <p class="unfollow-text d-inline-block fs14 fw500 cF">
+                                    {{ message?.member?.name }} unfollowed this chatroom
+                                </p>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="4">
+                            <!-- <div class="chatroom-text-created d-flex w90">
+                        <div class="user-image mb-2">
+                            <img [src]="message?.member?.image_url" alt="{{message?.member?.name}}">
+                        </div>
+                        <div class="chat-bubble my-2 p-2 ml-3">
+                            <p class="member-name">{{ message?.member?.name }}</p>
+                            <p class="text">
+                                {{ message?.answer }}
+                            </p>
+                        </div>
+                    </div> -->
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="6">
+                            <div class="text-center">
+                                <p class="unfollow-text d-inline-block fs14 fw500 cF" *ngIf="message.name | async">
+                                    <span [innerHTML]="message?.member?.name | memberTag"></span> joined via {{ user.name }}'s invite Link
+                                </p>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </ng-template>
+        </div>
+    </ng-container>
+</div>

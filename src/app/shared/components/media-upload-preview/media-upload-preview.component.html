@@ -1,0 +1,238 @@
+<div class="image-upload-wrap">
+    <div class="close-btn" *ngIf="screenType != 'mobile'" (click)="closeDialog()">
+        <img src="https://web.likeminds.community/assets/images/svg/cross-tags-2.svg" alt="close" />
+    </div>
+
+    <div
+        *ngIf="screenType == 'mobile'"
+        class="d-flex w-100 postion-absolute align-items-center justify-content-between start-0 top-0 p-3 close-and-back-btn"
+    >
+        <img
+            src="https://web.likeminds.community/assets/images/svg/white-back-arrow.svg"
+            style="height: 28px; width: 28px"
+            alt=""
+            (click)="closeDialog()"
+            alt=""
+        />
+        <img
+            src="https://web.likeminds.community/assets/images/svg/delete-preview-file.svg"
+            (click)="deleteFileFromPreview(undefined, selectedFile)"
+        />
+    </div>
+
+    <div class="image-preview-wrap" *ngIf="selectedFile && selectedFile?.file?.type.split('/')[0] == 'image'; else audioContainer">
+        <img [src]="selectedFile.blob" />
+    </div>
+
+    <ng-template #audioContainer>
+        <div
+            class="image-preview-wrap"
+            [ngStyle]="{ padding: screenType == 'mobile' ? '0px' : '16px', 'background-color': screenType == 'mobile' ? 'black' : '' }"
+        >
+            <div class="audio-container d-flex flex-column justify-content-between h-100">
+                <div class="d-flex audio-container-header">
+                    <img src="https://web.likeminds.community/assets/images/svg/headphone.svg" />
+                    <div class="ps-3 text-white d-flex flex-column align-items-start align-content-start">
+                        <span class="d-block audio-name"
+                            >{{
+                                selectedFile?.file?.name?.length > 16
+                                    ? selectedFile?.file?.name?.substring(0, 16) + '..'
+                                    : selectedFile?.file?.name
+                            }}
+                            ({{ fileSize }})</span
+                        >
+                        <span class="audio-duration-total">{{ audioDuration }}</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start flex-column justify-content-center position-relative px-3 audio-container-body">
+                    <div class="audio-container__inner">
+                        <div class="d-flex justify-content-between controls-container">
+                            <div class="audio-container__inner__controls">
+                                <div *ngIf="!showPauseButton" class="audio-container__inner__play-button" (click)="playPauseAudio()"></div>
+                                <div *ngIf="showPauseButton" class="audio-container__inner__pause-btn d-flex justify-content-between">
+                                    <div class="audio-container__inner__pause-btn__box"></div>
+                                    <div class="audio-container__inner__pause-btn__box"></div>
+                                </div>
+                                <div class="audio-container__inner__controls__timeline">
+                                    {{ utilsService.secondsTo_HH_MM_SS_converter(audio?.currentTime) }}/{{
+                                        utilsService.secondsTo_HH_MM_SS_converter(audio?.duration)
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center align-items-center cursor-pointer speaker">
+                                <img
+                                    *ngIf="showVolume"
+                                    (click)="clickVolume()"
+                                    src="https://web.likeminds.community/assets/images/svg/speaker-Volume.svg"
+                                    alt=""
+                                />
+                                <img
+                                    *ngIf="!showVolume"
+                                    (click)="clickVolume()"
+                                    src="https://web.likeminds.community/assets/images/svg/volume-mute.svg"
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+
+                        <audio class="position-absolute" id="audio" controls controlslist="nodownload">
+                            <source [src]="audioUrl" id="audioSource" type="audio/mpeg" />
+                        </audio>
+                    </div>
+
+                    <div class="audio-container__timeline">
+                        <div
+                            [ngClass]="{
+                                'audio-container__timeline__duration': files.length == 1,
+                                'audio-container__timeline__duration_multiple_audio_files': files.length > 1
+                            }"
+                            id="rangeContainer"
+                            #rangeContainer
+                        >
+                            <input type="range" step="1" min="0" max="100" id="range-input" value="{{ position }}" #durationSlider />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOR MOBILE -->
+            <div class="audio-container-mobile d-flex align-items-center justify-content-center position-relative">
+                <div class="h-100 d-flex align-items-center justify-content-center position-relativ">
+                    <div class="p-2 d-flex audio-container-mobile__controls">
+                        <img src="https://web.likeminds.community/assets/images/svg/headphone.svg" style="height: 36px; width: 36px" />
+
+                        <div class="ps-3 text-white d-flex flex-column align-items-start align-content-start">
+                            <span class="d-block audio-name"
+                                >{{
+                                    selectedFile?.file?.name?.length > 16
+                                        ? selectedFile?.file?.name?.substring(0, 16) + '..'
+                                        : selectedFile?.file?.name
+                                }}
+                                ({{ fileSize }})</span
+                            >
+                            <span class="audio-name">{{ audioDuration }}</span>
+                        </div>
+                    </div>
+
+                    <div class="position-relative play-pause-container d-flex align-items-center justify-content-center">
+                        <img
+                            src="https://web.likeminds.community/assets/images/svg/play-audio-mobile.svg"
+                            *ngIf="!showPauseButton"
+                            alt=""
+                        />
+                        <div *ngIf="showPauseButton" class="d-flex align-items-center justify-content-center pause-voice-container" alt="">
+                            <img src="https://web.likeminds.community/assets/images/svg/pause-voice.svg" />
+                        </div>
+                        <audio class="position-absolute" id="audio2" controls controlsList="nodownload novolume">
+                            <source [src]="audioUrl" id="audioSource2" type="audio/mpeg" />
+                        </audio>
+                        <div class="position-absolute audio-slider-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <div class="message-wrap">
+        <div class="send-message">
+            <ng-template #sendBtn>
+                <div class="send-btn" (click)="sendImages()">
+                    <img src="https://web.likeminds.community/assets/images/svg/send.svg" alt="send" />
+                </div>
+            </ng-template>
+            <div class="send-btn-audio" *ngIf="isAudioFile; else sendBtn" (click)="sendAudios()">
+                <div class="send-btn-audio-img d-flex justify-content-center align-items-center">
+                    <app-tick-icon></app-tick-icon>
+                </div>
+            </div>
+            <label>
+                <div class="add-image" *ngIf="selectedFile?.file.type.split('/')[0] == 'image'">
+                    <img src="https://web.likeminds.community/assets/images/svg/gallery-upload.svg" alt="add" />
+                </div>
+
+                <input
+                    type="file"
+                    *ngIf="selectedFile?.file.type.split('/')[0] == 'image'"
+                    multiple
+                    accept="image/png, image/svg, image/jpg, image/jpeg"
+                    (change)="uploadImage($event)"
+                />
+            </label>
+            <div *ngIf="!isAudioFile" class="type-message">
+                <div
+                    #chatInput
+                    (keydown)="disableUndoAndRedo($event)"
+                    (paste)="pasteItem($event)"
+                    class="input-div fs16"
+                    contenteditable="true"
+                    [mention]="items"
+                    [mentionConfig]="mentionConfig"
+                    [mentionListTemplate]="tagMemberList"
+                    (searchTerm)="getSerchResult($event)"
+                    (closed)="_mentionListOpen(false)"
+                    (opened)="_mentionListOpen(true)"
+                ></div>
+
+                <div [ngStyle]="{ display: mentionListOpen ? 'block' : 'none' }" class="arrow-down"></div>
+
+                <!-- <p *ngIf="checkTextLength()" class="placeholder fs16">Type your response</p> -->
+            </div>
+        </div>
+        <div class="thumbnail-wrapper">
+            <div
+                class="thumbnail position-relative"
+                *ngFor="let file of files; let i = index"
+                [ngClass]="{ selected: file === selectedFile }"
+                (click)="changeSelectedImage(file)"
+                (mouseover)="hideCrossDeleteFunc(i, true)"
+                (mouseout)="hideCrossDeleteFunc(i, false)"
+            >
+                <img *ngIf="file.file.type.split('/')[0] == 'image'" [src]="file.blob" alt="img" />
+                <div
+                    *ngIf="file.file.type.split('/')[0] == 'audio'"
+                    class="thumbnail__audio_image d-flex align-items-center justify-content-center flex-column"
+                >
+                    <img src="https://web.likeminds.community/assets/images/svg/headphone.svg" alt="" />
+                    <span class="text-white">
+                        {{ utilsService.secondsTo_HH_MM_SS_converter(files[i]?.meta?.duration) }}
+                    </span>
+                    <img
+                        class="position-absolute top-0 end-0 delete-cross"
+                        *ngIf="screenType != 'mobile'"
+                        [ngStyle]="{ visibility: !hideCrossDeleteBtn && index == i ? 'visible' : 'hidden' }"
+                        src="https://web.likeminds.community/assets/images/svg/cross-upload-preview.svg"
+                        (click)="deleteFileFromPreview(i, undefined)"
+                        (mouseover)="hideCrossDeleteFunc(i, true)"
+                        (mouseout)="hideCrossDeleteFunc(i, false)"
+                        alt=""
+                    />
+                </div>
+            </div>
+            <label>
+                <div class="imgBox imgBox2 cursor-pointer" *ngIf="isAudioFile && files?.length && files?.length < 10">
+                    <div class="d-flex flex-column justify-content-center align-items-center text-white inner-imgBox2">
+                        <img src="../../../../assets/images/svg/add-audio-gray.svg" alt="" />
+                    </div>
+                    <input
+                        #audioFileUpload
+                        type="file"
+                        multiple
+                        accept="audio/mpeg,audio/wav,audio/flac"
+                        (change)="uploadImage($event)"
+                        (click)="audioFileUpload.value = ''"
+                    />
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <ng-template let-item="item" #tagMemberList>
+        <div class="member-list">
+            <div class="image-wrap">
+                <img [src]="item.image_url || defaultProfileLink" (error)="onImgError($event)" [alt]="item.name" />
+            </div>
+            <h4>{{ item.name }}</h4>
+        </div>
+    </ng-template>
+</div>

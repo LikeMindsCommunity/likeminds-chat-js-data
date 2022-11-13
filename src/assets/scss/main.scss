@@ -1,0 +1,34 @@
+// Include abstract files
+
+@import 'abstracts/functions';
+@import 'abstracts/mixin';
+@import 'abstracts/placeholders';
+@import 'abstracts/variables';
+
+// Include breakpoints
+
+@import 'breakpoints/media';
+
+// Include layout
+
+@import 'layout/forms';
+@import 'layout/grid';
+@import 'layout/header';
+@import 'layout/navigation';
+
+// Include pages
+@import 'pages/fonts';
+@import 'pages/fontVar';
+@import 'pages/verticalSpacing';
+
+// Include old scss files
+
+@import "__margin.scss";
+@import "__owl_carousel";
+@import "__padding";
+@import "__margin";
+@import "__width";
+@import "__font_size";
+@import "__border_radius";
+@import "__bs";
+

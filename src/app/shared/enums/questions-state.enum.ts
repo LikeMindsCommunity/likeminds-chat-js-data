@@ -1,0 +1,13 @@
+export enum QUESTION_STATE {
+    TEXT = 0,
+    CHOICE_SINGLE = 1,
+    CHOICE_MULTIPLE = 2,
+    PARAGRAPH = 4,
+    FILE_UPLOAD = 5,
+    DATE_TIME = 6,
+    INTRODUCTION = 7,
+    PROFILE_LINK = 8,
+    MOBILE_NO = 9,
+    EMAIL_ID = 10,
+    GOOGLE_CITY_FETCH = 11,
+}

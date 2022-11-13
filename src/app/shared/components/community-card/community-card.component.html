@@ -1,0 +1,24 @@
+<section class="text-center py-4">
+    <div class="mx-auto rounded-circle">
+        <img *ngIf="community?.image_url_round || community?.image_url" class="rounded-circle mt-4 bg-theme1" [src]="community?.image_url_round || community?.image_url"
+            width="110" height="110" alt="{{ community?.name }}">
+    </div>
+    <h4 class="">{{ community?.name }}</h4>
+    <p class="c6 fs14 mb-0">Managed by
+        <ng-container *ngIf="admins && admins.length === 1">
+            {{ admins[0]?.name }}
+        </ng-container>
+        <ng-container *ngIf="admins && admins.length > 1">
+            {{ admins[0]?.name }}... +{{ admins.length -1 }}
+        </ng-container>
+
+        <span class="dot-seperator mb-1 mx-1"></span>
+        {{ community?.members_count }}
+        Members
+    </p>
+    <div class="line-seperator mx-auto my-2"></div>
+    <h5 class="fw500 c0 fs14">Private community on LikeMinds</h5>
+    <read-more [classes]="'font-weight-normal c6 fs14 w85 mx-auto text-start'" [characterCount]="readMoreCount"
+        [data]="community?.about || community?.purpose">
+    </read-more>
+</section>

@@ -1,0 +1,58 @@
+// Custom border radius classes
+.br0 {
+    border-radius: 0 !important;
+}
+.brL0 {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+.brR0 {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+.brT0 {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+.brB0 {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.br4 {
+    border-radius: 4px !important;
+}
+.brL4 {
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+}
+.brR4 {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+}
+.br8 {
+    border-radius: 8px !important;
+}
+.brL8 {
+    border-top-left-radius: 8px !important;
+    border-bottom-left-radius: 8px !important;
+}
+.brR8 {
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+.br24 {
+    border-radius: 24px !important;
+}
+.brL24 {
+    border-top-left-radius: 24px !important;
+    border-bottom-left-radius: 24px !important;
+}
+.brR24 {
+    border-top-right-radius: 24px !important;
+    border-bottom-right-radius: 24px !important;
+}
+
+.br50 {
+    border-radius: 50%;
+}

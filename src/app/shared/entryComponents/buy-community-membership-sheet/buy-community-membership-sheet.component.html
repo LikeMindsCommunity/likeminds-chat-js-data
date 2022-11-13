@@ -1,0 +1,76 @@
+<div
+    class="community-detail-wrapper d-flex flex-column justify-content-center align-items-center"
+    *ngIf="!showExpiredMembershipMessage; else membershipExpiredMessage"
+>
+    <div class="bottom-sheet-bar"></div>
+    <p class="bottom-sheet-heading">Buy community membership</p>
+    <div class="bottom-sheet-sub-heading">You are accessing a {{ chatroom_type == 2 ? 'event room' : 'chat room' }} in community:</div>
+
+    <div class="community-card d-flex w-100">
+        <img class="community-card__img" [src]="community.image_url" alt="" />
+        <div class="community-card__box d-flex justify-content-between w-100">
+            <div class="community-card__box__info">
+                <div class="community-card__box__info__name">{{ community?.name }}</div>
+                <p class="managed-span mb-0">
+                    Managed by
+                    <ng-container *ngIf="admins && admins.length === 1">
+                        <span class="total-admins">{{ admins[0]?.name }}</span>
+                    </ng-container>
+                    <ng-container *ngIf="admins && admins.length > 1">
+                        <span class="total-admins">{{ admins[0]?.name }} + {{ admins.length - 1 }}</span>
+                    </ng-container>
+                    <!-- <span class="dot-seperator mb-1 mx-1"></span> -->
+                </p>
+                <span class="managed-span">{{ community?.members_count }} Members</span>
+            </div>
+            <img class="info-icon" src="https://web.likeminds.community/assets/images/svg/right-arrow-white.svg" alt="Info" />
+        </div>
+    </div>
+
+    <div class="access-info">
+        Gain access to all community events, chat rooms and member profiles by subscribing to a membership plan of this community.
+    </div>
+
+    <!-- *ngIf="subscribedCommunity?.membership_state == 1" -->
+    <button
+        (click)="hideChatroomOverlay()"
+        *ngIf="membershipIsExpired"
+        class="btn cF mb-3 w-100 h48 br24 fs13 bg-theme2 fw500 mx-auto text-uppercase"
+        (click)="openRenewal()"
+        type="button"
+    >
+        RENEW MEMBERSHIP
+    </button>
+
+    <button
+        *ngIf="!membershipIsExpired"
+        class="btn cF mb-3 w-100 h48 br24 fs13 bg-theme2 fw500 mx-auto text-uppercase"
+        (click)="openPaymentPage()"
+        type="button"
+    >
+        BUY MEMBERSHIP
+    </button>
+    <div *ngIf="accessibleWithoutSubscription && user" (click)="hideChatroomDetail()" class="may_be_later cursor-pointer">May be later</div>
+    <div class="login-para" *ngIf="!accessibleWithoutSubscription && !user">
+        Already have a membership? <span class="color-green cursor-pointer color-green" (click)="goToLogin()">Login</span>
+    </div>
+    <div class="color-green cursor-pointer" *ngIf="accessibleWithoutSubscription && !user" (click)="goToLogin()">
+        Login for guest access
+    </div>
+    <!-- <div *ngIf="subscribedCommunity?.membership_state == 1" (click)="openLeaveCommunityPopup()" class="cursor-pointer leave-community-btn">Leave Community</div> -->
+</div>
+
+<ng-template #membershipExpiredMessage>
+    <div class="h-100 d-flex flex-column errormessageContainer align-items-center justify-content-end">
+        <div class="bottom-sheet-bar"></div>
+        <div class="errormessageContainerTop d-flex flex-column align-items-center justify-content-center">
+            <img src="https://web.likeminds.community/assets/images/png/exclamation.png" alt="Danger Image" />
+            <p class="errormessageContainerTop__heading w-100 text-align-start">Renew community membership</p>
+            <p class="errormessageContainerTop__subHeading w-100 text-align-start">
+                This chat room is open for the subscribed members of the community only. Your subscription to “Data Science Gurgaon”
+                community has expired. Buy a membership plan of your choice to access this chat room.
+            </p>
+            <div class="errormessageContainerTop__button w-100" (click)="openRenewal()">RENEW MEMBERSHIP</div>
+        </div>
+    </div>
+</ng-template>

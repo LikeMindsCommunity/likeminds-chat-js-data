@@ -1,0 +1,312 @@
+.community-detail-container {
+    height: calc(100vh - 48px);
+    overflow-y: auto;
+    box-shadow: none;
+
+    .sub-title {
+        font-size: 14px;
+        color: #666666;
+    }
+
+    .pending-user-community-detail {
+        width: 100% !important;
+        margin-left: 0px !important;
+        margin-top: 48px;
+    }
+
+    .main-container-pending {
+        margin-top: 0px !important;
+    }
+
+    .community-detail-wrapper {
+        min-height: calc(100vh - 60px);
+        background-color: #d0d8e2;
+        // width: calc(100% - 359px);
+        // margin-left: 359px;
+        .card {
+            max-width: 1100px;
+            // box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.16);
+            position: relative;
+
+            .sub-header {
+                position: fixed;
+                top: 48px;
+                left: 455px;
+                width: calc(100% - 455px);
+                z-index: 30;
+                height: 60px;
+                background-color: #f5f5f5;
+                .community-detail-div {
+                    height: 60px;
+                    border-left: 1px solid #e0e0e0;
+
+                    div {
+                        width: 167px;
+                        height: 24px;
+                        margin: -15px 0 0 23px;
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: #020202;
+                        min-width: 300px;
+                    }
+                    img {
+                        padding-left: 12px;
+                    }
+                }
+                .community-detail-actions {
+                    position: relative;
+                    .share {
+                        margin-right: 11px;
+                        cursor: pointer;
+                    }
+                    .three-dots {
+                        cursor: pointer;
+                        margin-left: 11px;
+                        margin-right: 3px;
+                    }
+                    .community-leave {
+                        position: absolute;
+                        top: 20px;
+                        right: 18px;
+                        background-color: white;
+                        padding: 10px;
+                        cursor: pointer;
+                        z-index: 15;
+                        width: 200px;
+                    }
+                }
+            }
+
+            .main-container {
+                position: relative;
+                z-index: 1;
+                margin: 0 -1px;
+                margin-top: 60px;
+                .banner {
+                    max-height: 380px;
+                    min-height: 380px;
+                    margin-top: -1px;
+                    position: relative;
+
+                    .community-detail-actions {
+                        position: absolute;
+                        top: 20px;
+                        right: 18px;
+                        img {
+                            cursor: pointer;
+                            margin-left: 10px;
+                        }
+                    }
+
+                    .community-leave {
+                        position: absolute;
+                        top: 20px;
+                        right: 10px;
+                        background-color: white;
+                        padding: 10px;
+                        cursor: pointer;
+                    }
+
+                    img.bg-banner {
+                        width: 100%;
+                        max-height: 380px;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+
+                    .banner-content {
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        -webkit-backdrop-filter: blur(10px);
+                        background-color: rgba(0, 0, 0, 0.88);
+                        backdrop-filter: blur(10px);
+                        position: absolute;
+
+                        img.img-banner {
+                            width: 150px;
+                            height: 150px;
+                            margin-top: 48px;
+                            object-fit: cover;
+                        }
+                        .data {
+                            h1 {
+                                font-size: 38px;
+                                font-weight: bold;
+                                margin: 25px 0;
+                            }
+
+                            button {
+                                width: 230px;
+                                height: 50px;
+                            }
+                        }
+                    }
+                }
+                .about-us h1,
+                .managed-by h1 {
+                    font-size: 34px;
+                    font-weight: bold;
+                }
+                .about-us {
+                    .seperator {
+                        width: 153px;
+                        height: 1px;
+                        background-color: #d0d8e2;
+                    }
+                    ::ng-deep p.content {
+                        line-height: 1.6;
+                    }
+                    ::ng-deep p.read-more {
+                        line-height: 1.8;
+                        color: #00897b;
+                    }
+                }
+                .managed-by {
+                    min-height: 500px;
+                    background-color: #000000;
+                }
+            }
+        }
+    }
+
+    .header {
+        height: 48px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+
+        .chatroom-actions {
+            display: none;
+            width: 100%;
+            color: #ffffff;
+            h4 {
+                font-size: 20px;
+                font-weight: bold;
+                margin: 0;
+                & + img {
+                    margin-left: auto;
+                }
+            }
+            img {
+                width: 20px;
+                height: 20px;
+                margin: 0 20px;
+                object-fit: contain;
+                cursor: pointer;
+                &.back {
+                    height: 24px;
+                    width: 24px;
+                }
+                &.share {
+                    transform: rotateY(180deg);
+                }
+            }
+            mat-icon {
+                margin: 0 10px 0 20px;
+            }
+            @media screen and (max-width: 425px) {
+                display: flex;
+            }
+        }
+
+        &__likeminds-logo {
+            display: block;
+            margin: 10px 35px;
+        }
+
+        &__details-section {
+            display: none;
+        }
+
+        &__actions {
+            margin-left: auto;
+            mat-icon {
+                margin: 0 0 0 20px;
+                cursor: pointer;
+                color: #fff;
+            }
+        }
+
+        &__actions-section {
+            display: none;
+        }
+
+        &__download-link-section {
+            margin: 10px 35px;
+            display: block;
+        }
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .community-detail-container {
+        // height: calc(100vh - 48px);
+        overflow-y: auto;
+        width: 100vw;
+        .community-detail-wrapper {
+            width: 100% !important;
+            margin-left: 0px !important;
+            min-height: 100vh;
+            .card {
+                width: 100%;
+                height: 100%;
+                box-shadow: none;
+                .sub-header {
+                    display: none;
+                }
+                .main-container {
+                    margin-top: 0px;
+                    .banner {
+                        height: 310px;
+                        .banner-content {
+                            display: block !important;
+                            text-align: center;
+                            img.img-banner {
+                                width: 114px;
+                                height: 114px;
+                                margin-top: 26px;
+                            }
+                            .data h1 {
+                                font-size: 36px;
+                            }
+                        }
+                    }
+
+                    .about-us h1,
+                    .managed-by h1 {
+                        font-size: 28px;
+                        margin-top: 35px !important;
+                        margin-bottom: 30px !important;
+                    }
+                    .about-us {
+                        .seperator {
+                            width: 153px;
+                            height: 1px;
+                            margin-bottom: 15px !important;
+                            margin-top: 20px !important;
+                            background-color: #d0d8e2;
+                        }
+                        ::ng-deep p.content {
+                            line-height: 1.5;
+                            font-size: 16px !important;
+                        }
+                        ::ng-deep p.read-more {
+                            line-height: 1.8;
+                            color: #00897b;
+                            display: none;
+                            cursor: pointer;
+                        }
+                    }
+                    .managed-by {
+                        min-height: 500px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+// Standard color codes
+$primary: #00897b;
+$green: #00897b;
+$dark: #000000;
+$gray-dark: lighten($dark, 20%) !default; // #333333
+$gray-medium: lighten($dark, 40%) !default; // #666666
+$gray-lighter: lighten($dark, 60%) !default; // #999999
+$gray-light: lighten($dark, 73.3%) !default; // #bbbbbb
+$success: #79bf3d;
+$danger: #e02020;
+$light: #ffffff;
+$blue: #00a9e1;
+$light-grey: #e5e5e5;
+$bg-grey: #464646;
+$bg-table-body: #f7f9fc;
+$light-bg-grey: #4c4c4c;
+$brdr: #ced0da;
+$light-black: #282c3f;
+$gray-opac: #535665;
+$gray-shaddy: #696e79;
+$orange: #ff5722;
+$black-shaddy: #363e44;
+$yellow: #b6701e;
+$snackbar-bg: #202124;
+$border-color: #e6ebf0;
+$text-muted: #9b9b9b;
+$input-border: #d0d8e2;
+$header: #075e54;
+$title: #2f353a;
+$sub-title: #73818f;
+$text: #a0aec0;
+$table-header-border: #dbdce1;
+$table-border: #e4e9f2;
+$poll-selected: #06c3af;
+$bs-sub-title: #484f67;
+$btn-not-now: #4A4A4A;
+//Scrollbar colors
+$color-scroll-thumb: #999;
+$color-scroll-thumb-hover: #666;
+$color-scroll-track: #f5f5f5;
+
+$bg-link-preview: rgba(155, 155, 155, 0.1);
+
+// Buttons background second gradient color code
+$btn-blue-gradient: #54a5dd;
+$btn-green-gradient: #559c01;
+$btn-gray-gradient: #464646;
+$btn-orange-gradient: #f67506;
+$btn-red-gradient: $danger;
+$btn-create-event: #3366ff;
+
+// Standard fonts size
+$font-html: 16px;
+$font-html-lg: 18px;
+$font-html-md: 14px;
+$font-html-sm: 12px;

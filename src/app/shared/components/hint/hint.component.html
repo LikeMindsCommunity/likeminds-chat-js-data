@@ -1,0 +1,57 @@
+<div class="hint-container">
+    <div class="d-block text-center mb-2 show-sm">
+        <img src="https://web.likeminds.community/assets/images/svg/rectangle.svg" />
+    </div>
+    <div class="d-block text-center hide-sm">
+        <img
+            (click)="closeModal()"
+            class="position-absolute cursor-pointer r0 me-3 t0 mt-3"
+            src="https://web.likeminds.community/assets/images/svg/cross.svg"
+        />
+    </div>
+    <p class="heading fs16 fw500 c0 px-4">{{ selectedIntro?.header }}</p>
+    <p class="sub-heading fs14 c6 px-4 mb-4">
+        {{ selectedIntro?.sub_header }}
+    </p>
+
+    <div id="carouselExampleIndicators" class="carousel slide m-4" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li
+                data-target="#carouselExampleIndicators"
+                data-slide-to="i"
+                class="active"
+                *ngFor="let intro of introExamples; let i = index"
+            ></li>
+        </ol>
+
+        <div class="carousel-inner">
+            <div class="hint" (swipe)="onSwipe($event)">
+                <ng-container *ngFor="let intro of introExamples; let i = index">
+                    <div class="carousel-item" [ngClass]="{ active: selectedIndex === i }">
+                        <p class="hint-heading fs14 fw500">{{ intro?.title }}</p>
+                        <read-more [classes]="'hint-content'" [characterCount]="30" [data]="intro?.sub_title"> </read-more>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- href="#carouselExampleIndicators" href="#carouselExampleIndicators" -->
+        <a class="carousel-control-prev" #prevButton (click)="changeSelectedIndex('previous')" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true">
+                <img class="cursor-pointer pe-2" src="https://web.likeminds.community/assets/images/svg/left-arrow-grey.svg" alt="" />
+            </span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" #nextButton (click)="changeSelectedIndex('next')" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true">
+                <img class="cursor-pointer pe-2" src="https://web.likeminds.community/assets/images/svg/right-arrow-grey.svg" alt="" />
+            </span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div class="navigation-detail text-center my-3">
+        <p class="fs14 c6">{{ selectedIndex + 1 }} of {{ introExamples.length }}</p>
+        <p class="next-example fs14 fw500 show-sm" (click)="next()">See another example</p>
+    </div>
+</div>

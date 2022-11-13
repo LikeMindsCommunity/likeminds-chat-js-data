@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="27" viewBox="0 0 24 27">
+    <defs>
+        <linearGradient id="4k3ht18mpb" x1="29.595%" x2="29.595%" y1="-1.598%" y2="101.176%">
+            <stop offset="0%" stop-color="#87C8B2"/>
+            <stop offset="100%" stop-color="#2C729D"/>
+        </linearGradient>
+        <linearGradient id="s3l0sftqoe" x1="0%" x2="75.09%" y1="23.909%" y2="23.909%">
+            <stop offset="0%" stop-color="#53B8A0"/>
+            <stop offset="100%" stop-color="#DBE596"/>
+        </linearGradient>
+        <linearGradient id="ph1d7pv1hh" x1="37.544%" x2="37.544%" y1="49.79%" y2="101.55%">
+            <stop offset="0%" stop-color="#7D4589"/>
+            <stop offset="100%" stop-color="#DA3E3E"/>
+        </linearGradient>
+        <linearGradient id="qap6260fvk" x1="80.794%" x2="80.794%" y1="35.987%" y2="63.59%">
+            <stop offset="0%" stop-color="#F7C374"/>
+            <stop offset="100%" stop-color="#E88172"/>
+        </linearGradient>
+        <path id="7luj2uxfxa" d="M.535.157L13.685 13 .426 25.948c-.207-.068-.338-.268-.338-.562V.856"/>
+        <path id="prjzvwi62d" d="M.057.159C.26.1.512.144.764.293L.752.286l4.41 2.604 5.912 3.49.003.002 5.347 3.156-3.558 3.607"/>
+        <path id="lm0es9ho9g" d="M13.333.108l3.621 3.607-5.442 3.156-10.083 5.848-.664.385c-.22.126-.422.153-.58.1"/>
+        <path id="c7lof9awjj" d="M3.786.057C3.892.12 8.6 2.867 9.12 3.148c.524.283.584.777-.037 1.138l.003-.002-.67.388-4.61 2.67-.02.013L.118 3.706"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g>
+                    <g>
+                        <g>
+                            <g>
+                                <g transform="translate(-1342 -20) translate(1211 17) translate(131 3)">
+                                    <mask id="u2bor5zx3c" fill="#fff">
+                                        <use xlink:href="#7luj2uxfxa"/>
+                                    </mask>
+                                    <path fill="url(#4k3ht18mpb)" d="M17.339 9.432l-5.49-3.121L1.26.29C.672-.044.087.158.087.857v24.529c0 .524.419.75.93.46l10.832-6.16 5.49-3.121 5.276-3c.62-.352.56-.835.037-1.112-.522-.277-5.313-3.021-5.313-3.021" mask="url(#u2bor5zx3c)"/>
+                                </g>
+                                <g transform="translate(-1342 -20) translate(1211 17) translate(131 3) translate(.531)">
+                                    <mask id="wu77z4yevf" fill="#fff">
+                                        <use xlink:href="#prjzvwi62d"/>
+                                    </mask>
+                                    <path fill="url(#s3l0sftqoe)" d="M16.424 9.538l-5.347-3.156L.764.293C.19-.045-.38.16-.38.866v24.807c0 .53.408.758.905.464l10.551-6.23 5.347-3.155 5.14-3.034c.602-.356.544-.844.035-1.124-.508-.28-5.175-3.056-5.175-3.056" mask="url(#wu77z4yevf)"/>
+                                </g>
+                                <g transform="translate(-1342 -20) translate(1211 17) translate(131 3) translate(0 12.743)">
+                                    <mask id="uqp7vymn9i" fill="#fff">
+                                        <use xlink:href="#lm0es9ho9g"/>
+                                    </mask>
+                                    <path fill="url(#ph1d7pv1hh)" d="M16.954-3.499l-5.442-3.156-10.498-6.09c-.583-.337-1.164-.132-1.164.574V12.636c0 .53.415.758.922.464l10.74-6.23 5.442-3.155L22.186.68c.614-.356.555-.845.037-1.125s-5.269-3.055-5.269-3.055" mask="url(#uqp7vymn9i)"/>
+                                </g>
+                                <g transform="translate(-1342 -20) translate(1211 17) translate(131 3) translate(13.274 9.027)">
+                                    <mask id="zdbanmmbpl" fill="#fff">
+                                        <use xlink:href="#c7lof9awjj"/>
+                                    </mask>
+                                    <path fill="url(#qap6260fvk)" d="M3.786.057l-5.51-3.193-10.63-6.16c-.59-.341-1.178-.134-1.178.58V16.38c0 .536.42.767.933.47l10.874-6.302 5.51-3.192 5.298-3.07c.621-.36.561-.854.037-1.137-.524-.284-5.334-3.09-5.334-3.09" mask="url(#zdbanmmbpl)"/>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

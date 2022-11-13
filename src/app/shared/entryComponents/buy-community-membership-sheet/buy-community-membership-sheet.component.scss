@@ -1,0 +1,206 @@
+.community-detail-wrapper {
+    padding: 0px 8px;
+    .bottom-sheet-bar {
+        width: 100px;
+        height: 7px;
+        background: #eeeeee;
+        border-radius: 4px;
+        margin-bottom: 16px;
+    }
+
+    .bottom-sheet-heading {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 18px;
+        color: #000000;
+        width: 100%;
+        text-align: left;
+        margin-bottom: 4px !important;
+    }
+
+    .bottom-sheet-sub-heading {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 22px;
+        color: #4a4a4a;
+        width: 100%;
+        margin-bottom: 8px !important;
+    }
+
+    .community-card {
+        height: 84px;
+        background: #00897b;
+        border-radius: 8px;
+        padding: 15px 12px;
+        width: 100%;
+        margin-bottom: 16px;
+
+        &__img {
+            height: 54px;
+            width: 54px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        &__box {
+            &__info {
+                &__name {
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 18px;
+                    color: #ffffff;
+                }
+                .managed-span {
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 13px;
+                    line-height: 18px;
+                    color: #ffffff;
+                    mix-blend-mode: normal;
+                    opacity: 0.6;
+                }
+            }
+            .info-icon {
+                width: 24px;
+                height: 24px;
+                margin-top: 15px;
+            }
+        }
+    }
+
+    .access-info {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 15px;
+        line-height: 18px;
+        color: #4a4a4a;
+        margin-bottom: 25px;
+    }
+
+    .login-para {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        color: #9b9b9b;
+        margin-bottom: 16px;
+
+        .color-green {
+            color: #00897b !important;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+    }
+
+    .color-green {
+        color: #00897b !important;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        margin-bottom: 16px;
+    }
+
+    .may_be_later {
+        color: #9b9b9b;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 16px;
+        margin-bottom: 17px !important;
+    }
+}
+
+.errormessageContainer {
+    padding: 0px 8px;
+    .bottom-sheet-bar {
+        width: 100px;
+        height: 7px;
+        background: #eeeeee;
+        border-radius: 4px;
+        margin-bottom: 16px;
+    }
+    .errormessageContainerTop {
+        max-width: 344px;
+        img {
+            width: 64px;
+            height: 66px;
+            margin-bottom: 22px;
+        }
+        &__heading {
+            font-family: Roboto;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 18px;
+            letter-spacing: 0px;
+            margin-bottom: 8px;
+        }
+        &__subHeading {
+            font-family: Roboto;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 0px;
+            color: #4a4a4a;
+            margin-bottom: 25px;
+
+            &__link {
+            }
+        }
+        &__button {
+            padding: 16px 86px;
+            background: #00897b;
+            border-radius: 24px;
+            font-family: Roboto;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 16px;
+            letter-spacing: 0px;
+            text-align: center;
+            color: #ffffff;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+    }
+    .errormessageContainerBottom {
+        background: #f8f5f5;
+        width: 100%;
+        p {
+            font-family: Roboto;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 19px;
+            letter-spacing: 0px;
+            text-align: center;
+            margin-bottom: 0 !important;
+            padding: 20px;
+            color: #9b9b9b;
+
+            .link {
+                color: #00897b;
+                cursor: pointer;
+            }
+        }
+    }
+}

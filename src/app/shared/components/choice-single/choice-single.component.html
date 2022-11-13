@@ -1,0 +1,37 @@
+<ng-container>
+    <label class="fs14 c6 float-start ms-2"
+        >{{ question?.question_title }} <span *ngIf="!question?.optional" class="text-danger">*</span></label
+    >
+    <mat-form-field
+        class="simple-input simple-select-with-search w-100 mb-4 cursor-pointer"
+        [ngClass]="{ invalid: control.errors && formSubmitted }"
+        floatLabel="never"
+    >
+        <input
+            type="text"
+            class="text-capitalize cursor-pointer"
+            [value]="question?.value"
+            [placeholder]="question?.help_text || 'Select an option'"
+            (focusout)="clearField($event)"
+            [formControl]="control"
+            name="choice-single"
+            aria-label="Number"
+            matInput
+            [matAutocomplete]="auto"
+            [required]="!question?.optional"
+        />
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option class="text-capitalize" [value]="control?.value" *ngIf="showAddNewOption"> + {{ control?.value }}</mat-option>
+            <mat-option
+                class="text-capitalize"
+                [value]="option?.value"
+                *ngFor="let option of question?.options | searchOption: control.value"
+            >
+                {{ option?.value }}</mat-option
+            >
+        </mat-autocomplete>
+    </mat-form-field>
+    <div class="invalid-feedback question-form-error ms-2 d-block text-start" *ngIf="control.errors && formSubmitted">
+        This is a mandatory field
+    </div>
+</ng-container>

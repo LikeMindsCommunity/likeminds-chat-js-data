@@ -1,0 +1,39 @@
+<!-- FOR AUDIO MESSAGES -->
+<div *ngIf="message?.attachments[0]?.type=='audio'">
+    <div *ngFor="let audioAttachement of message?.attachments; let i = index">
+        <div class="media-tile position-relative" style="padding: 2px;"
+            [ngStyle]="{'display': i>1 ? (showAllAudios ? 'block' : 'none') : 'block' }">
+            <div class="d-flex align-items-center audio-message-container">
+                <app-audio-message [audioAttachement]="audioAttachement" class="audio-message" [messageId]="message?.id"
+                    [index]="i" [message]="message" [isMyMsg]="isMyMsg"
+                    [audioAttachmentsUploaded]="audioAttachmentsUploaded">
+                </app-audio-message>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="(message?.attachments.length > 2)" class="d-flex align-items-center more-audio-para-container">
+        <p class="more-audio-para" *ngIf="(message?.attachments.length > 2) && !showAllAudios"
+            (click)="showAllAudios=!showAllAudios">+{{message?.attachments.length - 2 }} more
+        </p>
+        <p class="more-audio-para" *ngIf="(message?.attachments.length > 2) && showAllAudios"
+            (click)="showAllAudios=!showAllAudios">Show less
+        </p>
+    </div>
+</div>
+
+<!-- FOR VOICE MESSAGES -->
+<!-- style="height:4.25rem;" -->
+<div *ngIf="message?.attachments[0]?.type=='voice_note'">
+    <div *ngFor="let audioAttachement of message?.attachments; let i = index">
+        <div class="media-tile position-relative"
+            [ngStyle]="{'display': i>1 ? (showAllAudios ? 'block' : 'none') : 'block' }">
+            <div class="d-flex align-items-center audio-message-container">
+                <app-voice-message [audioAttachement]="audioAttachement" class="voice-message" [chatroom]="chatroom"
+                    [messageId]="message?.id" [index]="i" [message]="message" [isMyMsg]="isMyMsg"
+                    [audioAttachmentsUploaded]="audioAttachmentsUploaded" [uniqueId]="uniqueId">
+                </app-voice-message>
+            </div>
+        </div>
+    </div>
+</div>

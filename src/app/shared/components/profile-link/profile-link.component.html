@@ -1,0 +1,43 @@
+<ng-container>
+    <label class="fs14 c6 float-start ms-2"
+        >{{ question?.question_title }} <span *ngIf="!question?.optional" class="text-danger">*</span></label
+    >
+    <mat-form-field
+        class="simple-input profile-link w-100 mb-4"
+        [ngClass]="{ invalid: control.errors && formSubmitted }"
+        floatLabel="never"
+    >
+        <span *ngIf="isTwitterOrInstagramProfile" matPrefix>@</span>
+        <input
+            matInput
+            type="url"
+            [placeholder]="question?.help_text"
+            [formControl]="control"
+            name="profile-link"
+            autocomplete="off"
+            [value]="question?.value"
+            [required]="!question?.optional"
+        />
+    </mat-form-field>
+    <div
+        class="invalid-feedback question-form-error ms-2 d-block text-start"
+        *ngIf="control.errors && control.errors.required && formSubmitted"
+    >
+        This is a mandatory field
+    </div>
+    <div
+        class="invalid-feedback question-form-error ms-2 d-block text-start"
+        *ngIf="control.errors && control.errors.invalid && formSubmitted; else patternError"
+    >
+        Profile link should start with www. or https://
+    </div>
+    <ng-template #patternError>
+        <div
+            class="invalid-feedback question-form-error ms-2 d-block text-start"
+            *ngIf="control.errors && control.errors.pattern && formSubmitted"
+        >
+            <ng-container *ngIf="isTwitterOrInstagramProfile; else profileLinkError"> Username is invalid </ng-container>
+            <ng-template #profileLinkError> Profile link is invalid </ng-template>
+        </div>
+    </ng-template>
+</ng-container>

@@ -1,0 +1,16 @@
+<div class="eventContent"> 
+    <div class="eventContent__header mt-3">
+        <h2>Name this chat room</h2>
+        <p class="eventContent--subHeading">Names are better when they are descriptive and recognisable. You being the creator of this chat room can edit the name of this room.</p>
+    </div>
+    <form name="form" (ngSubmit)="updateChatroomName()" novalidate>
+        <div class="eventContent__header mt-2"> 
+            <input type="text" class="form-control" name="chatRoomName" [(ngModel)]="chatRoomName" placeholder="Chat room name"  maxlength="30" required />
+            <span class="float-end count">{{ chatRoomName.length || 0 }}/30</span>
+        </div>
+        
+        <div class="eventContent__header m-0 text-center">
+            <button class="btn btn-poll" type="submit" [ngClass]="(chatRoomName.length === 0)?'btn-create':'btn-green'" [disabled]="chatRoomName.length === 0">Submit</button>
+        </div>
+    </form>
+</div>

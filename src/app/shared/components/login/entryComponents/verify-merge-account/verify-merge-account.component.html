@@ -1,0 +1,32 @@
+<section class="modal-small p-2 position-relative">
+    <div class="d-flex justify-content-end close position-absolute r0 t0 hide-sm">
+        <img class="cursor=pointer" (click)="dialogRef.close()" src="https://web.likeminds.community/assets/images/svg/cross.svg" alt="" />
+    </div>
+    <div class="body mx-2">
+        <p class="heading d-flex justify-content-start fs16 mt-4 fw500">Merge Accounts</p>
+
+        <p class="content text-start" [innerHTML]="content"></p>
+
+        <div class="text-center">
+            <p class="fs14 otp-title mt-4">Enter OTP to merge accounts</p>
+            <ng-otp-input
+                [ngClass]="{ invalid: invalidOtp }"
+                #ngOtpInput
+                (onInputChange)="onOtpChange($event)"
+                *ngIf="showOtpComponent"
+                [config]="config"
+            >
+            </ng-otp-input>
+            <p class="timer mt-4" *ngIf="counter > 0">{{ counter | countdown }}</p>
+            <p class="timer mt-4 cursor-pointer" (click)="resendOtp()" *ngIf="counter === 0">Resend verification code</p>
+            <button
+                (click)="verifyOtp()"
+                [disabled]="!otp || (otp && otp.length < 4)"
+                class="btn cF my-3 br24 fs13 fw500 mx-auto text-uppercase px-5"
+                type="submit"
+            >
+                Verify
+            </button>
+        </div>
+    </div>
+</section>

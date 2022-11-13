@@ -1,0 +1,157 @@
+<div class="dialogue-box" *ngIf="data != 'show-offers'">
+    <div class="heading">Register for event</div>
+
+    <div class="sub-heading" *ngIf="!data?.isCheckable && data?.membershipState != 1">
+        This event is open for the subscribed members of the community only. Buy a membership plan of your choice to register for this
+        event.
+    </div>
+
+    <div class="sub-heading" *ngIf="!data?.isCheckable && data?.membershipState == 1">
+        This event is open for the subscribed members of the community only. Your subscription to “{{ data?.community?.name }}” community
+        has expired. Buy a membership plan of your choice to register for this event.
+    </div>
+
+    <div class="sub-heading" *ngIf="data?.isCheckable">Proceed to make payment to register for event: “{{ data?.eventName }}”.</div>
+
+    <div class="checkbox-holder">
+        <label class="container">
+            <div class="label_">Event registration</div>
+            <div class="sub-label_" *ngIf="data?.isCheckable">
+                (&#8377;{{ event_cost }} for members, &#8377;{{ data?.eventCost?.strike_cost }} for non-members )
+            </div>
+            <input type="checkbox" checked="checked" (change)="handleEventCheckbox($event)" (click)="handleCheckBox()" />
+            <span class="checkmark" *ngIf="data?.isCheckable" [ngStyle]="{ 'margin-top': data?.isCheckable ? '25px' : '13px' }"></span>
+            <span
+                class="checkmark uncheckable"
+                *ngIf="!data?.isCheckable"
+                [ngStyle]="{ 'margin-top': data?.isCheckable ? '25px' : '13px' }"
+            ></span>
+        </label>
+    </div>
+
+    <div class="checkbox-holder">
+        <label class="container">
+            <div class="top-heading d-flex justify-content-between" *ngIf="data?.isCheckable">
+                <div class="offer">OFFER APPLIED</div>
+
+                <div class="infoBox">
+                    <img src="../../../../assets/images/svg/green-info.svg" alt="Info" />
+                    <div class="infoContent">
+                        <div class="arrow-left"></div>
+                        <p>Renew membership to save more on this event registration ( and on future community events too ).</p>
+                        <ul>
+                            <li>Buy Weekly plan to save 25% on event cost.</li>
+                            <li>Buy Monthly plan to save. 50 % on event cost.</li>
+                            <li>Buy Half-yearly plan to save 75% on event cost.</li>
+                            <li class="mb-0">Buy Yearly plan to save 100% on event cost.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="top-subheading" *ngIf="data?.isCheckable">
+                Save min. &#8377;{{ data?.eventCost?.strike_cost - event_cost }} on Event Registration
+            </div>
+            <div class="label_">{{ data?.membershipState == 1 ? 'Renew membership' : 'Buy membership' }}</div>
+            <input type="checkbox" (change)="handleCommunityCheckbox($event)" (click)="handleCheckBox()" checked="checked" />
+            <span class="checkmark" *ngIf="data?.isCheckable" [ngStyle]="{ 'margin-top': data?.isCheckable ? '55px' : '13px' }"></span>
+            <span
+                class="checkmark uncheckable"
+                *ngIf="!data?.isCheckable"
+                [ngStyle]="{ 'margin-top': data?.isCheckable ? '55px' : '13px' }"
+            ></span>
+        </label>
+    </div>
+
+    <div class="payment-preview">
+        <div class="payment-preview__box">
+            <div
+                class="payment-preview__box__text d-flex justify-content-between position-relative"
+                [ngStyle]="{ 'text-decoration': !communityIsChecked ? 'line-through' : 'none' }"
+            >
+                <span
+                    >Membership Plan({{ selectedCommunityPlan?.name }})
+                    <i class="arrow down cursor-pointer" *ngIf="!showPlansDropDown" (click)="showPlansDropDown = !showPlansDropDown"></i>
+                    <i
+                        class="arrow up cursor-pointer"
+                        *ngIf="showPlansDropDown"
+                        [ngStyle]="{ 'margin-bottom': showPlansDropDown ? '-1px' : '2px' }"
+                        (click)="showPlansDropDown = !showPlansDropDown"
+                    ></i>
+                </span>
+                <span>&#8377;{{ selectedCommunityPlan?.cost }}</span>
+
+                <div class="position-absolute all-plans" *ngIf="showPlansDropDown">
+                    <div class="all-plan-box" id="allPlans">
+                        <div
+                            class="plans-container"
+                            (click)="changeSelectedPlan(i)"
+                            *ngFor="let plan of communityPlanObj?.plans; let i = index"
+                        >
+                            <div class="plan-div" (mouseleave)="mouseLeave()">
+                                <div class="plan-div__heading">Membership plan({{ plan?.name }})</div>
+                                <div class="plan-div__subheading">
+                                    <span *ngIf="plan?.strike_cost" class="strike-cost">&#8377;{{ plan?.strike_cost }}</span
+                                    >&#8377;{{ plan?.plan_sub_title }}
+                                </div>
+                            </div>
+
+                            <div class="infoBox">
+                                <img src="../../../../assets/images/svg/green-info.svg" alt="Info" (mouseenter)="mouseEnter()" />
+                                <div class="infoContent">
+                                    <div class="arrow-left"></div>
+                                    <span [innerHTML]="plan.description | splitString"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="payment-preview__box__text d-flex justify-content-between"
+                [ngStyle]="{ 'text-decoration': !eventIsChecked ? 'line-through' : 'none' }"
+            >
+                <span>Event cost</span>
+                <span>
+                    <span *ngIf="event_cost > 0 || data?.eventCost?.strike_cost > 0">&#8377;</span
+                    >{{
+                        communityIsChecked
+                            ? event_cost == 0
+                                ? 'FREE'
+                                : event_cost
+                            : data?.eventCost?.strike_cost == 0
+                            ? 'FREE'
+                            : data?.eventCost?.strike_cost
+                    }}</span
+                >
+            </div>
+        </div>
+        <div class="total_cost d-flex justify-content-between">
+            <span>Total Cost</span>
+            <span>&#8377;{{ totalCost }}</span>
+        </div>
+    </div>
+
+    <div class="payment-button" (click)="redirectToPaymentPage()">PROCEED TO PAYMENT</div>
+</div>
+
+<div *ngIf="data == 'show-offers'" class="offers-holder">
+    <div class="heading">Buy membership to save more</div>
+    <div class="sub-paras">
+        Renew membership to save more on this event registration (and on future community events too).
+        <br />
+        <br />
+        Buy Weekly plan to save 25% on event cost.
+        <br />
+        <br />
+        Buy Monthly plan to save 50% on event cost.
+        <br />
+        <br />
+        Buy Half-yearly plan to save 75% on event cost.
+        <br />
+        <br />
+        Buy Yearly plan to save 100% on event cost.
+    </div>
+    <br />
+    <div class="btn-ok" (click)="dismissModal()">OK</div>
+</div>

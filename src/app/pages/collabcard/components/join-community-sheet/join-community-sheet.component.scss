@@ -1,0 +1,24 @@
+.non-member-sheet-wrapper {
+    .community-card {
+        margin: 0 9px 0 0;
+        padding: 15px 43px 15px 12px;
+        opacity: 0.8;
+        border-radius: 8px;
+        background-color: #d0d8e2;
+
+        .community-image {
+            border-radius: 50%;
+        }
+
+        .detail p {
+            line-height: 1.38;
+        }
+    }
+    button {
+        margin: 12px 65px 0;
+        padding: 14px 31px 15px 32px;
+        border-radius: 22px;
+        box-shadow: 0 0 8px 0 rgba(0, 67, 34, 0.4);
+        background-color: #00897b;
+    }
+}
