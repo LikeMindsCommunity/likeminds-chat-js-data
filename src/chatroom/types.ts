@@ -1,85 +1,85 @@
 export declare type ChatroomType = {
-  chatroomID: string | number;
+    chatroomID: string | number;
 };
 
 export declare type ConversationData = {
-  chatroomID: string | number;
-  page: number;
+    chatroomID: string | number;
+    page: number;
 };
 
 export declare type ConversationCreateData = {
-  chatroom_id: string | number;
-  created_at: Date;
-  has_files: boolean;
-  text: string;
-  attachment_count?: any;
-  replied_conversation_id?: string | number;
+    chatroom_id: string | number;
+    created_at: Date;
+    has_files: boolean;
+    text: string;
+    attachment_count?: any;
+    replied_conversation_id?: string | number;
 };
 
 export declare type Action = {
-  chatroom_id: string | number;
-  conversation_id: string | number;
-  reaction: any;
+    chatroom_id: string | number;
+    conversation_id: string | number;
+    reaction: any;
 };
 
 export declare type TaggingList = {
-  chatroom_id: string | number;
-  community_id: string | number;
+    chatroom_id: string | number;
+    community_id: string | number;
 };
 
 export declare type PushReportType = {
-  conversation_id: number;
-  tag_id: number;
-  reason?: string;
+    conversation_id: number;
+    tag_id: number;
+    reason?: string;
 };
 
 export declare type Upload = {
-  conversation_id: number;
-  files_count: number;
-  index: number | string;
-  meta?: any;
-  name: string;
-  thumbnail_url?: string;
-  type: string;
-  url: string;
+    conversation_id: number;
+    files_count: number;
+    index: number | string;
+    meta?: any;
+    name: string;
+    thumbnail_url?: string;
+    type: string;
+    url: string;
 };
 
 export declare type Media = {
-  messageId: number;
-  chatroomId: number;
-  file: any;
-  index?: number;
+    messageId: number;
+    chatroomId: number;
+    file: any;
+    index?: number;
 };
 export declare type LeaveCR = {
-  collabcard_id: number;
-  member_id: number;
-  value: boolean;
+    collabcard_id: number;
+    member_id: number;
+    value: boolean;
 };
 
 export declare type Profile = {
-  community_id: number;
-  member_id: number;
+    community_id: number;
+    member_id: number;
 };
 
 export declare type Read = {
-  chatroom_id: number;
+    chatroom_id: any;
 };
 
 export declare type FeedData = {
-  community_id: number;
-  order_type: number;
-  page: number;
+    community_id: number;
+    order_type: number;
+    page: number;
 };
 
 export declare type FollowCRType = {
-  collabcard_id: number;
-  member_id: number;
-  value: boolean;
+    collabcard_id: number;
+    member_id: number;
+    value: boolean;
 };
 
 export declare type CRSeen = {
-  collabcard_id: number;
-  community_id: number;
-  member_id: number;
-  collabcard_type: any;
+    collabcard_id: number;
+    community_id: number;
+    member_id: number;
+    collabcard_type: any;
 };
