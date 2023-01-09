@@ -5,10 +5,12 @@ export declare type ChatroomType = {
 export declare type ConversationData = {
     chatroomID: string | number;
     page: number;
+    scroll_direction?: number;
+    conversation_id?: number;
 };
 
 export declare type ConversationCreateData = {
-    chatroom_id: string | number;
+    chatroom_id: number;
     created_at: Date;
     has_files: boolean;
     text: string;
@@ -20,6 +22,11 @@ export declare type Action = {
     chatroom_id: string | number;
     conversation_id: string | number;
     reaction: any;
+};
+
+export declare type CMETATYPE = {
+    chatroom_id?: number;
+    conversation_id: number;
 };
 
 export declare type TaggingList = {

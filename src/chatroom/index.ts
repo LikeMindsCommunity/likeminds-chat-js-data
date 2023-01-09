@@ -3,6 +3,7 @@ import { Base } from '../base';
 import { API } from '../shared/api.constant';
 import {
     Action,
+    CMETATYPE,
     CRSeen,
     ChatroomType,
     ConversationCreateData,
@@ -17,7 +18,6 @@ import {
     TaggingList,
     Upload,
 } from './types';
-import { jsonEval } from '@firebase/util';
 
 export class Chatroom extends Base {
     followCR(followCRType: FollowCRType): Promise<any> {
@@ -37,10 +37,15 @@ export class Chatroom extends Base {
     getAWS(): any {
         (AWS.config.region = 'ap-south-1'),
             (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                // Beta
                 IdentityPoolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
+
+                // Prod
+                // IdentityPoolId: 'ap-south-1:d73bc2ed-bede-42c8-bab7-0abe0a001325',
             }));
         const s3 = new AWS.S3({
             apiVersion: '2006-03-01',
+            // params: { Bucket: 'prod-likeminds-media' },
             params: { Bucket: 'beta-likeminds-media' },
         });
 
@@ -50,6 +55,7 @@ export class Chatroom extends Base {
     uploadMedia(media: Media) {
         let mediaObject = this.getAWS().upload({
             Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
+            // Bucket: 'prod-likeminds-media',
             Bucket: 'beta-likeminds-media',
             Body: media.file,
             ACL: 'public-read-write',
@@ -98,11 +104,35 @@ export class Chatroom extends Base {
     }
 
     getConversations(conversationData: ConversationData): Promise<any> {
-        return this.invoke(`${API.CONVERSATION_FETCH}?chatroom_id=${conversationData.chatroomID}&paginate_by=${conversationData.page}`);
+        if (conversationData.scroll_direction) {
+            return this.invoke(
+                `${API.CONVERSATION_FETCH}?chatroom_id=${conversationData.chatroomID}&paginate_by=${conversationData.page}&conversation_id=${conversationData.conversation_id}&scroll_direction=${conversationData.scroll_direction}`
+            );
+        } else if (conversationData.conversation_id) {
+            return this.invoke(
+                `${API.CONVERSATION_FETCH}?chatroom_id=${conversationData.chatroomID}&paginate_by=${conversationData.page}&conversation_id=${conversationData.conversation_id}&scroll_direction=${conversationData.scroll_direction}`
+            );
+        } else {
+            return this.invoke(`${API.CONVERSATION_FETCH}?chatroom_id=${conversationData.chatroomID}&paginate_by=${conversationData.page}`);
+        }
     }
 
     profileData(profile: Profile): Promise<any> {
         return this.invoke(`${API.MEMBER_STATE}?community_id=${profile.community_id}&member_id=${profile.member_id}`);
+    }
+
+    conversationsFetch(cmetaType: CMETATYPE): Promise<any> {
+        if (cmetaType.chatroom_id) {
+            return this.invoke(
+                `${API.CONVERSATION_META}?chatroom_id=${cmetaType.chatroom_id}&conversation_id=${cmetaType.conversation_id}`
+            );
+        } else {
+            return this.invoke(`${API.CONVERSATION_META}?conversation_id=${cmetaType.conversation_id}`);
+        }
+    }
+
+    fetchChatroomHome(chatroom: ChatroomType): Promise<any> {
+        return this.invoke(`${API.FETCH_CHATROOM_HOME}?chatroom_id=${chatroom.chatroomID}`);
     }
 
     onConversationsCreate(newConversations: ConversationCreateData): Promise<any> {
