@@ -1,6 +1,6 @@
 import { API } from '../shared/api.constant';
 import { Base } from '../base';
-import { InIt, UserType } from './types';
+import { InIt, PROFILE, USERTYPE } from './types';
 
 export class Member extends Base {
     initSDK(sdk: InIt): Promise<any> {
@@ -8,20 +8,29 @@ export class Member extends Base {
             method: 'POST',
             body: JSON.stringify(sdk),
         });
-        const res = response.then((res: any) => {
-            localStorage.setItem('__likeminds_user__', JSON.stringify(res.data.user));
-            localStorage.setItem('__access_token_LTM__', res.data.access_token);
-            localStorage.setItem('__refresh_token_RTM__', res.data.refresh_token);
+        const res = response.then((resData: any) => {
+            if (resData) {
+                localStorage.setItem('__likeminds_user__', JSON.stringify(resData.user));
+                localStorage.setItem('__access_token_LTM__', resData.access_token);
+                localStorage.setItem('__refresh_token_RTM__', resData.refresh_token);
+            }
         });
-
         return response;
     }
 
-    allMembers(ut: UserType): Promise<any> {
-        return this.invoke(`${API.ALL_MEMBERS}?community_id=${ut.community_id}&chatroom_id=${ut.chatroom_id}&page=${ut.page}`);
+    allMembers(userType: USERTYPE): Promise<any> {
+        return this.invoke(
+            `${API.ALL_MEMBERS}?community_id=${userType.community_id}&chatroom_id=${userType.chatroom_id}&page=${userType.page}`
+        );
     }
 
-    dmAllMembers(ut: UserType): Promise<any> {
-        return this.invoke(`${API.DM_ALL_MEMBERS}?community_id=${ut.community_id}&member_state=${ut.member_state}&page=${ut.page}`);
+    getProfile(profile: PROFILE): Promise<any> {
+        return this.invoke(`${API.COMMUNITY_MEMBER_PROFILE}?user_id=${profile.user_id}`);
+    }
+
+    dmAllMembers(userType: USERTYPE): Promise<any> {
+        return this.invoke(
+            `${API.DM_ALL_MEMBERS}?community_id=${userType.community_id}&member_state=${userType.member_state}&page=${userType.page}`
+        );
     }
 }

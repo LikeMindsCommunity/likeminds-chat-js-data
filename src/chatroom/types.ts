@@ -1,5 +1,14 @@
+export declare type CHATROOMTYPE = {
+    chatroom_id: any;
+    page?: number;
+};
 export declare type ChatroomType = {
-    chatroomID: string | number;
+    chatroom_id: number;
+    page?: number;
+};
+
+export declare type CHTYPE = {
+    chatroom_id: number;
 };
 
 export declare type ConversationData = {
@@ -10,10 +19,10 @@ export declare type ConversationData = {
 };
 
 export declare type ConversationCreateData = {
-    chatroom_id: number;
+    chatroom_id: any;
     created_at: Date;
     has_files: boolean;
-    text: string;
+    text: any;
     attachment_count?: any;
     replied_conversation_id?: string | number;
 };

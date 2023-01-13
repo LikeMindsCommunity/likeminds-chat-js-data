@@ -4,9 +4,12 @@ export declare type InIt = {
     user_name: string;
 };
 
-export declare type UserType = {
+export declare type USERTYPE = {
     community_id: number;
     page: number;
     chatroom_id?: number;
     member_state?: number;
+};
+export declare type PROFILE = {
+    user_id: number;
 };

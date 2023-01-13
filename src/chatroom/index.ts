@@ -3,9 +3,10 @@ import { Base } from '../base';
 import { API } from '../shared/api.constant';
 import {
     Action,
+    CHATROOMTYPE,
+    CHTYPE,
     CMETATYPE,
     CRSeen,
-    ChatroomType,
     ConversationCreateData,
     ConversationData,
     FeedData,
@@ -22,7 +23,7 @@ import {
 export class Chatroom extends Base {
     followCR(followCRType: FollowCRType): Promise<any> {
         return this.invoke(`${API.COLLABCARD_FOLLOW}`, {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(followCRType),
         });
     }
@@ -33,46 +34,15 @@ export class Chatroom extends Base {
         );
     }
 
-    // Upload Media Fn Start
-    getAWS(): any {
-        (AWS.config.region = 'ap-south-1'),
-            (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                // Beta
-                IdentityPoolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
-
-                // Prod
-                // IdentityPoolId: 'ap-south-1:d73bc2ed-bede-42c8-bab7-0abe0a001325',
-            }));
-        const s3 = new AWS.S3({
-            apiVersion: '2006-03-01',
-            // params: { Bucket: 'prod-likeminds-media' },
-            params: { Bucket: 'beta-likeminds-media' },
-        });
-
-        return s3;
-    }
-
-    uploadMedia(media: Media) {
-        let mediaObject = this.getAWS().upload({
-            Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
-            // Bucket: 'prod-likeminds-media',
-            Bucket: 'beta-likeminds-media',
-            Body: media.file,
-            ACL: 'public-read-write',
-            ContentType: media.file.type,
-        });
-        return mediaObject.promise();
-    }
-    // Upload Media Fn End
-
-    getChatroom(cID: ChatroomType): Promise<any> {
-        return this.invoke(`${API.CHATROOM_FETCH}?chatroom_id=${cID}`);
+    getChatroom(chatroomType: CHATROOMTYPE): Promise<any> {
+        return this.invoke(`${API.CHATROOM_FETCH}?chatroom_id=${chatroomType.chatroom_id}`);
     }
 
     getTaggingList(taggingList: TaggingList): Promise<any> {
-        return this.invoke(
-            `${API.CHATROOM_GET_TAGGINNG_LIST}?community_id=${taggingList.community_id}&chatroom_id=${taggingList.chatroom_id}`
-        );
+        return this.invoke(`${API.CHATROOM_GET_TAGGINNG_LIST}?chatroom_id=${taggingList.chatroom_id}`);
+        // return this.invoke(
+        //     `${API.CHATROOM_GET_TAGGINNG_LIST}?community_id=${taggingList.community_id}&chatroom_id=${taggingList.chatroom_id}`
+        // );
     }
 
     getReportTags(): Promise<any> {
@@ -131,8 +101,8 @@ export class Chatroom extends Base {
         }
     }
 
-    fetchChatroomHome(chatroom: ChatroomType): Promise<any> {
-        return this.invoke(`${API.FETCH_CHATROOM_HOME}?chatroom_id=${chatroom.chatroomID}`);
+    fetchChatroomHome(chatroom: CHTYPE): Promise<any> {
+        return this.invoke(`${API.FETCH_CHATROOM_HOME}?chatroom_id=${chatroom.chatroom_id}`);
     }
 
     onConversationsCreate(newConversations: ConversationCreateData): Promise<any> {
@@ -144,7 +114,7 @@ export class Chatroom extends Base {
 
     addAction(action: Action): Promise<any> {
         return this.invoke(`${API.CONVERSATION_ADD_ACTION}`, {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(action),
         });
     }
@@ -159,8 +129,40 @@ export class Chatroom extends Base {
 
     crSeenFn(mr: CRSeen): Promise<any> {
         return this.invoke(`${API.COLLABCARD_SEEN}`, {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(mr),
         });
     }
+
+    // Upload Media Fn Start
+    getAWS(): any {
+        (AWS.config.region = 'ap-south-1'),
+            (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                // Beta
+                IdentityPoolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
+
+                // Prod
+                // IdentityPoolId: 'ap-south-1:d73bc2ed-bede-42c8-bab7-0abe0a001325',
+            }));
+        const s3 = new AWS.S3({
+            apiVersion: '2006-03-01',
+            // params: { Bucket: 'prod-likeminds-media' },
+            params: { Bucket: 'beta-likeminds-media' },
+        });
+
+        return s3;
+    }
+
+    uploadMedia(media: Media) {
+        let mediaObject = this.getAWS().upload({
+            Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
+            // Bucket: 'prod-likeminds-media',
+            Bucket: 'beta-likeminds-media',
+            Body: media.file,
+            ACL: 'public-read-write',
+            ContentType: media.file.type,
+        });
+        return mediaObject.promise();
+    }
+    // Upload Media Fn End
 }
