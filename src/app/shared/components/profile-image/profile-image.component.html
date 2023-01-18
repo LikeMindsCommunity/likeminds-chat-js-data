@@ -1,5 +1,0 @@
-<div [ngStyle]="{'background-color': circleColor}" [ngClass]="{'circle-large': size === 'large', 'circle-small': size === 'small'}">
-    <div *ngIf="!showInitials" [ngStyle]="{'background-image': 'url(' + photoUrl + ')'}" class="img"></div>
-    <img *ngIf="!showInitials" [src]="photoUrl" alt="image" class="d-none" (error)="handleImageError()">
-    <div *ngIf="showInitials" class="initials">{{ initials }}</div>
-</div>
