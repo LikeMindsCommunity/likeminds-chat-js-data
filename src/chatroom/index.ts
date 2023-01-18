@@ -16,6 +16,7 @@ import {
     Profile,
     PushReportType,
     Read,
+    TAG,
     TaggingList,
     Upload,
 } from './types';
@@ -40,13 +41,10 @@ export class Chatroom extends Base {
 
     getTaggingList(taggingList: TaggingList): Promise<any> {
         return this.invoke(`${API.CHATROOM_GET_TAGGINNG_LIST}?chatroom_id=${taggingList.chatroom_id}`);
-        // return this.invoke(
-        //     `${API.CHATROOM_GET_TAGGINNG_LIST}?community_id=${taggingList.community_id}&chatroom_id=${taggingList.chatroom_id}`
-        // );
     }
 
-    getReportTags(): Promise<any> {
-        return this.invoke(`${API.FETCH_REPORT_TAGS}`);
+    getReportTags(tag: TAG): Promise<any> {
+        return this.invoke(`${API.FETCH_REPORT_TAGS}?type=${tag.type}`);
     }
 
     pushReport(pushReportType: PushReportType): Promise<any> {

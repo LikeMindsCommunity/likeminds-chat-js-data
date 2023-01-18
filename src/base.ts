@@ -41,10 +41,6 @@ export abstract class Base {
         const isRefreshRequest = endpoint.includes('refresh');
         const carvanApi = endpoint.includes('fetch_chatroom_home') || endpoint.includes('mark_read') || endpoint.includes('upload_files');
         const cFeed = endpoint.includes('community/feed');
-        // endpoint.includes('fetch_report_tags') ||
-        // endpoint.includes('conversation/create') ||
-        // endpoint.includes('chatroom/fetch') ||
-        // endpoint.includes('fetch_feed') ||
 
         let url = `${this.baseUrl}${endpoint}`;
         if (carvanApi) url = `${this.baseUrlCaravan}/api${endpoint}`;

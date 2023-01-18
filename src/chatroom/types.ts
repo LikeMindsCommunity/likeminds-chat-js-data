@@ -43,6 +43,10 @@ export declare type TaggingList = {
     community_id: string | number;
 };
 
+export declare type TAG = {
+    type: number;
+};
+
 export declare type PushReportType = {
     conversation_id: number;
     tag_id: number;
