@@ -1,6 +1,0 @@
-<p class="content p-0 m-0 fs20 hide-sm">
-    {{data | ellipsis:showMore:characterCount}}<span *ngIf="characterCount < dataLength && !showMore">...</span>
-</p>
-<p class="content p-0 m-0 fs20 show-sm">{{ data }}</p>
-<p class="fs20 mt-4 cursor-pointer read-more hide-sm" (click)="readMore()" *ngIf="characterCount < dataLength">{{ showMore ? 'Show less' : 'Read more'}}
-</p>
