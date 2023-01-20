@@ -65,7 +65,7 @@ export class Chatroom extends Base {
         return this.invoke(
             `${API.COLLABCARD_FOLLOW}?collabcard_id=${leave.collabcard_id}&member_id=${leave.member_id}&value=${leave.value}`,
             {
-                method: 'POST',
+                method: 'PUT',
                 body: JSON.stringify({}),
             }
         );
