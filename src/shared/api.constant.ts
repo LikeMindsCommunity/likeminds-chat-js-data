@@ -28,5 +28,5 @@ export const API = {
     MARK_READ: '/mark_read',
     UPLOAD_FILES: '/v1/upload_files',
     COMMUNITY_MEMBER_PROFILE: '/community/member/profile',
-    SEARCH_CHATROOM: '/search/chatroom',
+    SEARCH_CHATROOM: '/chatroom/search',
 };
