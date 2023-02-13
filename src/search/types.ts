@@ -3,5 +3,5 @@ export declare type SEARCHTYPE = {
     page: number;
     page_size: number;
     search: string;
-    search_type?: string;
+    search_type: string;
 };

@@ -39,7 +39,11 @@ export abstract class Base {
         const kettle = endpoint.includes('initiate');
 
         const isRefreshRequest = endpoint.includes('refresh');
-        const carvanApi = endpoint.includes('fetch_chatroom_home') || endpoint.includes('mark_read') || endpoint.includes('upload_files');
+        const carvanApi =
+            endpoint.includes('fetch_chatroom_home') ||
+            endpoint.includes('conversation/create') ||
+            endpoint.includes('mark_read') ||
+            endpoint.includes('upload_files');
         const cFeed = endpoint.includes('community/feed');
 
         let url = `${this.baseUrl}${endpoint}`;
