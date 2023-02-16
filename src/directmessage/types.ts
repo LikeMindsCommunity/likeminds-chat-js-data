@@ -32,3 +32,8 @@ export declare type REQDM = {
     chat_request_state: number;
     text?: string;
 };
+
+export declare type BLOCKCR = {
+    chatroom_id: number;
+    status: number;
+};

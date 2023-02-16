@@ -1,6 +1,6 @@
 import { API } from '../shared/api.constant';
 import { Base } from '../base';
-import { CANDM, CID, CREATDMTYPE, DMCTYPE, DMTYPE, REQDM, REQDMTYPE } from './types';
+import { BLOCKCR, CANDM, CID, CREATDMTYPE, DMCTYPE, DMTYPE, REQDM, REQDMTYPE } from './types';
 
 export class DmFeed extends Base {
     getDMFeed(cid: CID): Promise<any> {
@@ -36,6 +36,13 @@ export class DmFeed extends Base {
         return this.invoke(`${API.CHATROOM_REQUEST_DM}`, {
             method: 'POST',
             body: JSON.stringify(reqDm),
+        });
+    }
+
+    blockCR(bcr: BLOCKCR): Promise<any> {
+        return this.invoke(`${API.CHATROOM_BLOCK}`, {
+            method: 'POST',
+            body: JSON.stringify(bcr),
         });
     }
 }

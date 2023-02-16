@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
+import { getMessaging } from 'firebase/messaging';
 
 // Beta
 const firebaseConfig = {
@@ -26,3 +27,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const db = getDatabase(app);
+
+// Get the messaging service
+export const msg = getMessaging(app);
+
+// // Request permission for notification
+// messaging.requestPermission().then(() => {
+//   console.log('Notification permission granted.');
+//   // Get token
+//   messaging.getToken().then((token) => {
+//     console.log(token);
+//   });
+// }).catch((err) => {console.log(err)})

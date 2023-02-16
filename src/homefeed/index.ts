@@ -2,6 +2,7 @@ import { API } from '../shared/api.constant';
 import { Base } from '../base';
 import { HOME } from './types';
 import { db } from '../utils/firebase';
+import { msg } from '../utils/firebase';
 // import { onValue, ref } from 'firebase/database';
 
 export class HomeFeed extends Base {
@@ -13,5 +14,10 @@ export class HomeFeed extends Base {
     fbInstance() {
         const fbDatabase = db;
         return fbDatabase;
+    }
+
+    fbMsg() {
+        const message = msg;
+        return message;
     }
 }

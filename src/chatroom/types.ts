@@ -1,6 +1,7 @@
 export declare type CHATROOMTYPE = {
     chatroom_id: any;
     page?: number;
+    api_type?: number;
 };
 export declare type ChatroomType = {
     chatroom_id: number;
@@ -31,6 +32,11 @@ export declare type Action = {
     chatroom_id: string | number;
     conversation_id: string | number;
     reaction: any;
+};
+
+export declare type MUTE = {
+    chatroom_id: number;
+    value: boolean;
 };
 
 export declare type CMETATYPE = {
@@ -102,4 +108,9 @@ export declare type CRSeen = {
     community_id: number;
     member_id: number;
     collabcard_type: any;
+};
+
+export declare type DMSG = {
+    conversation_ids: any;
+    reason?: string;
 };
