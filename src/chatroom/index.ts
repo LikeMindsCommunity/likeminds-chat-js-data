@@ -9,9 +9,11 @@ import {
     CRSeen,
     ConversationCreateData,
     ConversationData,
+    DMSG,
     FeedData,
     FollowCRType,
     LeaveCR,
+    MUTE,
     Media,
     Profile,
     PushReportType,
@@ -65,7 +67,7 @@ export class Chatroom extends Base {
         return this.invoke(
             `${API.COLLABCARD_FOLLOW}?collabcard_id=${leave.collabcard_id}&member_id=${leave.member_id}&value=${leave.value}`,
             {
-                method: 'POST',
+                method: 'PUT',
                 body: JSON.stringify({}),
             }
         );
@@ -117,6 +119,13 @@ export class Chatroom extends Base {
         });
     }
 
+    muteNotification(mute: MUTE): Promise<any> {
+        return this.invoke(`${API.CHATROOM_MUTE}`, {
+            method: 'PUT',
+            body: JSON.stringify(mute),
+        });
+    }
+
     markReadFn(mr: Read): Promise<any> {
         const params = `chatroom_id=${mr.chatroom_id}`;
         return this.invoke(`${API.MARK_READ}`, {
@@ -129,6 +138,13 @@ export class Chatroom extends Base {
         return this.invoke(`${API.COLLABCARD_SEEN}`, {
             method: 'PUT',
             body: JSON.stringify(mr),
+        });
+    }
+
+    deleteMsg(dMsg: DMSG): Promise<any> {
+        return this.invoke(`${API.CONVERSATION_META}`, {
+            method: 'DELETE',
+            body: JSON.stringify(dMsg),
         });
     }
 

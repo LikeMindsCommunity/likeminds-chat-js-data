@@ -4,7 +4,8 @@ export const API = {
     MY_CHATOOMS: '/chatroom/mine', //(GET)
     CHATROOM_FETCH: '/chatroom',
     CONVERSATION_FETCH: '/conversation', //(GET)
-    CONVERSATION_CREATE: '/conversation', //(POST)
+    CONVERSATION_CREATE: '/conversation/create', //(POST)
+    // CONVERSATION_CREATE: '/conversation', //(POST)
     CONVERSATION_ADD_ACTION: '/conversation/reaction', //(PUT)
     CHATROOM_GET_TAGGINNG_LIST: '/chatroom/tag', //(GET)
     FETCH_REPORT_TAGS: '/community/report/tag', //(GET)
@@ -28,5 +29,6 @@ export const API = {
     MARK_READ: '/mark_read',
     UPLOAD_FILES: '/v1/upload_files',
     COMMUNITY_MEMBER_PROFILE: '/community/member/profile',
-    SEARCH_CHATROOM: '/search/chatroom',
+    SEARCH_CHATROOM: '/chatroom/search',
+    CHATROOM_MUTE: '/chatroom/mute',
 };
