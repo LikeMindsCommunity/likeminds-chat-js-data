@@ -40,10 +40,12 @@ export abstract class Base {
 
         const isRefreshRequest = endpoint.includes('refresh');
         const carvanApi =
-            endpoint.includes('fetch_chatroom_home') ||
-            endpoint.includes('conversation/create') ||
+            endpoint.includes('likemind') ||
             endpoint.includes('mark_read') ||
+            endpoint.includes('fetch_chatroom_home') ||
+            endpoint.includes('secret/leave') ||
             endpoint.includes('upload_files');
+
         const cFeed = endpoint.includes('community/feed');
 
         let url = `${this.baseUrl}${endpoint}`;
