@@ -23,7 +23,7 @@ export abstract class Base {
         this.baseUrl = congif.baseUrl || 'https://auth.likeminds.community';
         this.baseUrlCaravan = congif.baseUrlCaravan || 'https://www.likeminds.community';
         this.xPlatformCode = congif.xPlatformCode || 'web';
-        this.xVersionCode = congif.xVersionCode || 16;
+        this.xVersionCode = congif.xVersionCode || 20;
         this.xMemberId = congif?.userId;
     }
 

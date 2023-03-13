@@ -1,14 +1,23 @@
 import { API } from '../shared/api.constant';
 import { Base } from '../base';
-import { HOME } from './types';
+import { HOME, IAType, INVITE } from './types';
 import { db } from '../utils/firebase';
 import { msg } from '../utils/firebase';
-// import { onValue, ref } from 'firebase/database';
 
 export class HomeFeed extends Base {
     getHomeFeedData(home: HOME): Promise<any> {
         return this.invoke(`${API.MY_CHATOOMS}?page=${home.page}`);
-        // return this.invoke(`${API.MY_CHATOOMS}?community_id=${home.communityId}&page=${home.page}`);
+    }
+
+    getInvites(invite: INVITE): Promise<any> {
+        return this.invoke(`${API.CHANNEL_INVITES}?channel_type=${invite.channel_type}&page=${invite.page}&page_size=${invite.page_size}`);
+    }
+
+    inviteAction(iaType: IAType): Promise<any> {
+        return this.invoke(`${API.CHANNEL_INVITE}`, {
+            method: 'PUT',
+            body: JSON.stringify(iaType),
+        });
     }
 
     fbInstance() {
