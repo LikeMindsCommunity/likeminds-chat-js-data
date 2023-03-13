@@ -13,8 +13,10 @@ import {
     FeedData,
     FollowCRType,
     LeaveCR,
+    LeaveSC,
     MUTE,
     Media,
+    ParticipantsType,
     Profile,
     PushReportType,
     Read,
@@ -73,6 +75,13 @@ export class Chatroom extends Base {
         );
     }
 
+    leaveSecretChatroom(leave: LeaveSC): Promise<any> {
+        return this.invoke(`${API.CHATROOM_SECRET_LEAVE}`, {
+            method: 'POST',
+            body: JSON.stringify(leave),
+        });
+    }
+
     getConversations(conversationData: ConversationData): Promise<any> {
         if (conversationData.scroll_direction) {
             return this.invoke(
@@ -89,6 +98,18 @@ export class Chatroom extends Base {
 
     profileData(profile: Profile): Promise<any> {
         return this.invoke(`${API.MEMBER_STATE}?community_id=${profile.community_id}&member_id=${profile.member_id}`);
+    }
+
+    viewParticipants(participantsType: ParticipantsType): Promise<any> {
+        if (participantsType.page) {
+            return this.invoke(
+                `${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroom_id}&is_secret=${participantsType.is_secret}&page=${participantsType.page}&page_size=${participantsType.page_size}`
+            );
+        } else {
+            return this.invoke(
+                `${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroom_id}&is_secret=${participantsType.is_secret}`
+            );
+        }
     }
 
     conversationsFetch(cmetaType: CMETATYPE): Promise<any> {

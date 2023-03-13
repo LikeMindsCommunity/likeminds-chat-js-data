@@ -4,13 +4,14 @@ export const API = {
     MY_CHATOOMS: '/chatroom/mine', //(GET)
     CHATROOM_FETCH: '/chatroom',
     CONVERSATION_FETCH: '/conversation', //(GET)
-    CONVERSATION_CREATE: '/conversation/create', //(POST)
-    // CONVERSATION_CREATE: '/conversation', //(POST)
+    // CONVERSATION_CREATE: '/conversation/create', //(POST)
+    CONVERSATION_CREATE: '/conversation', //(POST)
     CONVERSATION_ADD_ACTION: '/conversation/reaction', //(PUT)
     CHATROOM_GET_TAGGINNG_LIST: '/chatroom/tag', //(GET)
     FETCH_REPORT_TAGS: '/community/report/tag', //(GET)
     PUSH_REPORT: '/community/report', //(POST)
     COLLABCARD_FOLLOW: '/chatroom/follow', //(PUT)
+    CHATROOM_SECRET_LEAVE: '/chatroom/secret/leave', //(Post)
     MEMBER_STATE: '/community/member/state', //(GET)
     COMMUNITY_MEMBER_FETCH_FEED: '/community/feed',
     ALL_MEMBERS: '/community/member', //(GET)
@@ -26,9 +27,13 @@ export const API = {
     CONVERSATION_META: '/conversation', //(GET)
     HOME_COMMUNITIES: '/home/fetch_communities', //(POST)
     FETCH_CHATROOM_HOME: '/community_member/fetch_chatroom_home',
+    // FETCH_CHATROOM_HOME: '/chatroom/home',
     MARK_READ: '/mark_read',
+    // MARK_READ: '/chatroom/mark_read',
     UPLOAD_FILES: '/v1/upload_files',
+    // UPLOAD_FILES: '/helper/media/upload',
     COMMUNITY_MEMBER_PROFILE: '/community/member/profile',
     SEARCH_CHATROOM: '/chatroom/search',
     CHATROOM_MUTE: '/chatroom/mute',
+    CHATROOM_PARTICIPANTS: '/chatroom/participants',
 };
