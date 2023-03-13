@@ -31,4 +31,6 @@ export const API = {
     COMMUNITY_MEMBER_PROFILE: '/community/member/profile',
     SEARCH_CHATROOM: '/chatroom/search',
     CHATROOM_MUTE: '/chatroom/mute',
+    CHANNEL_INVITES: '/channel/invites', // (GET)
+    CHANNEL_INVITE: '/channel/invite', // (PUT)
 };

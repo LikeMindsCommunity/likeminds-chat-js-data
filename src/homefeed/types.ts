@@ -6,3 +6,14 @@ export declare type HOME = {
 export declare type CRid = {
     chatroom_id: number;
 };
+
+export declare type INVITE = {
+    channel_type: number;
+    page: number;
+    page_size: number;
+};
+
+export declare type IAType = {
+    channel_id: number | string;
+    invite_status: number;
+};
