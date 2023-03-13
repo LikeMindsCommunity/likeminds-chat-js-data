@@ -81,10 +81,21 @@ export declare type LeaveCR = {
     member_id: number;
     value: boolean;
 };
+export declare type LeaveSC = {
+    chatroom_id: number;
+    member_id: number;
+};
 
 export declare type Profile = {
     community_id: number;
     member_id: number;
+};
+
+export declare type ParticipantsType = {
+    chatroom_id: number;
+    is_secret: boolean;
+    page?: number;
+    page_size?: number;
 };
 
 export declare type Read = {
