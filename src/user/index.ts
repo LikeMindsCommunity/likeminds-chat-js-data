@@ -10,6 +10,7 @@ export class Member extends Base {
         });
         const res = response.then((resData: any) => {
             if (resData) {
+                localStorage.setItem('__community__', JSON.stringify(resData.community));
                 localStorage.setItem('__likeminds_user__', JSON.stringify(resData.user));
                 localStorage.setItem('__access_token_LTM__', resData.access_token);
                 localStorage.setItem('__refresh_token_RTM__', resData.refresh_token);

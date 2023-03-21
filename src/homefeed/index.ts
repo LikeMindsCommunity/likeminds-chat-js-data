@@ -1,6 +1,7 @@
 import { API } from '../shared/api.constant';
 import { Base } from '../base';
 import { HOME, IAType, INVITE } from './types';
+import { onValue, ref } from 'firebase/database';
 import { db } from '../utils/firebase';
 import { msg } from '../utils/firebase';
 
@@ -23,6 +24,16 @@ export class HomeFeed extends Base {
     fbInstance() {
         const fbDatabase = db;
         return fbDatabase;
+    }
+
+    fireBaseDatabase() {
+        const query = ref(db, 'collabcards');
+        return onValue(query, (snapshot) => {
+            if (snapshot.exists()) {
+                const snap = snapshot.val();
+                return snap;
+            }
+        });
     }
 
     fbMsg() {
