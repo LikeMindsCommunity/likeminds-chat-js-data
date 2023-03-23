@@ -42,9 +42,9 @@ export abstract class Base {
         const carvanApi =
             endpoint.includes('likemind') ||
             endpoint.includes('mark_read') ||
-            endpoint.includes('fetch_chatroom_home') ||
             endpoint.includes('secret/leave') ||
             endpoint.includes('upload_files');
+        // endpoint.includes('fetch_chatroom_home') ||
 
         const cFeed = endpoint.includes('community/feed');
 

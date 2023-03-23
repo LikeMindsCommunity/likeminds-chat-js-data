@@ -26,12 +26,17 @@ export class HomeFeed extends Base {
         return fbDatabase;
     }
 
-    fireBaseDatabase() {
-        const query = ref(db, 'collabcards');
+    homeFeedListener() {
+        const community = JSON.parse(localStorage.getItem('__community__'));
+        const query = ref(db, `community/${community.id}`);
         return onValue(query, (snapshot) => {
             if (snapshot.exists()) {
-                const snap = snapshot.val();
-                return snap;
+                const snapChatroomId = snapshot.val().chatroom_id;
+                fetch(`${API.FETCH_CHATROOM_HOME}?chatroom_id=${snapChatroomId}`)
+                    .then((res) => res.json())
+                    .then((res: any) => {
+                        return res;
+                    });
             }
         });
     }

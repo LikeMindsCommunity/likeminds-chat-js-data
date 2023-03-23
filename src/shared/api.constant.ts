@@ -26,8 +26,8 @@ export const API = {
     CHATROOM_BLOCK: '/chatroom/dm/block', //(POST)
     CONVERSATION_META: '/conversation', //(GET)
     HOME_COMMUNITIES: '/home/fetch_communities', //(POST)
-    FETCH_CHATROOM_HOME: '/community_member/fetch_chatroom_home',
-    // FETCH_CHATROOM_HOME: '/chatroom/home',
+    // FETCH_CHATROOM_HOME: '/community_member/fetch_chatroom_home',
+    FETCH_CHATROOM_HOME: '/chatroom/home',
     MARK_READ: '/mark_read',
     // MARK_READ: '/chatroom/mark_read',
     UPLOAD_FILES: '/v1/upload_files',
