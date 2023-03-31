@@ -8,6 +8,7 @@ type Config = {
     baseUrlCaravan?: string;
     xPlatformCode?: any;
     xVersionCode?: any;
+    xDeviceId?: any;
 };
 
 export abstract class Base {
@@ -17,6 +18,7 @@ export abstract class Base {
     private xMemberId: string;
     private xPlatformCode: string;
     private xVersionCode: string;
+    private xDeviceId: string;
 
     constructor(congif: Config) {
         this.apiKey = congif.apiKey;
@@ -25,6 +27,7 @@ export abstract class Base {
         this.xPlatformCode = congif.xPlatformCode || 'web';
         this.xVersionCode = congif.xVersionCode || 20;
         this.xMemberId = congif?.userId;
+        this.xDeviceId = congif?.xDeviceId;
     }
 
     protected invoke<T>(endpoint: string, options?: RequestInit): Promise<T> {
@@ -60,6 +63,9 @@ export abstract class Base {
 
         const isMarkRead = endpoint.includes('mark_read');
         if (isMarkRead) headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+        const userDevicePush = endpoint.includes('/user/device/push');
+        if (userDevicePush) headers['x-device-id'] = this.xDeviceId;
 
         const config = { ...options, headers };
 
