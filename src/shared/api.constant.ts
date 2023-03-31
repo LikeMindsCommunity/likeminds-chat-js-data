@@ -29,13 +29,14 @@ export const API = {
     // FETCH_CHATROOM_HOME: '/community_member/fetch_chatroom_home',
     FETCH_CHATROOM_HOME: '/chatroom/home',
     MARK_READ: '/mark_read',
-    // MARK_READ: '/chatroom/mark_read',
+    CHATROOM_MARK_READ: '/chatroom/mark_read',
     UPLOAD_FILES: '/v1/upload_files',
-    // UPLOAD_FILES: '/helper/media/upload',
+    HELPER_MEDIA_UPLOAD: '/helper/media/upload',
     COMMUNITY_MEMBER_PROFILE: '/community/member/profile',
     SEARCH_CHATROOM: '/chatroom/search',
     CHATROOM_MUTE: '/chatroom/mute',
     CHANNEL_INVITES: '/channel/invites', // (GET)
     CHANNEL_INVITE: '/channel/invite', // (PUT)
     CHATROOM_PARTICIPANTS: '/chatroom/participants',
+    USER_DEVICE_PUSH: '/user/device/push',
 };

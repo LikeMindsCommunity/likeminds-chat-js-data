@@ -17,3 +17,7 @@ export declare type IAType = {
     channel_id: number | string;
     invite_status: number;
 };
+
+export declare type Device = {
+    token: string;
+};

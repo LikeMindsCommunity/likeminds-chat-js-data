@@ -65,6 +65,13 @@ export class Chatroom extends Base {
         });
     }
 
+    onUploadFileAws(upload: Upload): Promise<any> {
+        return this.invoke(`${API.HELPER_MEDIA_UPLOAD}`, {
+            method: 'POST',
+            body: JSON.stringify(upload),
+        });
+    }
+
     leaveChatroom(leave: LeaveCR): Promise<any> {
         return this.invoke(
             `${API.COLLABCARD_FOLLOW}?collabcard_id=${leave.collabcard_id}&member_id=${leave.member_id}&value=${leave.value}`,
@@ -148,8 +155,15 @@ export class Chatroom extends Base {
     }
 
     markReadFn(mr: Read): Promise<any> {
-        const params = `chatroom_id=${mr.chatroom_id}`;
         return this.invoke(`${API.MARK_READ}`, {
+            method: 'POST',
+            body: JSON.stringify(mr),
+        });
+    }
+
+    markRead(mr: Read): Promise<any> {
+        const params = `chatroom_id=${mr.chatroom_id}`;
+        return this.invoke(`${API.CHATROOM_MARK_READ}`, {
             method: 'POST',
             body: params,
         });
