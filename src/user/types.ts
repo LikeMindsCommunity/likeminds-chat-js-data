@@ -13,3 +13,14 @@ export declare type USERTYPE = {
 export declare type PROFILE = {
     user_id: number;
 };
+
+export declare type Members = {
+    page: number;
+};
+
+export declare type Search = {
+    search: string;
+    search_type: string;
+    page: number;
+    page_size: number;
+};

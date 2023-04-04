@@ -22,6 +22,7 @@ import {
     Read,
     TAG,
     TaggingList,
+    TaggingListOld,
     Upload,
 } from './types';
 
@@ -43,8 +44,19 @@ export class Chatroom extends Base {
         return this.invoke(`${API.CHATROOM_FETCH}?chatroom_id=${chatroomType.chatroom_id}`);
     }
 
-    getTaggingList(taggingList: TaggingList): Promise<any> {
+    getTaggingListOld(taggingList: TaggingListOld): Promise<any> {
         return this.invoke(`${API.CHATROOM_GET_TAGGINNG_LIST}?chatroom_id=${taggingList.chatroom_id}`);
+    }
+
+    getTaggingList(taggingList: TaggingList): Promise<any> {
+        if (taggingList.chatroomId)
+            return this.invoke(
+                `${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
+            );
+        else
+            return this.invoke(
+                `${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
+            );
     }
 
     getReportTags(tag: TAG): Promise<any> {

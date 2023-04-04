@@ -1,6 +1,6 @@
 import { API } from '../shared/api.constant';
 import { Base } from '../base';
-import { InIt, PROFILE, USERTYPE } from './types';
+import { InIt, Members, PROFILE, Search, USERTYPE } from './types';
 
 export class Member extends Base {
     initSDK(sdk: InIt): Promise<any> {
@@ -22,6 +22,16 @@ export class Member extends Base {
     allMembers(userType: USERTYPE): Promise<any> {
         return this.invoke(
             `${API.ALL_MEMBERS}?community_id=${userType.community_id}&chatroom_id=${userType.chatroom_id}&page=${userType.page}`
+        );
+    }
+
+    getAllMembers(members: Members): Promise<any> {
+        return this.invoke(`${API.ALL_MEMBERS}?page=${members.page}`);
+    }
+
+    searchMembers(search: Search): Promise<any> {
+        return this.invoke(
+            `${API.COMMUNITY_MEMBER_SEARCH}?search=${search.search}&search_type=${search.search_type}&page=${search.page}&page_size=${search.page_size}`
         );
     }
 

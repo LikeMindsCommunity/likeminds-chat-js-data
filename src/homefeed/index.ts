@@ -1,6 +1,6 @@
 import { API } from '../shared/api.constant';
 import { Base } from '../base';
-import { Device, HOME, IAType, INVITE } from './types';
+import { Device, HOME, IAType, INVITE, Participant } from './types';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../utils/firebase';
 import { msg } from '../utils/firebase';
@@ -12,6 +12,13 @@ export class HomeFeed extends Base {
 
     getInvites(invite: INVITE): Promise<any> {
         return this.invoke(`${API.CHANNEL_INVITES}?channel_type=${invite.channel_type}&page=${invite.page}&page_size=${invite.page_size}`);
+    }
+
+    sendInvites(participant: Participant): Promise<any> {
+        return this.invoke(`${API.CHATROOM_PARTICIPANTS}`, {
+            method: 'POST',
+            body: JSON.stringify(participant),
+        });
     }
 
     registerDevice(device: Device): Promise<any> {
