@@ -39,4 +39,5 @@ export const API = {
     CHANNEL_INVITE: '/channel/invite', // (PUT)
     CHATROOM_PARTICIPANTS: '/chatroom/participants',
     USER_DEVICE_PUSH: '/user/device/push',
+    COMMUNITY_TAG: '/community/tag',
 };
