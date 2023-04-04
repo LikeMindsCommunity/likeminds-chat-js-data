@@ -21,3 +21,9 @@ export declare type IAType = {
 export declare type Device = {
     token: string;
 };
+
+export declare type Participant = {
+    chatroom_id: number;
+    is_secret: boolean;
+    chatroom_participants: any;
+};
