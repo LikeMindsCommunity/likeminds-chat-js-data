@@ -44,9 +44,16 @@ export declare type CMETATYPE = {
     conversation_id: number;
 };
 
-export declare type TaggingList = {
+export declare type TaggingListOld = {
     chatroom_id: string | number;
-    community_id: string | number;
+};
+
+export declare type TaggingList = {
+    page: number;
+    pageSize: number;
+    searchName: string;
+    chatroomId?: number;
+    feedroomId?: number;
 };
 
 export declare type TAG = {

@@ -15,6 +15,7 @@ export const API = {
     MEMBER_STATE: '/community/member/state', //(GET)
     COMMUNITY_MEMBER_FETCH_FEED: '/community/feed',
     ALL_MEMBERS: '/community/member', //(GET)
+    COMMUNITY_MEMBER_SEARCH: '/community/member/search', //(GET)
     DM_ALL_MEMBERS: '/community/member', //(GET)
     COLLABCARD_SEEN: '/chatroom/seen', //(PUT)
     FETCH_DM_FEED: '/community/dm/feed', //(GET)
@@ -39,4 +40,5 @@ export const API = {
     CHANNEL_INVITE: '/channel/invite', // (PUT)
     CHATROOM_PARTICIPANTS: '/chatroom/participants',
     USER_DEVICE_PUSH: '/user/device/push',
+    COMMUNITY_TAG: '/community/tag',
 };
