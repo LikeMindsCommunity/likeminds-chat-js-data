@@ -108,7 +108,7 @@ export abstract class Base {
                                 tryRequest(url, config);
                             });
                     } else if (!response.success && response.error_message === 'Invalid RTM!') localStorage.clear();
-                    else return response?.data;
+                    else return response?.data || response;
                 })
                 .catch((err) => {
                     throw new Error(err?.statusText);

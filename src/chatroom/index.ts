@@ -166,16 +166,17 @@ export class Chatroom extends Base {
         });
     }
 
-    markReadFn(mr: Read): Promise<any> {
-        return this.invoke(`${API.MARK_READ}`, {
+    markRead(mr: Read): Promise<any> {
+        return this.invoke(`${API.CHATROOM_MARK_READ}`, {
+        // return this.invoke(`${API.MARK_READ}`, {
             method: 'POST',
             body: JSON.stringify(mr),
         });
     }
 
-    markRead(mr: Read): Promise<any> {
+    markReadFn(mr: Read): Promise<any> {
         const params = `chatroom_id=${mr.chatroom_id}`;
-        return this.invoke(`${API.CHATROOM_MARK_READ}`, {
+        return this.invoke(`${API.MARK_READ}`, {
             method: 'POST',
             body: params,
         });
