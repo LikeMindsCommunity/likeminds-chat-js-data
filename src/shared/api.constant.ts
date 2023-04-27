@@ -9,35 +9,37 @@ export const API = {
     CHATROOM_SHARED: '/chatroom/share',
     CONVERSATION_TOPIC: '/conversation/topic',
     COMMUNITY_TAG: '/community/tag',
-    CONVERSATION: '/conversation', //(GET)
+    CONVERSATION: '/conversation',
+    CONVERSATION_REACTION: '/conversation/reaction',
+    HELPER_MEDIA_UPLOAD: '/helper/media/upload',
+    HELPER_URL: '/helper/url',
+    COMMUNITY_MEMBER_PROFILE: '/community/member/profile',
+    COMMUNITY_MEMBER_CHATROOM: '/community/member/chatroom',
+    COMMUNITY_QUESTIONS: '/community/questions',
+    FETCH_REPORT_TAGS: '/community/report/tag',
+    PUSH_REPORT: '/community/report',
+    CHATROOM_DM: '/chatroom/dm',
+    DM_STATUS: '/community/dm/status',
+    COMMUNITY_MEMBERS: '/community/member',
+    COMMUNITY_MEMBER_SEARCH: '/community/member/search',
+    CHATROOM_DM_LIMIT: '/chatroom/dm/limit',
+    CHATROOM_DM_CREATE: '/chatroom/dm/create',
+    CHATROOM_DM_REQUEST: '/chatroom/dm/request',
+    CHATROOM_DM_BLOCK: '/chatroom/dm/block',
+    HOME_DM_META: '/home/dm/meta',
 
     REFRESH_TOKEN_API: '/user/refresh',
-    CONVERSATION_FETCH: '/conversation', //(GET)
-    CONVERSATION_CREATE: '/conversation', //(POST)
-    CONVERSATION_ADD_ACTION: '/conversation/reaction', //(PUT)
     CHATROOM_GET_TAGGINNG_LIST: '/chatroom/tag', //(GET)
-    FETCH_REPORT_TAGS: '/community/report/tag', //(GET)
-    PUSH_REPORT: '/community/report', //(POST)
     CHATROOM_SECRET_LEAVE: '/chatroom/secret/leave', //(Post)
     MEMBER_STATE: '/community/member/state', //(GET)
-    ALL_MEMBERS: '/community/member', //(GET)
-    COMMUNITY_MEMBER_SEARCH: '/community/member/search', //(GET)
     DM_ALL_MEMBERS: '/community/member', //(GET)
     COLLABCARD_SEEN: '/chatroom/seen', //(PUT)
     FETCH_DM_FEED: '/community/dm/feed', //(GET)
-    CAN_DM: '/community/dm/status', //(GET)
-    FETCH_DM_CHATROOMS: '/chatroom/dm', //(GET)
-    REQUEST_DM_LIMIT: '/chatroom/dm/limit', //(GET)
-    CHATROOM_CREATE_DM: '/chatroom/dm/create', // Post
-    CHATROOM_REQUEST_DM: '/chatroom/dm/request', //(POST)
-    CHATROOM_BLOCK: '/chatroom/dm/block', //(POST)
     CONVERSATION_META: '/conversation', //(GET)
     HOME_COMMUNITIES: '/home/fetch_communities', //(POST)
     FETCH_CHATROOM_HOME: '/chatroom/home',
     MARK_READ: '/mark_read',
     UPLOAD_FILES: '/v1/upload_files',
-    HELPER_MEDIA_UPLOAD: '/helper/media/upload',
-    COMMUNITY_MEMBER_PROFILE: '/community/member/profile',
     SEARCH_CHATROOM: '/chatroom/search',
     CHANNEL_INVITES: '/channel/invites', // (GET)
     CHANNEL_INVITE: '/channel/invite', // (PUT)

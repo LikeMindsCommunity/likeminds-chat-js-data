@@ -4,6 +4,20 @@ export declare type InitUser = {
     user_name: string;
 };
 
+export declare type GetProfile = {
+    userId: any;
+};
+export declare type GetMemberChatroom = {
+    userId: any;
+    state: any;
+    page: number;
+};
+
+export declare type EditProfile = {
+    imageUrl: string;
+    questionAnswers: any;
+};
+
 export declare type USERTYPE = {
     community_id: number;
     page: number;
