@@ -54,6 +54,7 @@ export declare type TaggingList = {
     searchName: string;
     chatroomId?: number;
     feedroomId?: number;
+    isSecret?: boolean;
 };
 
 export declare type TAG = {

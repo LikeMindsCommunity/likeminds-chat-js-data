@@ -49,14 +49,27 @@ export class Chatroom extends Base {
     }
 
     getTaggingList(taggingList: TaggingList): Promise<any> {
-        if (taggingList.chatroomId)
-            return this.invoke(
-                `${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
-            );
-        else
-            return this.invoke(
-                `${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
-            );
+        if (taggingList.chatroomId) {
+            if (taggingList.isSecret) {
+                return this.invoke(
+                    `${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}&is_secret=${taggingList.isSecret}`
+                );
+            } else {
+                return this.invoke(
+                    `${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
+                );
+            }
+        } else {
+            if (taggingList.isSecret) {
+                return this.invoke(
+                    `${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}&is_secret=${taggingList.isSecret}`
+                );
+            } else {
+                return this.invoke(
+                    `${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
+                );
+            }
+        }
     }
 
     getReportTags(tag: TAG): Promise<any> {
