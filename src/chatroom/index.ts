@@ -188,7 +188,7 @@ export class Chatroom extends Base {
 
     markRead(mr: Read): Promise<any> {
         const params = `chatroom_id=${mr.chatroom_id}`;
-        return this.invoke(`${API.CHATROOM_MARK_READ}`, {
+        return this.invoke(`${API.MARK_READ}`, {
             method: 'POST',
             body: params,
         });
@@ -213,15 +213,15 @@ export class Chatroom extends Base {
         (AWS.config.region = 'ap-south-1'),
             (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
                 // Beta
-                IdentityPoolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
+                // IdentityPoolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
 
                 // Prod
-                // IdentityPoolId: 'ap-south-1:d73bc2ed-bede-42c8-bab7-0abe0a001325',
+                IdentityPoolId: 'ap-south-1:d73bc2ed-bede-42c8-bab7-0abe0a001325',
             }));
         const s3 = new AWS.S3({
             apiVersion: '2006-03-01',
-            // params: { Bucket: 'prod-likeminds-media' },
-            params: { Bucket: 'beta-likeminds-media' },
+            params: { Bucket: 'prod-likeminds-media' },
+            // params: { Bucket: 'beta-likeminds-media' },
         });
 
         return s3;
@@ -230,8 +230,8 @@ export class Chatroom extends Base {
     uploadMedia(media: Media) {
         let mediaObject = this.getAWS().upload({
             Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
-            // Bucket: 'prod-likeminds-media',
-            Bucket: 'beta-likeminds-media',
+            Bucket: 'prod-likeminds-media',
+            // Bucket: 'beta-likeminds-media',
             Body: media.file,
             ACL: 'public-read-write',
             ContentType: media.file.type,
