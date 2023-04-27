@@ -3,49 +3,65 @@ import { Base } from '../base';
 import { API } from '../shared/api.constant';
 import {
     Action,
-    CHATROOMTYPE,
+    Chatroom,
     CHTYPE,
     CMETATYPE,
     CRSeen,
     ConversationCreateData,
     ConversationData,
     DMSG,
-    FeedData,
-    FollowCRType,
     LeaveCR,
     LeaveSC,
-    MUTE,
     Media,
     ParticipantsType,
     Profile,
     PushReportType,
-    Read,
+    MarkRead,
     TAG,
     TaggingList,
     TaggingListOld,
     Upload,
+    FollowChatroom,
+    MuteChatroom,
+    ShareChatroom,
+    SetChatroom,
 } from './types';
 
-export class Chatroom extends Base {
-    followCR(followCRType: FollowCRType): Promise<any> {
-        return this.invoke(`${API.COLLABCARD_FOLLOW}`, {
+export class ChatroomData extends Base {
+    getChatroom(chatroom: Chatroom): Promise<any> {
+        return this.invoke(`${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
+    }
+
+    followChatroom(followChatroom: FollowChatroom): Promise<any> {
+        return this.invoke(`${API.CHATROOM_FOLLOW}`, {
             method: 'PUT',
-            body: JSON.stringify(followCRType),
+            body: JSON.stringify(followChatroom),
         });
     }
 
-    fetchFeedData(fd: FeedData): Promise<any> {
-        return this.invoke(
-            `${API.COMMUNITY_MEMBER_FETCH_FEED}?community_id=${fd.community_id}&order_type=${fd.order_type}&page=${fd.page}`
-        );
+    muteChatroom(muteChatroom: MuteChatroom): Promise<any> {
+        return this.invoke(`${API.CHATROOM_MUTE}`, {
+            method: 'PUT',
+            body: JSON.stringify(muteChatroom),
+        });
     }
 
-    getChatroom(chatroomType: CHATROOMTYPE): Promise<any> {
-        return this.invoke(`${API.CHATROOM_FETCH}?chatroom_id=${chatroomType.chatroom_id}`);
+    markRead(markRead: MarkRead): Promise<any> {
+        return this.invoke(`${API.CHATROOM_MARK_READ}`, {
+            method: 'POST',
+            body: JSON.stringify(markRead),
+        });
     }
 
-    getTaggingListOld(taggingList: TaggingListOld): Promise<any> {
-        return this.invoke(`${API.CHATROOM_GET_TAGGINNG_LIST}?chatroom_id=${taggingList.chatroom_id}`);
+    shareChatroomUrl(shareChatroom: ShareChatroom): Promise<any> {
+        return this.invoke(`${API.CHATROOM_SHARED}?chatroom_id=${shareChatroom.chatroomId}&domain=${shareChatroom.domain}`);
+    }
+
+    setChatroomTopic(setChatroom: SetChatroom): Promise<any> {
+        return this.invoke(`${API.CONVERSATION_TOPIC}`, {
+            method: 'PUT',
+            body: JSON.stringify(setChatroom),
+        });
     }
 
     getTaggingList(taggingList: TaggingList): Promise<any> {
@@ -70,6 +86,10 @@ export class Chatroom extends Base {
                 );
             }
         }
+    }
+
+    getTaggingListOld(taggingList: TaggingListOld): Promise<any> {
+        return this.invoke(`${API.CHATROOM_GET_TAGGINNG_LIST}?chatroom_id=${taggingList.chatroom_id}`);
     }
 
     getReportTags(tag: TAG): Promise<any> {
@@ -97,15 +117,15 @@ export class Chatroom extends Base {
         });
     }
 
-    leaveChatroom(leave: LeaveCR): Promise<any> {
-        return this.invoke(
-            `${API.COLLABCARD_FOLLOW}?collabcard_id=${leave.collabcard_id}&member_id=${leave.member_id}&value=${leave.value}`,
-            {
-                method: 'PUT',
-                body: JSON.stringify({}),
-            }
-        );
-    }
+    // leaveChatroom(leave: LeaveCR): Promise<any> {
+    //     return this.invoke(
+    //         `${API.COLLABCARD_FOLLOW}?collabcard_id=${leave.collabcard_id}&member_id=${leave.member_id}&value=${leave.value}`,
+    //         {
+    //             method: 'PUT',
+    //             body: JSON.stringify({}),
+    //         }
+    //     );
+    // }
 
     leaveSecretChatroom(leave: LeaveSC): Promise<any> {
         return this.invoke(`${API.CHATROOM_SECRET_LEAVE}`, {
@@ -172,25 +192,10 @@ export class Chatroom extends Base {
         });
     }
 
-    muteNotification(mute: MUTE): Promise<any> {
-        return this.invoke(`${API.CHATROOM_MUTE}`, {
-            method: 'PUT',
-            body: JSON.stringify(mute),
-        });
-    }
-
     markReadFn(mr: Read): Promise<any> {
         return this.invoke(`${API.MARK_READ}`, {
             method: 'POST',
             body: JSON.stringify(mr),
-        });
-    }
-
-    markRead(mr: Read): Promise<any> {
-        const params = `chatroom_id=${mr.chatroom_id}`;
-        return this.invoke(`${API.CHATROOM_MARK_READ}`, {
-            method: 'POST',
-            body: params,
         });
     }
 

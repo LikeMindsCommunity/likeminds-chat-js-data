@@ -1,22 +1,52 @@
-export declare type CHATROOMTYPE = {
-    chatroom_id: any;
+export declare type Chatroom = {
+    chatroomId: any;
     page?: number;
     api_type?: number;
 };
-export declare type ChatroomType = {
-    chatroom_id: number;
-    page?: number;
+
+export declare type FollowChatroom = {
+    collabcard_id: number;
+    member_id: number;
+    value: boolean;
 };
 
-export declare type CHTYPE = {
+export declare type MuteChatroom = {
+    chatroom_id: number;
+    value: boolean;
+};
+
+export declare type MarkRead = {
     chatroom_id: number;
 };
 
-export declare type ConversationData = {
+export declare type ShareChatroom = {
+    chatroomId: number;
+    domain: string;
+};
+
+export declare type SetChatroom = {
+    chatroom_id: number;
+    conversation_id: number;
+};
+
+export declare type TaggingList = {
+    page: number;
+    pageSize: number;
+    searchName: string;
+    chatroomId?: number;
+    feedroomId?: number;
+    isSecret?: boolean;
+};
+
+export declare type conversation = {
     chatroomID: string | number;
     page: number;
     scroll_direction?: number;
     conversation_id?: number;
+};
+
+export declare type CHTYPE = {
+    chatroom_id: number;
 };
 
 export declare type ConversationCreateData = {
@@ -34,11 +64,6 @@ export declare type Action = {
     reaction: any;
 };
 
-export declare type MUTE = {
-    chatroom_id: number;
-    value: boolean;
-};
-
 export declare type CMETATYPE = {
     chatroom_id?: number;
     conversation_id: number;
@@ -46,15 +71,6 @@ export declare type CMETATYPE = {
 
 export declare type TaggingListOld = {
     chatroom_id: string | number;
-};
-
-export declare type TaggingList = {
-    page: number;
-    pageSize: number;
-    searchName: string;
-    chatroomId?: number;
-    feedroomId?: number;
-    isSecret?: boolean;
 };
 
 export declare type TAG = {
@@ -104,22 +120,6 @@ export declare type ParticipantsType = {
     is_secret: boolean;
     page?: number;
     page_size?: number;
-};
-
-export declare type Read = {
-    chatroom_id: any;
-};
-
-export declare type FeedData = {
-    community_id: number;
-    order_type: number;
-    page: number;
-};
-
-export declare type FollowCRType = {
-    collabcard_id: number;
-    member_id: number;
-    value: boolean;
 };
 
 export declare type CRSeen = {

@@ -1,4 +1,4 @@
-export declare type InIt = {
+export declare type InitUser = {
     is_guest: boolean;
     user_unique_id: string;
     user_name: string;

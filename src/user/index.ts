@@ -1,12 +1,12 @@
 import { API } from '../shared/api.constant';
 import { Base } from '../base';
-import { InIt, Members, PROFILE, Search, USERTYPE } from './types';
+import { InitUser, Members, PROFILE, Search, USERTYPE } from './types';
 
 export class Member extends Base {
-    initSDK(sdk: InIt): Promise<any> {
-        const response = this.invoke(`${API.SDK_RESOURCE}`, {
+    initiateUser(initUser: InitUser): Promise<any> {
+        const response = this.invoke(`${API.SDK_INITIATE}`, {
             method: 'POST',
-            body: JSON.stringify(sdk),
+            body: JSON.stringify(initUser),
         });
         const res = response.then((resData: any) => {
             if (resData) {
