@@ -1,7 +1,21 @@
-export declare type InIt = {
+export declare type InitUser = {
     is_guest: boolean;
     user_unique_id: string;
     user_name: string;
+};
+
+export declare type GetProfile = {
+    userId: any;
+};
+export declare type GetMemberChatroom = {
+    userId: any;
+    state: any;
+    page: number;
+};
+
+export declare type EditProfile = {
+    imageUrl: string;
+    questionAnswers: any;
 };
 
 export declare type USERTYPE = {

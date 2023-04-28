@@ -2,196 +2,140 @@ import * as AWS from 'aws-sdk';
 import { Base } from '../base';
 import { API } from '../shared/api.constant';
 import {
-    Action,
-    CHATROOMTYPE,
+    Chatroom,
     CHTYPE,
     CMETATYPE,
     CRSeen,
-    ConversationCreateData,
-    ConversationData,
-    DMSG,
-    FeedData,
-    FollowCRType,
-    LeaveCR,
     LeaveSC,
-    MUTE,
     Media,
     ParticipantsType,
     Profile,
-    PushReportType,
-    Read,
-    TAG,
+    MarkRead,
     TaggingList,
-    TaggingListOld,
-    Upload,
+    FollowChatroom,
+    MuteChatroom,
+    ShareChatroom,
+    SetChatroom,
+    Conversation,
+    PostConversation,
+    EditConversation,
+    DeleteConversation,
+    PutReaction,
+    DeleteReaction,
+    PutMultimedia,
+    DecodeUrl,
+    PostPollConversation,
+    GetReportTags,
+    pushReport,
 } from './types';
 
-export class Chatroom extends Base {
-    followCR(followCRType: FollowCRType): Promise<any> {
-        return this.invoke(`${API.COLLABCARD_FOLLOW}`, {
+export class ChatroomData extends Base {
+    getChatroom(chatroom: Chatroom): Promise<any> {
+        return this.invoke(`${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
+    }
+
+    followChatroom(followChatroom: FollowChatroom): Promise<any> {
+        return this.invoke(`${API.CHATROOM_FOLLOW}`, {
             method: 'PUT',
-            body: JSON.stringify(followCRType),
+            body: JSON.stringify(followChatroom),
         });
     }
 
-    fetchFeedData(fd: FeedData): Promise<any> {
-        return this.invoke(
-            `${API.COMMUNITY_MEMBER_FETCH_FEED}?community_id=${fd.community_id}&order_type=${fd.order_type}&page=${fd.page}`
-        );
+    muteChatroom(muteChatroom: MuteChatroom): Promise<any> {
+        return this.invoke(`${API.CHATROOM_MUTE}`, {
+            method: 'PUT',
+            body: JSON.stringify(muteChatroom),
+        });
     }
 
-    getChatroom(chatroomType: CHATROOMTYPE): Promise<any> {
-        return this.invoke(`${API.CHATROOM_FETCH}?chatroom_id=${chatroomType.chatroom_id}`);
+    markRead(markRead: MarkRead): Promise<any> {
+        return this.invoke(`${API.CHATROOM_MARK_READ}`, {
+            method: 'POST',
+            body: JSON.stringify(markRead),
+        });
     }
 
-    getTaggingListOld(taggingList: TaggingListOld): Promise<any> {
-        return this.invoke(`${API.CHATROOM_GET_TAGGINNG_LIST}?chatroom_id=${taggingList.chatroom_id}`);
+    shareChatroomUrl(shareChatroom: ShareChatroom): Promise<any> {
+        return this.invoke(`${API.CHATROOM_SHARED}?chatroom_id=${shareChatroom.chatroomId}&domain=${shareChatroom.domain}`);
+    }
+
+    setChatroomTopic(setChatroom: SetChatroom): Promise<any> {
+        return this.invoke(`${API.CONVERSATION_TOPIC}`, {
+            method: 'PUT',
+            body: JSON.stringify(setChatroom),
+        });
     }
 
     getTaggingList(taggingList: TaggingList): Promise<any> {
-        if (taggingList.chatroomId)
-            return this.invoke(
-                `${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
-            );
-        else
-            return this.invoke(
-                `${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
-            );
-    }
-
-    getReportTags(tag: TAG): Promise<any> {
-        return this.invoke(`${API.FETCH_REPORT_TAGS}?type=${tag.type}`);
-    }
-
-    pushReport(pushReportType: PushReportType): Promise<any> {
-        return this.invoke(`${API.PUSH_REPORT}`, {
-            method: 'POST',
-            body: JSON.stringify(pushReportType),
-        });
-    }
-
-    onUploadFile(upload: Upload): Promise<any> {
-        return this.invoke(`${API.UPLOAD_FILES}`, {
-            method: 'POST',
-            body: JSON.stringify(upload),
-        });
-    }
-
-    onUploadFileAws(upload: Upload): Promise<any> {
-        return this.invoke(`${API.HELPER_MEDIA_UPLOAD}`, {
-            method: 'POST',
-            body: JSON.stringify(upload),
-        });
-    }
-
-    leaveChatroom(leave: LeaveCR): Promise<any> {
-        return this.invoke(
-            `${API.COLLABCARD_FOLLOW}?collabcard_id=${leave.collabcard_id}&member_id=${leave.member_id}&value=${leave.value}`,
-            {
-                method: 'PUT',
-                body: JSON.stringify({}),
+        if (taggingList.chatroomId) {
+            if (taggingList.isSecret) {
+                return this.invoke(
+                    `${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}&is_secret=${taggingList.isSecret}`
+                );
+            } else {
+                return this.invoke(
+                    `${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
+                );
             }
-        );
-    }
-
-    leaveSecretChatroom(leave: LeaveSC): Promise<any> {
-        return this.invoke(`${API.CHATROOM_SECRET_LEAVE}`, {
-            method: 'POST',
-            body: JSON.stringify(leave),
-        });
-    }
-
-    getConversations(conversationData: ConversationData): Promise<any> {
-        if (conversationData.scroll_direction) {
-            return this.invoke(
-                `${API.CONVERSATION_FETCH}?chatroom_id=${conversationData.chatroomID}&paginate_by=${conversationData.page}&conversation_id=${conversationData.conversation_id}&scroll_direction=${conversationData.scroll_direction}`
-            );
-        } else if (conversationData.conversation_id) {
-            return this.invoke(
-                `${API.CONVERSATION_FETCH}?chatroom_id=${conversationData.chatroomID}&paginate_by=${conversationData.page}&conversation_id=${conversationData.conversation_id}&scroll_direction=${conversationData.scroll_direction}`
-            );
         } else {
-            return this.invoke(`${API.CONVERSATION_FETCH}?chatroom_id=${conversationData.chatroomID}&paginate_by=${conversationData.page}`);
+            if (taggingList.isSecret) {
+                return this.invoke(
+                    `${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}&is_secret=${taggingList.isSecret}`
+                );
+            } else {
+                return this.invoke(
+                    `${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
+                );
+            }
         }
     }
 
-    profileData(profile: Profile): Promise<any> {
-        return this.invoke(`${API.MEMBER_STATE}?community_id=${profile.community_id}&member_id=${profile.member_id}`);
-    }
-
-    viewParticipants(participantsType: ParticipantsType): Promise<any> {
-        if (participantsType.page) {
+    getConversations(conversation: Conversation): Promise<any> {
+        if (conversation.scrollDirection) {
             return this.invoke(
-                `${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroom_id}&is_secret=${participantsType.is_secret}&page=${participantsType.page}&page_size=${participantsType.page_size}`
+                `${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
+            );
+        } else if (conversation.conversationID) {
+            return this.invoke(
+                `${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
             );
         } else {
-            return this.invoke(
-                `${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroom_id}&is_secret=${participantsType.is_secret}`
-            );
+            return this.invoke(`${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}`);
         }
     }
 
-    conversationsFetch(cmetaType: CMETATYPE): Promise<any> {
-        if (cmetaType.chatroom_id) {
-            return this.invoke(
-                `${API.CONVERSATION_META}?chatroom_id=${cmetaType.chatroom_id}&conversation_id=${cmetaType.conversation_id}`
-            );
-        } else {
-            return this.invoke(`${API.CONVERSATION_META}?conversation_id=${cmetaType.conversation_id}`);
-        }
-    }
-
-    fetchChatroomHome(chatroom: CHTYPE): Promise<any> {
-        return this.invoke(`${API.FETCH_CHATROOM_HOME}?chatroom_id=${chatroom.chatroom_id}`);
-    }
-
-    onConversationsCreate(newConversations: ConversationCreateData): Promise<any> {
-        return this.invoke(`${API.CONVERSATION_CREATE}`, {
+    postConversation(postConversation: PostConversation): Promise<any> {
+        return this.invoke(`${API.CONVERSATION}`, {
             method: 'POST',
-            body: JSON.stringify(newConversations),
+            body: JSON.stringify(postConversation),
         });
     }
 
-    addAction(action: Action): Promise<any> {
-        return this.invoke(`${API.CONVERSATION_ADD_ACTION}`, {
+    editConversation(editConversation: EditConversation): Promise<any> {
+        return this.invoke(`${API.CONVERSATION}`, {
             method: 'PUT',
-            body: JSON.stringify(action),
+            body: JSON.stringify(editConversation),
         });
     }
 
-    muteNotification(mute: MUTE): Promise<any> {
-        return this.invoke(`${API.CHATROOM_MUTE}`, {
-            method: 'PUT',
-            body: JSON.stringify(mute),
-        });
-    }
-
-    markReadFn(mr: Read): Promise<any> {
-        return this.invoke(`${API.MARK_READ}`, {
-            method: 'POST',
-            body: JSON.stringify(mr),
-        });
-    }
-
-    markRead(mr: Read): Promise<any> {
-        const params = `chatroom_id=${mr.chatroom_id}`;
-        return this.invoke(`${API.CHATROOM_MARK_READ}`, {
-            method: 'POST',
-            body: params,
-        });
-    }
-
-    crSeenFn(mr: CRSeen): Promise<any> {
-        return this.invoke(`${API.COLLABCARD_SEEN}`, {
-            method: 'PUT',
-            body: JSON.stringify(mr),
-        });
-    }
-
-    deleteMsg(dMsg: DMSG): Promise<any> {
-        return this.invoke(`${API.CONVERSATION_META}`, {
+    deleteConversation(deleteConversation: DeleteConversation): Promise<any> {
+        return this.invoke(`${API.CONVERSATION}`, {
             method: 'DELETE',
-            body: JSON.stringify(dMsg),
+            body: JSON.stringify(deleteConversation),
+        });
+    }
+
+    putReaction(putReaction: PutReaction): Promise<any> {
+        return this.invoke(`${API.CONVERSATION_REACTION}`, {
+            method: 'PUT',
+            body: JSON.stringify(putReaction),
+        });
+    }
+
+    deleteReaction(deleteReaction: DeleteReaction): Promise<any> {
+        return this.invoke(`${API.CONVERSATION_REACTION}`, {
+            method: 'DELETE',
+            body: JSON.stringify(deleteReaction),
         });
     }
 
@@ -225,5 +169,88 @@ export class Chatroom extends Base {
         });
         return mediaObject.promise();
     }
-    // Upload Media Fn End
+
+    putMultimedia(putMultimedia: PutMultimedia): Promise<any> {
+        return this.invoke(`${API.HELPER_MEDIA_UPLOAD}`, {
+            method: 'POST',
+            body: JSON.stringify(putMultimedia),
+        });
+    }
+
+    // Upload Media Function End
+
+    decodeUrl(decodeUrl: DecodeUrl): Promise<any> {
+        return this.invoke(`${API.HELPER_URL}?url=${decodeUrl.url}`);
+    }
+
+    // Polls need to update
+    postPollConversation(postPollConversation: PostPollConversation): Promise<any> {
+        return this.invoke(`${API.CONVERSATION}?chatroom_id=${postPollConversation.chatroomId}`);
+    }
+    getPollUsers(postPollConversation: PostPollConversation): Promise<any> {
+        return this.invoke(`${API.CONVERSATION}?chatroom_id=${postPollConversation.chatroomId}`);
+    }
+    addPollOption(postPollConversation: PostPollConversation): Promise<any> {
+        return this.invoke(`${API.CONVERSATION}?chatroom_id=${postPollConversation.chatroomId}`);
+    }
+    submitPoll(postPollConversation: PostPollConversation): Promise<any> {
+        return this.invoke(`${API.CONVERSATION}?chatroom_id=${postPollConversation.chatroomId}`);
+    }
+
+    getReportTags(getReportTags: GetReportTags): Promise<any> {
+        return this.invoke(`${API.FETCH_REPORT_TAGS}?type=${getReportTags.type}`);
+    }
+
+    pushReport(pushReport: pushReport): Promise<any> {
+        return this.invoke(`${API.PUSH_REPORT}`, {
+            method: 'POST',
+            body: JSON.stringify(pushReport),
+        });
+    }
+
+    // ******************************
+
+    leaveSecretChatroom(leave: LeaveSC): Promise<any> {
+        return this.invoke(`${API.CHATROOM_SECRET_LEAVE}`, {
+            method: 'POST',
+            body: JSON.stringify(leave),
+        });
+    }
+
+    profileData(profile: Profile): Promise<any> {
+        return this.invoke(`${API.MEMBER_STATE}?community_id=${profile.community_id}&member_id=${profile.member_id}`);
+    }
+
+    viewParticipants(participantsType: ParticipantsType): Promise<any> {
+        if (participantsType.page) {
+            return this.invoke(
+                `${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroom_id}&is_secret=${participantsType.is_secret}&page=${participantsType.page}&page_size=${participantsType.page_size}`
+            );
+        } else {
+            return this.invoke(
+                `${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroom_id}&is_secret=${participantsType.is_secret}`
+            );
+        }
+    }
+
+    conversationsFetch(cmetaType: CMETATYPE): Promise<any> {
+        if (cmetaType.chatroom_id) {
+            return this.invoke(
+                `${API.CONVERSATION_META}?chatroom_id=${cmetaType.chatroom_id}&conversation_id=${cmetaType.conversation_id}`
+            );
+        } else {
+            return this.invoke(`${API.CONVERSATION_META}?conversation_id=${cmetaType.conversation_id}`);
+        }
+    }
+
+    fetchChatroomHome(chatroom: CHTYPE): Promise<any> {
+        return this.invoke(`${API.FETCH_CHATROOM_HOME}?chatroom_id=${chatroom.chatroom_id}`);
+    }
+
+    crSeenFn(mr: CRSeen): Promise<any> {
+        return this.invoke(`${API.COLLABCARD_SEEN}`, {
+            method: 'PUT',
+            body: JSON.stringify(mr),
+        });
+    }
 }
