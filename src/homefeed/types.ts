@@ -1,5 +1,4 @@
-export declare type HOME = {
-    communityId: string | number;
+export declare type HomeFeed = {
     page: number;
 };
 
