@@ -26,7 +26,7 @@ import {
     DecodeUrl,
     PostPollConversation,
     GetReportTags,
-    pushReport,
+    PushReport,
 } from './types';
 
 export class ChatroomData extends Base {
@@ -48,7 +48,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    markRead(markRead: MarkRead): Promise<any> {
+    markReadChatroom(markRead: MarkRead): Promise<any> {
         return this.invoke(`${API.CHATROOM_MARK_READ}`, {
             method: 'POST',
             body: JSON.stringify(markRead),
@@ -90,7 +90,7 @@ export class ChatroomData extends Base {
         }
     }
 
-    getConversations(conversation: Conversation): Promise<any> {
+    getConversation(conversation: Conversation): Promise<any> {
         if (conversation.scrollDirection) {
             return this.invoke(
                 `${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
@@ -201,7 +201,7 @@ export class ChatroomData extends Base {
         return this.invoke(`${API.FETCH_REPORT_TAGS}?type=${getReportTags.type}`);
     }
 
-    pushReport(pushReport: pushReport): Promise<any> {
+    pushReport(pushReport: PushReport): Promise<any> {
         return this.invoke(`${API.PUSH_REPORT}`, {
             method: 'POST',
             body: JSON.stringify(pushReport),

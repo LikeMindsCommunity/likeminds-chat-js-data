@@ -150,7 +150,7 @@ export declare type GetReportTags = {
     type: number;
 };
 
-export declare type pushReport = {
+export declare type PushReport = {
     conversation_id: number;
     tag_id: number;
     reason?: string;
