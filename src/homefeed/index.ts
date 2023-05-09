@@ -40,9 +40,8 @@ export class HomeFeedClient extends Base {
         return fbDatabase;
     }
 
-    homeFeedListener(callback: any) {
-        const community = JSON.parse(localStorage.getItem('__community__'));
-        const query = ref(db, `community/${community.id}`);
+    homeFeedListener(callback: any, route: any) {
+        const query = ref(db, route);
         return onValue(query, (snapshot) => {
             if (snapshot.exists()) {
                 callback(snapshot.val());
