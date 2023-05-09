@@ -40,10 +40,14 @@ export class HomeFeedClient extends Base {
         return fbDatabase;
     }
 
-    homeFeedListener() {
+    homeFeedListener(callback: any) {
         const community = JSON.parse(localStorage.getItem('__community__'));
         const query = ref(db, `community/${community.id}`);
-        return query;
+        return onValue(query, (snapshot) => {
+            if (snapshot.exists()) {
+                callback(snapshot.val());
+            }
+        });
     }
 
     fbMsg() {
