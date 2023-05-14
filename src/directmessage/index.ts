@@ -8,7 +8,7 @@ export class DmFeed extends Base {
     }
 
     checkDMStatus(checkDMStatus: CheckDMStatus): Promise<any> {
-        return this.invoke(`${API.DM_STATUS}?request_from=${checkDMStatus.requestFrom}`);
+        return this.invoke(`${API.DM_STATUS}?req_from=${checkDMStatus.requestFrom}`);
     }
 
     getAllMembers(getAllMembers: GetAllMembers): Promise<any> {
