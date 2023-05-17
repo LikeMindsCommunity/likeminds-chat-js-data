@@ -167,6 +167,11 @@ export declare type LeaveSC = {
     member_id: number;
 };
 
+export declare type LeaveSecretChatroom = {
+    chatroom_id: number;
+    member_id: number;
+};
+
 export declare type Profile = {
     community_id: number;
     member_id: number;

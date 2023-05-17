@@ -27,6 +27,7 @@ import {
     PostPollConversation,
     GetReportTags,
     PushReport,
+    LeaveSecretChatroom,
 } from './types';
 
 export class ChatroomData extends Base {
@@ -143,7 +144,7 @@ export class ChatroomData extends Base {
     getAWS(): any {
         (AWS.config.region = 'ap-south-1'),
             (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                // Beta
+                // // Beta
                 IdentityPoolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
 
                 // Prod
@@ -208,14 +209,14 @@ export class ChatroomData extends Base {
         });
     }
 
-    // ******************************
-
-    leaveSecretChatroom(leave: LeaveSC): Promise<any> {
-        return this.invoke(`${API.CHATROOM_SECRET_LEAVE}`, {
-            method: 'POST',
-            body: JSON.stringify(leave),
+    leaveSecretChatroom(leaveSecretChatroom: LeaveSecretChatroom): Promise<any> {
+        return this.invoke(`${API.CHATROOM_PARTICIPANTS}`, {
+            method: 'DELETE',
+            body: JSON.stringify(leaveSecretChatroom),
         });
     }
+
+    // ******************************
 
     profileData(profile: Profile): Promise<any> {
         return this.invoke(`${API.MEMBER_STATE}?community_id=${profile.community_id}&member_id=${profile.member_id}`);

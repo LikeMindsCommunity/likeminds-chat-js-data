@@ -5,10 +5,6 @@ type Config = {
     apiKey: string;
     xPlatformCode?: any;
     xVersionCode?: any;
-    // userId?: any;
-    // baseUrl?: string;
-    // baseUrlCaravan?: string;
-    // xDeviceId?: any;
 };
 
 export abstract class Base {
@@ -16,12 +12,10 @@ export abstract class Base {
     private xPlatformCode: string;
     private xVersionCode: string;
     private baseUrl: string;
-    // private baseUrlCaravan: string;
-    // private xMemberId: string;
-    // private xDeviceId: string;
 
     constructor(congif: Config) {
         this.apiKey = congif.apiKey;
+        // this.baseUrl = 'https://auth.likeminds.community';
         this.baseUrl = 'https://betaauth.likeminds.community';
         this.xPlatformCode = congif.xPlatformCode;
         this.xVersionCode = congif.xVersionCode;
