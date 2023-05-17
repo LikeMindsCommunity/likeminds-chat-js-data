@@ -18,6 +18,10 @@ export declare type EditProfile = {
     questionAnswers: any;
 };
 
+export declare type MemberState = {
+    memberId: string;
+};
+
 export declare type USERTYPE = {
     community_id: number;
     page: number;

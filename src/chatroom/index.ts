@@ -219,7 +219,7 @@ export class ChatroomData extends Base {
     // ******************************
 
     profileData(profile: Profile): Promise<any> {
-        return this.invoke(`${API.MEMBER_STATE}?community_id=${profile.community_id}&member_id=${profile.member_id}`);
+        return this.invoke(`${API.COMMUNITY_MEMBER_STATE}?community_id=${profile.community_id}&member_id=${profile.member_id}`);
     }
 
     viewParticipants(participantsType: ParticipantsType): Promise<any> {

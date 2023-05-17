@@ -32,7 +32,7 @@ export const API = {
     REFRESH_TOKEN_API: '/user/refresh',
     CHATROOM_GET_TAGGINNG_LIST: '/chatroom/tag', //(GET)
     CHATROOM_SECRET_LEAVE: '/chatroom/secret/leave', //(Post)
-    MEMBER_STATE: '/community/member/state', //(GET)
+    COMMUNITY_MEMBER_STATE: '/community/member/state', //(GET)
     DM_ALL_MEMBERS: '/community/member', //(GET)
     COLLABCARD_SEEN: '/chatroom/seen', //(PUT)
     FETCH_DM_FEED: '/community/dm/feed', //(GET)
