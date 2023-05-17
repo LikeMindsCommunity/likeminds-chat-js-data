@@ -27,6 +27,7 @@ export abstract class Base {
             'Content-Type': 'application/json',
             'x-platform-code': this.xPlatformCode,
             'x-version-code': this.xVersionCode,
+            'x-sdk-source': 'chat',
         };
 
         const initApi = endpoint.includes('initiate');
