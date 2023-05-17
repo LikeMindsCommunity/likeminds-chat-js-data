@@ -26,7 +26,8 @@ import {
     DecodeUrl,
     PostPollConversation,
     GetReportTags,
-    pushReport,
+    PushReport,
+    LeaveSecretChatroom,
 } from './types';
 
 export class ChatroomData extends Base {
@@ -48,7 +49,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    markRead(markRead: MarkRead): Promise<any> {
+    markReadChatroom(markRead: MarkRead): Promise<any> {
         return this.invoke(`${API.CHATROOM_MARK_READ}`, {
             method: 'POST',
             body: JSON.stringify(markRead),
@@ -90,7 +91,7 @@ export class ChatroomData extends Base {
         }
     }
 
-    getConversations(conversation: Conversation): Promise<any> {
+    getConversation(conversation: Conversation): Promise<any> {
         if (conversation.scrollDirection) {
             return this.invoke(
                 `${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
@@ -143,7 +144,7 @@ export class ChatroomData extends Base {
     getAWS(): any {
         (AWS.config.region = 'ap-south-1'),
             (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                // Beta
+                // // Beta
                 IdentityPoolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
 
                 // Prod
@@ -201,24 +202,24 @@ export class ChatroomData extends Base {
         return this.invoke(`${API.FETCH_REPORT_TAGS}?type=${getReportTags.type}`);
     }
 
-    pushReport(pushReport: pushReport): Promise<any> {
+    pushReport(pushReport: PushReport): Promise<any> {
         return this.invoke(`${API.PUSH_REPORT}`, {
             method: 'POST',
             body: JSON.stringify(pushReport),
         });
     }
 
-    // ******************************
-
-    leaveSecretChatroom(leave: LeaveSC): Promise<any> {
-        return this.invoke(`${API.CHATROOM_SECRET_LEAVE}`, {
-            method: 'POST',
-            body: JSON.stringify(leave),
+    leaveSecretChatroom(leaveSecretChatroom: LeaveSecretChatroom): Promise<any> {
+        return this.invoke(`${API.CHATROOM_PARTICIPANTS}`, {
+            method: 'DELETE',
+            body: JSON.stringify(leaveSecretChatroom),
         });
     }
 
+    // ******************************
+
     profileData(profile: Profile): Promise<any> {
-        return this.invoke(`${API.MEMBER_STATE}?community_id=${profile.community_id}&member_id=${profile.member_id}`);
+        return this.invoke(`${API.COMMUNITY_MEMBER_STATE}?community_id=${profile.community_id}&member_id=${profile.member_id}`);
     }
 
     viewParticipants(participantsType: ParticipantsType): Promise<any> {

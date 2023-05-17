@@ -8,13 +8,17 @@ export class DmFeed extends Base {
     }
 
     checkDMStatus(checkDMStatus: CheckDMStatus): Promise<any> {
-        return this.invoke(`${API.DM_STATUS}?request_from=${checkDMStatus.requestFrom}`);
+        return this.invoke(`${API.DM_STATUS}?req_from=${checkDMStatus.requestFrom}`);
     }
 
     getAllMembers(getAllMembers: GetAllMembers): Promise<any> {
-        return this.invoke(
-            `${API.COMMUNITY_MEMBERS}?chatroom_id=${getAllMembers.chatroomId}&membe_state=${getAllMembers.memberState}&page=${getAllMembers.page}`
-        );
+        if (getAllMembers.memberState) {
+            return this.invoke(
+                `${API.COMMUNITY_MEMBERS}?chatroom_id=${getAllMembers.chatroomId}&member_state=${getAllMembers.memberState}&page=${getAllMembers.page}`
+            );
+        } else {
+            return this.invoke(`${API.COMMUNITY_MEMBERS}?chatroom_id=${getAllMembers.chatroomId}&page=${getAllMembers.page}`);
+        }
     }
 
     checkDMLimit(checkDMLimit: CheckDMLimit): Promise<any> {

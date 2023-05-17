@@ -27,11 +27,12 @@ export const API = {
     CHATROOM_DM_REQUEST: '/chatroom/dm/request',
     CHATROOM_DM_BLOCK: '/chatroom/dm/block',
     HOME_DM_META: '/home/dm/meta',
+    CHATROOM_PARTICIPANTS: '/chatroom/participants',
 
     REFRESH_TOKEN_API: '/user/refresh',
     CHATROOM_GET_TAGGINNG_LIST: '/chatroom/tag', //(GET)
     CHATROOM_SECRET_LEAVE: '/chatroom/secret/leave', //(Post)
-    MEMBER_STATE: '/community/member/state', //(GET)
+    COMMUNITY_MEMBER_STATE: '/community/member/state', //(GET)
     DM_ALL_MEMBERS: '/community/member', //(GET)
     COLLABCARD_SEEN: '/chatroom/seen', //(PUT)
     FETCH_DM_FEED: '/community/dm/feed', //(GET)
@@ -43,6 +44,5 @@ export const API = {
     SEARCH_CHATROOM: '/chatroom/search',
     CHANNEL_INVITES: '/channel/invites', // (GET)
     CHANNEL_INVITE: '/channel/invite', // (PUT)
-    CHATROOM_PARTICIPANTS: '/chatroom/participants',
     USER_DEVICE_PUSH: '/user/device/push',
 };

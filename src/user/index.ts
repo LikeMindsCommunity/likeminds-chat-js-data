@@ -1,6 +1,6 @@
 import { API } from '../shared/api.constant';
 import { Base } from '../base';
-import { EditProfile, GetMemberChatroom, GetProfile, InitUser, Members, PROFILE, Search, USERTYPE } from './types';
+import { EditProfile, GetMemberChatroom, GetProfile, InitUser, MemberState, Members, PROFILE, Search, USERTYPE } from './types';
 
 export class Member extends Base {
     initiateUser(initUser: InitUser): Promise<any> {
@@ -31,6 +31,10 @@ export class Member extends Base {
 
     getQuestions(): Promise<any> {
         return this.invoke(`${API.COMMUNITY_QUESTIONS}`);
+    }
+
+    getMemberState(memberState: MemberState): Promise<any> {
+        return this.invoke(`${API.COMMUNITY_MEMBER_STATE}?member_id=${memberState.memberId}`);
     }
 
     editProfile(editProfile: EditProfile): Promise<any> {
