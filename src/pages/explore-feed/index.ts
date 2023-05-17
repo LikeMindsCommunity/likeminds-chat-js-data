@@ -1,5 +1,5 @@
-import { API } from '../shared/api.constant';
-import { Base } from '../base';
+import { API } from '../../shared/constants/api.constant';
+import { Base } from '../../base';
 import { ExploreFeedData } from './types';
 
 export class ExploreFeed extends Base {

@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk';
-import { Base } from '../base';
-import { API } from '../shared/api.constant';
+import { Base } from '../../base';
+import { API } from '../../shared/constants/api.constant';
 import {
     Chatroom,
     CHTYPE,

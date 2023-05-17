@@ -1,9 +1,9 @@
-import { API } from '../shared/api.constant';
-import { Base } from '../base';
+import { API } from '../../shared/constants/api.constant';
+import { Base } from '../../base';
 import { Device, HomeFeed, IAType, INVITE, Participant } from './types';
 import { onValue, ref } from 'firebase/database';
-import { db } from '../utils/firebase';
-import { msg } from '../utils/firebase';
+import { db } from '../../utils/firebase';
+import { msg } from '../../utils/firebase';
 
 export class HomeFeedClient extends Base {
     getHomeFeed(homeFeed: HomeFeed): Promise<any> {

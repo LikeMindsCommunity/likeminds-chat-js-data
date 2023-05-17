@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch';
-import { API } from './shared/api.constant';
+import { API } from './shared/constants/api.constant';
 
 type Config = {
     apiKey: string;

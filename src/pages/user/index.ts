@@ -1,5 +1,5 @@
-import { API } from '../shared/api.constant';
-import { Base } from '../base';
+import { API } from '../../shared/constants/api.constant';
+import { Base } from '../../base';
 import { EditProfile, GetMemberChatroom, GetProfile, InitUser, MemberState, Members, PROFILE, Search, USERTYPE } from './types';
 
 export class Member extends Base {

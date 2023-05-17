@@ -1,5 +1,5 @@
-import { API } from '../shared/api.constant';
-import { Base } from '../base';
+import { API } from '../../shared/constants/api.constant';
+import { Base } from '../../base';
 import { BlockMember, CANDM, CID, CheckDMLimit, CheckDMStatus, CreateDMChatroom, FetchDMFeed, GetAllMembers, SendDMRequest } from './types';
 
 export class DmFeed extends Base {
