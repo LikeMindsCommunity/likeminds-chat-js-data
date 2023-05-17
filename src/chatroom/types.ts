@@ -150,7 +150,7 @@ export declare type GetReportTags = {
     type: number;
 };
 
-export declare type pushReport = {
+export declare type PushReport = {
     conversation_id: number;
     tag_id: number;
     reason?: string;
@@ -163,6 +163,11 @@ export declare type LeaveCR = {
     value: boolean;
 };
 export declare type LeaveSC = {
+    chatroom_id: number;
+    member_id: number;
+};
+
+export declare type LeaveSecretChatroom = {
     chatroom_id: number;
     member_id: number;
 };
