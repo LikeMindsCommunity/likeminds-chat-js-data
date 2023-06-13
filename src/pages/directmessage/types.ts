@@ -6,28 +6,22 @@ export declare type CheckDMStatus = {
     requestFrom: any;
 };
 
-export declare type GetAllMembers = {
-    chatroomId?: number;
-    memberState?: any;
-    page: number;
-};
-
 export declare type CheckDMLimit = {
     memberId: number;
 };
 
 export declare type CreateDMChatroom = {
-    member_id: number;
+    memberId: number;
 };
 
 export declare type SendDMRequest = {
-    chatroom_id: number;
-    chat_request_state: number;
+    chatroomId: number;
+    chatRequestState: number;
     text?: string;
 };
 
 export declare type BlockMember = {
-    chatroom_id: number;
+    chatroomId: number;
     status: number;
 };
 

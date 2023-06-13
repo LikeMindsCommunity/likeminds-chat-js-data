@@ -30,12 +30,3 @@ export const db = getDatabase(app);
 
 // Get the messaging service
 export const msg = getMessaging(app);
-
-// // Request permission for notification
-// messaging.requestPermission().then(() => {
-//   console.log('Notification permission granted.');
-//   // Get token
-//   messaging.getToken().then((token) => {
-//     console.log(token);
-//   });
-// }).catch((err) => {console.log(err)})

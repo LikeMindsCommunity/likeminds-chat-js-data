@@ -5,18 +5,18 @@ export declare type Chatroom = {
 };
 
 export declare type FollowChatroom = {
-    collabcard_id: number;
-    member_id: number;
+    collabcardId: number;
+    memberId: number;
     value: boolean;
 };
 
 export declare type MuteChatroom = {
-    chatroom_id: number;
+    chatroomId: number;
     value: boolean;
 };
 
 export declare type MarkRead = {
-    chatroom_id: number;
+    chatroomId: number;
 };
 
 export declare type ShareChatroom = {
@@ -25,8 +25,8 @@ export declare type ShareChatroom = {
 };
 
 export declare type SetChatroom = {
-    chatroom_id: number;
-    conversation_id: number;
+    chatroomId: number;
+    conversationId: number;
 };
 
 export declare type TaggingList = {
@@ -47,36 +47,36 @@ export declare type Conversation = {
 };
 
 export declare type PostConversation = {
-    chatroom_id: number;
-    temporary_id?: number;
+    chatroomId: number;
+    temporaryId?: number;
     text: string;
-    has_files: boolean;
-    attachment_count?: number;
-    replied_conversation_id?: number;
-    share_link?: string;
-    og_tags?: any;
+    hasFiles: boolean;
+    attachmentCount?: number;
+    repliedConversationId?: number;
+    shareLink?: string;
+    ogTags?: any;
 };
 export declare type EditConversation = {
-    conversation_id: number;
+    conversationId: number;
     text: string;
-    share_link?: string;
-    og_tags?: any;
+    shareLink?: string;
+    ogTags?: any;
 };
 
 export declare type DeleteConversation = {
-    conversation_ids: any;
+    conversationIds: any;
     reason: any;
 };
 
 export declare type PutReaction = {
-    chatroom_id: number;
-    conversation_id: number;
+    chatroomId: number;
+    conversationId: number;
     reaction: any;
 };
 
 export declare type DeleteReaction = {
-    chatroom_id: number;
-    conversation_id: number;
+    chatroomId: number;
+    conversationId: number;
     reaction: any;
 };
 
@@ -88,16 +88,16 @@ export declare type Media = {
 };
 
 export declare type PutMultimedia = {
-    conversation_id: number;
+    conversationId: number;
     url: string;
     type: string;
-    files_count: number;
+    filesCount: number;
     index: number | string;
     height?: any;
     width?: any;
     meta?: any;
     name?: string;
-    thumbnail_url?: string;
+    thumbnailUrl?: string;
 };
 
 export declare type DecodeUrl = {
@@ -151,10 +151,10 @@ export declare type GetReportTags = {
 };
 
 export declare type PushReport = {
-    conversation_id: number;
-    tag_id: number;
+    conversationId: number;
+    tagId: number;
     reason?: string;
-    reported_Member_id: number;
+    reportedMemberId: number;
 };
 
 export declare type LeaveCR = {
@@ -168,8 +168,8 @@ export declare type LeaveSC = {
 };
 
 export declare type LeaveSecretChatroom = {
-    chatroom_id: number;
-    member_id: number;
+    chatroomId: number;
+    memberId: number;
 };
 
 export declare type Profile = {
@@ -185,10 +185,9 @@ export declare type ParticipantsType = {
 };
 
 export declare type CRSeen = {
-    collabcard_id: number;
-    community_id: number;
-    member_id: number;
-    collabcard_type: any;
+    collabcardId: number;
+    memberId: number;
+    collabcardType: any;
 };
 
 export declare type DMSG = {

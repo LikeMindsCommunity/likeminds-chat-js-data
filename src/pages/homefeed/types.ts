@@ -12,9 +12,9 @@ export declare type INVITE = {
     page_size: number;
 };
 
-export declare type IAType = {
-    channel_id: number | string;
-    invite_status: number;
+export declare type IaType = {
+    channelId: number | string;
+    inviteStatus: number;
 };
 
 export declare type Device = {
@@ -22,7 +22,7 @@ export declare type Device = {
 };
 
 export declare type Participant = {
-    chatroom_id: number;
-    is_secret: boolean;
-    chatroom_participants: any;
+    chatroomId: number;
+    isSecret: boolean;
+    chatroomParticipants: any;
 };
