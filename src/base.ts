@@ -1,5 +1,4 @@
 import NetworkLibrary from './core/services/networklibrary';
-import { Chatroom } from './pages/chatroom/types';
 import { API } from './shared/constants/api.constant';
 import { InitUser, SdkConfig } from './shared/types';
 
@@ -26,12 +25,6 @@ export class Base {
 
     initiateUser(initUser: InitUser): Promise<any> {
         this.setHeaderConfig();
-        // const networkLibrary = new NetworkLibrary();
-        // networkLibrary.setApiKey(this.xApiKey);
-        // networkLibrary.setPlatformCode(this.xPlatformCode);
-        // networkLibrary.setVersionCode(this.xVersionCode);
-        // networkLibrary.setSourceCode(this.xSdkSource);
-
         const params = {
             is_guest: initUser?.isGuest,
             user_unique_id: initUser?.userUniqueId,
