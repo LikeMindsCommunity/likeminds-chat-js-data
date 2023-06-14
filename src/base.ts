@@ -1,12 +1,14 @@
 import NetworkLibrary from './core/services/networklibrary';
+import { Chatroom } from './pages/chatroom/types';
 import { API } from './shared/constants/api.constant';
 import { InitUser, SdkConfig } from './shared/types';
 
-export abstract class Base {
+export class Base {
     xApiKey: string;
     xPlatformCode: string;
     xVersionCode: number;
     xSdkSource: string;
+    networkLibrary = new NetworkLibrary();
 
     constructor(sdkConfig: SdkConfig) {
         this.xApiKey = sdkConfig.xApiKey;
@@ -31,7 +33,6 @@ export abstract class Base {
         return networkLibrary
             .post(`${API.SDK_INITIATE}`, params)
             .then((resData: any) => {
-                console.log('Init res=> ', resData);
                 // Set the access token
                 const accessToken = resData.data.data.access_token;
                 networkLibrary.setAccessToken(accessToken);
@@ -41,6 +42,12 @@ export abstract class Base {
                 console.log(error);
             });
     }
+
+    // public networkLibrary = new NetworkLibrary();
+    // getChatroom(chatroom: Chatroom): Promise<any> {
+    //     console.log('chatroom data=> ', chatroom);
+    //     return this.networkLibrary.get(`${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
+    // }
 }
 
 // export class SDKBuilder {

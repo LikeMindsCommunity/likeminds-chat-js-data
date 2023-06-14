@@ -29,10 +29,16 @@ import {
     PushReport,
     LeaveSecretChatroom,
 } from './types';
+import NetworkLibrary from 'src/core/services/networklibrary';
+import { Base } from 'src/base';
 
-export class ChatroomData {
+export class ChatroomData extends Base {
+    public networkLibrary = new NetworkLibrary();
     getChatroom(chatroom: Chatroom): Promise<any> {
-        return httpInst.get(`${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
+        console.log('chatroom data=> ', chatroom);
+        return this.networkLibrary.get(`${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`).then((resData: any) => {
+            return resData.data;
+        });
     }
 
     followChatroom(followChatroom: FollowChatroom): Promise<any> {
