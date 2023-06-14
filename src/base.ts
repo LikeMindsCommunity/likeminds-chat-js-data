@@ -1,3 +1,4 @@
+import LMChatClient from 'src';
 import NetworkLibrary from './core/services/networklibrary';
 import { API } from './shared/constants/api.constant';
 import { InitUser, SdkConfig } from './shared/types';
@@ -45,27 +46,32 @@ export class Base {
     }
 }
 
-// export class SDKBuilder {
-//     xApiKey: string;
-//     xPlatformCode: string;
-//     xVersionCode: string;
+export class SDKBuilder {
+    xApiKey: string;
+    xPlatformCode: string;
+    xVersionCode: number;
+    xSdkSource: string;
+    setApiKey(xapikey: string): SDKBuilder {
+        this.xApiKey = xapikey;
+        return this;
+    }
 
-//     setApiKey(xapikey: string): SDKBuilder {
-//         this.xApiKey = xapikey;
-//         return this;
-//     }
+    setPlatformCode(xplatformcode: string): SDKBuilder {
+        this.xPlatformCode = xplatformcode;
+        return this;
+    }
 
-//     setPlatformCode(xplatformcode: string): SDKBuilder {
-//         this.xPlatformCode = xplatformcode;
-//         return this;
-//     }
+    setVersionCode(xversioncode: number): SDKBuilder {
+        this.xVersionCode = xversioncode;
+        return this;
+    }
 
-//     setVersionCode(xversioncode: string): SDKBuilder {
-//         this.xVersionCode = xversioncode;
-//         return this;
-//     }
-
-//     build() {
-//         return new InitiateSdk(this);
-//     }
-// }
+    build() {
+        return new LMChatClient({
+            xApiKey: this.xApiKey,
+            xPlatformCode: this.xPlatformCode,
+            xVersionCode: this.xVersionCode!,
+            xSdkSource: this.xSdkSource,
+        });
+    }
+}

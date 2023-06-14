@@ -1,4 +1,4 @@
-import { Base } from './base';
+import { Base, SDKBuilder } from './base';
 import { HomeFeedClient } from './pages/homefeed';
 import { applyMixins } from './utils';
 import { ChatroomData } from './pages/chatroom';
