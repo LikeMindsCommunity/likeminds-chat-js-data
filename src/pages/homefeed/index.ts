@@ -3,15 +3,18 @@ import { Device, HomeFeed, IaType, INVITE, Participant } from './types';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../utils/firebase';
 import { msg } from '../../utils/firebase';
-import httpInst from 'src/core/services/base.service';
+import NetworkLibrary from 'src/core/services/networklibrary';
 
 export class HomeFeedClient {
+    public networkLibrary = new NetworkLibrary();
     getHomeFeed(homeFeed: HomeFeed): Promise<any> {
-        return httpInst.get(`${API.CHATROOM_MINE}?page=${homeFeed.page}`);
+        return this.networkLibrary.get(`${API.CHATROOM_MINE}?page=${homeFeed.page}`);
     }
 
     getInvites(invite: INVITE): Promise<any> {
-        return httpInst(`${API.CHANNEL_INVITES}?channel_type=${invite.channel_type}&page=${invite.page}&page_size=${invite.page_size}`);
+        return this.networkLibrary.get(
+            `${API.CHANNEL_INVITES}?channel_type=${invite.channel_type}&page=${invite.page}&page_size=${invite.page_size}`
+        );
     }
 
     sendInvites(participant: Participant): Promise<any> {
@@ -20,11 +23,11 @@ export class HomeFeedClient {
             is_secret: participant.isSecret,
             chatroom_participants: participant.chatroomParticipants,
         };
-        return httpInst.post(`${API.CHATROOM_PARTICIPANTS}`, params);
+        return this.networkLibrary.post(`${API.CHATROOM_PARTICIPANTS}`, params);
     }
 
     registerDevice(device: Device): Promise<any> {
-        return httpInst.post(`${API.USER_DEVICE_PUSH}`, {
+        return this.networkLibrary.post(`${API.USER_DEVICE_PUSH}`, {
             token: device.token,
         });
     }
@@ -34,7 +37,7 @@ export class HomeFeedClient {
             channel_id: iaType.channelId,
             invite_status: iaType.inviteStatus,
         };
-        return httpInst.put(`${API.CHANNEL_INVITE}`, params);
+        return this.networkLibrary.put(`${API.CHANNEL_INVITE}`, params);
     }
 
     fbInstance() {

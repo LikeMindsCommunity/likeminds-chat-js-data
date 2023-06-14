@@ -17,12 +17,20 @@ export class Base {
         this.xSdkSource = sdkConfig.xSdkSource;
     }
 
+    setHeaderConfig() {
+        this.networkLibrary.setApiKey(this.xApiKey);
+        this.networkLibrary.setPlatformCode(this.xPlatformCode);
+        this.networkLibrary.setVersionCode(this.xVersionCode);
+        this.networkLibrary.setSourceCode(this.xSdkSource);
+    }
+
     initiateUser(initUser: InitUser): Promise<any> {
-        const networkLibrary = new NetworkLibrary();
-        networkLibrary.setApiKey(this.xApiKey);
-        networkLibrary.setPlatformCode(this.xPlatformCode);
-        networkLibrary.setVersionCode(this.xVersionCode);
-        networkLibrary.setSourceCode(this.xSdkSource);
+        this.setHeaderConfig();
+        // const networkLibrary = new NetworkLibrary();
+        // networkLibrary.setApiKey(this.xApiKey);
+        // networkLibrary.setPlatformCode(this.xPlatformCode);
+        // networkLibrary.setVersionCode(this.xVersionCode);
+        // networkLibrary.setSourceCode(this.xSdkSource);
 
         const params = {
             is_guest: initUser?.isGuest,
@@ -30,24 +38,18 @@ export class Base {
             user_name: initUser?.userName,
         };
 
-        return networkLibrary
+        return this.networkLibrary
             .post(`${API.SDK_INITIATE}`, params)
             .then((resData: any) => {
                 // Set the access token
                 const accessToken = resData.data.data.access_token;
-                networkLibrary.setAccessToken(accessToken);
+                this.networkLibrary.setAccessToken(accessToken);
                 return resData.data;
             })
             .catch((error) => {
                 console.log(error);
             });
     }
-
-    // public networkLibrary = new NetworkLibrary();
-    // getChatroom(chatroom: Chatroom): Promise<any> {
-    //     console.log('chatroom data=> ', chatroom);
-    //     return this.networkLibrary.get(`${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
-    // }
 }
 
 // export class SDKBuilder {

@@ -81,6 +81,7 @@ class TokenManager {
                 refreshToken: this.refreshToken,
             })
             .then((response: any) => {
+                console.log('dl refresh =>', response);
                 const newAccessToken = response.data?.accessToken;
                 this.accessToken = newAccessToken;
                 return newAccessToken;
@@ -92,18 +93,24 @@ class TokenManager {
     }
 
     public refreshInterceptor = async (config: any) => {
-        console.log('tokenmanager=> ', config);
+        console.log('tokenmanager=> ', config.url);
         const initApi = config.url.includes('initiate');
         const isRefreshRequest = config.url.includes('refresh');
 
+        config.headers['Accept'] = 'application/json';
+        config.headers['Content-Type'] = 'application/json';
+        config.headers['x-platform-code'] = this.xPlatformCode;
+        config.headers['x-version-code'] = this.xVersionCode;
+        config.headers['x-sdk-source'] = this.xSdkSource;
+        // console.log('DL Set isRefreshRequest', initApi, isRefreshRequest);
+
         if (!initApi && !isRefreshRequest) {
-            config.headers = {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'x-platform-code': this.xPlatformCode,
-                'x-version-code': this.xVersionCode,
-                'x-sdk-source': this.xSdkSource,
-            };
+            // console.log('DL Set Header', this.xPlatformCode);
+            // config.headers['Accept'] = 'application/json';
+            // config.headers['Content-Type'] = 'application/json';
+            // config.headers['x-platform-code'] = this.xPlatformCode;
+            // config.headers['x-version-code'] = this.xVersionCode;
+            // config.headers['x-sdk-source'] = this.xSdkSource;
         }
 
         // Add the access token to the request headers
@@ -114,9 +121,9 @@ class TokenManager {
         // Add the apiKey in initiate api to the request headers
         if (initApi) {
             config.headers['x-api-key'] = this.xApiKey;
-            config.headers['x-platform-code'] = this.xPlatformCode;
-            config.headers['x-version-code'] = this.xVersionCode;
-            config.headers['x-sdk-source'] = this.xSdkSource;
+            // config.headers['x-platform-code'] = this.xPlatformCode;
+            // config.headers['x-version-code'] = this.xVersionCode;
+            // config.headers['x-sdk-source'] = this.xSdkSource;
         }
 
         // Check if the request receives a 401 Unauthorized response

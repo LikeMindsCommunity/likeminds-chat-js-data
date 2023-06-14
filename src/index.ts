@@ -7,9 +7,9 @@ import { DmFeed } from './pages/directmessage';
 import { Search } from './pages/search';
 import { ExploreFeed } from './pages/explore-feed';
 
-class LikeMinds extends Base {}
-interface LikeMinds extends HomeFeedClient, ChatroomData, ExploreFeed, Member, DmFeed, Search {}
+class LMChatClient extends Base {}
+interface LMChatClient extends HomeFeedClient, ChatroomData, ExploreFeed, Member, DmFeed, Search {}
 
-applyMixins(LikeMinds, [HomeFeedClient, ChatroomData, ExploreFeed, Member, DmFeed, Search]);
+applyMixins(LMChatClient, [HomeFeedClient, ChatroomData, ExploreFeed, Member, DmFeed, Search]);
 
-export default LikeMinds;
+export default LMChatClient;
