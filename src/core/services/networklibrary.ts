@@ -37,7 +37,7 @@ class NetworkLibrary {
         console.log('=>>', response);
         return {
             data: response.data,
-            status: response.status,
+            success: response.status,
             headers: response.headers,
         };
     }

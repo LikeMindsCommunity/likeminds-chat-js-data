@@ -93,7 +93,6 @@ class TokenManager {
     }
 
     public refreshInterceptor = async (config: any) => {
-        console.log('tokenmanager=> ', config.url);
         const initApi = config.url.includes('initiate');
         const isRefreshRequest = config.url.includes('refresh');
 
@@ -101,30 +100,20 @@ class TokenManager {
         config.headers['Content-Type'] = 'application/json';
         config.headers['x-platform-code'] = this.xPlatformCode;
         config.headers['x-version-code'] = this.xVersionCode;
-        config.headers['x-sdk-source'] = this.xSdkSource;
-        // console.log('DL Set isRefreshRequest', initApi, isRefreshRequest);
+        config.headers['x-sdk-source'] = 'chat';
 
-        if (!initApi && !isRefreshRequest) {
-            // console.log('DL Set Header', this.xPlatformCode);
-            // config.headers['Accept'] = 'application/json';
-            // config.headers['Content-Type'] = 'application/json';
-            // config.headers['x-platform-code'] = this.xPlatformCode;
-            // config.headers['x-version-code'] = this.xVersionCode;
-            // config.headers['x-sdk-source'] = this.xSdkSource;
-        }
+        const cFeed = config.url.includes('community/feed');
+        if (cFeed) config.headers['x-accept-version'] = 'v2';
+        const isMarkRead = config.url.includes('mark_read');
+        if (isMarkRead) config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
         // Add the access token to the request headers
-        if (this.accessToken) {
+        if (this.accessToken && !initApi && !isRefreshRequest) {
             config.headers['Authorization'] = `Bearer ${this.accessToken}`;
         }
 
         // Add the apiKey in initiate api to the request headers
-        if (initApi) {
-            config.headers['x-api-key'] = this.xApiKey;
-            // config.headers['x-platform-code'] = this.xPlatformCode;
-            // config.headers['x-version-code'] = this.xVersionCode;
-            // config.headers['x-sdk-source'] = this.xSdkSource;
-        }
+        if (initApi) config.headers['x-api-key'] = this.xApiKey;
 
         // Check if the request receives a 401 Unauthorized response
         if (config.response?.status === 401 && this.refreshToken) {

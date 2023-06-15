@@ -51,6 +51,7 @@ export class SDKBuilder {
     xPlatformCode: string;
     xVersionCode: number;
     xSdkSource: string;
+
     setApiKey(xapikey: string): SDKBuilder {
         this.xApiKey = xapikey;
         return this;
