@@ -35,11 +35,20 @@ class NetworkLibrary {
 
     private wrapResponse(response: AxiosResponse) {
         console.log('=>>', response);
-        return {
-            data: response.data,
-            success: response.status,
-            headers: response.headers,
-        };
+        const dataField: any = response.data;
+        if (Object.keys(dataField).includes('data')) {
+            return {
+                data: dataField.data,
+                success: response.status,
+                headers: response.headers,
+            };
+        } else {
+            return {
+                data: dataField,
+                success: response.status,
+                headers: response.headers,
+            };
+        }
     }
 
     public setAccessToken(accessToken: string) {
