@@ -3,11 +3,11 @@ export declare type HomeFeed = {
 };
 
 export declare type CRid = {
-    chatroom_id: number;
+    chatroomId: number;
 };
 
 export declare type INVITE = {
-    channel_type: number;
+    channelType: number;
     page: number;
     pageSize: number;
 };

@@ -13,7 +13,7 @@ export class HomeFeedClient {
 
     getInvites(invite: INVITE): Promise<any> {
         return this.networkLibrary.get(
-            `${API.CHANNEL_INVITES}?channel_type=${invite.channel_type}&page=${invite.page}&page_size=${invite.pageSize}`
+            `${API.CHANNEL_INVITES}?channel_type=${invite.channelType}&page=${invite.page}&page_size=${invite.pageSize}`
         );
     }
 
