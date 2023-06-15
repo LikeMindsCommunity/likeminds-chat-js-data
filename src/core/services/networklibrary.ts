@@ -36,18 +36,26 @@ class NetworkLibrary {
     private wrapResponse(response: AxiosResponse) {
         console.log('=>>', response);
         const dataField: any = response.data;
-        if (Object.keys(dataField).includes('data')) {
-            return {
+        console.log('response object ==> ', response);
+        console.log('dataField ==> ', dataField);
+        let containsAnotherData = Object.keys(dataField).includes('data');
+        console.log('contains another data ==> ', containsAnotherData);
+        if (containsAnotherData) {
+            let wrapper = {
                 data: dataField.data,
                 success: response.status,
                 headers: response.headers,
             };
+            console.log('wrapper is ==> ', wrapper);
+            return wrapper;
         } else {
-            return {
+            let wrapper = {
                 data: dataField,
                 success: response.status,
                 headers: response.headers,
             };
+            console.log('wrapper is ==> ', wrapper);
+            return wrapper;
         }
     }
 
