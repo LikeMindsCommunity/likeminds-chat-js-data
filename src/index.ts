@@ -12,7 +12,6 @@ class LMChatClient extends Base {
     static xPlatformCode: string;
     static xVersionCode: number;
     static xSdkSource: string;
-
     static setApiKey(xapikey: string): SDKBuilder {
         this.xApiKey = xapikey;
         return this;

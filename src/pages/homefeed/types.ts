@@ -9,7 +9,7 @@ export declare type CRid = {
 export declare type INVITE = {
     channel_type: number;
     page: number;
-    page_size: number;
+    pageSize: number;
 };
 
 export declare type IaType = {
