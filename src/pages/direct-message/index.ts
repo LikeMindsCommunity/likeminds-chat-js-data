@@ -5,7 +5,7 @@ import { BlockMember, CANDM, CID, CheckDMLimit, CheckDMStatus, CreateDMChatroom,
 import { environment } from 'src/environment';
 import { Base } from 'src/base';
 
-export class DmFeed extends Base {
+export class DirectMessage extends Base {
     public networkLibrary = new NetworkLibrary();
     fetchDMFeed(fetchDMFeed: FetchDMFeed): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_DM}?page=${fetchDMFeed.page}`);

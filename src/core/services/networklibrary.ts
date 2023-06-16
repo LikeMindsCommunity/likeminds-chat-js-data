@@ -47,7 +47,6 @@ class NetworkLibrary {
     }
 
     private async makeRequest<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-        console.log('dl url=> ', url);
         return axios.request<T>({ url, ...config });
     }
 

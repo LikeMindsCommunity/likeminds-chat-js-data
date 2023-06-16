@@ -25,10 +25,10 @@ export class Member extends Base {
                 const refreshToken = resData.data.access_token;
                 this.networkLibrary.setRefreshToken(refreshToken);
 
-                return { data: resData?.data, errorMessage: null, status: 200 };
+                return { data: resData?.data, errorMessage: null, success: true };
             })
             .catch((error) => {
-                console.log(error);
+                console.log({ data: null, errorMessage: error.error_message, success: false });
             });
     }
 
