@@ -2,8 +2,9 @@ import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
 import { SearchType } from './types';
 import { environment } from 'src/environment';
+import { Base } from 'src/base';
 
-export class Search {
+export class Search extends Base {
     public networkLibrary = new NetworkLibrary();
     searchChatroom(searchType: SearchType): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(

@@ -2,19 +2,20 @@ import { API } from '../../shared/constants/api.constant';
 import { Device, HomeFeed, IaType, INVITE, Participant } from './types';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../utils/firebase';
-import { msg } from '../../utils/firebase';
+// import { msg } from '../../utils/firebase';
 import { environment } from 'src/environment';
 import NetworkLibrary from 'src/core/services/networklibrary';
+import { Base } from 'src/base';
 
-export class HomeFeedClient {
+export class HomeFeedClient extends Base {
     public networkLibrary = new NetworkLibrary();
     getHomeFeed(homeFeed: HomeFeed): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${API.CHATROOM_MINE}?page=${homeFeed.page}`);
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_MINE}?page=${homeFeed.page}`);
     }
 
     getInvites(invite: INVITE): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
-            `${API.CHANNEL_INVITES}?channel_type=${invite.channelType}&page=${invite.page}&page_size=${invite.pageSize}`
+            `${environment.apiUrl}${API.CHANNEL_INVITES}?channel_type=${invite.channelType}&page=${invite.page}&page_size=${invite.pageSize}`
         );
     }
 
@@ -24,7 +25,7 @@ export class HomeFeedClient {
             is_secret: participant.isSecret,
             chatroom_participants: participant.chatroomParticipants,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}`, {
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}`, {
             method: 'POST',
             data: params,
         });
@@ -66,8 +67,8 @@ export class HomeFeedClient {
         });
     }
 
-    fbMsg() {
-        const message = msg;
-        return message;
-    }
+    // fbMsg() {
+    //     const message = msg;
+    //     return message;
+    // }
 }

@@ -3,8 +3,9 @@ import { API } from '../../shared/constants/api.constant';
 
 import { BlockMember, CANDM, CID, CheckDMLimit, CheckDMStatus, CreateDMChatroom, FetchDMFeed, SendDMRequest } from './types';
 import { environment } from 'src/environment';
+import { Base } from 'src/base';
 
-export class DmFeed {
+export class DmFeed extends Base {
     public networkLibrary = new NetworkLibrary();
     fetchDMFeed(fetchDMFeed: FetchDMFeed): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_DM}?page=${fetchDMFeed.page}`);

@@ -1,4 +1,4 @@
-class ResponseWrapper<T> {
+class LMResponse<T> {
     private data: T | null;
     private errorMessage: string | null;
     private success: boolean;
@@ -26,4 +26,4 @@ class ResponseWrapper<T> {
     // }
 }
 
-export default ResponseWrapper;
+export default LMResponse;

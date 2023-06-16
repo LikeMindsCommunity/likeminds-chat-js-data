@@ -20,13 +20,8 @@ export class Member extends Base {
                 data: params,
             })
             .then((resData: any) => {
-                // Set the access token
-                console.log('DL init=> ', resData);
-                // console.log('DL init=> ', resData.data.data);
-                // console.log('DL init=> ', resData.data.data.access_token);
                 const accessToken = resData.data.access_token;
                 this.networkLibrary.setAccessToken(accessToken);
-                // console.log('set accessToken=> ', accessToken);
                 const refreshToken = resData.data.access_token;
                 this.networkLibrary.setRefreshToken(refreshToken);
 

@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import TokenManager from './tokenmanager';
-import ResponseWrapper from './responsewrapper';
+import LMResponse from './lmresponse';
 
 class NetworkLibrary {
     private tokenManager: TokenManager;
@@ -10,9 +10,7 @@ class NetworkLibrary {
     private xVersionCode: any | null;
     private xPlatformCode: string | null;
 
-    // constructor(tokenManager: TokenManager) {
     constructor() {
-        // this.tokenManager = tokenManager;
         this.tokenManager = new TokenManager();
     }
 
@@ -49,12 +47,11 @@ class NetworkLibrary {
     }
 
     private async makeRequest<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-        console.log('dl url =>', url);
-        console.log('dl config =>', config);
+        console.log('dl url=> ', url);
         return axios.request<T>({ url, ...config });
     }
 
-    public async makeAuthenticatedRequest<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseWrapper<T>> {
+    public async makeAuthenticatedRequest<T>(url: string, config?: AxiosRequestConfig): Promise<LMResponse<T>> {
         // if (!this.tokenManager.getAccessToken()) {
         //     throw new Error('Access token is not set.');
         // }
@@ -96,18 +93,18 @@ class NetworkLibrary {
                 requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getRefreshToken()}`;
                 return this.makeRequest<{ data: T }>(url, requestConfig)
                     .then((refreshedResponse) => {
-                        return new ResponseWrapper<T>(refreshedResponse.data.data, null, true);
+                        return new LMResponse<T>(refreshedResponse.data.data, null, true);
                     })
                     .catch((error) => {
                         console.error('Failed to make authenticated request:', error);
-                        return new ResponseWrapper<T>(null, error.message, false);
+                        return new LMResponse<T>(null, error.message, false);
                     });
             }
 
-            return new ResponseWrapper<T>(response.data.data, null, true);
+            return new LMResponse<T>(response.data.data, null, true);
         } catch (error) {
             console.error('Failed to make authenticated request:', error);
-            return new ResponseWrapper<T>(null, error.message, false);
+            return new LMResponse<T>(null, error.message, false);
         }
     }
 }
