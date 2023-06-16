@@ -1,61 +1,37 @@
-// NetworkLibrary.ts
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import TokenManager from './tokenmanager';
-import { environment } from '../../config.staging';
+
+class ResponseWrapper<T> {
+    private response: AxiosResponse<T>;
+
+    constructor(response: AxiosResponse<T>) {
+        this.response = response;
+    }
+
+    public getData(): T {
+        return this.response.data;
+    }
+
+    public getStatusCode(): number {
+        return this.response.status;
+    }
+
+    public getHeaders(): any {
+        return this.response.headers;
+    }
+}
 
 class NetworkLibrary {
     private tokenManager: TokenManager;
-    private axiosInstance: AxiosInstance;
 
+    private xApiKey: string | null;
+    private xVersionCode: any | null;
+    private xPlatformCode: string | null;
+
+    // constructor(tokenManager: TokenManager) {
     constructor() {
+        // this.tokenManager = tokenManager;
         this.tokenManager = new TokenManager();
-        this.axiosInstance = axios.create();
-        this.initializeInterceptors();
-    }
-
-    private initializeInterceptors() {
-        this.axiosInstance.interceptors.request.use(
-            (config: AxiosRequestConfig) => {
-                return this.tokenManager.refreshInterceptor(config);
-            },
-            (error) => {
-                return Promise.reject(error);
-            }
-        );
-
-        this.axiosInstance.interceptors.response.use(
-            (response: AxiosResponse) => {
-                return this.wrapResponse(response);
-            },
-            (error) => {
-                return Promise.reject(error);
-            }
-        );
-    }
-
-    private wrapResponse(response: AxiosResponse) {
-        const dataField: any = response.data;
-        console.log('response object ==> ', response);
-        console.log('dataField ==> ', dataField);
-        let containsAnotherData = Object.keys(dataField).includes('data');
-        console.log('contains another data ==> ', containsAnotherData);
-        if (containsAnotherData) {
-            let wrapper = {
-                data: dataField.data,
-                success: response.status,
-                headers: response.headers,
-            };
-            console.log('wrapper is ==> ', wrapper);
-            return wrapper;
-        } else {
-            let wrapper = {
-                data: dataField,
-                success: response.status,
-                headers: response.headers,
-            };
-            console.log('wrapper is ==> ', wrapper);
-            return wrapper;
-        }
     }
 
     public setAccessToken(accessToken: string) {
@@ -66,37 +42,94 @@ class NetworkLibrary {
         this.tokenManager.setRefreshToken(refreshToken);
     }
 
+    // Api Key
     public setApiKey(xApiKey: string) {
-        this.tokenManager.setApiKey(xApiKey);
+        this.xApiKey = xApiKey;
     }
+
+    public getApiKey() {
+        return this.xApiKey;
+    }
+
+    // Platform Code
     public setPlatformCode(xPlatformCode: string) {
-        this.tokenManager.setPlatformCode(xPlatformCode);
+        this.xPlatformCode = xPlatformCode;
     }
 
+    public getPlatformCode() {
+        return this.xPlatformCode;
+    }
+
+    // Version Code
     public setVersionCode(xVersionCode: number) {
-        this.tokenManager.setVersionCode(xVersionCode);
-    }
-    public setSourceCode(xSourceCode: string) {
-        this.tokenManager.setSourceCode(xSourceCode);
+        this.xVersionCode = xVersionCode;
     }
 
-    public get(url: string) {
-        return this.axiosInstance.get(`${environment.apiUrl}${url}`);
+    public getVersionCode() {
+        return this.xVersionCode;
     }
 
-    public post(url: string, data: any) {
-        return this.axiosInstance.post(`${environment.apiUrl}${url}`, data);
+    private async makeRequest<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseWrapper<T>> {
+        try {
+            const response = await axios(url, config);
+            return new ResponseWrapper<T>(response);
+        } catch (error) {
+            console.error('Failed to make request:', error);
+            throw error;
+        }
     }
 
-    public put(url: string, data: any) {
-        return this.axiosInstance.put(`${environment.apiUrl}${url}`, data);
-    }
+    public async makeAuthenticatedRequest<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseWrapper<T>> {
+        console.log('dl config=> ', config);
+        // if (!this.tokenManager.getAccessToken()) {
+        //     throw new Error('Access token is not set.');
+        // }
 
-    public delete(url: string, data: any) {
-        return this.axiosInstance.delete(`${environment.apiUrl}${url}`, data);
-    }
+        const requestConfig: AxiosRequestConfig = {
+            ...config,
+            headers: {
+                ...config?.headers,
+                'x-sdk-source': 'chat',
+                // Authorization: `Bearer ${this.tokenManager.getAccessToken()}`,
+            },
+        };
 
-    // Add other HTTP methods as needed
+        const initApi = url.includes('initiate');
+        const isRefreshRequest = url.includes('refresh');
+
+        requestConfig.headers['x-platform-code'] = this.xPlatformCode;
+        requestConfig.headers['x-version-code'] = this.xVersionCode;
+
+        const cFeed = url.includes('community/feed');
+        if (cFeed) requestConfig.headers['x-accept-version'] = 'v2';
+        const isMarkRead = url.includes('mark_read');
+        if (isMarkRead) requestConfig.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+        // Add the access token to the request headers
+        if (this.tokenManager.getAccessToken && !initApi && !isRefreshRequest) {
+            requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getAccessToken}`;
+        }
+
+        // Add the apiKey in initiate api to the request headers
+        if (initApi) requestConfig.headers['x-api-key'] = this.xApiKey;
+
+        try {
+            const response = await this.makeRequest<T>(url, requestConfig);
+
+            if (response.getStatusCode() === 401) {
+                // Access token failed, refresh it
+                await this.tokenManager.refreshAccessToken();
+                // Retry the request with the updated access token
+                requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getAccessToken()}`;
+                return this.makeRequest<T>(url, requestConfig);
+            }
+
+            return response;
+        } catch (error) {
+            console.error('Failed to make authenticated request:', error);
+            throw error;
+        }
+    }
 }
 
-export default NetworkLibrary;
+export { ResponseWrapper, NetworkLibrary };

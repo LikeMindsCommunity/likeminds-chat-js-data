@@ -3,16 +3,17 @@ import { Device, HomeFeed, IaType, INVITE, Participant } from './types';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../utils/firebase';
 import { msg } from '../../utils/firebase';
-import NetworkLibrary from 'src/core/services/networklibrary';
+import { NetworkLibrary } from 'src/core/services/networklibrary';
+import { environment } from 'src/environment';
 
 export class HomeFeedClient {
     public networkLibrary = new NetworkLibrary();
     getHomeFeed(homeFeed: HomeFeed): Promise<any> {
-        return this.networkLibrary.get(`${API.CHATROOM_MINE}?page=${homeFeed.page}`);
+        return this.networkLibrary.makeAuthenticatedRequest(`${API.CHATROOM_MINE}?page=${homeFeed.page}`);
     }
 
     getInvites(invite: INVITE): Promise<any> {
-        return this.networkLibrary.get(
+        return this.networkLibrary.makeAuthenticatedRequest(
             `${API.CHANNEL_INVITES}?channel_type=${invite.channelType}&page=${invite.page}&page_size=${invite.pageSize}`
         );
     }
@@ -23,12 +24,19 @@ export class HomeFeedClient {
             is_secret: participant.isSecret,
             chatroom_participants: participant.chatroomParticipants,
         };
-        return this.networkLibrary.post(`${API.CHATROOM_PARTICIPANTS}`, params);
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}`, {
+            method: 'POST',
+            data: params,
+        });
     }
 
     registerDevice(device: Device): Promise<any> {
-        return this.networkLibrary.post(`${API.USER_DEVICE_PUSH}`, {
+        const params = {
             token: device.token,
+        };
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.USER_DEVICE_PUSH}`, {
+            method: 'POST',
+            data: params,
         });
     }
 
@@ -37,7 +45,11 @@ export class HomeFeedClient {
             channel_id: iaType.channelId,
             invite_status: iaType.inviteStatus,
         };
-        return this.networkLibrary.put(`${API.CHANNEL_INVITE}`, params);
+
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHANNEL_INVITE}`, {
+            method: 'PUT',
+            data: params,
+        });
     }
 
     fbInstance() {

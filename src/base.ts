@@ -1,7 +1,8 @@
 import LMChatClient from 'src';
-import NetworkLibrary from './core/services/networklibrary';
 import { API } from './shared/constants/api.constant';
 import { InitUser, SdkConfig } from './shared/types';
+import { NetworkLibrary } from './core/services/networklibrary';
+import { environment } from './environment';
 
 export class Base {
     xApiKey: string;
@@ -14,14 +15,12 @@ export class Base {
         this.xApiKey = sdkConfig.xApiKey;
         this.xPlatformCode = sdkConfig.xPlatformCode;
         this.xVersionCode = sdkConfig.xVersionCode;
-        this.xSdkSource = sdkConfig.xSdkSource;
     }
 
     setHeaderConfig() {
         this.networkLibrary.setApiKey(this.xApiKey);
         this.networkLibrary.setPlatformCode(this.xPlatformCode);
         this.networkLibrary.setVersionCode(this.xVersionCode);
-        this.networkLibrary.setSourceCode(this.xSdkSource);
     }
 
     initiateUser(initUser: InitUser): Promise<any> {
@@ -33,7 +32,10 @@ export class Base {
         };
 
         return this.networkLibrary
-            .post(`${API.SDK_INITIATE}`, params)
+            .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
+                method: 'POST',
+                data: params,
+            })
             .then((resData: any) => {
                 // Set the access token
                 const accessToken = resData.data.data.access_token;
