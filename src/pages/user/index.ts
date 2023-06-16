@@ -1,4 +1,4 @@
-import { NetworkLibrary } from 'src/core/services/networklibrary';
+import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
 import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, MemberState, Search, USERTYPE } from './types';
 import { Base } from 'src/base';
@@ -6,6 +6,37 @@ import { environment } from 'src/environment';
 
 export class Member extends Base {
     networkLibrary = new NetworkLibrary();
+
+    initiateUser(initUser: InitUser): Promise<any> {
+        const params = {
+            is_guest: initUser?.isGuest,
+            user_unique_id: initUser?.userUniqueId,
+            user_name: initUser?.userName,
+        };
+
+        return this.networkLibrary
+            .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
+                method: 'POST',
+                data: params,
+            })
+            .then((resData: any) => {
+                // Set the access token
+                console.log('DL init=> ', resData);
+                // console.log('DL init=> ', resData.data.data);
+                // console.log('DL init=> ', resData.data.data.access_token);
+                const accessToken = resData.data.access_token;
+                this.networkLibrary.setAccessToken(accessToken);
+                // console.log('set accessToken=> ', accessToken);
+                const refreshToken = resData.data.access_token;
+                this.networkLibrary.setRefreshToken(refreshToken);
+
+                return { data: resData?.data, errorMessage: null, status: 200 };
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     getProfile(getProfile: GetProfile): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.COMMUNITY_MEMBER_PROFILE}?user_id=${getProfile.userId}`

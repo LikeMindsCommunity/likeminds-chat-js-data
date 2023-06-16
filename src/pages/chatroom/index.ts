@@ -29,8 +29,8 @@ import {
     LeaveSecretChatroom,
 } from './types';
 import { Base } from 'src/base';
-import { NetworkLibrary } from 'src/core/services/networklibrary';
 import { environment } from 'src/environment';
+import NetworkLibrary from 'src/core/services/networklibrary';
 
 export class ChatroomData extends Base {
     public networkLibrary = new NetworkLibrary();

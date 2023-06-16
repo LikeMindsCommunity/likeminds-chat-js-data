@@ -1,25 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+
 import TokenManager from './tokenmanager';
-
-class ResponseWrapper<T> {
-    private response: AxiosResponse<T>;
-
-    constructor(response: AxiosResponse<T>) {
-        this.response = response;
-    }
-
-    public getData(): T {
-        return this.response.data;
-    }
-
-    public getStatusCode(): number {
-        return this.response.status;
-    }
-
-    public getHeaders(): any {
-        return this.response.headers;
-    }
-}
+import ResponseWrapper from './responsewrapper';
 
 class NetworkLibrary {
     private tokenManager: TokenManager;
@@ -37,7 +19,6 @@ class NetworkLibrary {
     public setAccessToken(accessToken: string) {
         this.tokenManager.setAccessToken(accessToken);
     }
-
     public setRefreshToken(refreshToken: string) {
         this.tokenManager.setRefreshToken(refreshToken);
     }
@@ -46,7 +27,6 @@ class NetworkLibrary {
     public setApiKey(xApiKey: string) {
         this.xApiKey = xApiKey;
     }
-
     public getApiKey() {
         return this.xApiKey;
     }
@@ -55,7 +35,6 @@ class NetworkLibrary {
     public setPlatformCode(xPlatformCode: string) {
         this.xPlatformCode = xPlatformCode;
     }
-
     public getPlatformCode() {
         return this.xPlatformCode;
     }
@@ -69,18 +48,13 @@ class NetworkLibrary {
         return this.xVersionCode;
     }
 
-    private async makeRequest<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseWrapper<T>> {
-        try {
-            const response = await axios(url, config);
-            return new ResponseWrapper<T>(response);
-        } catch (error) {
-            console.error('Failed to make request:', error);
-            throw error;
-        }
+    private async makeRequest<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+        console.log('dl url =>', url);
+        console.log('dl config =>', config);
+        return axios.request<T>({ url, ...config });
     }
 
     public async makeAuthenticatedRequest<T>(url: string, config?: AxiosRequestConfig): Promise<ResponseWrapper<T>> {
-        console.log('dl config=> ', config);
         // if (!this.tokenManager.getAccessToken()) {
         //     throw new Error('Access token is not set.');
         // }
@@ -90,13 +64,12 @@ class NetworkLibrary {
             headers: {
                 ...config?.headers,
                 'x-sdk-source': 'chat',
-                // Authorization: `Bearer ${this.tokenManager.getAccessToken()}`,
             },
         };
 
         const initApi = url.includes('initiate');
         const isRefreshRequest = url.includes('refresh');
-
+        requestConfig.headers['Content-Type'] = 'application/json';
         requestConfig.headers['x-platform-code'] = this.xPlatformCode;
         requestConfig.headers['x-version-code'] = this.xVersionCode;
 
@@ -107,29 +80,36 @@ class NetworkLibrary {
 
         // Add the access token to the request headers
         if (this.tokenManager.getAccessToken && !initApi && !isRefreshRequest) {
-            requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getAccessToken}`;
+            requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getAccessToken()}`;
         }
 
         // Add the apiKey in initiate api to the request headers
         if (initApi) requestConfig.headers['x-api-key'] = this.xApiKey;
 
         try {
-            const response = await this.makeRequest<T>(url, requestConfig);
+            const response = await this.makeRequest<{ data: T }>(url, requestConfig);
 
-            if (response.getStatusCode() === 401) {
+            if (response.status === 401) {
                 // Access token failed, refresh it
                 await this.tokenManager.refreshAccessToken();
                 // Retry the request with the updated access token
-                requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getAccessToken()}`;
-                return this.makeRequest<T>(url, requestConfig);
+                requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getRefreshToken()}`;
+                return this.makeRequest<{ data: T }>(url, requestConfig)
+                    .then((refreshedResponse) => {
+                        return new ResponseWrapper<T>(refreshedResponse.data.data, null, true);
+                    })
+                    .catch((error) => {
+                        console.error('Failed to make authenticated request:', error);
+                        return new ResponseWrapper<T>(null, error.message, false);
+                    });
             }
 
-            return response;
+            return new ResponseWrapper<T>(response.data.data, null, true);
         } catch (error) {
             console.error('Failed to make authenticated request:', error);
-            throw error;
+            return new ResponseWrapper<T>(null, error.message, false);
         }
     }
 }
 
-export { ResponseWrapper, NetworkLibrary };
+export default NetworkLibrary;

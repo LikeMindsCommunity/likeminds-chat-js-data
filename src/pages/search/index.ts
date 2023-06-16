@@ -1,4 +1,4 @@
-import { NetworkLibrary } from 'src/core/services/networklibrary';
+import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
 import { SearchType } from './types';
 import { environment } from 'src/environment';

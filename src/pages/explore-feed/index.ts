@@ -1,7 +1,8 @@
 import { environment } from 'src/environment';
 import { API } from '../../shared/constants/api.constant';
 import { ExploreFeedData } from './types';
-import { NetworkLibrary } from 'src/core/services/networklibrary';
+import NetworkLibrary from 'src/core/services/networklibrary';
+// import { NetworkLibrary } from 'src/core/services/networklibrary';
 
 export class ExploreFeed {
     networkLibrary = new NetworkLibrary();

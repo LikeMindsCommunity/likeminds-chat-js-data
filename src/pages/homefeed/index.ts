@@ -3,8 +3,8 @@ import { Device, HomeFeed, IaType, INVITE, Participant } from './types';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../utils/firebase';
 import { msg } from '../../utils/firebase';
-import { NetworkLibrary } from 'src/core/services/networklibrary';
 import { environment } from 'src/environment';
+import NetworkLibrary from 'src/core/services/networklibrary';
 
 export class HomeFeedClient {
     public networkLibrary = new NetworkLibrary();
