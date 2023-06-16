@@ -76,10 +76,17 @@ class TokenManager {
 
     public refreshAccessToken(): Promise<string> {
         // Perform an API call to refresh the access token
+        console.log('calling refresh token');
         return axios
-            .post(`${environment.apiUrl}${API.REFRESH_TOKEN_API}`, {
-                refreshToken: this.refreshToken,
-            })
+            .post(
+                `${environment.apiUrl}${API.REFRESH_TOKEN_API}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${this.refreshToken}`,
+                    },
+                }
+            )
             .then((response: any) => {
                 console.log('dl refresh =>', response);
                 const newAccessToken = response.data?.accessToken;

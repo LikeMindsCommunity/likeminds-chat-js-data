@@ -38,6 +38,8 @@ export class Base {
                 // Set the access token
                 const accessToken = resData.data.data.access_token;
                 this.networkLibrary.setAccessToken(accessToken);
+                const refreshToken = resData.data.data.access_token;
+                this.networkLibrary.setRefreshToken(refreshToken);
                 return resData.data;
             })
             .catch((error) => {

@@ -34,7 +34,6 @@ class NetworkLibrary {
     }
 
     private wrapResponse(response: AxiosResponse) {
-        console.log('=>>', response);
         const dataField: any = response.data;
         console.log('response object ==> ', response);
         console.log('dataField ==> ', dataField);
@@ -61,6 +60,10 @@ class NetworkLibrary {
 
     public setAccessToken(accessToken: string) {
         this.tokenManager.setAccessToken(accessToken);
+    }
+
+    public setRefreshToken(refreshToken: string) {
+        this.tokenManager.setRefreshToken(refreshToken);
     }
 
     public setApiKey(xApiKey: string) {
