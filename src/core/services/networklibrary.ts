@@ -75,7 +75,7 @@ class NetworkLibrary {
         if (isMarkRead) requestConfig.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
         // Add the access token to the request headers
-        if (this.tokenManager.getAccessToken && !initApi && !isRefreshRequest) {
+        if (this.tokenManager.getAccessToken && !initApi) {
             requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getAccessToken()}`;
         }
 
@@ -89,7 +89,8 @@ class NetworkLibrary {
                 // Access token failed, refresh it
                 await this.tokenManager.refreshAccessToken();
                 // Retry the request with the updated access token
-                requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getRefreshToken()}`;
+                // requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getRefreshToken()}`;
+                requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.refreshAccessToken()}`;
                 return this.makeRequest<{ data: T }>(url, requestConfig)
                     .then((refreshedResponse) => {
                         return new LMResponse<T>(refreshedResponse.data.data, null, true);
@@ -100,7 +101,7 @@ class NetworkLibrary {
                     });
             }
 
-            return new LMResponse<T>(response.data.data, null, true);
+            return new LMResponse<T>(response?.data?.data, null, true);
         } catch (error) {
             console.error('Failed to make authenticated request:', error);
             return new LMResponse<T>(null, error.message, false);
