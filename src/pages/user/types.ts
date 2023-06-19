@@ -1,7 +1,7 @@
 export declare type InitUser = {
-    is_guest: boolean;
-    user_unique_id: string;
-    user_name: string;
+    isGuest: boolean;
+    userUniqueId: string;
+    userName?: string;
 };
 
 export declare type GetProfile = {
@@ -14,8 +14,15 @@ export declare type GetMemberChatroom = {
 };
 
 export declare type EditProfile = {
+    userUniqueId: string;
+    userName: string;
     imageUrl: string;
-    questionAnswers: any;
+};
+
+export declare type GetAllMembers = {
+    chatroomId?: number;
+    memberState?: any;
+    page: number;
 };
 
 export declare type MemberState = {

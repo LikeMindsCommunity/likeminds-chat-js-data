@@ -1,88 +1,54 @@
-import fetch from 'isomorphic-unfetch';
-import { API } from './shared/api.constant';
+import LMChatClient from 'src';
+import { API } from './shared/constants/api.constant';
+import { InitUser, SdkConfig } from './shared/types';
+import { environment } from './environment';
+import NetworkLibrary from './core/services/networklibrary';
 
-type Config = {
-    apiKey: string;
-    xPlatformCode?: any;
-    xVersionCode?: any;
-};
+export class Base {
+    xApiKey: string;
+    xPlatformCode: string;
+    xVersionCode: number;
+    xSdkSource: string;
+    networkLibrary = new NetworkLibrary();
 
-export abstract class Base {
-    private apiKey: string;
-    private xPlatformCode: string;
-    private xVersionCode: string;
-    private baseUrl: string;
+    constructor(sdkConfig: SdkConfig) {
+        this.xApiKey = sdkConfig.xApiKey;
+        this.xPlatformCode = sdkConfig.xPlatformCode;
+        this.xVersionCode = sdkConfig.xVersionCode;
 
-    constructor(congif: Config) {
-        this.apiKey = congif.apiKey;
-        // this.baseUrl = 'https://auth.likeminds.community';
-        this.baseUrl = 'https://betaauth.likeminds.community';
-        this.xPlatformCode = congif.xPlatformCode;
-        this.xVersionCode = congif.xVersionCode;
+        this.networkLibrary.setApiKey(this.xApiKey);
+        this.networkLibrary.setPlatformCode(this.xPlatformCode);
+        this.networkLibrary.setVersionCode(this.xVersionCode);
+    }
+}
+
+export class SDKBuilder {
+    xApiKey: string;
+    xPlatformCode: string;
+    xVersionCode: number;
+    xSdkSource: string;
+
+    setApiKey(xapikey: string): SDKBuilder {
+        this.xApiKey = xapikey;
+        return this;
     }
 
-    protected invoke<T>(endpoint: string, options?: RequestInit): Promise<T> {
-        let headers: any;
-        headers = {
-            'Content-Type': 'application/json',
-            'x-platform-code': this.xPlatformCode,
-            'x-version-code': this.xVersionCode,
-            'x-sdk-source': 'chat',
-        };
+    setPlatformCode(xplatformcode: string): SDKBuilder {
+        this.xPlatformCode = xplatformcode;
+        return this;
+    }
 
-        const initApi = endpoint.includes('initiate');
-        const isRefreshRequest = endpoint.includes('refresh');
-        const cFeed = endpoint.includes('community/feed');
+    setVersionCode(xversioncode: number): SDKBuilder {
+        this.xVersionCode = xversioncode;
+        return this;
+    }
 
-        let url = `${this.baseUrl}${endpoint}`;
-
-        if (initApi) headers['x-api-key'] = this.apiKey;
-
-        if (cFeed) headers['x-accept-version'] = 'v2';
-        if (!initApi && !isRefreshRequest) headers['Authorization'] = `Bearer ${localStorage.getItem('__access_token_LTM__')}`;
-
-        const isMarkRead = endpoint.includes('mark_read');
-        if (isMarkRead) headers['Content-Type'] = 'application/x-www-form-urlencoded';
-
-        const config = { ...options, headers };
-
-        // Retry api call after refresh token expired.
-        function tryRequest(url: any, config: any) {
-            return fetch(url, config)
-                .then((response) => response.json())
-                .then((response) => {
-                    return response.data;
-                })
-                .catch((err) => console.log(err));
-        }
-
-        // Return response to client
-        return fetch(url, config)
-            .then((response) => response.json())
-            .then((response: any) => {
-                // Get Refresh token
-                if (!response.success && response.error_message === 'Invalid LTM!') {
-                    let options = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${localStorage.getItem('__refresh_token_RTM__')}`,
-                        },
-                    };
-                    const refreshData = fetch(`${this.baseUrl}${API.REFRESH_TOKEN_API}`, options);
-                    refreshData
-                        .then((response) => response.json())
-                        .then((resData: any) => {
-                            localStorage.setItem('__access_token_LTM__', resData.data.access_token);
-                            headers['Authorization'] = `Bearer ${resData.data.access_token}`;
-                            localStorage.setItem('__refresh_token_RTM__', resData.data.refresh_token);
-                            tryRequest(url, config);
-                        });
-                } else if (!response.success && response.error_message === 'Invalid RTM!') localStorage.clear();
-                else return response?.data;
-            })
-            .catch((err) => {
-                throw new Error(err?.statusText);
-            });
+    build() {
+        return new LMChatClient({
+            xApiKey: this.xApiKey,
+            xPlatformCode: this.xPlatformCode,
+            xVersionCode: this.xVersionCode!,
+            xSdkSource: this.xSdkSource,
+        });
     }
 }
