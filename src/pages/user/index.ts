@@ -1,6 +1,6 @@
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
-import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, MemberState, Search, USERTYPE } from './types';
+import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, Search, USERTYPE } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
 
@@ -50,13 +50,13 @@ export class Member extends Base {
         });
     }
 
-    getMemberState(memberState: MemberState): Promise<any> {
-        return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.COMMUNITY_MEMBER_STATE}?member_id=${memberState.memberId}`)
-            .then((resData: any) => {
-                return resData;
-            });
-    }
+    // getMemberState(memberState: MemberState): Promise<any> {
+    //     return this.networkLibrary
+    //         .makeAuthenticatedRequest(`${environment.apiUrl}${API.COMMUNITY_MEMBER_STATE}?member_id=${memberState.memberId}`)
+    //         .then((resData: any) => {
+    //             return resData;
+    //         });
+    // }
 
     editProfile(editProfile: EditProfile): Promise<any> {
         const params = {

@@ -25,7 +25,7 @@ export declare type GetAllMembers = {
     page: number;
 };
 
-export declare type MemberState = {
+export declare type MState = {
     memberId: string;
 };
 
