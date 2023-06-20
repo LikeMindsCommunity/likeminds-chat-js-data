@@ -6,7 +6,6 @@ import { Member } from './pages/user';
 import { DirectMessage } from './pages/direct-message';
 import { Search } from './pages/search';
 import { ExploreFeed } from './pages/explore-feed';
-import MemberState from './pages/user/initUser';
 
 class LMChatClient extends Base {
     static xApiKey: string;
@@ -37,10 +36,8 @@ class LMChatClient extends Base {
         });
     }
 }
-interface LMChatClient extends HomeFeedClient, MemberState, ChatroomData, ExploreFeed, Member, DirectMessage, Search {}
+interface LMChatClient extends HomeFeedClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search {}
 
-applyMixins(LMChatClient, [HomeFeedClient, MemberState, ChatroomData, ExploreFeed, Member, DirectMessage, Search]);
+applyMixins(LMChatClient, [HomeFeedClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search]);
 
 export default LMChatClient;
-
-// const a = LMChatClient.setApiKey('3223').setPlatformCode('33').setVersionCode(0).build();
