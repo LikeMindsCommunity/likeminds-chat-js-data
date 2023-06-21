@@ -24,6 +24,9 @@ export declare type GetAllMembers = {
     memberState?: any;
     page: number;
 };
+export declare type Logout = {
+    refreshToken: any;
+};
 
 export declare type MemberState = {
     memberId: string;
@@ -45,7 +48,8 @@ export declare type Members = {
 
 export declare type Search = {
     search: string;
-    search_type: string;
+    searchType: string;
     page: number;
-    page_size: number;
+    pageSize: number;
+    memberStates?: any;
 };

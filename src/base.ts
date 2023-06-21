@@ -1,7 +1,5 @@
 import LMChatClient from 'src';
-import { API } from './shared/constants/api.constant';
-import { InitUser, SdkConfig } from './shared/types';
-import { environment } from './environment';
+import { SdkConfig } from './shared/types';
 import NetworkLibrary from './core/services/networklibrary';
 
 export class Base {

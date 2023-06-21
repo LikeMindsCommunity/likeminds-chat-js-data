@@ -1,6 +1,6 @@
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
-import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, MemberState, Search, USERTYPE } from './types';
+import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, Logout, MemberState, Search, USERTYPE } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
 
@@ -30,6 +30,18 @@ export class Member extends Base {
             .catch((error) => {
                 console.log({ data: null, errorMessage: error.error_message, success: false });
             });
+    }
+
+    logout(logout: Logout): Promise<any> {
+        const params = {
+            refresh_token: logout.refreshToken,
+        };
+        localStorage.clear();
+
+        return this.networkLibrary.makeAuthenticatedRequest(`${API.USER_LOGOUT}`, {
+            method: 'POST',
+            data: params,
+        });
     }
 
     getProfile(getProfile: GetProfile): Promise<any> {
@@ -71,9 +83,15 @@ export class Member extends Base {
     }
 
     searchMembers(search: Search): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.COMMUNITY_MEMBER_SEARCH}?search=${search.search}&search_type=${search.search_type}&page=${search.page}&page_size=${search.page_size}`
-        );
+        if (search.memberStates) {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${API.COMMUNITY_MEMBER_SEARCH}?search=${search.search}&search_type=${search.searchType}&page=${search.page}&page_size=${search.pageSize}&member_states=${search.memberStates}`
+            );
+        } else {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${API.COMMUNITY_MEMBER_SEARCH}?search=${search.search}&search_type=${search.searchType}&page=${search.page}&page_size=${search.pageSize}`
+            );
+        }
     }
 
     allMembers(userType: USERTYPE): Promise<any> {

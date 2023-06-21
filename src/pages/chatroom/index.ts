@@ -27,6 +27,7 @@ import {
     GetReportTags,
     PushReport,
     LeaveSecretChatroom,
+    ChatroomSeen,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
@@ -35,11 +36,7 @@ import NetworkLibrary from 'src/core/services/networklibrary';
 export class ChatroomData extends Base {
     public networkLibrary = new NetworkLibrary();
     getChatroom(chatroom: Chatroom): Promise<any> {
-        return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`)
-            .then((resData: any) => {
-                return resData.data;
-            });
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
     }
 
     followChatroom(followChatroom: FollowChatroom): Promise<any> {
@@ -124,6 +121,10 @@ export class ChatroomData extends Base {
         } else if (conversation.conversationID) {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
+            );
+        } else if (conversation.temporaryID) {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&temporary_id=${conversation.temporaryID}`
             );
         } else {
             return this.networkLibrary.makeAuthenticatedRequest(
@@ -282,10 +283,10 @@ export class ChatroomData extends Base {
 
     pushReport(pushReport: PushReport): Promise<any> {
         const params = {
-            conversation_id: pushReport.conversationId,
+            conversation_id: pushReport?.conversationId,
             tag_id: pushReport.tagId,
             reason: pushReport.reason,
-            reported_member_id: pushReport.reportedMemberId,
+            reported_member_id: pushReport?.reportedMemberId,
         };
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.PUSH_REPORT}`, {
             method: 'POST',
@@ -315,11 +316,11 @@ export class ChatroomData extends Base {
     viewParticipants(participantsType: ParticipantsType): Promise<any> {
         if (participantsType.page) {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroom_id}&is_secret=${participantsType.is_secret}&page=${participantsType.page}&page_size=${participantsType.page_size}`
+                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&participant_name=${participantsType.participantName}`
             );
         } else {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroom_id}&is_secret=${participantsType.is_secret}`
+                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}`
             );
         }
     }
@@ -352,5 +353,15 @@ export class ChatroomData extends Base {
             method: 'PUT',
             data: params,
         });
+    }
+
+    chatroomSeen(chatroomSeen: ChatroomSeen): Promise<any> {
+        return this.networkLibrary.makeAuthenticatedRequest(
+            `${environment.apiUrl}${API.COLLABCARD_SEEN}?collabcard_id=${chatroomSeen.collabcardId}&member_id=${chatroomSeen.memberId}&collabcard_type=${chatroomSeen.collabcardType}`,
+            {
+                method: 'PUT',
+                data: {},
+            }
+        );
     }
 }
