@@ -5,3 +5,11 @@ export declare type SearchType = {
     search: string;
     searchType: string;
 };
+
+export declare type SearchConversation = {
+    chatroomId: number | string;
+    search: string;
+    followStatus: boolean;
+    page?: number;
+    pageSize?: number;
+};
