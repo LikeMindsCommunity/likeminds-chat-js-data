@@ -1,7 +1,7 @@
 export declare type Chatroom = {
     chatroomId: any;
     page?: number;
-    api_type?: number;
+    apiType?: number;
 };
 
 export declare type FollowChatroom = {
@@ -44,20 +44,21 @@ export declare type Conversation = {
     scrollDirection?: number;
     paginateBy: any;
     topNavigate: any;
+    temporaryID?: any;
 };
 
 export declare type PostConversation = {
     chatroomId: number;
-    temporaryId?: number;
+    temporaryId?: number | string;
     text: string;
     hasFiles: boolean;
     attachmentCount?: number;
-    repliedConversationId?: number;
+    repliedConversationId?: number | string;
     shareLink?: string;
     ogTags?: any;
 };
 export declare type EditConversation = {
-    conversationId: number;
+    conversationId: number | string;
     text: string;
     shareLink?: string;
     ogTags?: any;
@@ -151,10 +152,10 @@ export declare type GetReportTags = {
 };
 
 export declare type PushReport = {
-    conversationId: number;
     tagId: number;
     reason?: string;
-    reportedMemberId: number;
+    conversationId?: number;
+    reportedMemberId?: number;
 };
 
 export declare type LeaveCR = {
@@ -178,13 +179,20 @@ export declare type Profile = {
 };
 
 export declare type ParticipantsType = {
-    chatroom_id: number;
-    is_secret: boolean;
+    chatroomId: number;
+    isSecret: boolean;
     page?: number;
-    page_size?: number;
+    pageSize?: number;
+    participantName?: string;
 };
 
 export declare type CRSeen = {
+    collabcardId: number;
+    memberId: number;
+    collabcardType: any;
+};
+
+export declare type ChatroomSeen = {
     collabcardId: number;
     memberId: number;
     collabcardType: any;
