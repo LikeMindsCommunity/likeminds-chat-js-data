@@ -116,7 +116,7 @@ export class ChatroomData extends Base {
     getConversation(conversation: Conversation): Promise<any> {
         if (conversation.scrollDirection) {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
+                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
             );
         } else if (conversation.conversationID) {
             return this.networkLibrary.makeAuthenticatedRequest(

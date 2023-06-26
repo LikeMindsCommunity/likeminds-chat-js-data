@@ -14,7 +14,7 @@ export class Search extends Base {
 
     searchConversation(searchConversation: SearchConversation): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.CONVERSATION_SEARCH}?chatroom_id=${searchConversation.chatroomId}&follow_status=${searchConversation.followStatus}&page=${searchConversation.page}&page_size=${searchConversation.pageSize}&search=${searchConversation.search}}`
+            `${environment.apiUrl}${API.CONVERSATION_SEARCH}?chatroom_id=${searchConversation.chatroomId}&follow_status=${searchConversation.followStatus}&page=${searchConversation.page}&page_size=${searchConversation.pageSize}&search=${searchConversation.search}`
         );
     }
 }

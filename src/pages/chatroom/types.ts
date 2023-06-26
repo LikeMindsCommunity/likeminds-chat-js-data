@@ -45,6 +45,7 @@ export declare type Conversation = {
     paginateBy: any;
     topNavigate: any;
     temporaryID?: any;
+    include: boolean;
 };
 
 export declare type PostConversation = {
