@@ -56,8 +56,11 @@ class NetworkLibrary {
         const initApi = url.includes('initiate');
         const isRefreshRequest = url.includes('refresh');
         requestConfig.headers['Content-Type'] = 'application/json';
-        requestConfig.headers['x-platform-code'] = this.tokenManager.getPlatformCode();
+        // requestConfig.headers['x-platform-code'] = this.tokenManager.getPlatformCode();
         requestConfig.headers['x-version-code'] = this.tokenManager.getVersionCode();
+
+        const device = url.includes('user/device/push');
+        if (!device) requestConfig.headers['x-platform-code'] = this.tokenManager.getPlatformCode();
 
         const cFeed = url.includes('community/feed');
         if (cFeed) requestConfig.headers['x-accept-version'] = 'v2';
@@ -76,8 +79,6 @@ class NetworkLibrary {
             const response = await this.makeRequest<{ data: T }>(url, requestConfig);
             return new LMResponse<T>(response?.data?.data, null, true);
         } catch (error) {
-            // console.error('DL failed to make authenticated request:', error);
-
             if (error?.response && error?.response?.status === 401) {
                 // Access token expired, refresh the token and retry the request
                 await this.tokenManager.refreshAccessToken();

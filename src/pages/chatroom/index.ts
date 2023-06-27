@@ -203,16 +203,11 @@ export class ChatroomData extends Base {
     getAWS(): any {
         (AWS.config.region = 'ap-south-1'),
             (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                // // Beta
-                IdentityPoolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
-
-                // Prod
-                // IdentityPoolId: 'ap-south-1:d73bc2ed-bede-42c8-bab7-0abe0a001325',
+                IdentityPoolId: environment.awsConfig.poolId,
             }));
         const s3 = new AWS.S3({
             apiVersion: '2006-03-01',
-            // params: { Bucket: 'prod-likeminds-media' },
-            params: { Bucket: 'beta-likeminds-media' },
+            params: { Bucket: environment.awsConfig.bucket },
         });
 
         return s3;
@@ -221,8 +216,7 @@ export class ChatroomData extends Base {
     uploadMedia(media: Media) {
         let mediaObject = this.getAWS().upload({
             Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
-            // Bucket: 'prod-likeminds-media',
-            Bucket: 'beta-likeminds-media',
+            Bucket: environment.awsConfig.bucket,
             Body: media.file,
             ACL: 'public-read-write',
             ContentType: media.file.type,

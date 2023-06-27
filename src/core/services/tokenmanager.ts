@@ -9,8 +9,6 @@ class TokenManager {
     private xVersionCode: any | null;
     private xPlatformCode: string | null;
 
-    // public networkLibrary = new NetworkLibrary();
-
     constructor() {
         this.accessToken = null;
         this.refreshToken = null;
