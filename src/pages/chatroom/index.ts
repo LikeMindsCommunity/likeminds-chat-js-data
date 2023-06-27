@@ -3,9 +3,7 @@ import { API } from '../../shared/constants/api.constant';
 import {
     Chatroom,
     CHTYPE,
-    CMETATYPE,
     CRSeen,
-    LeaveSC,
     Media,
     ParticipantsType,
     Profile,
@@ -28,11 +26,13 @@ import {
     PushReport,
     LeaveSecretChatroom,
     ChatroomSeen,
+    CmetaType,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
 import NetworkLibrary from 'src/core/services/networklibrary';
 
+// Chatroom.ts
 export class ChatroomData extends Base {
     public networkLibrary = new NetworkLibrary();
     getChatroom(chatroom: Chatroom): Promise<any> {
@@ -116,7 +116,7 @@ export class ChatroomData extends Base {
     getConversation(conversation: Conversation): Promise<any> {
         if (conversation.scrollDirection) {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
+                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
             );
         } else if (conversation.conversationID) {
             return this.networkLibrary.makeAuthenticatedRequest(
@@ -314,7 +314,7 @@ export class ChatroomData extends Base {
     }
 
     viewParticipants(participantsType: ParticipantsType): Promise<any> {
-        if (participantsType.page) {
+        if (participantsType.participantName) {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&participant_name=${participantsType.participantName}`
             );
@@ -325,14 +325,14 @@ export class ChatroomData extends Base {
         }
     }
 
-    conversationsFetch(cmetaType: CMETATYPE): Promise<any> {
-        if (cmetaType.chatroom_id) {
+    conversationsFetch(cmetaType: CmetaType): Promise<any> {
+        if (cmetaType.chatroomId) {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION_META}?chatroom_id=${cmetaType.chatroom_id}&conversation_id=${cmetaType.conversation_id}`
+                `${environment.apiUrl}${API.CONVERSATION_META}?chatroom_id=${cmetaType.chatroomId}&conversation_id=${cmetaType.conversationId}`
             );
         } else {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION_META}?conversation_id=${cmetaType.conversation_id}`
+                `${environment.apiUrl}${API.CONVERSATION_META}?conversation_id=${cmetaType.conversationId}`
             );
         }
     }

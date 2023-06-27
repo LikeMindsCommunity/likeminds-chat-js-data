@@ -1,3 +1,4 @@
+// NetworkLibrary
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import TokenManager from './tokenmanager';
@@ -7,8 +8,6 @@ class NetworkLibrary {
     private tokenManager: TokenManager;
 
     private xApiKey: string | null;
-    private xVersionCode: any | null;
-    private xPlatformCode: string | null;
 
     constructor() {
         this.tokenManager = new TokenManager();
@@ -21,29 +20,20 @@ class NetworkLibrary {
         this.tokenManager.setRefreshToken(refreshToken);
     }
 
+    public setPlatformCode(platFormCode: string) {
+        this.tokenManager.setPlatformCode(platFormCode);
+    }
+
+    public setVersionCode(versionCode: any) {
+        this.tokenManager.setVersionCode(versionCode);
+    }
+
     // Api Key
     public setApiKey(xApiKey: string) {
         this.xApiKey = xApiKey;
     }
     public getApiKey() {
         return this.xApiKey;
-    }
-
-    // Platform Code
-    public setPlatformCode(xPlatformCode: string) {
-        this.xPlatformCode = xPlatformCode;
-    }
-    public getPlatformCode() {
-        return this.xPlatformCode;
-    }
-
-    // Version Code
-    public setVersionCode(xVersionCode: number) {
-        this.xVersionCode = xVersionCode;
-    }
-
-    public getVersionCode() {
-        return this.xVersionCode;
     }
 
     private async makeRequest<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
@@ -66,8 +56,8 @@ class NetworkLibrary {
         const initApi = url.includes('initiate');
         const isRefreshRequest = url.includes('refresh');
         requestConfig.headers['Content-Type'] = 'application/json';
-        requestConfig.headers['x-platform-code'] = this.xPlatformCode;
-        requestConfig.headers['x-version-code'] = this.xVersionCode;
+        requestConfig.headers['x-platform-code'] = this.tokenManager.getPlatformCode();
+        requestConfig.headers['x-version-code'] = this.tokenManager.getVersionCode();
 
         const cFeed = url.includes('community/feed');
         if (cFeed) requestConfig.headers['x-accept-version'] = 'v2';
@@ -84,14 +74,20 @@ class NetworkLibrary {
 
         try {
             const response = await this.makeRequest<{ data: T }>(url, requestConfig);
+            return new LMResponse<T>(response?.data?.data, null, true);
+        } catch (error) {
+            // console.error('DL failed to make authenticated request:', error);
 
-            if (response.status === 401) {
-                // Access token failed, refresh it
+            if (error?.response && error?.response?.status === 401) {
+                // Access token expired, refresh the token and retry the request
                 await this.tokenManager.refreshAccessToken();
-                // Retry the request with the updated access token
-                // requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getRefreshToken()}`;
-                requestConfig.headers['Authorization'] = `Bearer ${this.tokenManager.refreshAccessToken()}`;
-                return this.makeRequest<{ data: T }>(url, requestConfig)
+
+                // Update the Authorization header with the new access token
+                const updatedConfig = { ...requestConfig };
+                updatedConfig.headers['Authorization'] = `Bearer ${this.tokenManager.getAccessToken()}`;
+
+                // Retry the request
+                return this.makeRequest<{ data: T }>(url, updatedConfig)
                     .then((refreshedResponse) => {
                         return new LMResponse<T>(refreshedResponse.data.data, null, true);
                     })
@@ -100,10 +96,6 @@ class NetworkLibrary {
                         return new LMResponse<T>(null, error.message, false);
                     });
             }
-
-            return new LMResponse<T>(response?.data?.data, null, true);
-        } catch (error) {
-            console.error('Failed to make authenticated request:', error);
             return new LMResponse<T>(null, error.message, false);
         }
     }
