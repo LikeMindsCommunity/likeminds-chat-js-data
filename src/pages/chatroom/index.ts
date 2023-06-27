@@ -318,6 +318,10 @@ export class ChatroomData extends Base {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&participant_name=${participantsType.participantName}`
             );
+        } else if (participantsType.page) {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}`
+            );
         } else {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}`
