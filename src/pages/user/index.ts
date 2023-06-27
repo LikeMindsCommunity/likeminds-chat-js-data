@@ -95,27 +95,31 @@ export class Member extends Base {
         }
     }
 
-    allMembers(userType: USERTYPE): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?community_id=${userType.community_id}&chatroom_id=${userType.chatroom_id}&page=${userType.page}`
-        );
-    }
-
     getAllMembers(getAllMembers: GetAllMembers): Promise<any> {
         if (getAllMembers.memberState) {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?chatroom_id=${getAllMembers.chatroomId}&member_state=${getAllMembers.memberState}&page=${getAllMembers.page}`
+                `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?member_state=${getAllMembers.memberState}&page=${getAllMembers.page}`
             );
-        } else {
+        } else if (getAllMembers.chatroomId) {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?chatroom_id=${getAllMembers.chatroomId}&page=${getAllMembers.page}`
             );
+        } else {
+            return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.COMMUNITY_MEMBERS}?page=${getAllMembers.page}`);
         }
     }
+
+    // Old function
 
     dmAllMembers(userType: USERTYPE): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.DM_ALL_MEMBERS}?community_id=${userType.community_id}&member_state=${userType.member_state}&page=${userType.page}`
+        );
+    }
+
+    allMembers(userType: USERTYPE): Promise<any> {
+        return this.networkLibrary.makeAuthenticatedRequest(
+            `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?community_id=${userType.community_id}&chatroom_id=${userType.chatroom_id}&page=${userType.page}`
         );
     }
 }
