@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { environment } from 'src/environment';
 import { API } from 'src/shared/constants/api.constant';
 
@@ -6,6 +6,10 @@ import { API } from 'src/shared/constants/api.constant';
 class TokenManager {
     private accessToken: string | null;
     private refreshToken: string | null;
+    private xVersionCode: any | null;
+    private xPlatformCode: string | null;
+
+    // public networkLibrary = new NetworkLibrary();
 
     constructor() {
         this.accessToken = null;
@@ -28,15 +32,43 @@ class TokenManager {
         return this.refreshToken;
     }
 
+    // Platform Code
+    public setPlatformCode(xPlatformCode: string) {
+        this.xPlatformCode = xPlatformCode;
+    }
+    public getPlatformCode() {
+        return this.xPlatformCode;
+    }
+
+    // Version Code
+    public setVersionCode(xVersionCode: number) {
+        this.xVersionCode = xVersionCode;
+    }
+
+    public getVersionCode() {
+        return this.xVersionCode;
+    }
+
     public async refreshAccessToken(): Promise<void> {
         if (!this.refreshToken) {
             throw new Error('Refresh token is not set.');
         }
 
         try {
-            const response: any = await axios.post(`${environment.apiUrl}${API.REFRESH_TOKEN_API}`, {
-                refreshToken: this.refreshToken,
-            });
+            console.log('Ref=> ', this.getRefreshToken());
+            console.log('Ace=> ', this.getAccessToken());
+            const url = `${environment.apiUrl}${API.REFRESH_TOKEN_API}`;
+            const config: AxiosRequestConfig = {
+                // Request headers or other options
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${this.getRefreshToken()}`,
+                    'x-platform-code': this.getPlatformCode(),
+                    'x-version-code': this.getVersionCode(),
+                },
+            };
+
+            const response: any = await axios.post(url, {}, config);
             console.log('DL access=> ', response);
             const accessToken = response.data.data || response.data;
 

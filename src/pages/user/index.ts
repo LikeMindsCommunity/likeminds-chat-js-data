@@ -1,3 +1,4 @@
+// Index.user.class
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
 import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, Logout, MemberState, Search, USERTYPE } from './types';
@@ -20,9 +21,9 @@ export class Member extends Base {
                 data: params,
             })
             .then((resData: any) => {
-                const accessToken = resData.data.access_token;
+                const accessToken = resData?.data?.access_token;
                 this.networkLibrary.setAccessToken(accessToken);
-                const refreshToken = resData.data.access_token;
+                const refreshToken = resData?.data?.refresh_token;
                 this.networkLibrary.setRefreshToken(refreshToken);
 
                 return { data: resData?.data, errorMessage: null, success: true };
