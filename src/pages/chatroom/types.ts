@@ -45,6 +45,7 @@ export declare type Conversation = {
     paginateBy: any;
     topNavigate: any;
     temporaryID?: any;
+    include: boolean;
 };
 
 export declare type PostConversation = {
@@ -138,9 +139,9 @@ export declare type Action = {
     reaction: any;
 };
 
-export declare type CMETATYPE = {
-    chatroom_id?: number;
-    conversation_id: number;
+export declare type CmetaType = {
+    chatroomId?: number;
+    conversationId: number;
 };
 
 export declare type TaggingListOld = {
