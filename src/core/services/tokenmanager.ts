@@ -55,8 +55,6 @@ class TokenManager {
         }
 
         try {
-            console.log('Ref=> ', this.getRefreshToken());
-            console.log('Ace=> ', this.getAccessToken());
             const url = `${environment.apiUrl}${API.REFRESH_TOKEN_API}`;
             const config: AxiosRequestConfig = {
                 // Request headers or other options
@@ -69,7 +67,6 @@ class TokenManager {
             };
 
             const response: any = await axios.post(url, {}, config);
-            console.log('DL access=> ', response);
             const accessToken = response.data.data || response.data;
 
             this.accessToken = accessToken.access_token;
