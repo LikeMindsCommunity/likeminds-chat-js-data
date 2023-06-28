@@ -176,11 +176,19 @@ export class ChatroomData extends Base {
     }
 
     putReaction(putReaction: PutReaction): Promise<any> {
-        const params = {
-            chatroom_id: putReaction.chatroomId,
-            conversation_id: putReaction.conversationId,
-            reaction: putReaction.reaction,
-        };
+        let params;
+        if (putReaction.chatroomId) {
+            params = {
+                chatroom_id: putReaction?.chatroomId,
+                conversation_id: putReaction.conversationId,
+                reaction: putReaction.reaction,
+            };
+        } else {
+            params = {
+                conversation_id: putReaction.conversationId,
+                reaction: putReaction.reaction,
+            };
+        }
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
             method: 'PUT',
             data: params,

@@ -71,7 +71,7 @@ export declare type DeleteConversation = {
 };
 
 export declare type PutReaction = {
-    chatroomId: number;
+    chatroomId?: number;
     conversationId: number;
     reaction: any;
 };
