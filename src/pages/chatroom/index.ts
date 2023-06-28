@@ -118,6 +118,10 @@ export class ChatroomData extends Base {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
             );
+        } else if (conversation.conversationID && !conversation.scrollDirection) {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
+            );
         } else if (conversation.conversationID) {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
@@ -176,11 +180,19 @@ export class ChatroomData extends Base {
     }
 
     putReaction(putReaction: PutReaction): Promise<any> {
-        const params = {
-            chatroom_id: putReaction.chatroomId,
-            conversation_id: putReaction.conversationId,
-            reaction: putReaction.reaction,
-        };
+        let params;
+        if (putReaction.chatroomId) {
+            params = {
+                chatroom_id: putReaction?.chatroomId,
+                conversation_id: putReaction.conversationId,
+                reaction: putReaction.reaction,
+            };
+        } else {
+            params = {
+                conversation_id: putReaction.conversationId,
+                reaction: putReaction.reaction,
+            };
+        }
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
             method: 'PUT',
             data: params,
