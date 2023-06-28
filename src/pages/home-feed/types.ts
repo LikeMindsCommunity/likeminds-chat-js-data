@@ -19,6 +19,8 @@ export declare type IaType = {
 
 export declare type Device = {
     token: string;
+    xDeviceId: string;
+    xPlatformCode: string;
 };
 
 export declare type Participant = {
