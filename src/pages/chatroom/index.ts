@@ -3,9 +3,7 @@ import { API } from '../../shared/constants/api.constant';
 import {
     Chatroom,
     CHTYPE,
-    CMETATYPE,
     CRSeen,
-    LeaveSC,
     Media,
     ParticipantsType,
     Profile,
@@ -28,11 +26,13 @@ import {
     PushReport,
     LeaveSecretChatroom,
     ChatroomSeen,
+    CmetaType,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
 import NetworkLibrary from 'src/core/services/networklibrary';
 
+// Chatroom.ts
 export class ChatroomData extends Base {
     public networkLibrary = new NetworkLibrary();
     getChatroom(chatroom: Chatroom): Promise<any> {
@@ -116,7 +116,11 @@ export class ChatroomData extends Base {
     getConversation(conversation: Conversation): Promise<any> {
         if (conversation.scrollDirection) {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
+                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
+            );
+        } else if (conversation.conversationID && !conversation.scrollDirection) {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
             );
         } else if (conversation.conversationID) {
             return this.networkLibrary.makeAuthenticatedRequest(
@@ -176,11 +180,19 @@ export class ChatroomData extends Base {
     }
 
     putReaction(putReaction: PutReaction): Promise<any> {
-        const params = {
-            chatroom_id: putReaction.chatroomId,
-            conversation_id: putReaction.conversationId,
-            reaction: putReaction.reaction,
-        };
+        let params;
+        if (putReaction.chatroomId) {
+            params = {
+                chatroom_id: putReaction?.chatroomId,
+                conversation_id: putReaction.conversationId,
+                reaction: putReaction.reaction,
+            };
+        } else {
+            params = {
+                conversation_id: putReaction.conversationId,
+                reaction: putReaction.reaction,
+            };
+        }
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
             method: 'PUT',
             data: params,
@@ -203,16 +215,11 @@ export class ChatroomData extends Base {
     getAWS(): any {
         (AWS.config.region = 'ap-south-1'),
             (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                // // Beta
-                IdentityPoolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
-
-                // Prod
-                // IdentityPoolId: 'ap-south-1:d73bc2ed-bede-42c8-bab7-0abe0a001325',
+                IdentityPoolId: environment.awsConfig.poolId,
             }));
         const s3 = new AWS.S3({
             apiVersion: '2006-03-01',
-            // params: { Bucket: 'prod-likeminds-media' },
-            params: { Bucket: 'beta-likeminds-media' },
+            params: { Bucket: environment.awsConfig.bucket },
         });
 
         return s3;
@@ -221,8 +228,7 @@ export class ChatroomData extends Base {
     uploadMedia(media: Media) {
         let mediaObject = this.getAWS().upload({
             Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
-            // Bucket: 'prod-likeminds-media',
-            Bucket: 'beta-likeminds-media',
+            Bucket: environment.awsConfig.bucket,
             Body: media.file,
             ACL: 'public-read-write',
             ContentType: media.file.type,
@@ -314,9 +320,13 @@ export class ChatroomData extends Base {
     }
 
     viewParticipants(participantsType: ParticipantsType): Promise<any> {
-        if (participantsType.page) {
+        if (participantsType.participantName) {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&participant_name=${participantsType.participantName}`
+            );
+        } else if (participantsType.page) {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}`
             );
         } else {
             return this.networkLibrary.makeAuthenticatedRequest(
@@ -325,14 +335,14 @@ export class ChatroomData extends Base {
         }
     }
 
-    conversationsFetch(cmetaType: CMETATYPE): Promise<any> {
-        if (cmetaType.chatroom_id) {
+    conversationsFetch(cmetaType: CmetaType): Promise<any> {
+        if (cmetaType.chatroomId) {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION_META}?chatroom_id=${cmetaType.chatroom_id}&conversation_id=${cmetaType.conversation_id}`
+                `${environment.apiUrl}${API.CONVERSATION_META}?chatroom_id=${cmetaType.chatroomId}&conversation_id=${cmetaType.conversationId}`
             );
         } else {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION_META}?conversation_id=${cmetaType.conversation_id}`
+                `${environment.apiUrl}${API.CONVERSATION_META}?conversation_id=${cmetaType.conversationId}`
             );
         }
     }

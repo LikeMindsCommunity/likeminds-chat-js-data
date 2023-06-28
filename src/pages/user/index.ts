@@ -1,3 +1,4 @@
+// Index.user.class
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
 import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, Logout, MemberState, Search, USERTYPE } from './types';
@@ -20,9 +21,9 @@ export class Member extends Base {
                 data: params,
             })
             .then((resData: any) => {
-                const accessToken = resData.data.access_token;
+                const accessToken = resData?.data?.access_token;
                 this.networkLibrary.setAccessToken(accessToken);
-                const refreshToken = resData.data.access_token;
+                const refreshToken = resData?.data?.refresh_token;
                 this.networkLibrary.setRefreshToken(refreshToken);
 
                 return { data: resData?.data, errorMessage: null, success: true };
@@ -94,27 +95,31 @@ export class Member extends Base {
         }
     }
 
-    allMembers(userType: USERTYPE): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?community_id=${userType.community_id}&chatroom_id=${userType.chatroom_id}&page=${userType.page}`
-        );
-    }
-
     getAllMembers(getAllMembers: GetAllMembers): Promise<any> {
         if (getAllMembers.memberState) {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?chatroom_id=${getAllMembers.chatroomId}&member_state=${getAllMembers.memberState}&page=${getAllMembers.page}`
+                `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?member_state=${getAllMembers.memberState}&page=${getAllMembers.page}`
             );
-        } else {
+        } else if (getAllMembers.chatroomId) {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?chatroom_id=${getAllMembers.chatroomId}&page=${getAllMembers.page}`
             );
+        } else {
+            return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.COMMUNITY_MEMBERS}?page=${getAllMembers.page}`);
         }
     }
+
+    // Old function
 
     dmAllMembers(userType: USERTYPE): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.DM_ALL_MEMBERS}?community_id=${userType.community_id}&member_state=${userType.member_state}&page=${userType.page}`
+        );
+    }
+
+    allMembers(userType: USERTYPE): Promise<any> {
+        return this.networkLibrary.makeAuthenticatedRequest(
+            `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?community_id=${userType.community_id}&chatroom_id=${userType.chatroom_id}&page=${userType.page}`
         );
     }
 }

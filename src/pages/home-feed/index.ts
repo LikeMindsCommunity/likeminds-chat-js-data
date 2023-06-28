@@ -6,6 +6,7 @@ import { db } from '../../utils/firebase';
 import { environment } from 'src/environment';
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { Base } from 'src/base';
+import { AxiosRequestConfig } from 'axios';
 
 export class HomeFeedClient extends Base {
     public networkLibrary = new NetworkLibrary();
@@ -38,6 +39,10 @@ export class HomeFeedClient extends Base {
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.USER_DEVICE_PUSH}`, {
             method: 'POST',
             data: params,
+            headers: {
+                'x-device-id': device.xDeviceId,
+                'x-platform-code': device.xPlatformCode,
+            },
         });
     }
 
