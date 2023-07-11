@@ -86,11 +86,11 @@ export class Member extends Base {
     searchMembers(search: Search): Promise<any> {
         if (search.memberStates) {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${API.COMMUNITY_MEMBER_SEARCH}?search=${search.search}&search_type=${search.searchType}&page=${search.page}&page_size=${search.pageSize}&member_states=${search.memberStates}`
+                `${environment.apiUrl}${API.COMMUNITY_MEMBER_SEARCH}?search=${search.search}&search_type=${search.searchType}&page=${search.page}&page_size=${search.pageSize}&member_states=${search.memberStates}`
             );
         } else {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${API.COMMUNITY_MEMBER_SEARCH}?search=${search.search}&search_type=${search.searchType}&page=${search.page}&page_size=${search.pageSize}`
+                `${environment.apiUrl}${API.COMMUNITY_MEMBER_SEARCH}?search=${search.search}&search_type=${search.searchType}&page=${search.page}&page_size=${search.pageSize}`
             );
         }
     }
