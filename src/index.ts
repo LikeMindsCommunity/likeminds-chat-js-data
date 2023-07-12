@@ -6,6 +6,7 @@ import { Member } from './pages/user';
 import { DirectMessage } from './pages/direct-message';
 import { Search } from './pages/search';
 import { ExploreFeed } from './pages/explore-feed';
+import { PollClient } from './pages/poll';
 
 class LMChatClient extends Base {
     static xApiKey: string;
@@ -36,8 +37,8 @@ class LMChatClient extends Base {
         });
     }
 }
-interface LMChatClient extends HomeFeedClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search {}
+interface LMChatClient extends HomeFeedClient, PollClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search {}
 
-applyMixins(LMChatClient, [HomeFeedClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search]);
+applyMixins(LMChatClient, [HomeFeedClient, PollClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search]);
 
 export default LMChatClient;
