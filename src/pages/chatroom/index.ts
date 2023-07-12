@@ -261,28 +261,6 @@ export class ChatroomData extends Base {
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.HELPER_URL}?url=${decodeUrl.url}`);
     }
 
-    // Polls need to update
-    postPollConversation(postPollConversation: PostPollConversation): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${postPollConversation.chatroomId}`
-        );
-    }
-    getPollUsers(postPollConversation: PostPollConversation): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${postPollConversation.chatroomId}`
-        );
-    }
-    addPollOption(postPollConversation: PostPollConversation): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${postPollConversation.chatroomId}`
-        );
-    }
-    submitPoll(postPollConversation: PostPollConversation): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${postPollConversation.chatroomId}`
-        );
-    }
-
     getReportTags(getReportTags: GetReportTags): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.FETCH_REPORT_TAGS}?type=${getReportTags.type}`);
     }
