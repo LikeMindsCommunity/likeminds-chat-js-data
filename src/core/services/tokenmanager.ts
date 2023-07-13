@@ -49,7 +49,8 @@ class TokenManager {
 
     public async refreshAccessToken(): Promise<void> {
         if (!this.refreshToken) {
-            throw new Error('Refresh token is not set.');
+            console.log('Refresh token is not set.');
+            // throw new Error('Refresh token is not set.');
         }
 
         try {
