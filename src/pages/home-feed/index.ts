@@ -26,7 +26,7 @@ export class HomeFeedClient extends Base {
             is_secret: participant.isSecret,
             chatroom_participants: participant.chatroomParticipants,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}`, {
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}`, {
             method: 'POST',
             data: params,
         });
