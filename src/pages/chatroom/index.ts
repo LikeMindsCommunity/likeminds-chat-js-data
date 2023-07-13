@@ -282,6 +282,7 @@ export class ChatroomData extends Base {
         const params = {
             chatroom_id: leaveSecretChatroom.chatroomId,
             member_id: leaveSecretChatroom.memberId,
+            is_secret: leaveSecretChatroom?.isSecret,
         };
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}`, {
             method: 'DELETE',
