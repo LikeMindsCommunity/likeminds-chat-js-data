@@ -35,9 +35,8 @@ export declare type DMTYPE = {
     community_id: number;
 };
 
-export declare type CANDM = {
-    community_id: number;
-    req_from: string;
-    member_id?: number;
-    chatroom_id?: number;
+export declare type CANDM = { 
+    reqFrom: string;
+    memberId?: number;
+    chatroomId?: number;
 };

@@ -29,7 +29,9 @@ export class Member extends Base {
                 return { data: resData?.data, errorMessage: null, success: true };
             })
             .catch((error) => {
-                console.log({ data: null, errorMessage: error.error_message, success: false });
+                if (error?.response && error?.response?.status >= 500) {
+                    console.log({ data: null, errorMessage: error.error_message, success: false });
+                }
             });
     }
 
@@ -63,12 +65,10 @@ export class Member extends Base {
         });
     }
 
-    getMemberState(memberState: MemberState): Promise<any> {
-        return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.COMMUNITY_MEMBER_STATE}?member_id=${memberState.memberId}`)
-            .then((resData: any) => {
-                return resData;
-            });
+    getMemberState(): Promise<any> {
+        return this.networkLibrary.makeAuthenticatedRequest(
+            `${environment.apiUrl}${API.COMMUNITY_MEMBER_STATE}`
+        ); 
     }
 
     editProfile(editProfile: EditProfile): Promise<any> {

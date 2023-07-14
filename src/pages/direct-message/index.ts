@@ -65,13 +65,13 @@ export class DirectMessage extends Base {
     }
 
     canDmFeed(dmCan: CANDM): Promise<any> {
-        if (dmCan.chatroom_id) {
+        if (dmCan.chatroomId) {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.DM_STATUS}?community_id=${dmCan.community_id}&req_from=${dmCan.req_from}&member_id=${dmCan.member_id}&chatroom_id=${dmCan.chatroom_id}`
+                `${environment.apiUrl}${API.DM_STATUS}?req_from=${dmCan.reqFrom}&member_id=${dmCan.memberId}&chatroom_id=${dmCan.chatroomId}`
             );
         } else {
             return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.DM_STATUS}?community_id=${dmCan.community_id}&req_from=${dmCan.req_from}&member_id=${dmCan.member_id}`
+                `${environment.apiUrl}${API.DM_STATUS}?req_from=${dmCan.reqFrom}&member_id=${dmCan.memberId}`
             );
         }
     }
