@@ -91,7 +91,6 @@ class NetworkLibrary {
                         return new LMResponse<T>(refreshedResponse.data.data, null, true);
                     })
                     .catch((error) => {
-                        // console.error('Failed to make authenticated request:', error);
                         if (error?.response && error?.response?.status >= 500) {
                             return new LMResponse<T>(null, error.message, false);
                         }
