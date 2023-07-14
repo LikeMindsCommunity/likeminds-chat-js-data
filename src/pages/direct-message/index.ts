@@ -65,7 +65,7 @@ export class DirectMessage extends Base {
     }
 
     canDmFeed(dmCan: CANDM): Promise<any> {
-        if (dmCan.chatroomId) {
+        if (dmCan?.chatroomId) {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.DM_STATUS}?req_from=${dmCan.reqFrom}&member_id=${dmCan.memberId}&chatroom_id=${dmCan.chatroomId}`
             );
