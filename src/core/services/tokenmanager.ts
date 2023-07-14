@@ -48,11 +48,7 @@ class TokenManager {
     }
 
     public async refreshAccessToken(): Promise<void> {
-        if (!this.refreshToken) {
-            console.log('Refresh token is not set.');
-            // throw new Error('Refresh token is not set.');
-        }
-
+        
         try {
             const url = `${environment.apiUrl}${API.REFRESH_TOKEN_API}`;
             const config: AxiosRequestConfig = {
@@ -74,7 +70,7 @@ class TokenManager {
             return accessToken.access_token;
         } catch (error) {
             console.error('Failed to refresh access token:', error);
-            throw error;
+            if (error?.response && error?.response?.status >= 500) throw error;
         }
     }
 }

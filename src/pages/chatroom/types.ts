@@ -171,7 +171,6 @@ export declare type LeaveSC = {
 
 export declare type LeaveSecretChatroom = {
     chatroomId: number;
-    memberId: number;
     isSecret: boolean;
 };
 

@@ -41,10 +41,7 @@ class NetworkLibrary {
     }
 
     public async makeAuthenticatedRequest<T>(url: string, config?: AxiosRequestConfig): Promise<LMResponse<T>> {
-        // if (!this.tokenManager.getAccessToken()) {
-        //     throw new Error('Access token is not set.');
-        // }
-
+        
         const requestConfig: AxiosRequestConfig = {
             ...config,
             headers: {
@@ -64,6 +61,7 @@ class NetworkLibrary {
 
         const cFeed = url.includes('community/feed');
         if (cFeed) requestConfig.headers['x-accept-version'] = 'v2';
+
         const isMarkRead = url.includes('mark_read');
         if (isMarkRead) requestConfig.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 
@@ -93,11 +91,15 @@ class NetworkLibrary {
                         return new LMResponse<T>(refreshedResponse.data.data, null, true);
                     })
                     .catch((error) => {
-                        console.error('Failed to make authenticated request:', error);
-                        return new LMResponse<T>(null, error.message, false);
+                        if (error?.response && error?.response?.status >= 500) {
+                            return new LMResponse<T>(null, error.message, false);
+                        }
                     });
+                }
+                
+                if (error?.response && error?.response?.status >= 500) {
+                return new LMResponse<T>(null, error.message, false);
             }
-            return new LMResponse<T>(null, error.message, false);
         }
     }
 }
