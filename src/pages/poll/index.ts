@@ -20,6 +20,7 @@ export class PollClient extends Base {
             is_anonymous: postPollConversationRequest.isAnonymous,
             allow_add_option: postPollConversationRequest.allowAddOption,
             expiry_time: postPollConversationRequest.expiryTime,
+            text: postPollConversationRequest.text,
         };
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION}`, {
             method: 'POST',
