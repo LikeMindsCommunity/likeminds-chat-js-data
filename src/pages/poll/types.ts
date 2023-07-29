@@ -1,7 +1,7 @@
 export declare type PostPollConversationRequest = {
     chatroomId: number;
-    temporaryId?: number;
     state: number;
+    text: string;
     repliedConversationId?: number;
     polls?: any;
     pollType?: any;
@@ -9,6 +9,7 @@ export declare type PostPollConversationRequest = {
     multipleSelectNo?: any;
     isAnonymous?: any;
     allowAddOption?: any;
+    temporaryId?: number;
     expiryTime?: any;
 };
 
