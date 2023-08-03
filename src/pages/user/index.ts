@@ -8,6 +8,15 @@ import { environment } from 'src/environment';
 export class Member extends Base {
     networkLibrary = new NetworkLibrary();
 
+    private accessTokenL: string;
+    private refreshTokenL: string;
+
+    getAccessToken() {
+        return this.accessTokenL;
+    }
+    getRefreshToken() {
+        return this.refreshTokenL;
+    }
     initiateUser(initUser: InitUser): Promise<any> {
         const params = {
             is_guest: initUser?.isGuest,
@@ -25,7 +34,8 @@ export class Member extends Base {
                 this.networkLibrary.setAccessToken(accessToken);
                 const refreshToken = resData?.data?.refresh_token;
                 this.networkLibrary.setRefreshToken(refreshToken);
-
+                this.accessTokenL = resData?.data?.access_token;
+                this.refreshTokenL = resData?.data?.refresh_token;
                 return { data: resData?.data, errorMessage: null, success: true };
             })
             .catch((error) => {
@@ -66,9 +76,7 @@ export class Member extends Base {
     }
 
     getMemberState(): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.COMMUNITY_MEMBER_STATE}`
-        ); 
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.COMMUNITY_MEMBER_STATE}`);
     }
 
     editProfile(editProfile: EditProfile): Promise<any> {
