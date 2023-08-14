@@ -18,6 +18,7 @@ class TokenManager {
     public setAccessToken(accessToken: string) {
         this.accessToken = accessToken;
     }
+    
     public getAccessToken() {
         return this.accessToken;
     }

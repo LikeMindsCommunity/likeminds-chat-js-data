@@ -13,6 +13,16 @@ class NetworkLibrary {
         this.tokenManager = new TokenManager();
     }
 
+    // this method calls getAccessToken method from Token Manager
+    public getAccessToken() {
+        return this.tokenManager.getAccessToken();
+    }
+    
+    // this method calls refreshAccessToken method from Token Manager
+    public refreshAccessToken() {
+        return this.tokenManager.refreshAccessToken();
+    }
+
     public setAccessToken(accessToken: string) {
         this.tokenManager.setAccessToken(accessToken);
     }
@@ -41,7 +51,6 @@ class NetworkLibrary {
     }
 
     public async makeAuthenticatedRequest<T>(url: string, config?: AxiosRequestConfig): Promise<LMResponse<T>> {
-        
         const requestConfig: AxiosRequestConfig = {
             ...config,
             headers: {
@@ -95,9 +104,9 @@ class NetworkLibrary {
                             return new LMResponse<T>(null, error.message, false);
                         }
                     });
-                }
-                
-                if (error?.response && error?.response?.status >= 500) {
+            }
+
+            if (error?.response && error?.response?.status >= 500) {
                 return new LMResponse<T>(null, error.message, false);
             }
         }

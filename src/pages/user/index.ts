@@ -4,9 +4,26 @@ import { API } from '../../shared/constants/api.constant';
 import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, Logout, MemberState, Search, USERTYPE } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
+import TokenManager from 'src/core/services/tokenmanager';
 
 export class Member extends Base {
     networkLibrary = new NetworkLibrary();
+
+    /*
+    this method calls `getAccessToken` method from Network Library
+    which internally calls `getAccessToken` method from Token Manager
+    */
+    getAccessToken() {
+        return this.networkLibrary.getAccessToken();
+    }
+
+    /*
+    this method calls `refreshAccessToken` method from Network Library
+    which internally calls `refreshAccessToken` method from Token Manager
+    */
+    refreshAccessToken() {
+        return this.networkLibrary.refreshAccessToken();
+    }
 
     initiateUser(initUser: InitUser): Promise<any> {
         const params = {
@@ -66,9 +83,7 @@ export class Member extends Base {
     }
 
     getMemberState(): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.COMMUNITY_MEMBER_STATE}`
-        ); 
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.COMMUNITY_MEMBER_STATE}`);
     }
 
     editProfile(editProfile: EditProfile): Promise<any> {
