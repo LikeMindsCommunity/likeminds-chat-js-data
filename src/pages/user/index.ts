@@ -4,7 +4,6 @@ import { API } from '../../shared/constants/api.constant';
 import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, Logout, MemberState, Search, USERTYPE } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
-import TokenManager from 'src/core/services/tokenmanager';
 
 export class Member extends Base {
     networkLibrary = new NetworkLibrary();
