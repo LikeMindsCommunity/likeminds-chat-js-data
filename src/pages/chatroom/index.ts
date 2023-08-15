@@ -33,7 +33,7 @@ import {
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
 import NetworkLibrary from 'src/core/services/networklibrary';
-import { Success } from 'src/shared/responseModels/Success';
+import { Nothing } from 'src/shared/responseModels/Nothing';
 import LMResponse from 'src/core/services/lmresponse';
 import { ModelConverter } from 'src/utils/ModelConverter';
 
@@ -57,7 +57,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    followChatroomWithUuid(followChatroom: FollowChatroomWithUuid): Promise<LMResponse<Success>> {
+    followChatroomWithUuid(followChatroom: FollowChatroomWithUuid): Promise<LMResponse<Nothing>> {
         const params = {
             collabcard_id: followChatroom.collabcardId,
             uuid: followChatroom.uuid,
@@ -70,12 +70,12 @@ export class ChatroomData extends Base {
                 data: params,
             })
             .then((respData: any) => {
-                const convertedResp: Success = ModelConverter.responseBodyParser(respData);
+                const convertedResp: Nothing = ModelConverter.responseBodyParser(respData);
 
-                return new LMResponse<Success>(convertedResp, null, true);
+                return new LMResponse<Nothing>(convertedResp, null, true);
             })
             .catch((error) => {
-                return new LMResponse<Success>(null, error.message || 'An error occurred', false);
+                return new LMResponse<Nothing>(null, error.message || 'An error occurred', false);
             });
     }
 
@@ -380,7 +380,7 @@ export class ChatroomData extends Base {
         );
     }
 
-    chatroomSeenWithUuid(chatroomSeen: ChatroomSeenWithUuid): Promise<LMResponse<Success>> {
+    chatroomSeenWithUuid(chatroomSeen: ChatroomSeenWithUuid): Promise<LMResponse<Nothing>> {
         return this.networkLibrary
             .makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.COLLABCARD_SEEN}?collabcard_id=${chatroomSeen.collabcardId}&uuid=${chatroomSeen.uuid}&collabcard_type=${chatroomSeen.collabcardType}`,
@@ -390,12 +390,12 @@ export class ChatroomData extends Base {
                 }
             )
             .then((respData: any) => {
-                const convertedResp: Success = ModelConverter.responseBodyParser(respData);
+                const convertedResp: Nothing = ModelConverter.responseBodyParser(respData);
 
-                return new LMResponse<Success>(convertedResp, null, true);
+                return new LMResponse<Nothing>(convertedResp, null, true);
             })
             .catch((error) => {
-                return new LMResponse<Success>(null, error.message || 'An error occurred', false);
+                return new LMResponse<Nothing>(null, error.message || 'An error occurred', false);
             });
     }
 }
