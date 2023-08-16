@@ -1,5 +1,5 @@
 export interface DMLimitResponse {
-    isRequestDmLimitExceeded: boolean | null;
-    newRequestDmTimestamp: string | null;
-    userDmLimit: number | null;
+    isRequestDmLimitExceeded?: boolean;
+    newRequestDmTimestamp?: string;
+    userDmLimit?: number;
 }

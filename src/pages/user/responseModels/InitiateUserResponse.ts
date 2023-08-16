@@ -7,5 +7,5 @@ export interface InitiateUserResponse {
     refreshToken: string;
     user: User;
     appAccess: boolean;
-    hasAnswers?: boolean | null;
+    hasAnswers?: boolean;
 }

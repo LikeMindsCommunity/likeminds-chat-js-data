@@ -5,12 +5,12 @@ export interface User {
   imageUrl: string;
   isGuest: boolean;
   name: string;
-  organisation_name: string | null;
-  sdkClientInfo: SDKClientInfo | null;
-  isDeleted?: boolean | null;
-  customTitle?: string | null;
-  updatedAt?: number | null;
+  organisationName?: string;
+  sdkClientInfo?: SDKClientInfo;
+  isDeleted?: boolean;
+  customTitle?: string;
+  updatedAt?: number;
   userUniqueId: string;
   uuid: string;
-  isOwner?: boolean | null;
+  isOwner?: boolean;
 }

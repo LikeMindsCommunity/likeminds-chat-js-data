@@ -1,9 +1,9 @@
 export interface Community {
   id: string;
   name: string;
-  imageUrl: string | null;
-  membersCount: number | null;
-  updatedAt: number | null;
+  imageUrl?: string;
+  membersCount?: number;
+  updatedAt?: number;
   relationshipNeeded: boolean | true;
   hideDmTab: boolean | false;
 }
