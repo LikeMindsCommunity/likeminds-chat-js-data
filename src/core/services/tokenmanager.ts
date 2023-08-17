@@ -27,6 +27,7 @@ class TokenManager {
     public setRefreshToken(refreshToken: string) {
         this.refreshToken = refreshToken;
     }
+    
     public getRefreshToken() {
         return this.refreshToken;
     }

@@ -8,22 +8,6 @@ import { environment } from 'src/environment';
 export class Member extends Base {
     networkLibrary = new NetworkLibrary();
 
-    /*
-    this method calls `getAccessToken` method from Network Library
-    which internally calls `getAccessToken` method from Token Manager
-    */
-    getAccessToken() {
-        return this.networkLibrary.getAccessToken();
-    }
-
-    /*
-    this method calls `refreshAccessToken` method from Network Library
-    which internally calls `refreshAccessToken` method from Token Manager
-    */
-    refreshAccessToken() {
-        return this.networkLibrary.refreshAccessToken();
-    }
-
     initiateUser(initUser: InitUser): Promise<any> {
         const params = {
             is_guest: initUser?.isGuest,

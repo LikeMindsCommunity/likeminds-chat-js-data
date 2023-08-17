@@ -13,16 +13,6 @@ class NetworkLibrary {
         this.tokenManager = new TokenManager();
     }
 
-    // this method calls getAccessToken method from Token Manager
-    public getAccessToken() {
-        return this.tokenManager.getAccessToken();
-    }
-    
-    // this method calls refreshAccessToken method from Token Manager
-    public refreshAccessToken() {
-        return this.tokenManager.refreshAccessToken();
-    }
-
     public setAccessToken(accessToken: string) {
         this.tokenManager.setAccessToken(accessToken);
     }
