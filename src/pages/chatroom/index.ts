@@ -27,10 +27,15 @@ import {
     LeaveSecretChatroom,
     ChatroomSeen,
     CmetaType,
+    FollowChatroomWithUuid,
+    ChatroomSeenWithUuid,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
 import NetworkLibrary from 'src/core/services/networklibrary';
+import { Nothing } from 'src/shared/responseModels/Nothing';
+import LMResponse from 'src/core/services/lmresponse';
+import { ModelConverter } from 'src/utils/ModelConverter';
 
 // Chatroom.ts
 export class ChatroomData extends Base {
@@ -50,6 +55,28 @@ export class ChatroomData extends Base {
             method: 'PUT',
             data: params,
         });
+    }
+
+    followChatroomWithUuid(followChatroom: FollowChatroomWithUuid): Promise<LMResponse<Nothing>> {
+        const params = {
+            collabcard_id: followChatroom.collabcardId,
+            uuid: followChatroom.uuid,
+            value: followChatroom.value,
+        };
+
+        return this.networkLibrary
+            .makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_FOLLOW}`, {
+                method: 'PUT',
+                data: params,
+            })
+            .then((respData: any) => {
+                const convertedResp: Nothing = ModelConverter.responseBodyParser(respData);
+
+                return new LMResponse<Nothing>(convertedResp, null, true);
+            })
+            .catch((error) => {
+                return new LMResponse<Nothing>(null, error.message || 'An error occurred', false);
+            });
     }
 
     muteChatroom(muteChatroom: MuteChatroom): Promise<any> {
@@ -281,7 +308,7 @@ export class ChatroomData extends Base {
     leaveSecretChatroom(leaveSecretChatroom: LeaveSecretChatroom): Promise<any> {
         const params = {
             chatroom_id: leaveSecretChatroom.chatroomId,
-            is_secret: leaveSecretChatroom?.isSecret
+            is_secret: leaveSecretChatroom?.isSecret,
         };
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}`, {
             method: 'DELETE',
@@ -351,5 +378,24 @@ export class ChatroomData extends Base {
                 data: {},
             }
         );
+    }
+
+    chatroomSeenWithUuid(chatroomSeen: ChatroomSeenWithUuid): Promise<LMResponse<Nothing>> {
+        return this.networkLibrary
+            .makeAuthenticatedRequest(
+                `${environment.apiUrl}${API.COLLABCARD_SEEN}?collabcard_id=${chatroomSeen.collabcardId}&uuid=${chatroomSeen.uuid}&collabcard_type=${chatroomSeen.collabcardType}`,
+                {
+                    method: 'PUT',
+                    data: {},
+                }
+            )
+            .then((respData: any) => {
+                const convertedResp: Nothing = ModelConverter.responseBodyParser(respData);
+
+                return new LMResponse<Nothing>(convertedResp, null, true);
+            })
+            .catch((error) => {
+                return new LMResponse<Nothing>(null, error.message || 'An error occurred', false);
+            });
     }
 }

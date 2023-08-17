@@ -1,9 +1,23 @@
 // Index.user.class
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
-import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, Logout, MemberState, Search, USERTYPE } from './types';
+import {
+    EditProfile,
+    GetAllMembers,
+    GetMemberChatroom,
+    GetProfile,
+    InitUser,
+    InitUserWithUuid,
+    Logout,
+    MemberState,
+    Search,
+    USERTYPE,
+} from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
+import LMResponse from 'src/core/services/lmresponse';
+import { InitiateUserResponse } from './responseModels/InitiateUserResponse';
+import { ModelConverter } from 'src/utils/ModelConverter';
 
 export class Member extends Base {
     networkLibrary = new NetworkLibrary();
@@ -32,6 +46,33 @@ export class Member extends Base {
                 if (error?.response && error?.response?.status >= 500) {
                     console.log({ data: null, errorMessage: error.error_message, success: false });
                 }
+            });
+    }
+
+    initiateUserWithUuid(initUser: InitUserWithUuid): Promise<LMResponse<InitiateUserResponse>> {
+        const params = {
+            is_guest: initUser?.isGuest,
+            uuid: initUser?.uuid,
+            user_name: initUser?.userName,
+        };
+
+        return this.networkLibrary
+            .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
+                method: 'POST',
+                data: params,
+            })
+            .then((respData: any) => {
+                const accessToken = respData?.data?.access_token;
+                this.networkLibrary.setAccessToken(accessToken);
+                const refreshToken = respData?.data?.refresh_token;
+                this.networkLibrary.setRefreshToken(refreshToken);
+
+                const convertedResp: InitiateUserResponse = ModelConverter.responseBodyParser(respData);
+
+                return new LMResponse<InitiateUserResponse>(convertedResp, null, true);
+            })
+            .catch((error) => {
+                return new LMResponse<InitiateUserResponse>(null, error.message || 'An error occurred', false);
             });
     }
 

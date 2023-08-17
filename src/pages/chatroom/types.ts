@@ -10,6 +10,12 @@ export declare type FollowChatroom = {
     value: boolean;
 };
 
+export declare type FollowChatroomWithUuid = {
+    collabcardId: number;
+    uuid: number | string;
+    value: boolean;
+};
+
 export declare type MuteChatroom = {
     chatroomId: number;
     value: boolean;
@@ -196,6 +202,12 @@ export declare type CRSeen = {
 export declare type ChatroomSeen = {
     collabcardId: number;
     memberId: number;
+    collabcardType: any;
+};
+
+export declare type ChatroomSeenWithUuid = {
+    collabcardId: number;
+    uuid: number | string;
     collabcardType: any;
 };
 
