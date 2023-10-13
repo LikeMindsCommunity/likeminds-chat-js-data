@@ -18,6 +18,7 @@ class TokenManager {
     public setAccessToken(accessToken: string) {
         this.accessToken = accessToken;
     }
+    
     public getAccessToken() {
         return this.accessToken;
     }
@@ -26,6 +27,7 @@ class TokenManager {
     public setRefreshToken(refreshToken: string) {
         this.refreshToken = refreshToken;
     }
+    
     public getRefreshToken() {
         return this.refreshToken;
     }
