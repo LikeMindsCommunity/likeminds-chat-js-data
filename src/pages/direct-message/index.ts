@@ -1,9 +1,26 @@
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
 
-import { BlockMember, CANDM, CID, CheckDMLimit, CheckDMStatus, CreateDMChatroom, FetchDMFeed, SendDMRequest } from './types';
+import {
+    BlockMember,
+    CANDM,
+    CID,
+    CheckDMLimit,
+    CheckDMLimitWithUuid,
+    CheckDMStatus,
+    CreateDMChatroom,
+    FetchDMFeed,
+    SendDMRequest,
+    CreateDMChatroomWithUuid,
+    CANDMWithUuid,
+} from './types';
 import { environment } from 'src/environment';
 import { Base } from 'src/base';
+import { DMLimitResponse } from './responseModels/DMLimitResponse';
+import { ModelConverter } from 'src/utils/ModelConverter';
+import LMResponse from 'src/core/services/lmresponse';
+import { CreateDMChatroomResponse } from './responseModels/CreateDMChatroomResponse';
+import { CanDMFeedResponse } from './responseModels/CanDMFeedResponse';
 
 export class DirectMessage extends Base {
     public networkLibrary = new NetworkLibrary();
@@ -21,6 +38,19 @@ export class DirectMessage extends Base {
         );
     }
 
+    checkDMLimitWithUuid(checkDMLimit: CheckDMLimitWithUuid): Promise<LMResponse<DMLimitResponse>> {
+        return this.networkLibrary
+            .makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_DM_LIMIT}?uuid=${checkDMLimit.uuid}`)
+            .then((respData: any) => {
+                const convertedResp: DMLimitResponse = ModelConverter.responseBodyParser(respData);
+
+                return new LMResponse<DMLimitResponse>(convertedResp, null, true);
+            })
+            .catch((error) => {
+                return new LMResponse<DMLimitResponse>(null, error.message || 'An error occurred', false);
+            });
+    }
+
     createDMChatroom(createDMChatroom: CreateDMChatroom): Promise<any> {
         const params = {
             member_id: createDMChatroom.memberId,
@@ -29,6 +59,25 @@ export class DirectMessage extends Base {
             method: 'POST',
             data: params,
         });
+    }
+
+    createDMChatroomWithUuid(createDMChatroom: CreateDMChatroomWithUuid): Promise<LMResponse<CreateDMChatroomResponse>> {
+        const params = {
+            uuid: createDMChatroom.uuid,
+        };
+        return this.networkLibrary
+            .makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_DM_CREATE}`, {
+                method: 'POST',
+                data: params,
+            })
+            .then((respData: any) => {
+                const convertedResp: CreateDMChatroomResponse = ModelConverter.responseBodyParser(respData);
+
+                return new LMResponse<CreateDMChatroomResponse>(convertedResp, null, true);
+            })
+            .catch((error) => {
+                return new LMResponse<CreateDMChatroomResponse>(null, error.message || 'An error occurred', false);
+            });
     }
 
     sendDMRequest(sendDMRequest: SendDMRequest): Promise<any> {
@@ -73,6 +122,34 @@ export class DirectMessage extends Base {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.DM_STATUS}?req_from=${dmCan.reqFrom}&member_id=${dmCan.memberId}`
             );
+        }
+    }
+
+    canDmFeedWithUuid(dmCan: CANDMWithUuid): Promise<LMResponse<CanDMFeedResponse>> {
+        if (dmCan?.chatroomId) {
+            return this.networkLibrary
+                .makeAuthenticatedRequest(
+                    `${environment.apiUrl}${API.DM_STATUS}?req_from=${dmCan.reqFrom}&uuid=${dmCan.uuid}&chatroom_id=${dmCan.chatroomId}`
+                )
+                .then((respData: any) => {
+                    const convertedResp: CanDMFeedResponse = ModelConverter.responseBodyParser(respData);
+
+                    return new LMResponse<CanDMFeedResponse>(convertedResp, null, true);
+                })
+                .catch((error) => {
+                    return new LMResponse<CanDMFeedResponse>(null, error.message || 'An error occurred', false);
+                });
+        } else {
+            return this.networkLibrary
+                .makeAuthenticatedRequest(`${environment.apiUrl}${API.DM_STATUS}?req_from=${dmCan.reqFrom}&uuid=${dmCan.uuid}`)
+                .then((respData: any) => {
+                    const convertedResp: CanDMFeedResponse = ModelConverter.responseBodyParser(respData);
+
+                    return new LMResponse<CanDMFeedResponse>(convertedResp, null, true);
+                })
+                .catch((error) => {
+                    return new LMResponse<CanDMFeedResponse>(null, error.message || 'An error occurred', false);
+                });
         }
     }
 }

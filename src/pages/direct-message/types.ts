@@ -10,8 +10,16 @@ export declare type CheckDMLimit = {
     memberId: number;
 };
 
+export declare type CheckDMLimitWithUuid = {
+    uuid: string | number;
+};
+
 export declare type CreateDMChatroom = {
     memberId: number;
+};
+
+export declare type CreateDMChatroomWithUuid = {
+    uuid: number | string;
 };
 
 export declare type SendDMRequest = {
@@ -35,8 +43,14 @@ export declare type DMTYPE = {
     community_id: number;
 };
 
-export declare type CANDM = { 
+export declare type CANDM = {
     reqFrom: string;
     memberId?: number;
+    chatroomId?: number;
+};
+
+export declare type CANDMWithUuid = {
+    reqFrom: string;
+    uuid?: number | string;
     chatroomId?: number;
 };

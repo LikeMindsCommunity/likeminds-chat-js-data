@@ -41,7 +41,6 @@ class NetworkLibrary {
     }
 
     public async makeAuthenticatedRequest<T>(url: string, config?: AxiosRequestConfig): Promise<LMResponse<T>> {
-        
         const requestConfig: AxiosRequestConfig = {
             ...config,
             headers: {
@@ -95,9 +94,9 @@ class NetworkLibrary {
                             return new LMResponse<T>(null, error.message, false);
                         }
                     });
-                }
-                
-                if (error?.response && error?.response?.status >= 500) {
+            }
+
+            if (error?.response && error?.response?.status >= 500) {
                 return new LMResponse<T>(null, error.message, false);
             }
         }

@@ -4,6 +4,12 @@ export declare type InitUser = {
     userName?: string;
 };
 
+export declare type InitUserWithUuid = {
+    isGuest: boolean;
+    uuid: string;
+    userName?: string;
+};
+
 export declare type GetProfile = {
     userId: any;
 };
