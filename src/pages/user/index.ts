@@ -116,6 +116,7 @@ export class Member extends Base {
             user_name: editProfile.userName,
             user_unique_id: editProfile.userUniqueId,
             image_url: editProfile.imageUrl,
+            name: editProfile?.name,
         };
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.COMMUNITY_MEMBER_PROFILE}`, {
             method: 'PUT',
