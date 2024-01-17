@@ -51,6 +51,7 @@ export class Member extends Base {
 
     initiateUserWithUuid(initUser: InitUserWithUuid): Promise<LMResponse<InitiateUserResponse>> {
         const params = {
+            image_url: initUser?.imageUrl,
             is_guest: initUser?.isGuest,
             uuid: initUser?.uuid,
             user_name: initUser?.userName,

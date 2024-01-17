@@ -5,6 +5,7 @@ export declare type InitUser = {
 };
 
 export declare type InitUserWithUuid = {
+    imageUrl?: string;
     isGuest: boolean;
     uuid: string;
     userName?: string;
