@@ -8,6 +8,7 @@ import {
     GetProfile,
     InitUser,
     InitUserWithUuid,
+    LeaveCommunity,
     Logout,
     MemberState,
     Search,
@@ -85,6 +86,17 @@ export class Member extends Base {
 
         return this.networkLibrary.makeAuthenticatedRequest(`${API.USER_LOGOUT}`, {
             method: 'POST',
+            data: params,
+        });
+    }
+
+    leaveCommunity(leaveCommunity: LeaveCommunity): Promise<any> {
+        const params = {
+            uuids: leaveCommunity.uuids,
+        };
+
+        return this.networkLibrary.makeAuthenticatedRequest(`${API.LEAVE_COMMUNITY}`, {
+            method: 'DELETE',
             data: params,
         });
     }

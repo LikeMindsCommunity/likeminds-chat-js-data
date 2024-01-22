@@ -36,6 +36,10 @@ export declare type Logout = {
     refreshToken: any;
 };
 
+export declare type LeaveCommunity = {
+    uuids: string[];
+};
+
 export declare type MemberState = {
     memberId: string;
 };
