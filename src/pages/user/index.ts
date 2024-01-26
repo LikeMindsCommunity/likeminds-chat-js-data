@@ -8,6 +8,7 @@ import {
     GetProfile,
     InitUser,
     InitUserWithUuid,
+    LeaveCommunity,
     Logout,
     MemberState,
     Search,
@@ -51,6 +52,7 @@ export class Member extends Base {
 
     initiateUserWithUuid(initUser: InitUserWithUuid): Promise<LMResponse<InitiateUserResponse>> {
         const params = {
+            image_url: initUser?.imageUrl,
             is_guest: initUser?.isGuest,
             uuid: initUser?.uuid,
             user_name: initUser?.userName,
@@ -88,6 +90,17 @@ export class Member extends Base {
         });
     }
 
+    leaveCommunity(leaveCommunity: LeaveCommunity): Promise<any> {
+        const params = {
+            uuids: leaveCommunity.uuids,
+        };
+
+        return this.networkLibrary.makeAuthenticatedRequest(`${API.LEAVE_COMMUNITY}`, {
+            method: 'DELETE',
+            data: params,
+        });
+    }
+
     getProfile(getProfile: GetProfile): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.COMMUNITY_MEMBER_PROFILE}?user_id=${getProfile.userId}`
@@ -115,6 +128,7 @@ export class Member extends Base {
             user_name: editProfile.userName,
             user_unique_id: editProfile.userUniqueId,
             image_url: editProfile.imageUrl,
+            name: editProfile?.name,
         };
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.COMMUNITY_MEMBER_PROFILE}`, {
             method: 'PUT',
