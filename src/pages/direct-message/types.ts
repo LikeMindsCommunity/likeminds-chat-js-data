@@ -4,6 +4,7 @@ export declare type FetchDMFeed = {
 
 export declare type CheckDMStatus = {
     requestFrom: any;
+    uuid?: string;
 };
 
 export declare type CheckDMLimit = {

@@ -29,6 +29,11 @@ export class DirectMessage extends Base {
     }
 
     checkDMStatus(checkDMStatus: CheckDMStatus): Promise<any> {
+        if (checkDMStatus.uuid) {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${environment.apiUrl}${API.DM_STATUS}?req_from=${checkDMStatus.requestFrom}&uuid=${checkDMStatus.uuid}`
+            );
+        }
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.DM_STATUS}?req_from=${checkDMStatus.requestFrom}`);
     }
 
