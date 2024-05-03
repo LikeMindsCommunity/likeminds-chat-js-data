@@ -185,6 +185,14 @@ export declare type Profile = {
     member_id: number;
 };
 
+export declare type GetParticipantsType = {
+    chatroomID: number;
+    isSecret: boolean;
+    page?: number;
+    pageSize?: number;
+    searchKey?: string;
+};
+
 export declare type ParticipantsType = {
     chatroomId: number;
     isSecret: boolean;

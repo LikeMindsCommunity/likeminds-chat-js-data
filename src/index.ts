@@ -9,7 +9,7 @@ import { ExploreFeed } from './pages/explore-feed';
 import { PollClient } from './pages/poll';
 import { CoreServices } from './pages/core-services';
 
-export class SDKBuilder {
+class SDKBuilder {
     xApiKey: string;
     xPlatformCode: string;
     xVersionCode: number;
@@ -69,8 +69,7 @@ class LMChatClient extends Base {
         });
     }
 }
+export default LMChatClient;
 interface LMChatClient extends HomeFeedClient, PollClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search, CoreServices {}
 
 applyMixins(LMChatClient, [HomeFeedClient, PollClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search, CoreServices]);
-
-export default LMChatClient;
