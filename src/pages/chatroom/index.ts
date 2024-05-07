@@ -43,7 +43,7 @@ import { Base } from '../../base';
 export class ChatroomData extends Base {
     public networkLibrary = new NetworkLibrary();
     getChatroom(chatroom: Chatroom): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_SYNC}?chatroom_id=${chatroom.chatroomId}`);
     }
 
     followChatroom(followChatroom: FollowChatroom): Promise<any> {
@@ -142,28 +142,31 @@ export class ChatroomData extends Base {
         }
     }
 
-    getConversation(conversation: Conversation): Promise<any> {
-        if (conversation.scrollDirection) {
-            return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
-            );
-        } else if (conversation.conversationID && !conversation.scrollDirection) {
-            return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
-            );
-        } else if (conversation.conversationID) {
-            return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
-            );
-        } else if (conversation.temporaryID) {
-            return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&temporary_id=${conversation.temporaryID}`
-            );
-        } else {
-            return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}`
-            );
-        }
+    getConversations(conversation: Conversation): Promise<any> {
+        return this.networkLibrary.makeAuthenticatedRequest(
+            `${environment.apiUrl}${API.CONVERSATION_SYNC}?chatroom_id=${conversation.chatroomId}&page=${conversation.page}&page_size=${conversation.pageSize}&max_timestamp=${conversation.maxTimestamp}&min_timestamp=${conversation.minTimestamp}&is_local_db=${conversation.isLocalDb}`
+        );
+        // if (conversation.scrollDirection) {
+        //     return this.networkLibrary.makeAuthenticatedRequest(
+        //         `${environment.apiUrl}${API.CONVERSATION_SYNC}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
+        //     );
+        // } else if (conversation.conversationID && !conversation.scrollDirection) {
+        //     return this.networkLibrary.makeAuthenticatedRequest(
+        //         `${environment.apiUrl}${API.CONVERSATION_SYNC}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
+        //     );
+        // } else if (conversation.conversationID) {
+        //     return this.networkLibrary.makeAuthenticatedRequest(
+        //         `${environment.apiUrl}${API.CONVERSATION_SYNC}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
+        //     );
+        // } else if (conversation.temporaryID) {
+        //     return this.networkLibrary.makeAuthenticatedRequest(
+        //         `${environment.apiUrl}${API.CONVERSATION_SYNC}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&temporary_id=${conversation.temporaryID}`
+        //     );
+        // } else {
+        //     return this.networkLibrary.makeAuthenticatedRequest(
+        //         `${environment.apiUrl}${API.CONVERSATION_SYNC}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}`
+        //     );
+        // }
     }
 
     postConversation(postConversation: PostConversation): Promise<any> {

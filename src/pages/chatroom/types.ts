@@ -1,5 +1,5 @@
 export declare type Chatroom = {
-    chatroomId: any;
+    chatroomId: number;
     page?: number;
     apiType?: number;
 };
@@ -45,13 +45,12 @@ export declare type TaggingList = {
 };
 
 export declare type Conversation = {
-    chatroomID: number;
-    conversationID?: number;
-    scrollDirection?: number;
-    paginateBy: any;
-    topNavigate: any;
-    temporaryID?: any;
-    include: boolean;
+    page: number;
+    pageSize: number;
+    chatroomId: number;
+    maxTimestamp: number;
+    minTimestamp: number;
+    isLocalDb: false;
 };
 
 export declare type PostConversation = {

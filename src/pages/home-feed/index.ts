@@ -10,7 +10,7 @@ import NetworkLibrary from '../../core/services/networklibrary';
 export class HomeFeedClient extends Base {
     public networkLibrary = new NetworkLibrary();
     getHomeFeed(homeFeed: HomeFeed): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_MINE}?page=${homeFeed.page}`);
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_SYNC}?page=${homeFeed.page}`);
     }
 
     getInvites(invite: INVITE): Promise<any> {

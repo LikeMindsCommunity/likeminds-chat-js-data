@@ -7,6 +7,6 @@
         "esModuleInterop": true,
         "strictNullChecks": false
     },
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*.ts", "src/utils/firebase.js"],
     "exclude": ["node_modules", "dist"]
 }
