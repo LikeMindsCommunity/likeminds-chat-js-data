@@ -1,12 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { API } from '../../shared/constants/api.constant';
 import { Device, HomeFeed, IaType, INVITE, Participant } from './types';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../utils/firebase';
-// import { msg } from '../../utils/firebase';
-import { environment } from 'src/environment';
-import NetworkLibrary from 'src/core/services/networklibrary';
-import { Base } from 'src/base';
-import { AxiosRequestConfig } from 'axios';
+import { environment } from '../../environments';
+import { Base } from '../../base';
+import NetworkLibrary from '../../core/services/networklibrary';
 
 export class HomeFeedClient extends Base {
     public networkLibrary = new NetworkLibrary();

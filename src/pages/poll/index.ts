@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { API } from '../../shared/constants/api.constant';
-import { environment } from 'src/environment';
-import NetworkLibrary from 'src/core/services/networklibrary';
-import { Base } from 'src/base';
 import { AddPollOptionRequest, GetPollUsersRequest, PostPollConversationRequest, SubmitPollRequest } from './types';
+import { environment } from '../../environments';
+import { Base } from '../../base';
+import NetworkLibrary from '../../core/services/networklibrary';
 
 export class PollClient extends Base {
     public networkLibrary = new NetworkLibrary();

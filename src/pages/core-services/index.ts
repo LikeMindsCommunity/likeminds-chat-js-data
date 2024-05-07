@@ -1,6 +1,6 @@
-import NetworkLibrary from 'src/core/services/networklibrary';
-import { Base } from 'src/base';
 import { AxiosRequestConfig } from 'axios';
+import { Base } from '../../base';
+import NetworkLibrary from '../../core/services/networklibrary';
 
 // CoreServices.ts
 export class CoreServices extends Base {

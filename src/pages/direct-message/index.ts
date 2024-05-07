@@ -1,5 +1,4 @@
-import NetworkLibrary from 'src/core/services/networklibrary';
-import { API } from '../../shared/constants/api.constant';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
     BlockMember,
@@ -14,13 +13,15 @@ import {
     CreateDMChatroomWithUuid,
     CANDMWithUuid,
 } from './types';
-import { environment } from 'src/environment';
-import { Base } from 'src/base';
-import { DMLimitResponse } from './responseModels/DMLimitResponse';
-import { ModelConverter } from 'src/utils/ModelConverter';
-import LMResponse from 'src/core/services/lmresponse';
+import { API } from '../../shared/constants/api.constant';
 import { CreateDMChatroomResponse } from './responseModels/CreateDMChatroomResponse';
 import { CanDMFeedResponse } from './responseModels/CanDMFeedResponse';
+import { environment } from '../../environments';
+import { Base } from '../../base';
+import LMResponse from '../../core/services/lmresponse';
+import { ModelConverter } from '../../utils/ModelConverter';
+import { DMLimitResponse } from './responseModels/DMLimitResponse';
+import NetworkLibrary from '../../core/services/networklibrary';
 
 export class DirectMessage extends Base {
     public networkLibrary = new NetworkLibrary();
@@ -51,7 +52,7 @@ export class DirectMessage extends Base {
 
                 return new LMResponse<DMLimitResponse>(convertedResp, null, true);
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 return new LMResponse<DMLimitResponse>(null, error.message || 'An error occurred', false);
             });
     }
@@ -80,7 +81,7 @@ export class DirectMessage extends Base {
 
                 return new LMResponse<CreateDMChatroomResponse>(convertedResp, null, true);
             })
-            .catch((error) => {
+            .catch((error: any) => {
                 return new LMResponse<CreateDMChatroomResponse>(null, error.message || 'An error occurred', false);
             });
     }
@@ -141,7 +142,7 @@ export class DirectMessage extends Base {
 
                     return new LMResponse<CanDMFeedResponse>(convertedResp, null, true);
                 })
-                .catch((error) => {
+                .catch((error: any) => {
                     return new LMResponse<CanDMFeedResponse>(null, error.message || 'An error occurred', false);
                 });
         } else {
@@ -152,7 +153,7 @@ export class DirectMessage extends Base {
 
                     return new LMResponse<CanDMFeedResponse>(convertedResp, null, true);
                 })
-                .catch((error) => {
+                .catch((error: any) => {
                     return new LMResponse<CanDMFeedResponse>(null, error.message || 'An error occurred', false);
                 });
         }

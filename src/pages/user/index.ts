@@ -1,5 +1,5 @@
-// Index.user.class
-import NetworkLibrary from 'src/core/services/networklibrary';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { API } from '../../shared/constants/api.constant';
 import {
     EditProfile,
@@ -10,18 +10,36 @@ import {
     InitUserWithUuid,
     LeaveCommunity,
     Logout,
-    MemberState,
     Search,
     USERTYPE,
 } from './types';
-import { Base } from 'src/base';
-import { environment } from 'src/environment';
-import LMResponse from 'src/core/services/lmresponse';
+import { environment } from '../../environments';
+import { Base } from '../../base';
+import LMResponse from '../../core/services/lmresponse';
+import NetworkLibrary from '../../core/services/networklibrary';
+import { ModelConverter } from '../../utils/ModelConverter';
 import { InitiateUserResponse } from './responseModels/InitiateUserResponse';
-import { ModelConverter } from 'src/utils/ModelConverter';
+import { ValidateUserResponse } from './responseModels/ValidateUserResponse';
+import ValidateUserRequest from './responseModels/ValidateUserRequest';
 
 export class Member extends Base {
     networkLibrary = new NetworkLibrary();
+
+    validateUser(request: ValidateUserRequest): Promise<LMResponse<ValidateUserResponse>> {
+        this.networkLibrary.setAccessToken(request.accessToken);
+        this.networkLibrary.setRefreshToken(request.refreshToken);
+
+        return this.networkLibrary
+            .makeAuthenticatedRequest(`${API.SDK_INITIATE}`)
+            .then((resData: any) => {
+                const responseData: ValidateUserResponse = ModelConverter.responseBodyParser(resData.data);
+
+                return new LMResponse<ValidateUserResponse>(responseData, null, true);
+            })
+            .catch((error) => {
+                return new LMResponse<ValidateUserResponse>(null, error.message || 'An error occurred', false);
+            });
+    }
 
     initiateUser(initUser: InitUser): Promise<any> {
         const params = {

@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosRequestConfig } from 'axios';
-import { environment } from 'src/environment';
-import { API } from 'src/shared/constants/api.constant';
+import { environment } from '../../environments';
+import { API } from '../../shared/constants/api.constant';
 
 // TokenManager.ts
 class TokenManager {
     private accessToken: string | null;
     private refreshToken: string | null;
     private xVersionCode: any | null;
-    private xPlatformCode: string | null;
+    private xPlatformCode: any | null;
 
     constructor() {
         this.accessToken = null;
@@ -18,7 +19,7 @@ class TokenManager {
     public setAccessToken(accessToken: string) {
         this.accessToken = accessToken;
     }
-    
+
     public getAccessToken() {
         return this.accessToken;
     }
@@ -27,7 +28,7 @@ class TokenManager {
     public setRefreshToken(refreshToken: string) {
         this.refreshToken = refreshToken;
     }
-    
+
     public getRefreshToken() {
         return this.refreshToken;
     }
@@ -50,7 +51,6 @@ class TokenManager {
     }
 
     public async refreshAccessToken(): Promise<void> {
-        
         try {
             const url = `${environment.apiUrl}${API.REFRESH_TOKEN_API}`;
             const config: AxiosRequestConfig = {
@@ -70,7 +70,7 @@ class TokenManager {
             this.setRefreshToken(accessToken.refresh_token);
             this.setAccessToken(accessToken.access_token);
             return accessToken.access_token;
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to refresh access token:', error);
             if (error?.response && error?.response?.status >= 500) throw error;
         }

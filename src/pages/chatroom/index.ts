@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as AWS from 'aws-sdk';
 import { API } from '../../shared/constants/api.constant';
 import {
@@ -21,7 +22,6 @@ import {
     DeleteReaction,
     PutMultimedia,
     DecodeUrl,
-    PostPollConversation,
     GetReportTags,
     PushReport,
     LeaveSecretChatroom,
@@ -31,12 +31,13 @@ import {
     ChatroomSeenWithUuid,
     GetParticipantsType,
 } from './types';
-import { Base } from 'src/base';
-import { environment } from 'src/environment';
-import NetworkLibrary from 'src/core/services/networklibrary';
-import { Nothing } from 'src/shared/responseModels/Nothing';
-import LMResponse from 'src/core/services/lmresponse';
-import { ModelConverter } from 'src/utils/ModelConverter';
+
+import NetworkLibrary from '../../core/services/networklibrary';
+import { Nothing } from '../../shared/responseModels/Nothing';
+import { ModelConverter } from '../../utils/ModelConverter';
+import LMResponse from '../../core/services/lmresponse';
+import { environment } from '../../environments';
+import { Base } from '../../base';
 
 // Chatroom.ts
 export class ChatroomData extends Base {
@@ -254,7 +255,7 @@ export class ChatroomData extends Base {
     }
 
     uploadMedia(media: Media) {
-        let mediaObject = this.getAWS().upload({
+        const mediaObject = this.getAWS().upload({
             Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
             Bucket: environment.awsConfig.bucket,
             Body: media.file,

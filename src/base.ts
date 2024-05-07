@@ -5,7 +5,7 @@ export class Base {
     xApiKey: string;
     xPlatformCode: string;
     xVersionCode: number;
-    xSdkSource: string;
+    xSdkSource: string | undefined;
     networkLibrary = new NetworkLibrary();
 
     constructor(sdkConfig: SdkConfig) {

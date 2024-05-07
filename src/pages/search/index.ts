@@ -1,10 +1,10 @@
-import NetworkLibrary from 'src/core/services/networklibrary';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { API } from '../../shared/constants/api.constant';
 import { SearchConversation, SearchType } from './types';
-import { environment } from 'src/environment';
-import { Base } from 'src/base';
+import { environment } from '../../environments';
+import { Base } from '../../base';
+import NetworkLibrary from '../../core/services/networklibrary';
 
-// Search.ts
 export class Search extends Base {
     public networkLibrary = new NetworkLibrary();
     searchChatroom(searchType: SearchType): Promise<any> {

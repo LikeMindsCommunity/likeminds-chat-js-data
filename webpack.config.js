@@ -1,16 +1,30 @@
-const webpack = require('webpack');
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = (env, argv) => {
-    const isProduction = argv.mode === 'production';
-
-    return {
-        // Your other Webpack configuration options...
-
-        entry: './src/index.ts',
-        plugins: [
-            new webpack.DefinePlugin({
-                'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
-            }),
+module.exports = {
+    entry: './src/index.ts',
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'index.js',
+        library: '@likeminds.community/chat-js-beta',
+        libraryTarget: 'umd',
+        umdNamedDefine: true,
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+    },
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
         ],
-    };
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()],
+    },
 };

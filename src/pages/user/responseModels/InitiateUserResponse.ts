@@ -1,5 +1,8 @@
-import { Community } from 'src/shared/responseModels/Community';
-import { User } from 'src/shared/responseModels/User';
+// import { Community } from 'src/shared/responseModels/Community';
+// import { User } from 'src/shared/responseModels/User';
+
+import { Community } from '../../../shared/responseModels/Community';
+import { User } from '../../../shared/responseModels/User';
 
 export interface InitiateUserResponse {
     community: Community;
