@@ -10,7 +10,9 @@ import NetworkLibrary from '../../core/services/networklibrary';
 export class HomeFeedClient extends Base {
     public networkLibrary = new NetworkLibrary();
     getHomeFeed(homeFeed: HomeFeed): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_SYNC}?page=${homeFeed.page}`);
+        return this.networkLibrary.makeAuthenticatedRequest(
+            `${environment.apiUrl}${API.CHATROOM_SYNC}?page=${homeFeed.page}&page_size=${homeFeed.pageSize}&chatroom_type=${homeFeed.chatroomTypes}&max_timestamp=${homeFeed.maxTimestamp}&min_timestamp=${homeFeed.minTimestamp}`
+        );
     }
 
     getInvites(invite: INVITE): Promise<any> {

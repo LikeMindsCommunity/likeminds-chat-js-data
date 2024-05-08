@@ -1,8 +1,5 @@
 export declare type HomeFeed = {
     page: number;
-};
-export declare type HomeFeedSync = {
-    page: number;
     pageSize: number;
     chatroomTypes: number;
     maxTimestamp: number;

@@ -43,7 +43,7 @@ import { Base } from '../../base';
 export class ChatroomData extends Base {
     public networkLibrary = new NetworkLibrary();
     getChatroom(chatroom: Chatroom): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_SYNC}?chatroom_id=${chatroom.chatroomId}`);
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
     }
 
     followChatroom(followChatroom: FollowChatroom): Promise<any> {
