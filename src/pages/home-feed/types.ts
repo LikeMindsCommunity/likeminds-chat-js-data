@@ -1,5 +1,9 @@
-export declare type HomeFeed = {
+export declare type GetHomeFeedRequest = {
     page: number;
+    pageSize: number;
+    chatroomTypes: number[];
+    maxTimestamp: number;
+    minTimestamp: number;
 };
 
 export declare type CRid = {

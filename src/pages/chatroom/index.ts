@@ -29,6 +29,7 @@ import {
     CmetaType,
     FollowChatroomWithUuid,
     ChatroomSeenWithUuid,
+    GetConversationsRequest,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
@@ -162,6 +163,11 @@ export class ChatroomData extends Base {
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}`
             );
         }
+    }
+    getConversations(getConversationsRequest: GetConversationsRequest): Promise<any> {
+        return this.networkLibrary.makeAuthenticatedRequest(
+            `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}`
+        );
     }
 
     postConversation(postConversation: PostConversation): Promise<any> {

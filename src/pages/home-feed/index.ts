@@ -1,17 +1,18 @@
 import { API } from '../../shared/constants/api.constant';
-import { Device, HomeFeed, IaType, INVITE, Participant } from './types';
+import { Device, GetHomeFeedRequest, IaType, INVITE, Participant } from './types';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../utils/firebase';
-// import { msg } from '../../utils/firebase';
 import { environment } from 'src/environment';
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { Base } from 'src/base';
-import { AxiosRequestConfig } from 'axios';
 
 export class HomeFeedClient extends Base {
     public networkLibrary = new NetworkLibrary();
-    getHomeFeed(homeFeed: HomeFeed): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_MINE}?page=${homeFeed.page}`);
+
+    getHomeFeed(getHomeFeedRequest: GetHomeFeedRequest): Promise<any> {
+        return this.networkLibrary.makeAuthenticatedRequest(
+            `${environment.apiUrl}${API.CHATROOM_SYNC}?page=${getHomeFeedRequest.page}&page_size=${getHomeFeedRequest.pageSize}&chatroom_types=${getHomeFeedRequest.chatroomTypes}&max_timestamp=${getHomeFeedRequest.maxTimestamp}&min_timestamp=${getHomeFeedRequest.minTimestamp}`
+        );
     }
 
     getInvites(invite: INVITE): Promise<any> {

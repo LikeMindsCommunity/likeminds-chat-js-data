@@ -53,6 +53,14 @@ export declare type Conversation = {
     temporaryID?: any;
     include: boolean;
 };
+export declare type GetConversationsRequest = {
+    page: number;
+    pageSize: number;
+    chatroomId: number;
+    maxTimestamp: number;
+    minTimestamp: number;
+    isLocalDb: boolean;
+};
 
 export declare type PostConversation = {
     chatroomId: number;
