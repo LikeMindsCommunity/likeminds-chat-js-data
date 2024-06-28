@@ -1,9 +1,6 @@
 // Index.user.class
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
-<<<<<<< HEAD
-import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, InitUserWithUuid, Logout, Search, USERTYPE } from './types';
-=======
 import {
     EditProfile,
     GetAllMembers,
@@ -13,11 +10,9 @@ import {
     InitUserWithUuid,
     LeaveCommunity,
     Logout,
-    MemberState,
     Search,
     USERTYPE,
 } from './types';
->>>>>>> 7e355c5d46a617a88e51bc48ffc23533cb2d201d
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
 import LMResponse from 'src/core/services/lmresponse';
@@ -28,7 +23,6 @@ export class Member extends Base {
     networkLibrary = new NetworkLibrary();
 
     public initiateUser(initUser: InitUser): Promise<any> {
-        console.log(initUser);
         const params = {
             is_guest: initUser?.isGuest,
             user_unique_id: initUser?.userUniqueId,
