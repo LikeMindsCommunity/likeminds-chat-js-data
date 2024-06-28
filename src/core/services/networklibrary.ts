@@ -76,7 +76,8 @@ class NetworkLibrary {
             const response = await this.makeRequest<{ data: T }>(url, requestConfig);
             return new LMResponse<T>(response?.data?.data, null, true);
         } catch (error) {
-            if (error?.response && error?.response?.status === 401) {
+            console.log('Network Data error =>', error?.response);
+            if (error?.response && error?.response?.status === 401 && error?.response?.data?.error_message === 'Invalid LTM!') {
                 // Access token expired, refresh the token and retry the request
                 await this.tokenManager.refreshAccessToken();
 
