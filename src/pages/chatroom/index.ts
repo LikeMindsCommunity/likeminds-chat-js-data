@@ -1,4 +1,4 @@
-import * as AWS from 'aws-sdk';
+// import * as AWS from 'aws-sdk';
 import { API } from '../../shared/constants/api.constant';
 import {
     Chatroom,
@@ -245,29 +245,29 @@ export class ChatroomData extends Base {
     }
 
     // Upload Media Fn Start
-    getAWS(): any {
-        (AWS.config.region = 'ap-south-1'),
-            (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                IdentityPoolId: environment.awsConfig.poolId,
-            }));
-        const s3 = new AWS.S3({
-            apiVersion: '2006-03-01',
-            params: { Bucket: environment.awsConfig.bucket },
-        });
+    // getAWS(): any {
+    //     (AWS.config.region = 'ap-south-1'),
+    //         (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    //             IdentityPoolId: environment.awsConfig.poolId,
+    //         }));
+    //     const s3 = new AWS.S3({
+    //         apiVersion: '2006-03-01',
+    //         params: { Bucket: environment.awsConfig.bucket },
+    //     });
 
-        return s3;
-    }
+    //     return s3;``
+    // }
 
-    uploadMedia(media: Media) {
-        let mediaObject = this.getAWS().upload({
-            Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
-            Bucket: environment.awsConfig.bucket,
-            Body: media.file,
-            ACL: 'public-read-write',
-            ContentType: media.file.type,
-        });
-        return mediaObject.promise();
-    }
+    // uploadMedia(media: Media) {
+    //     let mediaObject = this.getAWS().upload({
+    //         Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
+    //         Bucket: environment.awsConfig.bucket,
+    //         Body: media.file,
+    //         ACL: 'public-read-write',
+    //         ContentType: media.file.type,
+    //     });
+    //     return mediaObject.promise();
+    // }
 
     putMultimedia(putMultimedia: PutMultimedia): Promise<any> {
         const params = {
