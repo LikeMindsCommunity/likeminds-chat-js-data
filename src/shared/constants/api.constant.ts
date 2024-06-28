@@ -29,6 +29,7 @@ export const API = {
     HOME_DM_META: '/home/dm/meta',
     CHATROOM_PARTICIPANTS: '/chatroom/participants',
     USER_LOGOUT: '/user/logout',
+    LEAVE_COMMUNITY: '/community/member/remove',
     REFRESH_TOKEN_API: '/user/refresh',
     CHATROOM_GET_TAGGINNG_LIST: '/chatroom/tag', //(GET)
     CHATROOM_SECRET_LEAVE: '/chatroom/secret/leave', //(Post)

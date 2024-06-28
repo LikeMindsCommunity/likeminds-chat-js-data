@@ -5,6 +5,7 @@ export declare type InitUser = {
 };
 
 export declare type InitUserWithUuid = {
+    imageUrl?: string;
     isGuest: boolean;
     uuid: string;
     userName?: string;
@@ -23,6 +24,7 @@ export declare type EditProfile = {
     userUniqueId: string;
     userName: string;
     imageUrl: string;
+    name?: string;
 };
 
 export declare type GetAllMembers = {
@@ -32,6 +34,10 @@ export declare type GetAllMembers = {
 };
 export declare type Logout = {
     refreshToken: any;
+};
+
+export declare type LeaveCommunity = {
+    uuids: string[];
 };
 
 export declare type MemberState = {

@@ -30,6 +30,7 @@ import {
     FollowChatroomWithUuid,
     ChatroomSeenWithUuid,
     GetConversationsRequest,
+    GetParticipantsType,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
@@ -342,6 +343,21 @@ export class ChatroomData extends Base {
         } else {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}`
+            );
+        }
+    }
+    getParticipants(participantsType: GetParticipantsType): Promise<any> {
+        if (participantsType.searchKey) {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomID}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&search_key=${participantsType.searchKey}`
+            );
+        } else if (participantsType.page) {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomID}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}`
+            );
+        } else {
+            return this.networkLibrary.makeAuthenticatedRequest(
+                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomID}&is_secret=${participantsType.isSecret}`
             );
         }
     }

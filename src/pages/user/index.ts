@@ -1,7 +1,23 @@
 // Index.user.class
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
+<<<<<<< HEAD
 import { EditProfile, GetAllMembers, GetMemberChatroom, GetProfile, InitUser, InitUserWithUuid, Logout, Search, USERTYPE } from './types';
+=======
+import {
+    EditProfile,
+    GetAllMembers,
+    GetMemberChatroom,
+    GetProfile,
+    InitUser,
+    InitUserWithUuid,
+    LeaveCommunity,
+    Logout,
+    MemberState,
+    Search,
+    USERTYPE,
+} from './types';
+>>>>>>> 7e355c5d46a617a88e51bc48ffc23533cb2d201d
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
 import LMResponse from 'src/core/services/lmresponse';
@@ -43,6 +59,7 @@ export class Member extends Base {
 
     initiateUserWithUuid(initUser: InitUserWithUuid): Promise<LMResponse<InitiateUserResponse>> {
         const params = {
+            image_url: initUser?.imageUrl,
             is_guest: initUser?.isGuest,
             uuid: initUser?.uuid,
             user_name: initUser?.userName,
@@ -80,6 +97,17 @@ export class Member extends Base {
         });
     }
 
+    leaveCommunity(leaveCommunity: LeaveCommunity): Promise<any> {
+        const params = {
+            uuids: leaveCommunity.uuids,
+        };
+
+        return this.networkLibrary.makeAuthenticatedRequest(`${API.LEAVE_COMMUNITY}`, {
+            method: 'DELETE',
+            data: params,
+        });
+    }
+
     getProfile(getProfile: GetProfile): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.COMMUNITY_MEMBER_PROFILE}?user_id=${getProfile.userId}`
@@ -107,6 +135,7 @@ export class Member extends Base {
             user_name: editProfile.userName,
             user_unique_id: editProfile.userUniqueId,
             image_url: editProfile.imageUrl,
+            name: editProfile?.name,
         };
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.COMMUNITY_MEMBER_PROFILE}`, {
             method: 'PUT',
