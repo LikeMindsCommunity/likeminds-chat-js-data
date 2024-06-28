@@ -10,7 +10,6 @@ import {
     InitUserWithUuid,
     LeaveCommunity,
     Logout,
-    MemberState,
     Search,
     USERTYPE,
 } from './types';
@@ -23,7 +22,7 @@ import { ModelConverter } from 'src/utils/ModelConverter';
 export class Member extends Base {
     networkLibrary = new NetworkLibrary();
 
-    initiateUser(initUser: InitUser): Promise<any> {
+    public initiateUser(initUser: InitUser): Promise<any> {
         const params = {
             is_guest: initUser?.isGuest,
             user_unique_id: initUser?.userUniqueId,
@@ -36,6 +35,8 @@ export class Member extends Base {
                 data: params,
             })
             .then((resData: any) => {
+                sessionStorage.setItem('iud', JSON.stringify(params));
+
                 const accessToken = resData?.data?.access_token;
                 this.networkLibrary.setAccessToken(accessToken);
                 const refreshToken = resData?.data?.refresh_token;
