@@ -5,9 +5,11 @@ import { db } from '../../utils/firebase';
 import { environment } from 'src/environment';
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { Base } from 'src/base';
+import TokenManager from 'src/core/services/tokenmanager';
 
 export class HomeFeedClient extends Base {
     public networkLibrary = new NetworkLibrary();
+    // public tokenManager = new TokenManager();
 
     getHomeFeed(getHomeFeedRequest: GetHomeFeedRequest): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(

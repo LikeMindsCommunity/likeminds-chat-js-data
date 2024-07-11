@@ -1,5 +1,9 @@
-export declare type FetchDMFeed = {
+export declare type FetchDMFeedRequest = {
     page: number;
+    pageSize: number;
+    chatroomTypes: number[];
+    maxTimestamp: number;
+    minTimestamp: number;
 };
 
 export declare type CheckDMStatus = {
