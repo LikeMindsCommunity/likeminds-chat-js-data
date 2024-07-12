@@ -1,8 +1,11 @@
+// import { LMSDKCallbacks } from '../LMCallback';
+
 export declare type SdkConfig = {
-    xApiKey: string;
+    // xApiKey: string;
     xPlatformCode: string;
     xVersionCode: number;
     xSdkSource: string;
+    // lmCallback: LMSDKCallbacks;
 };
 
 export declare type InitUser = {

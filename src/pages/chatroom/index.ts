@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // import * as AWS from 'aws-sdk';
 import { API } from '../../shared/constants/api.constant';
 import {
@@ -41,7 +43,7 @@ import { ModelConverter } from 'src/utils/ModelConverter';
 
 // Chatroom.ts
 export class ChatroomData extends Base {
-    public networkLibrary = new NetworkLibrary();
+    // public networkLibrary = new NetworkLibrary();
     getChatroom(chatroom: Chatroom): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
     }

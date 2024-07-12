@@ -23,7 +23,7 @@ import { CreateDMChatroomResponse } from './responseModels/CreateDMChatroomRespo
 import { CanDMFeedResponse } from './responseModels/CanDMFeedResponse';
 
 export class DirectMessage extends Base {
-    public networkLibrary = new NetworkLibrary();
+    // public networkLibrary = new NetworkLibrary();
 
     fetchDMFeed(fetchDMFeedRequest: FetchDMFeedRequest): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
