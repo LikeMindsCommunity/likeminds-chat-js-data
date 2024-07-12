@@ -60,6 +60,7 @@ export declare type GetConversationsRequest = {
     maxTimestamp: number;
     minTimestamp: number;
     isLocalDb: boolean;
+    conversationId?: number;
 };
 
 export declare type PostConversation = {

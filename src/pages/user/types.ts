@@ -2,6 +2,16 @@ export declare type InitUser = {
     isGuest: boolean;
     userUniqueId: string;
     userName?: string;
+    apiKey: string;
+    tokenExpiryBeta?: number;
+    rtmTokenExpiryBeta?: number;
+};
+
+export declare type ValidateUser = {
+    accessToken: string;
+    refreshToken: string;
+    tokenExpiryBeta?: number;
+    rtmTokenExpiryBeta?: number;
 };
 
 export declare type InitUserWithUuid = {

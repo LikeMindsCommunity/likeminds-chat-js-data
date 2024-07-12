@@ -8,17 +8,13 @@ import { Search } from './pages/search';
 import { ExploreFeed } from './pages/explore-feed';
 import { PollClient } from './pages/poll';
 import { CoreServices } from './pages/core-services';
+import { LMSDKCallbacks } from './LMCallback';
 
 class SDKBuilder {
-    xApiKey: string;
     xPlatformCode: string;
     xVersionCode: number;
     xSdkSource: string;
-
-    setApiKey(xapikey: string): SDKBuilder {
-        this.xApiKey = xapikey;
-        return this;
-    }
+    lmsCallbacks: LMSDKCallbacks | null;
 
     setPlatformCode(xplatformcode: string): SDKBuilder {
         this.xPlatformCode = xplatformcode;
@@ -32,7 +28,6 @@ class SDKBuilder {
 
     build() {
         return new LMChatClient({
-            xApiKey: this.xApiKey,
             xPlatformCode: this.xPlatformCode,
             xVersionCode: this.xVersionCode!,
             xSdkSource: this.xSdkSource,
@@ -41,13 +36,20 @@ class SDKBuilder {
 }
 
 class LMChatClient extends Base {
-    static xApiKey: string;
     static xPlatformCode: string;
     static xVersionCode: number;
     static xSdkSource: string;
-    static setApiKey(xapikey: string): SDKBuilder {
-        this.xApiKey = xapikey;
-        return this;
+    static lmsCallbacks: LMSDKCallbacks | null;
+    private giphyApiKey: string = '9hQZNoy1wtM2b1T4BIx8B0Cwjaje3UUR';
+    public setGipghyApiKey(apiKey: string) {
+        this.giphyApiKey = apiKey;
+    }
+    public getGiphyApiKey() {
+        return this.giphyApiKey;
+    }
+    static setLMSDKCallbacks(callback: LMSDKCallbacks) {
+        this.lmsCallbacks = callback;
+        // return this;
     }
 
     static setPlatformCode(xplatformcode: string): SDKBuilder {
@@ -62,14 +64,16 @@ class LMChatClient extends Base {
 
     static build() {
         return new LMChatClient({
-            xApiKey: this.xApiKey,
+            // xApiKey: this.xApiKey,
             xPlatformCode: this.xPlatformCode,
             xVersionCode: this.xVersionCode!,
             xSdkSource: this.xSdkSource,
+            // lmCallback: this.lmsCallbacks,
         });
     }
 }
 export default LMChatClient;
+export { LMSDKCallbacks };
 interface LMChatClient extends HomeFeedClient, PollClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search, CoreServices {}
 
 applyMixins(LMChatClient, [HomeFeedClient, PollClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search, CoreServices]);

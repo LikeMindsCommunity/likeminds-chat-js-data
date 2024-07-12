@@ -12,6 +12,7 @@ import {
     Logout,
     Search,
     USERTYPE,
+    ValidateUser,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
@@ -20,15 +21,46 @@ import { InitiateUserResponse } from './responseModels/InitiateUserResponse';
 import { ModelConverter } from 'src/utils/ModelConverter';
 
 export class Member extends Base {
-    networkLibrary = new NetworkLibrary();
+    // networkLibrary = new NetworkLibrary();
+
+    public async validateUser(request: ValidateUser): Promise<any> {
+        this.networkLibrary.setAccessToken(request.accessToken);
+        this.networkLibrary.setRefreshToken(request.refreshToken);
+        const params = {
+            access_token: request.accessToken,
+            refresh_token: request.refreshToken,
+            token_expiry_beta: request?.tokenExpiryBeta,
+            rtm_token_expiry_beta: request?.rtmTokenExpiryBeta,
+        };
+
+        return this.networkLibrary
+            .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
+                method: 'GET',
+                data: params,
+            })
+            .then((resData: any) => {
+                // Handle the response and return the LMResponse object
+
+                return resData;
+            })
+            .catch((error) => {
+                return {
+                    success: false,
+                    errorMessage: error,
+                };
+            });
+    }
 
     public initiateUser(initUser: InitUser): Promise<any> {
         const params = {
+            api_key: initUser?.apiKey,
             is_guest: initUser?.isGuest,
             user_unique_id: initUser?.userUniqueId,
             user_name: initUser?.userName,
+            token_expiry_beta: initUser?.tokenExpiryBeta,
+            rtm_token_expiry_beta: initUser?.rtmTokenExpiryBeta,
         };
-
+        this.networkLibrary.setApiKey(params.api_key);
         return this.networkLibrary
             .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
                 method: 'POST',
