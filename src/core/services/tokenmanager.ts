@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosRequestConfig } from 'axios';
 import { environment } from 'src/environment';
 import { API } from 'src/shared/constants/api.constant';
+import { LMSDKCallbacks } from '../../LMCallback';
+import { TokenValues } from '../../shared/tokens';
 
 // TokenManager.ts
 class TokenManager {
@@ -8,12 +11,15 @@ class TokenManager {
     private refreshToken: string | null;
     private xVersionCode: any | null;
     private xPlatformCode: string | null;
-
-    constructor() {
+    private lmSdkCallback: LMSDKCallbacks | null;
+    constructor(lmSdkCallback: LMSDKCallbacks) {
+        this.lmSdkCallback = lmSdkCallback;
         this.accessToken = null;
         this.refreshToken = null;
     }
-
+    public setLMSdkCallbacks(callback: LMSDKCallbacks) {
+        this.lmSdkCallback = callback;
+    }
     // Access Token
     public setAccessToken(accessToken: string) {
         this.accessToken = accessToken;
@@ -60,6 +66,9 @@ class TokenManager {
                     'x-platform-code': this.getPlatformCode(),
                     'x-version-code': this.getVersionCode(),
                 },
+                data: {
+                    token_expiry_beta: 1,
+                },
             };
 
             const response: any = await axios.post(url, {}, config);
@@ -68,9 +77,23 @@ class TokenManager {
             this.accessToken = accessToken.access_token;
             this.setRefreshToken(accessToken.refresh_token);
             this.setAccessToken(accessToken.access_token);
+            this.setRefreshToken(accessToken.refresh_token);
+            this.setAccessToken(accessToken.access_token);
+            // TODO set tokens in local storage
+            localStorage.setItem(TokenValues.LOCAL_ACCESS_TOKEN, accessToken.access_token);
+            localStorage.setItem(TokenValues.LOCAL_REFRESH_TOKEN, accessToken.refresh_token);
+            this.lmSdkCallback.onAccessTokenExpiredAndRefreshed(this.accessToken, this.refreshToken);
             return accessToken.access_token;
         } catch (error) {
             console.error('Failed to refresh access token:', error);
+            const { accessToken, refreshToken } = await this.lmSdkCallback.onRefreshTokenExpired();
+
+            this.setAccessToken(accessToken);
+            this.setRefreshToken(refreshToken);
+
+            localStorage.setItem(TokenValues.LOCAL_ACCESS_TOKEN, accessToken);
+            localStorage.setItem(TokenValues.LOCAL_REFRESH_TOKEN, refreshToken);
+            // this.setRefreshTokenInLocalStorage(refreshToken);
             if (error?.response && error?.response?.status >= 500) throw error;
         }
     }

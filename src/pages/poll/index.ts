@@ -5,7 +5,7 @@ import { Base } from 'src/base';
 import { AddPollOptionRequest, GetPollUsersRequest, PostPollConversationRequest, SubmitPollRequest } from './types';
 
 export class PollClient extends Base {
-    public networkLibrary = new NetworkLibrary();
+    // public networkLibrary = new NetworkLibrary();
 
     postPollConversation(postPollConversationRequest: PostPollConversationRequest): Promise<any> {
         const params = {

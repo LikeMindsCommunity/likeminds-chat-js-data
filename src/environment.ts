@@ -17,7 +17,6 @@ export const environment = {
 
 // export const environment = {
 
-//
 //     apiUrl: 'https://betaauth.likeminds.community',
 //     firebaseConfig: {
 //         apiKey: 'AIzaSyBWjDQEiYKdQbQNvoiVvvOn_cbufQzvWuo',

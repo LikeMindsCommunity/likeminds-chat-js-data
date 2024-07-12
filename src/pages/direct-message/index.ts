@@ -9,10 +9,10 @@ import {
     CheckDMLimitWithUuid,
     CheckDMStatus,
     CreateDMChatroom,
-    FetchDMFeed,
     SendDMRequest,
     CreateDMChatroomWithUuid,
     CANDMWithUuid,
+    FetchDMFeedRequest,
 } from './types';
 import { environment } from 'src/environment';
 import { Base } from 'src/base';
@@ -23,10 +23,17 @@ import { CreateDMChatroomResponse } from './responseModels/CreateDMChatroomRespo
 import { CanDMFeedResponse } from './responseModels/CanDMFeedResponse';
 
 export class DirectMessage extends Base {
-    public networkLibrary = new NetworkLibrary();
-    fetchDMFeed(fetchDMFeed: FetchDMFeed): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_DM}?page=${fetchDMFeed.page}`);
+    // public networkLibrary = new NetworkLibrary();
+
+    fetchDMFeed(fetchDMFeedRequest: FetchDMFeedRequest): Promise<any> {
+        return this.networkLibrary.makeAuthenticatedRequest(
+            `${environment.apiUrl}${API.CHATROOM_SYNC}?page=${fetchDMFeedRequest.page}&page_size=${fetchDMFeedRequest.pageSize}&chatroom_types=[${fetchDMFeedRequest.chatroomTypes}]&max_timestamp=${fetchDMFeedRequest.maxTimestamp}&min_timestamp=${fetchDMFeedRequest.minTimestamp}`
+        );
     }
+
+    // fetchDMFeed(fetchDMFeed: FetchDMFeed): Promise<any> {
+    //     return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_DM}?page=${fetchDMFeed.page}`);
+    // }
 
     checkDMStatus(checkDMStatus: CheckDMStatus): Promise<any> {
         if (checkDMStatus.uuid) {
