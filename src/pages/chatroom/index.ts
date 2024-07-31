@@ -180,7 +180,7 @@ export class ChatroomData extends Base {
     }
 
     postConversation(postConversation: PostConversation): Promise<any> {
-        const params = {
+        const params: Record<string, any> = {
             chatroom_id: postConversation.chatroomId,
             temporary_id: postConversation.temporaryId,
             text: postConversation.text,
@@ -190,6 +190,9 @@ export class ChatroomData extends Base {
             share_link: postConversation.shareLink,
             og_tags: postConversation.ogTags,
         };
+        if (postConversation.metadata) {
+            params.metadata = postConversation.metadata;
+        }
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION}`, {
             method: 'POST',
             data: params,
