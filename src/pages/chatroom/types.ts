@@ -72,6 +72,7 @@ export declare type PostConversation = {
     repliedConversationId?: number | string;
     shareLink?: string;
     ogTags?: any;
+    metadata?: Record<string, any> | string | null;
 };
 export declare type EditConversation = {
     conversationId: number | string;
