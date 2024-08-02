@@ -1,6 +1,6 @@
 {
-    "name": "@likeminds.community/chat-js-beta",
-    "version": "1.1.137",
+    "name": "@likeminds.community/chat-js",
+    "version": "1.10.0",
     "description": "LikeMinds Javascript SDK for chat APIs",
     "main": "dist/index.js",
     "module": "dist/index.m.js",
@@ -42,7 +42,6 @@
     },
     "dependencies": {
         "@babel/runtime": "^7.16.3",
-        "@likeminds.community/chat-js": "^1.9.0",
         "@types/jsonwebtoken": "~9.0.0",
         "@types/ws": "^7.4.0",
         "axios": "^0.22.0",
