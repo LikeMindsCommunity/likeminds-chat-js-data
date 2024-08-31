@@ -66,9 +66,6 @@ class TokenManager {
                     'x-platform-code': this.getPlatformCode(),
                     'x-version-code': this.getVersionCode(),
                 },
-                data: {
-                    token_expiry_beta: 1,
-                },
             };
 
             const response: any = await axios.post(url, {}, config);
