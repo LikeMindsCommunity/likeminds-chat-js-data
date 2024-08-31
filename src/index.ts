@@ -47,6 +47,10 @@ class LMChatClient extends Base {
     public getGiphyApiKey() {
         return this.giphyApiKey;
     }
+    public getNetworkLibrary() {
+        return this.networkLibrary;
+    }
+    
     static setLMSDKCallbacks(callback: LMSDKCallbacks) {
         this.lmsCallbacks = callback;
         // return this;
