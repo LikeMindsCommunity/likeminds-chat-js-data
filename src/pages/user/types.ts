@@ -19,6 +19,9 @@ export declare type InitUserWithUuid = {
     isGuest: boolean;
     uuid: string;
     userName?: string;
+    apiKey: string;
+    tokenExpiryBeta?: number;
+    rtmTokenExpiryBeta?: number;
 };
 
 export declare type GetProfile = {
