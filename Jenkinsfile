@@ -2,7 +2,12 @@ pipeline {
     agent any
     tools {nodejs "nodejs"}
 
+    options {
+        buildDiscarder logRotator(daysToKeepStr: '1', numToKeepStr: '1' )
+    }
+
     stages {
+        
         
         stage('Install Dependencies') {
             steps {
