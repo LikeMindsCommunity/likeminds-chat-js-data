@@ -61,6 +61,7 @@ export declare type GetConversationsRequest = {
     minTimestamp: number;
     isLocalDb: boolean;
     conversationId?: number;
+    excludedConversationStates?: [];
 };
 
 export declare type PostConversation = {

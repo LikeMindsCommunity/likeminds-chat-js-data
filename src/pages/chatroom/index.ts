@@ -168,14 +168,32 @@ export class ChatroomData extends Base {
         }
     }
     getConversations(getConversationsRequest: GetConversationsRequest): Promise<any> {
-        if (getConversationsRequest.conversationId) {
-            return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&conversation_id=${getConversationsRequest.conversationId}`
-            );
+        console.log('DL => ', this.networkLibrary.getExcludedConversationStates());
+        const excludeConversations = this.networkLibrary.getExcludedConversationStates();
+        console.log('DL => ', excludeConversations.length);
+
+        if (excludeConversations.length > 0) {
+            console.log('conversations include');
+            if (getConversationsRequest.conversationId) {
+                return this.networkLibrary.makeAuthenticatedRequest(
+                    `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&conversation_id=${getConversationsRequest.conversationId}&excluded_conversation_states=${excludeConversations}`
+                );
+            } else {
+                return this.networkLibrary.makeAuthenticatedRequest(
+                    `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&excluded_conversation_states=${excludeConversations}`
+                );
+            }
         } else {
-            return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}`
-            );
+            console.log('conversations exclude');
+            if (getConversationsRequest.conversationId) {
+                return this.networkLibrary.makeAuthenticatedRequest(
+                    `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&conversation_id=${getConversationsRequest.conversationId}&excluded_conversation_states=${excludeConversations}`
+                );
+            } else {
+                return this.networkLibrary.makeAuthenticatedRequest(
+                    `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&excluded_conversation_states=${excludeConversations}`
+                );
+            }
         }
     }
 

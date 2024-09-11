@@ -4,6 +4,7 @@ import { environment } from 'src/environment';
 import { API } from 'src/shared/constants/api.constant';
 import { LMSDKCallbacks } from '../../LMCallback';
 import { TokenValues } from '../../shared/tokens';
+import { ConversationState } from 'src/shared/enums/conversationstate';
 
 // TokenManager.ts
 class TokenManager {
@@ -12,10 +13,13 @@ class TokenManager {
     private xVersionCode: any | null;
     private xPlatformCode: string | null;
     private lmSdkCallback: LMSDKCallbacks | null;
+    private excludedConversationStates: ConversationState[] | null;
+
     constructor(lmSdkCallback: LMSDKCallbacks) {
         this.lmSdkCallback = lmSdkCallback;
         this.accessToken = null;
         this.refreshToken = null;
+        // this.excludedConversationStates = null;
     }
     public setLMSdkCallbacks(callback: LMSDKCallbacks) {
         this.lmSdkCallback = callback;
@@ -36,6 +40,14 @@ class TokenManager {
 
     public getRefreshToken() {
         return this.refreshToken;
+    }
+
+    // ExcludedConversationStates
+    public setExcludedConversationStates(excludedConversationStates: ConversationState[]) {
+        this.excludedConversationStates = excludedConversationStates;
+    }
+    public getExcludedConversationStates() {
+        return this.setExcludedConversationStates;
     }
 
     // Platform Code
@@ -77,7 +89,7 @@ class TokenManager {
             this.setRefreshToken(accessToken.refresh_token);
             this.setAccessToken(accessToken.access_token);
             // TODO set tokens in local storage
-            if (this.xPlatformCode === "rt") {
+            if (this.xPlatformCode === 'rt') {
                 localStorage.setItem(TokenValues.LOCAL_ACCESS_TOKEN, accessToken.access_token);
                 localStorage.setItem(TokenValues.LOCAL_REFRESH_TOKEN, accessToken.refresh_token);
             }
@@ -89,7 +101,7 @@ class TokenManager {
 
             this.setAccessToken(accessToken);
             this.setRefreshToken(refreshToken);
-            if (this.xPlatformCode === "rt") {
+            if (this.xPlatformCode === 'rt') {
                 localStorage.setItem(TokenValues.LOCAL_ACCESS_TOKEN, accessToken);
                 localStorage.setItem(TokenValues.LOCAL_REFRESH_TOKEN, refreshToken);
             }

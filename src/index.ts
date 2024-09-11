@@ -9,11 +9,13 @@ import { ExploreFeed } from './pages/explore-feed';
 import { PollClient } from './pages/poll';
 import { CoreServices } from './pages/core-services';
 import { LMSDKCallbacks } from './LMCallback';
+import { ConversationState } from './shared/enums/conversationstate';
 
 class SDKBuilder {
     xPlatformCode: string;
     xVersionCode: number;
     xSdkSource: string;
+    excludedConversationStates: any; // Added excludedConversationStates
     lmsCallbacks: LMSDKCallbacks | null;
 
     setPlatformCode(xplatformcode: string): SDKBuilder {
@@ -25,18 +27,24 @@ class SDKBuilder {
         this.xVersionCode = xversioncode;
         return this;
     }
+    setExcludedConversationStates(excludedConversationStates: any): SDKBuilder {
+        this.excludedConversationStates = excludedConversationStates;
+        return this;
+    }
 
     build() {
         return new LMChatClient({
             xPlatformCode: this.xPlatformCode,
             xVersionCode: this.xVersionCode!,
             xSdkSource: this.xSdkSource,
+            excludedConversationStates: this.excludedConversationStates,
         });
     }
 }
 
 class LMChatClient extends Base {
     static xPlatformCode: string;
+    static excludedConversationStates: any;
     static xVersionCode: number;
     static xSdkSource: string;
     static lmsCallbacks: LMSDKCallbacks | null;
@@ -50,7 +58,7 @@ class LMChatClient extends Base {
     public getNetworkLibrary() {
         return this.networkLibrary;
     }
-    
+
     static setLMSDKCallbacks(callback: LMSDKCallbacks) {
         this.lmsCallbacks = callback;
         // return this;
@@ -58,6 +66,10 @@ class LMChatClient extends Base {
 
     static setPlatformCode(xplatformcode: string): SDKBuilder {
         this.xPlatformCode = xplatformcode;
+        return this;
+    }
+    static setExcludedConversationStates(excludedConversationStates: any): SDKBuilder {
+        this.excludedConversationStates = excludedConversationStates;
         return this;
     }
 
@@ -72,6 +84,7 @@ class LMChatClient extends Base {
             xPlatformCode: this.xPlatformCode,
             xVersionCode: this.xVersionCode!,
             xSdkSource: this.xSdkSource,
+            excludedConversationStates: this.excludedConversationStates,
             // lmCallback: this.lmsCallbacks,
         });
     }
