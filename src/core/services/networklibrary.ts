@@ -5,11 +5,13 @@ import TokenManager from './tokenmanager';
 import LMResponse from './lmresponse';
 import { LMSDKCallbacks } from '../../LMCallback';
 import { TokenValues } from '../../shared/tokens';
+import { ConversationState } from 'src/shared/enums/conversationstate';
 
 class NetworkLibrary {
     private tokenManager: TokenManager;
 
     private xApiKey: string | null;
+    private excludedConversationStates: ConversationState[] | null;
 
     private lmSdkCallbacks: LMSDKCallbacks | null;
 
@@ -82,6 +84,14 @@ class NetworkLibrary {
     public getApiKey() {
         return this.xApiKey;
     }
+    // Api Key
+    public setExcludedConversationStates(excludedConversationStates: ConversationState[]) {
+        this.excludedConversationStates = excludedConversationStates;
+    }
+
+    public getExcludedConversationStates() {
+        return this.excludedConversationStates;
+    }
 
     public setLMSDKCallbacks(callback: LMSDKCallbacks) {
         this.lmSdkCallbacks = callback;
@@ -143,7 +153,6 @@ class NetworkLibrary {
             const response = await this.makeRequest<{ data: T }>(url, requestConfig);
             return new LMResponse<T>(response?.data?.data, null, true);
         } catch (error) {
-            console.log('Network Data error =>', error?.response);
             // if (error?.response && error?.response?.status === 401 && error?.response?.data?.error_message === 'Invalid LTM!') {
             if (error?.response && error?.response?.status === 401) {
                 // Access token expired, refresh the token and retry the request
@@ -151,7 +160,6 @@ class NetworkLibrary {
                     const { accessToken, refreshToken } = await this.lmSdkCallbacks.onRefreshTokenExpired();
                     // TODO expose functions for storing tokens from DL
                     // done
-                    console.log('indise data layer');
                     this.tokenManager.setAccessToken(accessToken);
                     this.tokenManager.setRefreshToken(refreshToken);
                     // TODO add tokens in local storage too

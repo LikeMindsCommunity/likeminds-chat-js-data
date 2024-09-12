@@ -1,6 +1,6 @@
 {
     "name": "@likeminds.community/chat-js",
-    "version": "1.10.1",
+    "version": "1.11.0",
     "description": "LikeMinds Javascript SDK for chat APIs",
     "main": "dist/index.js",
     "module": "dist/index.m.js",
