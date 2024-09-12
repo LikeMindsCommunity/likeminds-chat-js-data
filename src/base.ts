@@ -1,23 +1,27 @@
 import { SdkConfig } from './shared/types';
 import NetworkLibrary from './core/services/networklibrary';
 import { LMSDKCallbacks } from './LMCallback';
+import { ConversationState } from './shared/enums/conversationstate';
 
 export class Base {
     xApiKey: string;
     xPlatformCode: string;
     xVersionCode: number;
     xSdkSource: string;
+    excludedConversationStates: ConversationState[];
     networkLibrary: NetworkLibrary | null;
 
     constructor(sdkConfig: SdkConfig) {
-        // this.xApiKey = sdkConfig.xApiKey;
         this.xPlatformCode = sdkConfig.xPlatformCode;
         this.xVersionCode = sdkConfig.xVersionCode;
+        this.excludedConversationStates = sdkConfig.excludedConversationStates;
         this.networkLibrary = new NetworkLibrary(null);
         this.networkLibrary.setApiKey(this.xApiKey);
         this.networkLibrary.setPlatformCode(this.xPlatformCode);
         this.networkLibrary.setVersionCode(this.xVersionCode);
+        this.networkLibrary.setExcludedConversationStates(this.excludedConversationStates);
     }
+
     public setLMSDKCallbacks(callback: LMSDKCallbacks) {
         this.networkLibrary.setLMSDKCallbacks(callback);
     }
