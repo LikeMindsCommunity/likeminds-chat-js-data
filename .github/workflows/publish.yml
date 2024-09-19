@@ -1,7 +1,7 @@
 name: Publish and Create Tag and Release
 
 on:
-  workflow_dispatch: # Allows manual triggering of the action remotely
+  workflow_dispatch: # Allows manual triggering of the action remotely.
 
 permissions: write-all
 
