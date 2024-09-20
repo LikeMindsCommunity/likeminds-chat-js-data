@@ -6,7 +6,7 @@ on:
 permissions: write-all
 
 jobs:
-  publish:
+  version_check:
     name: Version check
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'  # Only run for master branch
@@ -39,7 +39,7 @@ jobs:
 
   create_tag:
     name: Create Git Tag
-    needs: publish
+    needs: version_check
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
