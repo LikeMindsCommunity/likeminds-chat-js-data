@@ -7,7 +7,7 @@ permissions: write-all
 
 jobs:
   publish:
-    name: Publish to npm
+    name: Version check
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'  # Only run for master branch
     permissions: write-all
