@@ -1,5 +1,4 @@
 // Index.user.class
-import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
 import {
     EditProfile,
@@ -17,13 +16,12 @@ import {
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
 import LMResponse from 'src/core/services/lmresponse';
-import { InitiateUserResponse } from './responseModels/InitiateUserResponse';
-import { ModelConverter } from 'src/utils/ModelConverter';
+import { InitiateUserResponse, ValidateUserResponse } from './responseModels/InitiateUserResponse';
 
 export class Member extends Base {
     // networkLibrary = new NetworkLibrary();
 
-    public async validateUser(request: ValidateUser): Promise<any> {
+    public async validateUser(request: ValidateUser) {
         this.networkLibrary.setAccessToken(request.accessToken);
         this.networkLibrary.setRefreshToken(request.refreshToken);
         const params = {
@@ -34,11 +32,11 @@ export class Member extends Base {
         };
 
         return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
+            .makeAuthenticatedRequest<ValidateUserResponse>(`${environment.apiUrl}${API.SDK_INITIATE}`, {
                 method: 'GET',
                 data: params,
             })
-            .then((resData: any) => {
+            .then((resData) => {
                 // Handle the response and return the LMResponse object
 
                 return resData;
@@ -51,7 +49,7 @@ export class Member extends Base {
             });
     }
 
-    public initiateUser(initUser: InitUser): Promise<any> {
+    public initiateUser(initUser: InitUser) {
         const params = {
             api_key: initUser?.apiKey,
             is_guest: initUser?.isGuest,
@@ -62,19 +60,19 @@ export class Member extends Base {
         };
         this.networkLibrary.setApiKey(params.api_key);
         return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
+            .makeAuthenticatedRequest<InitiateUserResponse>(`${environment.apiUrl}${API.SDK_INITIATE}`, {
                 method: 'POST',
                 data: params,
             })
-            .then((resData: any) => {
+            .then((resData) => {
                 sessionStorage.setItem('iud', JSON.stringify(params));
 
-                const accessToken = resData?.data?.access_token;
+                const accessToken = resData?.data?.accessToken;
                 this.networkLibrary.setAccessToken(accessToken);
-                const refreshToken = resData?.data?.refresh_token;
+                const refreshToken = resData?.data?.refreshToken;
                 this.networkLibrary.setRefreshToken(refreshToken);
 
-                return { data: resData?.data, errorMessage: null, success: true };
+                return resData;
             })
             .catch((error) => {
                 if (error?.response && error?.response?.status >= 500) {
@@ -92,22 +90,20 @@ export class Member extends Base {
         };
 
         return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
+            .makeAuthenticatedRequest<InitiateUserResponse>(`${environment.apiUrl}${API.SDK_INITIATE}`, {
                 method: 'POST',
                 data: params,
             })
-            .then((respData: any) => {
-                const accessToken = respData?.data?.access_token;
+            .then((respData) => {
+                const accessToken = respData?.data?.accessToken;
                 this.networkLibrary.setAccessToken(accessToken);
-                const refreshToken = respData?.data?.refresh_token;
+                const refreshToken = respData?.data?.refreshToken;
                 this.networkLibrary.setRefreshToken(refreshToken);
 
-                const convertedResp: InitiateUserResponse = ModelConverter.responseBodyParser(respData);
-
-                return new LMResponse<InitiateUserResponse>(convertedResp, null, true);
+                return respData;
             })
             .catch((error) => {
-                return new LMResponse<InitiateUserResponse>(null, error.message || 'An error occurred', false);
+                return error;
             });
     }
 

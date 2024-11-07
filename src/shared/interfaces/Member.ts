@@ -1,0 +1,42 @@
+import { Question } from './Question';
+
+// MemberActions Interface
+interface MemberActions {
+    title: string;
+    route: string;
+}
+
+// SDKClientInfo Interface
+interface SDKClientInfo {
+    user: string;
+    userUniqueId: string;
+    uuid: string;
+    communityId?: number;
+    community?: number;
+}
+
+// Member Interface
+export interface Member {
+    id: string;
+    userUniqueId: string;
+    name: string;
+    imageUrl?: string;
+    questionAnswers?: Question[];
+    state?: number;
+    isGuest: boolean;
+    customIntroText?: string;
+    customClickText?: string;
+    memberSince?: string;
+    communityName?: string;
+    isOwner: boolean;
+    customTitle?: string;
+    menu?: MemberActions[];
+    communityId?: number;
+    chatroomId?: number;
+    route?: string;
+    attendingStatus?: boolean;
+    hasProfileImage: boolean;
+    updatedAt?: number;
+    sdkClientInfo?: SDKClientInfo;
+    uuid: string;
+}

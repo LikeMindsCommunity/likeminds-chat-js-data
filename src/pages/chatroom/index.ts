@@ -16,13 +16,13 @@ import {
     ShareChatroom,
     SetChatroom,
     Conversation,
-    PostConversation,
-    EditConversation,
-    DeleteConversation,
+    PostConversationRequest,
+    EditConversationRequest,
+    DeleteConversationRequest,
     PutReaction,
     DeleteReaction,
     PutMultimedia,
-    DecodeUrl,
+    DecodeUrlRequest,
     PostPollConversation,
     GetReportTags,
     PushReport,
@@ -40,47 +40,50 @@ import NetworkLibrary from 'src/core/services/networklibrary';
 import { Nothing } from 'src/shared/responseModels/Nothing';
 import LMResponse from 'src/core/services/lmresponse';
 import { ModelConverter } from 'src/utils/ModelConverter';
+import { GetChatroom } from '../../shared/api-responses/getChatroomResponse';
+
+import { GetTaggingList } from '../../shared/api-responses/getTaggingListResponse';
+import { GetConversation } from '../../shared/api-responses/getSyncConversationsResponse';
+import { PostConversation } from '../../shared/api-responses/postConversationResponse';
+import { DeleteConversation } from '../../shared/api-responses/DeleteConversation';
+import { EditConversation } from '../../shared/api-responses/EditConversation';
+import { GetOgTag } from '../../shared/api-responses/getOgTagResponse';
+import { GetReportConverationTags } from '../../shared/api-responses/getReportTagsResponseChatResponse';
+import { ViewParticipants } from '../../shared/api-responses/viewParticipants';
 
 // Chatroom.ts
 export class ChatroomData extends Base {
     // public networkLibrary = new NetworkLibrary();
-    getChatroom(chatroom: Chatroom): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
+    getChatroom(chatroom: Chatroom) {
+        return this.networkLibrary.makeAuthenticatedRequest<GetChatroom>(
+            `${environment.apiUrl}${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`
+        );
     }
 
-    followChatroom(followChatroom: FollowChatroom): Promise<any> {
+    followChatroom(followChatroom: FollowChatroom) {
         const params = {
             collabcard_id: followChatroom.collabcardId,
             member_id: followChatroom.memberId,
             value: followChatroom.value,
         };
 
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_FOLLOW}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CHATROOM_FOLLOW}`, {
             method: 'PUT',
             data: params,
         });
     }
 
-    followChatroomWithUuid(followChatroom: FollowChatroomWithUuid): Promise<LMResponse<Nothing>> {
+    followChatroomWithUuid(followChatroom: FollowChatroomWithUuid) {
         const params = {
             collabcard_id: followChatroom.collabcardId,
             uuid: followChatroom.uuid,
             value: followChatroom.value,
         };
 
-        return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_FOLLOW}`, {
-                method: 'PUT',
-                data: params,
-            })
-            .then((respData: any) => {
-                const convertedResp: Nothing = ModelConverter.responseBodyParser(respData);
-
-                return new LMResponse<Nothing>(convertedResp, null, true);
-            })
-            .catch((error) => {
-                return new LMResponse<Nothing>(null, error.message || 'An error occurred', false);
-            });
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CHATROOM_FOLLOW}`, {
+            method: 'PUT',
+            data: params,
+        });
     }
 
     muteChatroom(muteChatroom: MuteChatroom): Promise<any> {
@@ -88,14 +91,14 @@ export class ChatroomData extends Base {
             chatroom_id: muteChatroom.chatroomId,
             value: muteChatroom.value,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_MUTE}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CHATROOM_MUTE}`, {
             method: 'PUT',
             data: params,
         });
     }
 
     markReadChatroom(markRead: MarkRead): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_MARK_READ}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CHATROOM_MARK_READ}`, {
             method: 'POST',
             data: {
                 chatroom_id: markRead.chatroomId,
@@ -120,49 +123,49 @@ export class ChatroomData extends Base {
         });
     }
 
-    getTaggingList(taggingList: TaggingList): Promise<any> {
+    getTaggingList(taggingList: TaggingList) {
         if (taggingList.chatroomId) {
             if (taggingList.isSecret) {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<GetTaggingList>(
                     `${environment.apiUrl}${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}&is_secret=${taggingList.isSecret}`
                 );
             } else {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<GetTaggingList>(
                     `${environment.apiUrl}${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
                 );
             }
         } else {
             if (taggingList.isSecret) {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<GetTaggingList>(
                     `${environment.apiUrl}${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}&is_secret=${taggingList.isSecret}`
                 );
             } else {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<GetTaggingList>(
                     `${environment.apiUrl}${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
                 );
             }
         }
     }
 
-    getConversation(conversation: Conversation): Promise<any> {
+    getConversation(conversation: Conversation) {
         if (conversation.scrollDirection) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversation>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
             );
         } else if (conversation.conversationID && !conversation.scrollDirection) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversation>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
             );
         } else if (conversation.conversationID) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversation>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
             );
         } else if (conversation.temporaryID) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversation>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&temporary_id=${conversation.temporaryID}`
             );
         } else {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversation>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}`
             );
         }
@@ -172,28 +175,28 @@ export class ChatroomData extends Base {
 
         if (excludeConversations.length > 0) {
             if (getConversationsRequest.conversationId) {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<GetConversation>(
                     `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&conversation_id=${getConversationsRequest.conversationId}&excluded_conversation_states=[${excludeConversations}]`
                 );
             } else {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<GetConversation>(
                     `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&excluded_conversation_states=[${excludeConversations}]`
                 );
             }
         } else {
             if (getConversationsRequest.conversationId) {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<GetConversation>(
                     `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&conversation_id=${getConversationsRequest.conversationId}`
                 );
             } else {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<GetConversation>(
                     `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}`
                 );
             }
         }
     }
 
-    postConversation(postConversation: PostConversation): Promise<any> {
+    postConversation(postConversation: PostConversationRequest) {
         const params: Record<string, any> = {
             chatroom_id: postConversation.chatroomId,
             temporary_id: postConversation.temporaryId,
@@ -207,38 +210,38 @@ export class ChatroomData extends Base {
         if (postConversation.metadata) {
             params.metadata = postConversation.metadata;
         }
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<PostConversation>(`${environment.apiUrl}${API.CONVERSATION}`, {
             method: 'POST',
             data: params,
         });
     }
 
-    editConversation(conversationId: EditConversation): Promise<any> {
+    editConversation(conversationId: EditConversationRequest) {
         const params = {
             conversation_id: conversationId.conversationId,
             text: conversationId.text,
             share_link: conversationId.shareLink,
             og_tags: conversationId.ogTags,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<EditConversation>(`${environment.apiUrl}${API.CONVERSATION}`, {
             method: 'PUT',
             data: params,
         });
     }
 
-    deleteConversation(deleteConversation: DeleteConversation): Promise<any> {
+    deleteConversation(deleteConversation: DeleteConversationRequest) {
         const params = {
             conversation_ids: deleteConversation.conversationIds,
             reason: deleteConversation.reason,
         };
 
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<DeleteConversation>(`${environment.apiUrl}${API.CONVERSATION}`, {
             method: 'DELETE',
             data: params,
         });
     }
 
-    putReaction(putReaction: PutReaction): Promise<any> {
+    putReaction(putReaction: PutReaction) {
         let params;
         if (putReaction.chatroomId) {
             params = {
@@ -252,48 +255,23 @@ export class ChatroomData extends Base {
                 reaction: putReaction.reaction,
             };
         }
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
             method: 'PUT',
             data: params,
         });
     }
 
-    deleteReaction(deleteReaction: DeleteReaction): Promise<any> {
+    deleteReaction(deleteReaction: DeleteReaction) {
         const params = {
             chatroom_id: deleteReaction.chatroomId,
             conversation_id: deleteReaction.conversationId,
             reaction: deleteReaction.reaction,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
             method: 'DELETE',
             data: params,
         });
     }
-
-    // Upload Media Fn Start
-    // getAWS(): any {
-    //     (AWS.config.region = 'ap-south-1'),
-    //         (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    //             IdentityPoolId: environment.awsConfig.poolId,
-    //         }));
-    //     const s3 = new AWS.S3({
-    //         apiVersion: '2006-03-01',
-    //         params: { Bucket: environment.awsConfig.bucket },
-    //     });
-
-    //     return s3;``
-    // }
-
-    // uploadMedia(media: Media) {
-    //     let mediaObject = this.getAWS().upload({
-    //         Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
-    //         Bucket: environment.awsConfig.bucket,
-    //         Body: media.file,
-    //         ACL: 'public-read-write',
-    //         ContentType: media.file.type,
-    //     });
-    //     return mediaObject.promise();
-    // }
 
     putMultimedia(putMultimedia: PutMultimedia): Promise<any> {
         const params = {
@@ -316,22 +294,24 @@ export class ChatroomData extends Base {
 
     // Upload Media Function End
 
-    decodeUrl(decodeUrl: DecodeUrl): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.HELPER_URL}?url=${decodeUrl.url}`);
+    decodeUrl(decodeUrl: DecodeUrlRequest) {
+        return this.networkLibrary.makeAuthenticatedRequest<GetOgTag>(`${environment.apiUrl}${API.HELPER_URL}?url=${decodeUrl.url}`);
     }
 
-    getReportTags(getReportTags: GetReportTags): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.FETCH_REPORT_TAGS}?type=${getReportTags.type}`);
+    getReportTags(getReportTags: GetReportTags) {
+        return this.networkLibrary.makeAuthenticatedRequest<GetReportConverationTags>(
+            `${environment.apiUrl}${API.FETCH_REPORT_TAGS}?type=${getReportTags.type}`
+        );
     }
 
-    pushReport(pushReport: PushReport): Promise<any> {
+    pushReport(pushReport: PushReport) {
         const params = {
             conversation_id: pushReport?.conversationId,
             tag_id: pushReport.tagId,
             reason: pushReport.reason,
             reported_member_id: pushReport?.reportedMemberId,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.PUSH_REPORT}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.PUSH_REPORT}`, {
             method: 'POST',
             data: params,
         });
@@ -356,32 +336,32 @@ export class ChatroomData extends Base {
         );
     }
 
-    viewParticipants(participantsType: ParticipantsType): Promise<any> {
+    viewParticipants(participantsType: ParticipantsType) {
         if (participantsType.participantName) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipants>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&participant_name=${participantsType.participantName}`
             );
         } else if (participantsType.page) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipants>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}`
             );
         } else {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipants>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}`
             );
         }
     }
-    getParticipants(participantsType: GetParticipantsType): Promise<any> {
+    getParticipants(participantsType: GetParticipantsType) {
         if (participantsType.searchKey) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipants>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomID}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&search_key=${participantsType.searchKey}`
             );
         } else if (participantsType.page) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipants>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomID}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}`
             );
         } else {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipants>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomID}&is_secret=${participantsType.isSecret}`
             );
         }
@@ -427,22 +407,13 @@ export class ChatroomData extends Base {
         );
     }
 
-    chatroomSeenWithUuid(chatroomSeen: ChatroomSeenWithUuid): Promise<LMResponse<Nothing>> {
-        return this.networkLibrary
-            .makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.COLLABCARD_SEEN}?collabcard_id=${chatroomSeen.collabcardId}&uuid=${chatroomSeen.uuid}&collabcard_type=${chatroomSeen.collabcardType}`,
-                {
-                    method: 'PUT',
-                    data: {},
-                }
-            )
-            .then((respData: any) => {
-                const convertedResp: Nothing = ModelConverter.responseBodyParser(respData);
-
-                return new LMResponse<Nothing>(convertedResp, null, true);
-            })
-            .catch((error) => {
-                return new LMResponse<Nothing>(null, error.message || 'An error occurred', false);
-            });
+    chatroomSeenWithUuid(chatroomSeen: ChatroomSeenWithUuid) {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(
+            `${environment.apiUrl}${API.COLLABCARD_SEEN}?collabcard_id=${chatroomSeen.collabcardId}&uuid=${chatroomSeen.uuid}&collabcard_type=${chatroomSeen.collabcardType}`,
+            {
+                method: 'PUT',
+                data: {},
+            }
+        );
     }
 }

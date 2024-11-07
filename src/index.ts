@@ -10,6 +10,7 @@ import { PollClient } from './pages/poll';
 import { CoreServices } from './pages/core-services';
 import { LMSDKCallbacks } from './LMCallback';
 import { ConversationState } from './shared/enums/conversationstate';
+import { ModelConverter } from './utils/ModelConverter';
 
 class SDKBuilder {
     xPlatformCode: string;
@@ -69,6 +70,9 @@ class LMChatClient extends Base {
 
     static setPlatformCode(xplatformcode: string): SDKBuilder {
         this.xPlatformCode = xplatformcode;
+        if (xplatformcode === 'rt') {
+            ModelConverter.platformCode = 'rt';
+        }
         return this;
     }
 

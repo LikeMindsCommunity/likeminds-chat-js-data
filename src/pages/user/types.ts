@@ -25,11 +25,11 @@ export declare type InitUserWithUuid = {
 };
 
 export declare type GetProfile = {
-    userId: any;
+    userId: number;
 };
 export declare type GetMemberChatroom = {
-    userId: any;
-    state: any;
+    userId: number;
+    state: number;
     page: number;
 };
 
@@ -42,11 +42,11 @@ export declare type EditProfile = {
 
 export declare type GetAllMembers = {
     chatroomId?: number;
-    memberState?: any;
+    memberState?: number;
     page: number;
 };
 export declare type Logout = {
-    refreshToken: any;
+    refreshToken: string;
 };
 
 export declare type LeaveCommunity = {
@@ -76,5 +76,5 @@ export declare type Search = {
     searchType: string;
     page: number;
     pageSize: number;
-    memberStates?: any;
+    memberStates?: string[] | string;
 };

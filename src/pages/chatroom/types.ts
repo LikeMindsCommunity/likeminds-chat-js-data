@@ -64,7 +64,7 @@ export declare type GetConversationsRequest = {
     excludedConversationStates?: [];
 };
 
-export declare type PostConversation = {
+export declare type PostConversationRequest = {
     chatroomId: number;
     temporaryId?: number | string;
     text: string;
@@ -75,14 +75,14 @@ export declare type PostConversation = {
     ogTags?: any;
     metadata?: Record<string, any> | string | null;
 };
-export declare type EditConversation = {
+export declare type EditConversationRequest = {
     conversationId: number | string;
     text: string;
     shareLink?: string;
     ogTags?: any;
 };
 
-export declare type DeleteConversation = {
+export declare type DeleteConversationRequest = {
     conversationIds: any;
     reason: any;
 };
@@ -119,7 +119,7 @@ export declare type PutMultimedia = {
     thumbnailUrl?: string;
 };
 
-export declare type DecodeUrl = {
+export declare type DecodeUrlRequest = {
     url: string;
 };
 

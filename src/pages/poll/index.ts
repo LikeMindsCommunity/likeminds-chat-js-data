@@ -1,13 +1,16 @@
 import { API } from '../../shared/constants/api.constant';
 import { environment } from 'src/environment';
-import NetworkLibrary from 'src/core/services/networklibrary';
 import { Base } from 'src/base';
 import { AddPollOptionRequest, GetPollUsersRequest, PostPollConversationRequest, SubmitPollRequest } from './types';
+import { PostConversation } from '../../shared/api-responses/postConversationResponse';
+import { GetPollUsers } from '../../shared/api-responses/GetPollUsers';
+import { AddPollOption } from '../../shared/api-responses/AddPollOption';
+import { Nothing } from '../../shared/responseModels/Nothing';
 
 export class PollClient extends Base {
     // public networkLibrary = new NetworkLibrary();
 
-    postPollConversation(postPollConversationRequest: PostPollConversationRequest): Promise<any> {
+    postPollConversation(postPollConversationRequest: PostPollConversationRequest) {
         const params = {
             chatroom_id: postPollConversationRequest.chatroomId,
             temporary_id: postPollConversationRequest.temporaryId,
@@ -22,38 +25,38 @@ export class PollClient extends Base {
             expiry_time: postPollConversationRequest.expiryTime,
             text: postPollConversationRequest.text,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<PostConversation>(`${environment.apiUrl}${API.CONVERSATION}`, {
             method: 'POST',
             data: params,
         });
     }
-    getPollUsers(getPollUsersRequest: GetPollUsersRequest): Promise<any> {
+    getPollUsers(getPollUsersRequest: GetPollUsersRequest) {
         if (getPollUsersRequest.conversationId) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetPollUsers>(
                 `${environment.apiUrl}${API.CONVERSATION_POLL_USERS}?poll_id=${getPollUsersRequest.pollId}&conversation_id=${getPollUsersRequest.conversationId}`
             );
         } else {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetPollUsers>(
                 `${environment.apiUrl}${API.CONVERSATION_POLL_USERS}?poll_id=${getPollUsersRequest.pollId}`
             );
         }
     }
-    addPollOption(addPollOptionRequest: AddPollOptionRequest): Promise<any> {
+    addPollOption(addPollOptionRequest: AddPollOptionRequest) {
         const params = {
             conversation_id: addPollOptionRequest.conversationId,
             poll: addPollOptionRequest.poll,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_POLL}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<AddPollOption>(`${environment.apiUrl}${API.CONVERSATION_POLL}`, {
             method: 'POST',
             data: params,
         });
     }
-    submitPoll(submitPollRequest: SubmitPollRequest): Promise<any> {
+    submitPoll(submitPollRequest: SubmitPollRequest) {
         const params = {
             conversation_id: submitPollRequest.conversationId,
             polls: submitPollRequest.polls,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_POLL_SUBMIT}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CONVERSATION_POLL_SUBMIT}`, {
             method: 'POST',
             data: params,
         });

@@ -1,0 +1,70 @@
+import Member from "./member";
+
+export interface DMChatroom {
+  id: number;
+  title: string;
+  communityId: number;
+  answerText: string;
+  shareLink: string;
+  imageCount: number;
+  pdfCount: number;
+  videoCount: number;
+  audioCount: number;
+  attachmentCount: number;
+  attachmentsUploaded: boolean;
+  type: number;
+  dateTime: number;
+  duration: number;
+  isPending: boolean;
+  answersCount: number;
+  attendingCount: number;
+  pollsCount: number;
+  cardCreationTime: string;
+  communityName: string;
+  date: string;
+  createdAt: string;
+  dateEpoch: number;
+  isSecret: boolean;
+  autoFollowDone: boolean;
+  isEdited: boolean;
+  isPaid: boolean;
+  access: unknown;
+  onlineLinkType: unknown;
+  onlineLinkEnableBefore: number;
+  isPrivate: boolean;
+  hasEventRecording: boolean;
+  isPrivateMember: boolean;
+  includeMembersLater: boolean;
+  customTag: string;
+  hasBeenNamed: boolean;
+  memberId: number;
+  header: string;
+  reactions: unknown[];
+  chatroomWithUser: ChatroomWithUser;
+  state: number;
+  muteStatus: boolean;
+  followStatus: boolean;
+  attendingStatus: boolean;
+  isGuest: boolean;
+  isTagged: boolean;
+  secretChatroomLeft: boolean;
+  member: Member;
+  images: unknown[];
+  pdf: unknown[];
+  audios: unknown[];
+  videos: unknown[];
+  attachments: unknown[];
+}
+
+interface ChatroomWithUser {
+  id: number;
+  name: string;
+  updatedAt: number;
+  isGuest: boolean;
+  userUniqueId: string;
+  uuid: string;
+  organisationName: string | null;
+  imageUrl: string;
+  state: number;
+  communityId: number;
+}

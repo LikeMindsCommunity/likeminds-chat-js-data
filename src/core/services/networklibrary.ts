@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // NetworkLibrary
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
@@ -6,6 +7,7 @@ import LMResponse from './lmresponse';
 import { LMSDKCallbacks } from '../../LMCallback';
 import { TokenValues } from '../../shared/tokens';
 import { ConversationState } from 'src/shared/enums/conversationstate';
+import LMResponseType from '../../LMResponse';
 
 class NetworkLibrary {
     private tokenManager: TokenManager;
@@ -112,7 +114,7 @@ class NetworkLibrary {
         };
 
         const initApi = url.includes('initiate');
-        const isRefreshRequest = url.includes('refresh');
+
         requestConfig.headers['Content-Type'] = 'application/json';
         // requestConfig.headers['x-platform-code'] = this.tokenManager.getPlatformCode();
         requestConfig.headers['x-version-code'] = this.tokenManager.getVersionCode();
@@ -151,7 +153,7 @@ class NetworkLibrary {
 
         try {
             const response = await this.makeRequest<{ data: T }>(url, requestConfig);
-            return new LMResponse<T>(response?.data?.data, null, true);
+            return new LMResponse<T>(response.data as LMResponseType<T>, null, true);
         } catch (error) {
             // if (error?.response && error?.response?.status === 401 && error?.response?.data?.error_message === 'Invalid LTM!') {
             if (error?.response && error?.response?.status === 401) {
@@ -176,7 +178,7 @@ class NetworkLibrary {
                 // Retry the request
                 return this.makeRequest<{ data: T }>(url, updatedConfig)
                     .then((refreshedResponse) => {
-                        return new LMResponse<T>(refreshedResponse.data.data, null, true);
+                        return new LMResponse<T>(refreshedResponse.data as LMResponseType<T>, null, true);
                     })
                     .catch((error) => {
                         if (error?.response && error?.response?.status >= 500) {
