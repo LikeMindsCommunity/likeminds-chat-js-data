@@ -1,3 +1,4 @@
+import { MemberRole } from '../enums/Roles';
 import { Question } from './Question';
 
 // MemberActions Interface
@@ -39,4 +40,5 @@ export interface Member {
     updatedAt?: number;
     sdkClientInfo?: SDKClientInfo;
     uuid: string;
+    roles?: MemberRole;
 }

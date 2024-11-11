@@ -1,31 +1,8 @@
 import { Attachment } from './Attachment';
 import { Member } from './Member';
-
-// LinkOGTags Interface
-export interface LinkOGTags {
-    title?: string;
-    image?: string;
-    description?: string;
-    url?: string;
-}
-
-// Poll Interface
-export interface Poll {
-    id: string;
-    text: string;
-    isSelected?: boolean;
-    percentage?: number;
-    subText?: string;
-    noVotes?: number;
-    member?: Member;
-    userId?: string;
-}
-
-// Reaction Interface
-export interface Reaction {
-    member?: Member;
-    reaction: string;
-}
+import { OgTag } from './OgTag';
+import { Poll } from './Poll';
+import { Reaction } from './Reaction';
 
 // Conversation Interface
 export interface Conversation {
@@ -38,7 +15,7 @@ export interface Conversation {
     state: number;
     attachments?: Attachment[];
     lastSeen: boolean;
-    ogTags?: LinkOGTags;
+    ogTags?: OgTag;
     date?: string;
     isEdited: boolean;
     memberId?: string;

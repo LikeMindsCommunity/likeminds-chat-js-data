@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface ReportConversationTag {
-    id: number;
-    name: string;
-}
+
+import { ReportTagObject } from '../interfaces/ReportTagObject';
 
 export interface GetReportConverationTags {
-    reportTags: ReportConversationTag[];
+    reportTags: ReportTagObject[];
 }

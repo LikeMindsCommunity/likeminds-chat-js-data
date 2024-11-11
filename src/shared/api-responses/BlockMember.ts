@@ -1,4 +1,4 @@
-import Conversation from '../models/conversations';
+import { Conversation } from '../interfaces/Conversation';
 
 export interface BlockMember {
     conversation: Conversation;

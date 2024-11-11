@@ -2,14 +2,26 @@ import { Base } from './base';
 import { HomeFeedClient } from './pages/home-feed';
 import { applyMixins } from './utils';
 import { ChatroomData } from './pages/chatroom';
-import { Member } from './pages/user';
+import { Member as MemberClient } from './pages/user';
 import { DirectMessage } from './pages/direct-message';
 import { Search } from './pages/search';
 import { ExploreFeed } from './pages/explore-feed';
 import { PollClient } from './pages/poll';
 import { CoreServices } from './pages/core-services';
 import { LMSDKCallbacks } from './LMCallback';
-import { ConversationState } from './shared/enums/conversationstate';
+import { Member } from './shared/interfaces/Member';
+import { Attachment, AttachmentMeta } from './shared/interfaces/Attachment';
+import { Chatroom } from './shared/interfaces/Chatroom';
+import { ChatroomActions } from './shared/interfaces/ChatroomActions';
+import { Cohort } from './shared/interfaces/Cohort';
+import { Community } from './shared/interfaces/Community';
+import { Conversation } from './shared/interfaces/Conversation';
+import { MemberRight } from './shared/interfaces/MemberRight';
+import { OgTag } from './shared/interfaces/OgTag';
+import { Poll } from './shared/interfaces/Poll';
+import { Question } from './shared/interfaces/Question';
+import { Reaction } from './shared/interfaces/Reaction';
+import { ReportTagObject } from './shared/interfaces/ReportTagObject';
 import { ModelConverter } from './utils/ModelConverter';
 
 class SDKBuilder {
@@ -97,8 +109,24 @@ class LMChatClient extends Base {
 }
 
 export default LMChatClient;
-export { LMSDKCallbacks };
+export {
+    LMSDKCallbacks,
+    Member,
+    Attachment,
+    AttachmentMeta,
+    Chatroom,
+    ChatroomActions,
+    Cohort,
+    Community,
+    Conversation,
+    MemberRight,
+    OgTag,
+    Poll,
+    Question,
+    Reaction,
+    ReportTagObject,
+};
 
-interface LMChatClient extends HomeFeedClient, PollClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search, CoreServices {}
+interface LMChatClient extends HomeFeedClient, PollClient, ChatroomData, ExploreFeed, MemberClient, DirectMessage, Search, CoreServices {}
 
-applyMixins(LMChatClient, [HomeFeedClient, PollClient, ChatroomData, ExploreFeed, Member, DirectMessage, Search, CoreServices]);
+applyMixins(LMChatClient, [HomeFeedClient, PollClient, ChatroomData, ExploreFeed, MemberClient, DirectMessage, Search, CoreServices]);

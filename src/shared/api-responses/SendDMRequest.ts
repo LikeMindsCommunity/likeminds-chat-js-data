@@ -1,4 +1,4 @@
-import { Chatroom } from '../responseModels/Chatroom';
+import { Chatroom } from '../interfaces/Chatroom';
 
 export interface SendDMRequest {
     chatroom: Chatroom;

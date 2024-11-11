@@ -1,15 +1,15 @@
-import { Community } from "../models/community";
-import { User } from "../models/member";
+import { Community } from '../interfaces/Community';
+import { Member } from '../interfaces/Member';
 
 export interface ValidateUserData {
-  accessToken: string;
-  appAccess: boolean;
-  community: Community;
-  hasAnswers: boolean;
-  refreshToken: string;
-  user: User;
+    accessToken: string;
+    appAccess: boolean;
+    community: Community;
+    hasAnswers: boolean;
+    refreshToken: string;
+    user: Member;
 }
 export interface ValidateUserResponse {
-  success: boolean;
-  data?: ValidateUserData;
+    success: boolean;
+    data?: ValidateUserData;
 }

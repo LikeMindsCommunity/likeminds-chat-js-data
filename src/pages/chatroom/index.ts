@@ -3,36 +3,36 @@
 // import * as AWS from 'aws-sdk';
 import { API } from '../../shared/constants/api.constant';
 import {
-    Chatroom,
+    GetChatroomRequest,
     CHTYPE,
     CRSeen,
     Media,
-    ParticipantsType,
+    ViewParticipantsRequest,
     Profile,
-    MarkRead,
-    TaggingList,
-    FollowChatroom,
-    MuteChatroom,
-    ShareChatroom,
-    SetChatroom,
+    MarkReadRequest,
+    GetTaggingListRequest,
+    FollowChatroomRequest,
+    MuteChatroomRequest,
+    ShareChatroomRequest,
+    SetChatroomRequest,
     Conversation,
     PostConversationRequest,
     EditConversationRequest,
     DeleteConversationRequest,
-    PutReaction,
-    DeleteReaction,
+    PutReactionRequest,
+    DeleteReactionRequest,
     PutMultimedia,
-    DecodeUrlRequest,
-    PostPollConversation,
-    GetReportTags,
-    PushReport,
-    LeaveSecretChatroom,
+    GetDecodeUrlRequest,
+    PostPollConversationRequest,
+    GetReportTagsRequest,
+    PushReportRequest,
+    LeaveSecretChatroomRequest,
     ChatroomSeen,
     CmetaType,
-    FollowChatroomWithUuid,
+    FollowChatroomWithUuidRequest,
     ChatroomSeenWithUuid,
     GetConversationsRequest,
-    GetParticipantsType,
+    GetParticipantsRequest,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
@@ -54,13 +54,13 @@ import { ViewParticipants } from '../../shared/api-responses/viewParticipants';
 // Chatroom.ts
 export class ChatroomData extends Base {
     // public networkLibrary = new NetworkLibrary();
-    getChatroom(chatroom: Chatroom) {
+    getChatroom(chatroom: GetChatroomRequest) {
         return this.networkLibrary.makeAuthenticatedRequest<GetChatroom>(
             `${environment.apiUrl}${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`
         );
     }
 
-    followChatroom(followChatroom: FollowChatroom) {
+    followChatroom(followChatroom: FollowChatroomRequest) {
         const params = {
             collabcard_id: followChatroom.collabcardId,
             member_id: followChatroom.memberId,
@@ -73,7 +73,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    followChatroomWithUuid(followChatroom: FollowChatroomWithUuid) {
+    followChatroomWithUuid(followChatroom: FollowChatroomWithUuidRequest) {
         const params = {
             collabcard_id: followChatroom.collabcardId,
             uuid: followChatroom.uuid,
@@ -86,7 +86,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    muteChatroom(muteChatroom: MuteChatroom): Promise<any> {
+    muteChatroom(muteChatroom: MuteChatroomRequest): Promise<any> {
         const params = {
             chatroom_id: muteChatroom.chatroomId,
             value: muteChatroom.value,
@@ -97,7 +97,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    markReadChatroom(markRead: MarkRead): Promise<any> {
+    markReadChatroom(markRead: MarkReadRequest): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CHATROOM_MARK_READ}`, {
             method: 'POST',
             data: {
@@ -106,13 +106,13 @@ export class ChatroomData extends Base {
         });
     }
 
-    shareChatroomUrl(shareChatroom: ShareChatroom): Promise<any> {
+    shareChatroomUrl(shareChatroom: ShareChatroomRequest): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.CHATROOM_SHARED}?chatroom_id=${shareChatroom.chatroomId}&domain=${shareChatroom.domain}`
         );
     }
 
-    setChatroomTopic(setChatroom: SetChatroom): Promise<any> {
+    setChatroomTopic(setChatroom: SetChatroomRequest): Promise<any> {
         const params = {
             chatroom_id: setChatroom.chatroomId,
             conversation_id: setChatroom.conversationId,
@@ -123,7 +123,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    getTaggingList(taggingList: TaggingList) {
+    getTaggingList(taggingList: GetTaggingListRequest) {
         if (taggingList.chatroomId) {
             if (taggingList.isSecret) {
                 return this.networkLibrary.makeAuthenticatedRequest<GetTaggingList>(
@@ -147,6 +147,7 @@ export class ChatroomData extends Base {
         }
     }
 
+    // Depriciated method. Use getConversations instead.
     getConversation(conversation: Conversation) {
         if (conversation.scrollDirection) {
             return this.networkLibrary.makeAuthenticatedRequest<GetConversation>(
@@ -170,6 +171,7 @@ export class ChatroomData extends Base {
             );
         }
     }
+
     getConversations(getConversationsRequest: GetConversationsRequest): Promise<any> {
         const excludeConversations = this.networkLibrary.getExcludedConversationStates();
 
@@ -202,10 +204,11 @@ export class ChatroomData extends Base {
             temporary_id: postConversation.temporaryId,
             text: postConversation.text,
             has_files: postConversation.hasFiles,
-            attachment_count: postConversation.attachmentCount,
             replied_conversation_id: postConversation.repliedConversationId,
             share_link: postConversation.shareLink,
             og_tags: postConversation.ogTags,
+            attachments: postConversation.attachments,
+            trigger_bot: postConversation.triggerBot,
         };
         if (postConversation.metadata) {
             params.metadata = postConversation.metadata;
@@ -241,7 +244,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    putReaction(putReaction: PutReaction) {
+    putReaction(putReaction: PutReactionRequest) {
         let params;
         if (putReaction.chatroomId) {
             params = {
@@ -261,7 +264,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    deleteReaction(deleteReaction: DeleteReaction) {
+    deleteReaction(deleteReaction: DeleteReactionRequest) {
         const params = {
             chatroom_id: deleteReaction.chatroomId,
             conversation_id: deleteReaction.conversationId,
@@ -273,38 +276,17 @@ export class ChatroomData extends Base {
         });
     }
 
-    putMultimedia(putMultimedia: PutMultimedia): Promise<any> {
-        const params = {
-            conversation_id: putMultimedia.conversationId,
-            url: putMultimedia.url,
-            type: putMultimedia.type,
-            files_count: putMultimedia.filesCount,
-            index: putMultimedia.index,
-            height: putMultimedia.height,
-            width: putMultimedia.width,
-            meta: putMultimedia.meta,
-            name: putMultimedia.name,
-            thumbnail_url: putMultimedia.thumbnailUrl,
-        };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.HELPER_MEDIA_UPLOAD}`, {
-            method: 'POST',
-            data: params,
-        });
-    }
-
-    // Upload Media Function End
-
-    decodeUrl(decodeUrl: DecodeUrlRequest) {
+    decodeUrl(decodeUrl: GetDecodeUrlRequest) {
         return this.networkLibrary.makeAuthenticatedRequest<GetOgTag>(`${environment.apiUrl}${API.HELPER_URL}?url=${decodeUrl.url}`);
     }
 
-    getReportTags(getReportTags: GetReportTags) {
+    getReportTags(getReportTags: GetReportTagsRequest) {
         return this.networkLibrary.makeAuthenticatedRequest<GetReportConverationTags>(
             `${environment.apiUrl}${API.FETCH_REPORT_TAGS}?type=${getReportTags.type}`
         );
     }
 
-    pushReport(pushReport: PushReport) {
+    pushReport(pushReport: PushReportRequest) {
         const params = {
             conversation_id: pushReport?.conversationId,
             tag_id: pushReport.tagId,
@@ -317,7 +299,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    leaveSecretChatroom(leaveSecretChatroom: LeaveSecretChatroom): Promise<any> {
+    leaveSecretChatroom(leaveSecretChatroom: LeaveSecretChatroomRequest): Promise<any> {
         const params = {
             chatroom_id: leaveSecretChatroom.chatroomId,
             is_secret: leaveSecretChatroom?.isSecret,
@@ -336,7 +318,7 @@ export class ChatroomData extends Base {
         );
     }
 
-    viewParticipants(participantsType: ParticipantsType) {
+    viewParticipants(participantsType: ViewParticipantsRequest) {
         if (participantsType.participantName) {
             return this.networkLibrary.makeAuthenticatedRequest<ViewParticipants>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&participant_name=${participantsType.participantName}`
@@ -351,7 +333,7 @@ export class ChatroomData extends Base {
             );
         }
     }
-    getParticipants(participantsType: GetParticipantsType) {
+    getParticipants(participantsType: GetParticipantsRequest) {
         if (participantsType.searchKey) {
             return this.networkLibrary.makeAuthenticatedRequest<ViewParticipants>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomID}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&search_key=${participantsType.searchKey}`

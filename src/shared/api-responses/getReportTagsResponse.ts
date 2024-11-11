@@ -1,8 +1,8 @@
-import { ReportObject } from "../models/reportTags";
+import { ReportTagObject } from '../interfaces/ReportTagObject';
 
 export interface GetReportTagsResponse {
-  success: boolean;
-  data: {
-    reportTags: ReportObject[];
-  };
+    success: boolean;
+    data: {
+        reportTags: ReportTagObject[];
+    };
 }

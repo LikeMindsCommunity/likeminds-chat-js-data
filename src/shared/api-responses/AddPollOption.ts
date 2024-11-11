@@ -1,4 +1,4 @@
-import { Member } from '../responseModels/Member';
+import { Member } from '../interfaces/Member';
 
 export interface AddPollOption {
     poll: {

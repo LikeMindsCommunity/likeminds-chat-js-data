@@ -1,9 +1,4 @@
-export interface OgTag {
-    title: string;
-    image: string;
-    description: string;
-    url: string;
-}
+import { OgTag } from '../interfaces/OgTag';
 
 export interface GetOgTag {
     ogTags: OgTag;

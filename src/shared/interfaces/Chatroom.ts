@@ -1,14 +1,6 @@
 import { Cohort } from './Cohort';
-
-// Member Interface - Assuming 'Member' interface is predefined.
-interface Member {
-    // Define fields based on your existing Member model
-}
-
-// Conversation Interface - Assuming 'Conversation' interface is predefined.
-interface Conversation {
-    // Define fields based on your existing Conversation model
-}
+import { Conversation } from './Conversation';
+import { Member } from './Member';
 
 // Chatroom Interface
 export interface Chatroom {
