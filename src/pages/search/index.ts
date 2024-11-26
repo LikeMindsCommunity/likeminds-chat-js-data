@@ -1,8 +1,9 @@
 import { API } from '../../shared/constants/api.constant';
-import { SearchConversation, SearchType } from './types';
+import { SearchConversationRequest, SearchType } from './types';
 import { environment } from 'src/environment';
 import { Base } from 'src/base';
 import { SearchChatrooms } from '../../shared/api-responses/SearchChatroom';
+import { SearchConversations } from '../../shared/api-responses/SearchConversation';
 
 // Search.ts
 export class Search extends Base {
@@ -12,8 +13,8 @@ export class Search extends Base {
         );
     }
 
-    searchConversation(searchConversation: SearchConversation) {
-        return this.networkLibrary.makeAuthenticatedRequest<SearchConversation>(
+    searchConversation(searchConversation: SearchConversationRequest) {
+        return this.networkLibrary.makeAuthenticatedRequest<SearchConversations>(
             `${environment.apiUrl}${API.CONVERSATION_SEARCH}?chatroom_id=${searchConversation.chatroomId}&follow_status=${searchConversation.followStatus}&page=${searchConversation.page}&page_size=${searchConversation.pageSize}&search=${searchConversation.search}`
         );
     }

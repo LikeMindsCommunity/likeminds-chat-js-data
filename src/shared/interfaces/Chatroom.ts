@@ -5,7 +5,7 @@ import { Member } from './Member';
 // Chatroom Interface
 export interface Chatroom {
     member: Member;
-    id: string;
+    id: number;
     title: string;
     createdAt?: number;
     answerText?: string;

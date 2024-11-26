@@ -33,6 +33,7 @@ import {
     ChatroomSeenWithUuid,
     GetConversationsRequest,
     GetParticipantsRequest,
+    GetAIChatbotsRequest,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
@@ -50,6 +51,7 @@ import { EditConversation } from '../../shared/api-responses/EditConversation';
 import { GetOgTag } from '../../shared/api-responses/getOgTagResponse';
 import { GetReportConverationTags } from '../../shared/api-responses/getReportTagsResponseChatResponse';
 import { ViewParticipants } from '../../shared/api-responses/viewParticipants';
+import { GetAIChatbotsResponse } from '../../shared/api-responses/GetAIChatbotsResponse';
 
 // Chatroom.ts
 export class ChatroomData extends Base {
@@ -395,6 +397,16 @@ export class ChatroomData extends Base {
             {
                 method: 'PUT',
                 data: {},
+            }
+        );
+    }
+
+    getAIChatbots(getAIChatbotsRequest: GetAIChatbotsRequest): Promise<LMResponse<GetAIChatbotsResponse>> {
+        const { page, pageSize = 10 } = getAIChatbotsRequest;
+        return this.networkLibrary.makeAuthenticatedRequest<GetAIChatbotsResponse>(
+            `${environment.apiUrl}${API.COMMUNITY_CHATBOT}?page=${page}&page_size=${pageSize}`,
+            {
+                method: 'GET',
             }
         );
     }

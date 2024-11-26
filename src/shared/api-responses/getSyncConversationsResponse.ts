@@ -11,7 +11,7 @@ export interface GetConversation {
     chatroomMeta: Record<string, Chatroom>;
     chatroomReactionsMeta: Reaction[];
     communityMeta: Community;
-    convAttachmentsMeta: Attachment[];
+    convAttachmentsMeta: Record<string, Attachment[]>;
     convPollsMeta: Record<string, Poll[]>;
     convReactionsMeta: Record<string, Reaction[]>;
     conversationsData: Conversation[];

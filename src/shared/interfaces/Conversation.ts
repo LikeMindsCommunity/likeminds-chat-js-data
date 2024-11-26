@@ -6,7 +6,7 @@ import { Reaction } from './Reaction';
 
 // Conversation Interface
 export interface Conversation {
-    id?: string;
+    id: number;
     chatroomId?: string;
     communityId: string;
     member: Member;
@@ -53,4 +53,5 @@ export interface Conversation {
     userId?: string;
     cardId?: string;
     isInProgress?: string;
+    widgetId?: string;
 }

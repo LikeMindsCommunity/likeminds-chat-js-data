@@ -6,7 +6,7 @@ export declare type SearchType = {
     searchType: string;
 };
 
-export declare type SearchConversation = {
+export declare type SearchConversationRequest = {
     chatroomId: number | string;
     search: string;
     followStatus: boolean;

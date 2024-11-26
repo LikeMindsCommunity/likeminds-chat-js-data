@@ -2,13 +2,13 @@ import { MemberRole } from '../enums/Roles';
 import { Question } from './Question';
 
 // MemberActions Interface
-interface MemberActions {
+export interface MemberActions {
     title: string;
     route: string;
 }
 
 // SDKClientInfo Interface
-interface SDKClientInfo {
+export interface SDKClientInfo {
     user: string;
     userUniqueId: string;
     uuid: string;
@@ -18,7 +18,7 @@ interface SDKClientInfo {
 
 // Member Interface
 export interface Member {
-    id: string;
+    id: number;
     userUniqueId: string;
     name: string;
     imageUrl?: string;

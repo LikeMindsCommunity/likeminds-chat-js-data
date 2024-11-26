@@ -238,3 +238,8 @@ export declare type DMSG = {
     conversation_ids: any;
     reason?: string;
 };
+
+export type GetAIChatbotsRequest = {
+    page: number;
+    pageSize: number;
+};

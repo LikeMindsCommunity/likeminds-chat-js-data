@@ -9,7 +9,4 @@ export interface ValidateUserData {
     refreshToken: string;
     user: Member;
 }
-export interface ValidateUserResponse {
-    success: boolean;
-    data?: ValidateUserData;
-}
+export interface ValidateUser extends ValidateUserData {}
