@@ -24,10 +24,10 @@ export declare type InitUserWithUuid = {
     rtmTokenExpiryBeta?: number;
 };
 
-export declare type GetProfile = {
+export declare type GetProfileRequest = {
     userId: number;
 };
-export declare type GetMemberChatroom = {
+export declare type GetMemberChatroomRequest = {
     userId: number;
     state: number;
     page: number;
@@ -40,16 +40,16 @@ export declare type EditProfile = {
     name?: string;
 };
 
-export declare type GetAllMembers = {
+export declare type GetAllMembersRequest = {
     chatroomId?: number;
     memberState?: number;
     page: number;
 };
-export declare type Logout = {
+export declare type LogoutRequest = {
     refreshToken: string;
 };
 
-export declare type LeaveCommunity = {
+export declare type LeaveCommunityRequest = {
     uuids: string[];
 };
 

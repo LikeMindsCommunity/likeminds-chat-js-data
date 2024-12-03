@@ -1,5 +1,5 @@
-import { Chatroom } from '../interfaces/Chatroom';
+import { Conversation } from '../interfaces/Conversation';
 
-export interface SendDMRequest {
-    chatroom: Chatroom;
+export interface SendDMRequestResponse {
+    conversation: Conversation;
 }

@@ -1,5 +1,5 @@
 import { Conversation } from '../interfaces/Conversation';
 
-export interface BlockMember {
+export interface BlockMemberResponse {
     conversation: Conversation;
 }

@@ -1,5 +1,5 @@
 import { Member } from '../interfaces/Member';
 
-export interface GetPollUsers {
+export interface GetPollUsersResponse {
     members: Member[];
 }

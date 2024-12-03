@@ -2,15 +2,14 @@ import { API } from '../../shared/constants/api.constant';
 import { environment } from 'src/environment';
 import { Base } from 'src/base';
 import { AddPollOptionRequest, GetPollUsersRequest, PostPollConversationRequest, SubmitPollRequest } from './types';
-import { PostConversation } from '../../shared/api-responses/postConversationResponse';
-import { GetPollUsers } from '../../shared/api-responses/GetPollUsers';
-import { AddPollOption } from '../../shared/api-responses/AddPollOption';
+import { PostConversationResponse } from '../../shared/api-responses/postConversationResponse';
+import { GetPollUsersResponse } from '../../shared/api-responses/GetPollUsers';
+import { AddPollOptionResponse } from '../../shared/api-responses/AddPollOption';
 import { Nothing } from '../../shared/responseModels/Nothing';
+import LMResponse from '../../core/services/lmresponse';
 
 export class PollClient extends Base {
-    // public networkLibrary = new NetworkLibrary();
-
-    postPollConversation(postPollConversationRequest: PostPollConversationRequest) {
+    postPollConversation(postPollConversationRequest: PostPollConversationRequest): Promise<LMResponse<PostConversationResponse>> {
         const params = {
             chatroom_id: postPollConversationRequest.chatroomId,
             temporary_id: postPollConversationRequest.temporaryId,
@@ -25,33 +24,33 @@ export class PollClient extends Base {
             expiry_time: postPollConversationRequest.expiryTime,
             text: postPollConversationRequest.text,
         };
-        return this.networkLibrary.makeAuthenticatedRequest<PostConversation>(`${environment.apiUrl}${API.CONVERSATION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<PostConversationResponse>(`${environment.apiUrl}${API.CONVERSATION}`, {
             method: 'POST',
             data: params,
         });
     }
-    getPollUsers(getPollUsersRequest: GetPollUsersRequest) {
+    getPollUsers(getPollUsersRequest: GetPollUsersRequest): Promise<LMResponse<GetPollUsersResponse>> {
         if (getPollUsersRequest.conversationId) {
-            return this.networkLibrary.makeAuthenticatedRequest<GetPollUsers>(
+            return this.networkLibrary.makeAuthenticatedRequest<GetPollUsersResponse>(
                 `${environment.apiUrl}${API.CONVERSATION_POLL_USERS}?poll_id=${getPollUsersRequest.pollId}&conversation_id=${getPollUsersRequest.conversationId}`
             );
         } else {
-            return this.networkLibrary.makeAuthenticatedRequest<GetPollUsers>(
+            return this.networkLibrary.makeAuthenticatedRequest<GetPollUsersResponse>(
                 `${environment.apiUrl}${API.CONVERSATION_POLL_USERS}?poll_id=${getPollUsersRequest.pollId}`
             );
         }
     }
-    addPollOption(addPollOptionRequest: AddPollOptionRequest) {
+    addPollOption(addPollOptionRequest: AddPollOptionRequest): Promise<LMResponse<AddPollOptionResponse>> {
         const params = {
             conversation_id: addPollOptionRequest.conversationId,
             poll: addPollOptionRequest.poll,
         };
-        return this.networkLibrary.makeAuthenticatedRequest<AddPollOption>(`${environment.apiUrl}${API.CONVERSATION_POLL}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<AddPollOptionResponse>(`${environment.apiUrl}${API.CONVERSATION_POLL}`, {
             method: 'POST',
             data: params,
         });
     }
-    submitPoll(submitPollRequest: SubmitPollRequest) {
+    submitPoll(submitPollRequest: SubmitPollRequest): Promise<LMResponse<Nothing>> {
         const params = {
             conversation_id: submitPollRequest.conversationId,
             polls: submitPollRequest.polls,

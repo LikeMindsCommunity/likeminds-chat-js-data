@@ -1,5 +1,5 @@
 import { OgTag } from '../interfaces/OgTag';
 
-export interface GetOgTag {
+export interface DecodeURLResponse {
     ogTags: OgTag;
 }

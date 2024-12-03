@@ -1,5 +1,4 @@
 import { API } from '../../shared/constants/api.constant';
-
 import {
     BlockMemberRequest,
     CANDM,
@@ -8,101 +7,103 @@ import {
     CheckDMLimitWithUuidRequest,
     CheckDMStatusRequest,
     CreateDMChatroomRequest,
-    SendDMRequestRequest,
+    SendDMRequest,
     CreateDMChatroomWithUuidRequest,
     CANDMWithUuid,
     FetchDMFeedRequest,
 } from './types';
 import { environment } from 'src/environment';
 import { Base } from 'src/base';
-import LMResponse from 'src/core/services/lmresponse';
 import { CanDMFeedResponse } from './responseModels/CanDMFeedResponse';
-import { GetChatroom } from '../../shared/api-responses/getChatroomResponse';
-import { CheckDMStatus } from '../../shared/api-responses/CheckDMStatus';
-import { CheckDMLimit } from '../../shared/api-responses/CheckDMLimit';
-import { CreateDMChatroom } from '../../shared/api-responses/CreateDMChatroom';
-import { SendDMRequest } from '../../shared/api-responses/SendDMRequest';
-import { BlockMember } from '../../shared/api-responses/BlockMember';
-import { CheckDMTab } from '../../shared/api-responses/CheckDMTab';
+import { CheckDMStatusResponse } from '../../shared/api-responses/CheckDMStatus';
+import { CheckDMLimitResponse } from '../../shared/api-responses/CheckDMLimit';
+import { CreateDMChatroomResponse } from '../../shared/api-responses/CreateDMChatroom';
+import { BlockMemberResponse } from '../../shared/api-responses/BlockMember';
+import { CheckDMTabResponse } from '../../shared/api-responses/CheckDMTab';
+import { SyncChatroomResponse } from '../../shared/api-responses/getChatroomSync';
+import LMResponse from '../../core/services/lmresponse';
+import { SendDMRequestResponse } from '../../shared/api-responses/SendDMRequest';
 
 export class DirectMessage extends Base {
-    fetchDMFeed(fetchDMFeedRequest: FetchDMFeedRequest) {
-        return this.networkLibrary.makeAuthenticatedRequest<GetChatroom>(
+    fetchDMFeed(fetchDMFeedRequest: FetchDMFeedRequest): Promise<LMResponse<SyncChatroomResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<SyncChatroomResponse>(
             `${environment.apiUrl}${API.CHATROOM_SYNC}?page=${fetchDMFeedRequest.page}&page_size=${fetchDMFeedRequest.pageSize}&chatroom_types=[${fetchDMFeedRequest.chatroomTypes}]&max_timestamp=${fetchDMFeedRequest.maxTimestamp}&min_timestamp=${fetchDMFeedRequest.minTimestamp}`
         );
     }
 
-    checkDMStatus(checkDMStatus: CheckDMStatusRequest) {
-        if (checkDMStatus.uuid) {
-            return this.networkLibrary.makeAuthenticatedRequest<CheckDMStatus>(
-                `${environment.apiUrl}${API.DM_STATUS}?req_from=${checkDMStatus.requestFrom}&uuid=${checkDMStatus.uuid}`
+    checkDMStatus(checkDMStatusRequest: CheckDMStatusRequest): Promise<LMResponse<CheckDMStatusResponse>> {
+        if (checkDMStatusRequest.uuid) {
+            return this.networkLibrary.makeAuthenticatedRequest<CheckDMStatusResponse>(
+                `${environment.apiUrl}${API.DM_STATUS}?req_from=${checkDMStatusRequest.requestFrom}&uuid=${checkDMStatusRequest.uuid}`
             );
         }
-        return this.networkLibrary.makeAuthenticatedRequest<CheckDMStatus>(
-            `${environment.apiUrl}${API.DM_STATUS}?req_from=${checkDMStatus.requestFrom}`
+        return this.networkLibrary.makeAuthenticatedRequest<CheckDMStatusResponse>(
+            `${environment.apiUrl}${API.DM_STATUS}?req_from=${checkDMStatusRequest.requestFrom}`
+        );
+    }
+    /**
+     * @deprecated Use the new {@link checkDMLimitWithUuid} method instead.
+     */
+    checkDMLimit(checkDMLimitRequest: CheckDMLimitRequest): Promise<LMResponse<CheckDMLimitResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<CheckDMLimitResponse>(
+            `${environment.apiUrl}${API.CHATROOM_DM_LIMIT}?member_id=${checkDMLimitRequest.memberId}`
         );
     }
 
-    checkDMLimit(checkDMLimit: CheckDMLimitRequest) {
-        return this.networkLibrary.makeAuthenticatedRequest<CheckDMLimit>(
-            `${environment.apiUrl}${API.CHATROOM_DM_LIMIT}?member_id=${checkDMLimit.memberId}`
+    checkDMLimitWithUuid(checkDMLimitRequest: CheckDMLimitWithUuidRequest): Promise<LMResponse<CheckDMLimitResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<CheckDMLimitResponse>(
+            `${environment.apiUrl}${API.CHATROOM_DM_LIMIT}?uuid=${checkDMLimitRequest.uuid}`
         );
     }
-
-    checkDMLimitWithUuid(checkDMLimit: CheckDMLimitWithUuidRequest) {
-        return this.networkLibrary.makeAuthenticatedRequest<CheckDMLimit>(
-            `${environment.apiUrl}${API.CHATROOM_DM_LIMIT}?uuid=${checkDMLimit.uuid}`
-        );
-    }
-
-    createDMChatroom(createDMChatroom: CreateDMChatroomRequest) {
+    /**
+     * @deprecated Use the new {@link createDMChatroomWithUuid} method instead.
+     */
+    createDMChatroom(createDMChatroomRequest: CreateDMChatroomRequest): Promise<LMResponse<CreateDMChatroomResponse>> {
         const params = {
-            member_id: createDMChatroom.memberId,
+            member_id: createDMChatroomRequest.memberId,
         };
-        return this.networkLibrary.makeAuthenticatedRequest<CreateDMChatroom>(`${environment.apiUrl}${API.CHATROOM_DM_CREATE}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<CreateDMChatroomResponse>(`${environment.apiUrl}${API.CHATROOM_DM_CREATE}`, {
             method: 'POST',
             data: params,
         });
     }
 
-    createDMChatroomWithUuid(createDMChatroom: CreateDMChatroomWithUuidRequest) {
+    createDMChatroomWithUuid(createDMChatroomRequest: CreateDMChatroomWithUuidRequest): Promise<LMResponse<CreateDMChatroomResponse>> {
         const params = {
-            uuid: createDMChatroom.uuid,
+            uuid: createDMChatroomRequest.uuid,
         };
-        return this.networkLibrary.makeAuthenticatedRequest<CreateDMChatroom>(`${environment.apiUrl}${API.CHATROOM_DM_CREATE}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<CreateDMChatroomResponse>(`${environment.apiUrl}${API.CHATROOM_DM_CREATE}`, {
             method: 'POST',
             data: params,
         });
     }
 
-    sendDMRequest(sendDMRequest: SendDMRequestRequest) {
+    sendDMRequest(sendDMRequest: SendDMRequest): Promise<LMResponse<SendDMRequestResponse>> {
         const params = {
             chatroom_id: sendDMRequest.chatroomId,
             chat_request_state: sendDMRequest.chatRequestState,
             text: sendDMRequest.text,
         };
-        return this.networkLibrary.makeAuthenticatedRequest<SendDMRequest>(`${environment.apiUrl}${API.CHATROOM_DM_REQUEST}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<SendDMRequestResponse>(`${environment.apiUrl}${API.CHATROOM_DM_REQUEST}`, {
             method: 'POST',
             data: params,
         });
     }
 
-    blockMember(blockMember: BlockMemberRequest) {
+    blockMember(blockMemberRequest: BlockMemberRequest): Promise<LMResponse<BlockMemberResponse>> {
         const params = {
-            chatroom_id: blockMember.chatroomId,
-            status: blockMember.status,
+            chatroom_id: blockMemberRequest.chatroomId,
+            status: blockMemberRequest.status,
         };
-        return this.networkLibrary.makeAuthenticatedRequest<BlockMember>(`${environment.apiUrl}${API.CHATROOM_DM_BLOCK}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<BlockMemberResponse>(`${environment.apiUrl}${API.CHATROOM_DM_BLOCK}`, {
             method: 'POST',
             data: params,
         });
     }
 
-    checkDMTab() {
-        return this.networkLibrary.makeAuthenticatedRequest<CheckDMTab>(`${environment.apiUrl}${API.HOME_DM_META}`);
+    checkDMTab(): Promise<LMResponse<CheckDMTabResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<CheckDMTabResponse>(`${environment.apiUrl}${API.HOME_DM_META}`);
     }
-
-    // ******************
 
     getDMFeed(cid: CID): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.FETCH_DM_FEED}?community_id=${cid.community_id}`);

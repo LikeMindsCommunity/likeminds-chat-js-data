@@ -5,9 +5,9 @@ import { Conversation } from '../interfaces/Conversation';
 import { Member } from '../interfaces/Member';
 import { Poll } from '../interfaces/Poll';
 import { Reaction } from '../interfaces/Reaction';
+import { Widget } from '../interfaces/Widgets';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export interface GetConversation {
+export interface SyncConversationResponse {
     chatroomMeta: Record<string, Chatroom>;
     chatroomReactionsMeta: Reaction[];
     communityMeta: Community;
@@ -17,5 +17,5 @@ export interface GetConversation {
     conversationsData: Conversation[];
     userMeta: Record<string, Member>;
     conversationMeta: Record<number | string, Conversation>;
-    widgets: Record<string, any>;
+    widgets: Record<string, Widget>;
 }

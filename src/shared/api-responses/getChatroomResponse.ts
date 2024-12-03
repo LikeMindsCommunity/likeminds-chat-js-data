@@ -1,14 +1,13 @@
 import { Chatroom } from '../interfaces/Chatroom';
-import { ChatroomActions } from '../interfaces/ChatroomActions';
+import { ChatroomAction } from '../interfaces/ChatroomActions';
 import { Community } from '../interfaces/Community';
 
-export interface GetChatroom {
+export interface GetChatroomResponse {
     canAccessSecretChatroom: boolean | undefined;
     chatroom: Chatroom;
-    chatroomActions: ChatroomActions[];
+    chatroomActions: ChatroomAction[];
     community: Community;
     lastConversationId: number;
     participantCount: number;
     unreadMessages: number;
-    // widgets: any;
 }

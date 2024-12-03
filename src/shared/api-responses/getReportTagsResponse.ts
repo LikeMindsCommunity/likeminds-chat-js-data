@@ -1,5 +1,5 @@
-import { ReportTagObject } from '../interfaces/ReportTagObject';
+import { ReportTag } from '../interfaces/ReportTagObject';
 
-export interface GetReportTags {
-    reportTags: ReportTagObject[];
+export interface GetReportTagsResponse {
+    reportTags: ReportTag[];
 }

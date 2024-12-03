@@ -1,5 +1,5 @@
 // ChatroomActions Interface
-export interface ChatroomActions {
+export interface ChatroomAction {
     id: number;
     title: string;
 }

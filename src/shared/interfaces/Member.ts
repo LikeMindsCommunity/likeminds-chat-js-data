@@ -2,7 +2,7 @@ import { MemberRole } from '../enums/Roles';
 import { Question } from './Question';
 
 // MemberActions Interface
-export interface MemberActions {
+export interface MemberAction {
     title: string;
     route: string;
 }
@@ -12,7 +12,6 @@ export interface SDKClientInfo {
     user: string;
     userUniqueId: string;
     uuid: string;
-    communityId?: number;
     community?: number;
 }
 
@@ -31,7 +30,7 @@ export interface Member {
     communityName?: string;
     isOwner: boolean;
     customTitle?: string;
-    menu?: MemberActions[];
+    menu?: MemberAction[];
     communityId?: number;
     chatroomId?: number;
     route?: string;

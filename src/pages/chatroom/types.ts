@@ -1,7 +1,7 @@
 import { Attachment } from '../../shared/interfaces/Attachment';
 
 export declare type GetChatroomRequest = {
-    chatroomId: any;
+    chatroomId: number;
     page?: number;
     apiType?: number;
 };
@@ -46,14 +46,18 @@ export declare type GetTaggingListRequest = {
     isSecret?: boolean;
 };
 
-// Depriciated type
+/**
+ * Interface for getConversations.
+ *
+ * @deprecated Use the new {@link GetConversationsRequest} interface instead.
+ */
 export declare type Conversation = {
     chatroomID: number;
     conversationID?: number;
     scrollDirection?: number;
-    paginateBy: any;
-    topNavigate: any;
-    temporaryID?: any;
+    paginateBy: number;
+    topNavigate: boolean;
+    temporaryID?: number;
     include: boolean;
 };
 export declare type GetConversationsRequest = {

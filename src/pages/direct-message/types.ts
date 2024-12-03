@@ -7,7 +7,7 @@ export declare type FetchDMFeedRequest = {
 };
 
 export declare type CheckDMStatusRequest = {
-    requestFrom: any;
+    requestFrom: string;
     uuid?: string;
 };
 
@@ -27,7 +27,7 @@ export declare type CreateDMChatroomWithUuidRequest = {
     uuid: number | string;
 };
 
-export declare type SendDMRequestRequest = {
+export declare type SendDMRequest = {
     chatroomId: number;
     chatRequestState: number;
     text?: string;

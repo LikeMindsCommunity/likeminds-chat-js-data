@@ -52,6 +52,5 @@ export interface Conversation {
     deletedByUserId?: string;
     userId?: string;
     cardId?: string;
-    isInProgress?: string;
     widgetId?: string;
 }

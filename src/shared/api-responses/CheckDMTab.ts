@@ -1,4 +1,4 @@
-export interface CheckDMTab {
+export interface CheckDMTabResponse {
     hideDmTab: boolean;
     isCm: boolean;
     unreadDmCount: number;

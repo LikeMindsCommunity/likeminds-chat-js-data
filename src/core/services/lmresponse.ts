@@ -1,4 +1,3 @@
-import LMResponseType from '../../LMResponse';
 import { ModelConverter } from '../../utils/ModelConverter';
 
 class LMResponse<T> {
@@ -6,7 +5,7 @@ class LMResponse<T> {
     public errorMessage: string | null;
     public success: boolean;
 
-    constructor(responseObjectFromServer: LMResponseType<T>, errorMessage: string | null, success: boolean) {
+    constructor(responseObjectFromServer: { data: T }, errorMessage: string | null, success: boolean) {
         const responseData = ModelConverter.responseBodyParser<T>(responseObjectFromServer.data);
 
         this.data = responseData;

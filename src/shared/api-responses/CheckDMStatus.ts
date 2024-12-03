@@ -1,4 +1,4 @@
-export interface CheckDMStatus {
+export interface CheckDMStatusResponse {
     cta: string;
     showDm: boolean;
 }

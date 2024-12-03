@@ -1,5 +1,5 @@
 import { Conversation } from '../interfaces/Conversation';
 
-export interface DeleteConversation {
+export interface DeleteConversationResponse {
     conversations: Conversation[];
 }

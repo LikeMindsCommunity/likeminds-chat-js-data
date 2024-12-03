@@ -4,13 +4,13 @@ import { Device, GetHomeFeedRequest, IaType, INVITE, Participant } from './types
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../utils/firebase';
 import { environment } from 'src/environment';
-
 import { Base } from 'src/base';
-import { GetHomeFeed } from '../../shared/api-responses/getChatroomSync';
+import { SyncChatroomResponse } from '../../shared/api-responses/getChatroomSync';
+import LMResponse from '../../core/services/lmresponse';
 
 export class HomeFeedClient extends Base {
-    getHomeFeed(getHomeFeedRequest: GetHomeFeedRequest) {
-        return this.networkLibrary.makeAuthenticatedRequest<GetHomeFeed>(
+    getHomeFeed(getHomeFeedRequest: GetHomeFeedRequest): Promise<LMResponse<SyncChatroomResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<SyncChatroomResponse>(
             `${environment.apiUrl}${API.CHATROOM_SYNC}?page=${getHomeFeedRequest.page}&page_size=${getHomeFeedRequest.pageSize}&chatroom_types=${getHomeFeedRequest.chatroomTypes}&max_timestamp=${getHomeFeedRequest.maxTimestamp}&min_timestamp=${getHomeFeedRequest.minTimestamp}`
         );
     }

@@ -1,6 +1,6 @@
 import { Member } from '../interfaces/Member';
 
-export interface AddPollOption {
+export interface AddPollOptionResponse {
     poll: {
         id: number;
     };
