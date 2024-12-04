@@ -15,7 +15,7 @@ import {
     MuteChatroomRequest,
     ShareChatroomRequest,
     SetChatroomRequest,
-    Conversation,
+    GetConversationRequest,
     PostConversationRequest,
     EditConversationRequest,
     DeleteConversationRequest,
@@ -52,6 +52,7 @@ import { ViewParticipantsResponse } from '../../shared/api-responses/viewPartici
 import { GetAIChatbotsResponse } from '../../shared/api-responses/GetAIChatbotsResponse';
 import LMResponse from '../../core/services/lmresponse';
 import { GetReportTagsResponse } from '../../shared/api-responses/getReportTagsResponse';
+import { GetConversationsResponse } from '../../shared/api-responses/GetConversationResponse';
 
 // Chatroom.ts
 export class ChatroomData extends Base {
@@ -148,28 +149,25 @@ export class ChatroomData extends Base {
         }
     }
 
-    /**
-     * @deprecated Use the new {@link getConversations} method instead.
-     */
-    getConversation(conversation: Conversation) {
+    getConversation(conversation: GetConversationRequest) {
         if (conversation.scrollDirection) {
-            return this.networkLibrary.makeAuthenticatedRequest<SyncConversationResponse>(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
             );
         } else if (conversation.conversationID && !conversation.scrollDirection) {
-            return this.networkLibrary.makeAuthenticatedRequest<SyncConversationResponse>(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
             );
         } else if (conversation.conversationID) {
-            return this.networkLibrary.makeAuthenticatedRequest<SyncConversationResponse>(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
             );
         } else if (conversation.temporaryID) {
-            return this.networkLibrary.makeAuthenticatedRequest<SyncConversationResponse>(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&temporary_id=${conversation.temporaryID}`
             );
         } else {
-            return this.networkLibrary.makeAuthenticatedRequest<SyncConversationResponse>(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}`
             );
         }

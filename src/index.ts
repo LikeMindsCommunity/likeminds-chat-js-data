@@ -41,16 +41,21 @@ import { GetPollUsersResponse } from './shared/api-responses/GetPollUsers';
 import { GetReportTagsResponse } from './shared/api-responses/getReportTagsResponse';
 import { SyncConversationResponse } from './shared/api-responses/getSyncConversationsResponse';
 import { GetTaggingListResponse } from './shared/api-responses/getTaggingListResponse';
-import { ValidateUser } from './shared/api-responses/initiateUserResponse';
+import { ValidateUserResponse } from './shared/api-responses/initiateUserResponse';
 import { PostConversationResponse } from './shared/api-responses/postConversationResponse';
 import { SearchChatroomsResponse } from './shared/api-responses/SearchChatroom';
 import { SearchConversationsResponse } from './shared/api-responses/SearchConversation';
 import { SendDMRequestResponse } from './shared/api-responses/SendDMRequest';
 import { ViewParticipantsResponse } from './shared/api-responses/viewParticipants';
-import LMResponseType from './LMResponse';
+
 import { ConversationState } from './shared/enums/conversationstate';
 import { MemberRole } from './shared/enums/Roles';
 import { GetAIChatbotsResponse } from './shared/api-responses/GetAIChatbotsResponse';
+
+import LMResponse from './core/services/lmresponse';
+import { InitiateUserResponse } from './pages/user/responseModels/InitiateUserResponse';
+import { GetConversationsResponse } from './shared/api-responses/GetConversationResponse';
+import { Widget } from './shared/interfaces/Widgets';
 class SDKBuilder {
     xPlatformCode: string;
     xVersionCode: number;
@@ -103,10 +108,6 @@ class LMChatClient extends Base {
         return this.networkLibrary;
     }
 
-    static setLMSDKCallbacks(callback: LMSDKCallbacks) {
-        this.lmsCallbacks = callback;
-    }
-
     static setPlatformCode(xPlatformCode: string): SDKBuilder {
         this.xPlatformCode = xPlatformCode;
         if (xPlatformCode === 'rt') {
@@ -137,31 +138,33 @@ class LMChatClient extends Base {
 
 export default LMChatClient;
 export {
-    AddPollOptionResponse as AddPollOption,
-    BlockMemberResponse as BlockMember,
-    CheckDMLimitResponse as CheckDMLimit,
-    CheckDMStatusResponse as CheckDMStatus,
-    CheckDMTabResponse as CheckDMTab,
-    CreateDMChatroomResponse as CreateDMChatroom,
-    DeleteConversationResponse as DeleteConversation,
-    EditConversationResponse as EditConversation,
-    GetChatroomResponse as GetChatroom,
-    SyncChatroomResponse as GetHomeFeed,
-    GetExploreFeedResponse as GetExploreChatrooms,
-    GetMemberStateResponse as GetMemberState,
-    DecodeURLResponse as GetOgTag,
-    GetPollUsersResponse as GetPollUsers,
-    GetReportTagsResponse as GetReportTags,
-    SyncConversationResponse as GetConversation,
-    GetTaggingListResponse as GetTaggingList,
-    ValidateUser,
-    PostConversationResponse as PostConversation,
-    SearchChatroomsResponse as SearchChatrooms,
-    SearchConversationsResponse as SearchConversations,
-    SendDMRequestResponse as SendDMRequest,
-    ViewParticipantsResponse as ViewParticipants,
-    LMResponseType as LMResponseType,
+    AddPollOptionResponse,
+    BlockMemberResponse,
+    CheckDMLimitResponse,
+    CheckDMStatusResponse,
+    CheckDMTabResponse,
+    CreateDMChatroomResponse,
+    DeleteConversationResponse,
+    EditConversationResponse,
+    GetChatroomResponse,
+    SyncChatroomResponse,
+    GetExploreFeedResponse,
+    GetMemberStateResponse,
+    DecodeURLResponse,
+    GetPollUsersResponse,
+    GetReportTagsResponse,
+    SyncConversationResponse,
+    GetTaggingListResponse,
+    ValidateUserResponse,
+    InitiateUserResponse,
+    PostConversationResponse,
+    SearchChatroomsResponse,
+    SearchConversationsResponse,
+    SendDMRequestResponse,
+    ViewParticipantsResponse,
+    LMResponse,
     GetAIChatbotsResponse,
+    GetConversationsResponse,
 };
 export {
     LMSDKCallbacks,
@@ -169,7 +172,7 @@ export {
     Attachment,
     AttachmentMeta,
     Chatroom,
-    ChatroomAction as ChatroomActions,
+    ChatroomAction,
     Cohort,
     Community,
     Conversation,
@@ -178,10 +181,10 @@ export {
     Poll,
     Question,
     Reaction,
-    ReportTag as ReportTagObject,
+    ReportTag,
     SDKClientInfo,
-    MemberAction as MemberActions,
-
+    MemberAction,
+    Widget,
     // Enums
     MemberRole,
     ConversationState,

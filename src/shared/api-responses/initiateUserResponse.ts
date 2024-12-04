@@ -7,4 +7,3 @@ export interface ValidateUserResponse {
     hasAnswers: boolean;
     user: Member;
 }
-export interface ValidateUser extends ValidateUserResponse {}

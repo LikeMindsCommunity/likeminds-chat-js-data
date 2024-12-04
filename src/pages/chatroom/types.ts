@@ -46,12 +46,7 @@ export declare type GetTaggingListRequest = {
     isSecret?: boolean;
 };
 
-/**
- * Interface for getConversations.
- *
- * @deprecated Use the new {@link GetConversationsRequest} interface instead.
- */
-export declare type Conversation = {
+export declare type GetConversationRequest = {
     chatroomID: number;
     conversationID?: number;
     scrollDirection?: number;
