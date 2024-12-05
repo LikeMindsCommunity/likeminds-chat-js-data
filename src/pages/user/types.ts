@@ -1,4 +1,4 @@
-export declare type InitiateUserRequest = {
+export declare type InitUser = {
     isGuest: boolean;
     userUniqueId: string;
     userName?: string;
@@ -7,7 +7,7 @@ export declare type InitiateUserRequest = {
     rtmTokenExpiryBeta?: number;
 };
 
-export declare type ValidateUserRequest = {
+export declare type ValidateUser = {
     accessToken: string;
     refreshToken: string;
     tokenExpiryBeta?: number;
@@ -24,12 +24,12 @@ export declare type InitUserWithUuid = {
     rtmTokenExpiryBeta?: number;
 };
 
-export declare type GetProfileRequest = {
-    userId: number;
+export declare type GetProfile = {
+    userId: any;
 };
-export declare type GetMemberChatroomRequest = {
-    userId: number;
-    state: number;
+export declare type GetMemberChatroom = {
+    userId: any;
+    state: any;
     page: number;
 };
 
@@ -40,16 +40,16 @@ export declare type EditProfile = {
     name?: string;
 };
 
-export declare type GetAllMembersRequest = {
+export declare type GetAllMembers = {
     chatroomId?: number;
-    memberState?: number;
+    memberState?: any;
     page: number;
 };
-export declare type LogoutRequest = {
-    refreshToken: string;
+export declare type Logout = {
+    refreshToken: any;
 };
 
-export declare type LeaveCommunityRequest = {
+export declare type LeaveCommunity = {
     uuids: string[];
 };
 
@@ -76,5 +76,5 @@ export declare type Search = {
     searchType: string;
     page: number;
     pageSize: number;
-    memberStates?: string[] | string;
+    memberStates?: any;
 };

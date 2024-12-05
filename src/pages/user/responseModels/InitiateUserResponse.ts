@@ -1,18 +1,11 @@
-import { Community } from '../../../shared/interfaces/Community';
-import { Member } from '../../../shared/interfaces/Member';
+import { Community } from 'src/shared/responseModels/Community';
+import { User } from 'src/shared/responseModels/User';
 
 export interface InitiateUserResponse {
     community: Community;
     accessToken: string;
     refreshToken: string;
-    user: Member;
+    user: User;
     appAccess: boolean;
     hasAnswers?: boolean;
-}
-
-export interface ValidateUserResponse {
-    appAccess: boolean;
-    community: Community;
-    hasAnswers: boolean;
-    user: Member;
 }

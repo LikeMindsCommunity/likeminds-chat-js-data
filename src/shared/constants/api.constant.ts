@@ -52,5 +52,4 @@ export const API = {
     CONVERSATION_POLL_SUBMIT: '/conversation/poll/submit',
     CHATROOM_SYNC: '/chatroom/sync',
     CONVERSATION_SYNC: '/conversation/sync',
-    COMMUNITY_CHATBOT: '/community/chatbot',
 };

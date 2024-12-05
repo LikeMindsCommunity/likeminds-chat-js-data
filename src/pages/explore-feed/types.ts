@@ -1,4 +1,4 @@
-export declare type GetExploreFeedRequest = {
+export declare type ExploreFeedData = {
     orderType: number;
     page: number;
 };
