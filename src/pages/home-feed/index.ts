@@ -1,18 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { API } from '../../shared/constants/api.constant';
 import { Device, GetHomeFeedRequest, IaType, INVITE, Participant } from './types';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../utils/firebase';
 import { environment } from 'src/environment';
-// import NetworkLibrary from 'src/core/services/networklibrary';
 import { Base } from 'src/base';
-// import TokenManager from 'src/core/services/tokenmanager';
+import { SyncChatroomResponse } from '../../shared/api-responses/getChatroomSync';
+import LMResponse from '../../core/services/lmresponse';
 
 export class HomeFeedClient extends Base {
-    // public networkLibrary = new NetworkLibrary();
-    // public tokenManager = new TokenManager();
-
-    getHomeFeed(getHomeFeedRequest: GetHomeFeedRequest): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
+    getHomeFeed(getHomeFeedRequest: GetHomeFeedRequest): Promise<LMResponse<SyncChatroomResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<SyncChatroomResponse>(
             `${environment.apiUrl}${API.CHATROOM_SYNC}?page=${getHomeFeedRequest.page}&page_size=${getHomeFeedRequest.pageSize}&chatroom_types=${getHomeFeedRequest.chatroomTypes}&max_timestamp=${getHomeFeedRequest.maxTimestamp}&min_timestamp=${getHomeFeedRequest.minTimestamp}`
         );
     }

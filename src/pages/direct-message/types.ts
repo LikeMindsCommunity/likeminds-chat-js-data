@@ -6,24 +6,24 @@ export declare type FetchDMFeedRequest = {
     minTimestamp: number;
 };
 
-export declare type CheckDMStatus = {
-    requestFrom: any;
+export declare type CheckDMStatusRequest = {
+    requestFrom: string;
     uuid?: string;
 };
 
-export declare type CheckDMLimit = {
+export declare type CheckDMLimitRequest = {
     memberId: number;
 };
 
-export declare type CheckDMLimitWithUuid = {
+export declare type CheckDMLimitWithUuidRequest = {
     uuid: string | number;
 };
 
-export declare type CreateDMChatroom = {
+export declare type CreateDMChatroomRequest = {
     memberId: number;
 };
 
-export declare type CreateDMChatroomWithUuid = {
+export declare type CreateDMChatroomWithUuidRequest = {
     uuid: number | string;
 };
 
@@ -33,7 +33,7 @@ export declare type SendDMRequest = {
     text?: string;
 };
 
-export declare type BlockMember = {
+export declare type BlockMemberRequest = {
     chatroomId: number;
     status: number;
 };
