@@ -2,6 +2,12 @@ import { Chatroom } from '../interfaces/Chatroom';
 import { Community } from '../interfaces/Community';
 import { Conversation } from '../interfaces/Conversation';
 
+/**
+ * The Interface for fetching homefeed
+ *
+ * @deprecated Use the new {@link SyncChatroomResponse} base class instead.
+ */
+
 export interface GetChatroomMineResponse {
     success: boolean;
     data: {
@@ -12,6 +18,12 @@ export interface GetChatroomMineResponse {
         unseenChatroomCount: number;
     };
 }
+
+/**
+ * The Interface for current Chatrooms data
+ *
+ * @deprecated
+ */
 
 export interface ChatroomsData {
     chatroom: Chatroom;
