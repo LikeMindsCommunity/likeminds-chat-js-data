@@ -1,4 +1,4 @@
-export declare type InitUser = {
+export declare type InitiateUserRequest = {
     isGuest: boolean;
     userUniqueId: string;
     userName?: string;
@@ -7,7 +7,7 @@ export declare type InitUser = {
     rtmTokenExpiryBeta?: number;
 };
 
-export declare type ValidateUser = {
+export declare type ValidateUserRequest = {
     accessToken: string;
     refreshToken: string;
     tokenExpiryBeta?: number;

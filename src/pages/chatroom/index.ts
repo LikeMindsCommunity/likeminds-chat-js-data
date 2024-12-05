@@ -53,6 +53,7 @@ import { GetAIChatbotsResponse } from '../../shared/api-responses/GetAIChatbotsR
 import LMResponse from '../../core/services/lmresponse';
 import { GetReportTagsResponse } from '../../shared/api-responses/getReportTagsResponse';
 import { GetConversationsResponse } from '../../shared/api-responses/GetConversationResponse';
+import { ShareChatrooomResponse } from '../../shared/api-responses/ShareChatroom';
 
 // Chatroom.ts
 export class ChatroomData extends Base {
@@ -108,18 +109,18 @@ export class ChatroomData extends Base {
         });
     }
 
-    shareChatroomUrl(shareChatroomRequest: ShareChatroomRequest) {
-        return this.networkLibrary.makeAuthenticatedRequest(
+    shareChatroomUrl(shareChatroomRequest: ShareChatroomRequest): Promise<LMResponse<ShareChatrooomResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<ShareChatrooomResponse>(
             `${environment.apiUrl}${API.CHATROOM_SHARED}?chatroom_id=${shareChatroomRequest.chatroomId}&domain=${shareChatroomRequest.domain}`
         );
     }
 
-    setChatroomTopic(setChatroomRequest: SetChatroomRequest) {
+    setChatroomTopic(setChatroomRequest: SetChatroomRequest): Promise<LMResponse<Nothing>> {
         const params = {
             chatroom_id: setChatroomRequest.chatroomId,
             conversation_id: setChatroomRequest.conversationId,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_TOPIC}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CONVERSATION_TOPIC}`, {
             method: 'PUT',
             data: params,
         });
@@ -149,7 +150,7 @@ export class ChatroomData extends Base {
         }
     }
 
-    getConversation(conversation: GetConversationRequest) {
+    getConversation(conversation: GetConversationRequest): Promise<LMResponse<GetConversationsResponse>> {
         if (conversation.scrollDirection) {
             return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
@@ -302,7 +303,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    leaveSecretChatroom(leaveSecretChatroomRequest: LeaveSecretChatroomRequest) {
+    leaveSecretChatroom(leaveSecretChatroomRequest: LeaveSecretChatroomRequest): Promise<LMResponse<Nothing>> {
         const params = {
             chatroom_id: leaveSecretChatroomRequest.chatroomId,
             is_secret: leaveSecretChatroomRequest?.isSecret,
@@ -400,6 +401,15 @@ export class ChatroomData extends Base {
         );
     }
 
+    /**
+     * Fetches a list of AI chatbots for a community.
+     *
+     * @param {GetAIChatbotsRequest} getAIChatbotsRequest - The request object containing pagination details.
+     * @param {number} getAIChatbotsRequest.page - The page number to fetch.
+     * @param {number} [getAIChatbotsRequest.pageSize=10] - The number of items per page (default is 10).
+     *
+     * @returns {Promise<LMResponse<GetAIChatbotsResponse>>} A promise that resolves to the response containing the list of AI chatbots.
+     */
     getAIChatbots(getAIChatbotsRequest: GetAIChatbotsRequest): Promise<LMResponse<GetAIChatbotsResponse>> {
         const { page, pageSize = 10 } = getAIChatbotsRequest;
         return this.networkLibrary.makeAuthenticatedRequest<GetAIChatbotsResponse>(

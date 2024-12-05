@@ -8,9 +8,9 @@ import LMResponse from '../../core/services/lmresponse';
 
 // Search.ts
 export class Search extends Base {
-    searchChatroom(searchType: SearchType): Promise<LMResponse<SearchChatroomsResponse>> {
+    searchChatroom(searchChatroomRequest: SearchType): Promise<LMResponse<SearchChatroomsResponse>> {
         return this.networkLibrary.makeAuthenticatedRequest<SearchChatroomsResponse>(
-            `${environment.apiUrl}${API.SEARCH_CHATROOM}?follow_status=${searchType.followStatus}&page=${searchType.page}&page_size=${searchType.pageSize}&search=${searchType.search}&search_type=${searchType.searchType}`
+            `${environment.apiUrl}${API.SEARCH_CHATROOM}?follow_status=${searchChatroomRequest.followStatus}&page=${searchChatroomRequest.page}&page_size=${searchChatroomRequest.pageSize}&search=${searchChatroomRequest.search}&search_type=${searchChatroomRequest.searchType}`
         );
     }
 

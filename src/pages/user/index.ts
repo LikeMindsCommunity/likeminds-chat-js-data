@@ -5,13 +5,13 @@ import {
     GetAllMembersRequest,
     GetMemberChatroomRequest,
     GetProfileRequest,
-    InitUser,
+    InitiateUserRequest,
     InitUserWithUuid,
     LeaveCommunityRequest,
     LogoutRequest,
     Search,
     USERTYPE,
-    ValidateUser,
+    ValidateUserRequest,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
@@ -22,7 +22,7 @@ import LMResponse from '../../core/services/lmresponse';
 export class Member extends Base {
     // networkLibrary = new NetworkLibrary();
 
-    public async validateUser(validateUserRequest: ValidateUser): Promise<LMResponse<ValidateUserResponse>> {
+    public async validateUser(validateUserRequest: ValidateUserRequest): Promise<LMResponse<ValidateUserResponse>> {
         this.networkLibrary.setAccessToken(validateUserRequest.accessToken);
         this.networkLibrary.setRefreshToken(validateUserRequest.refreshToken);
         const params = {
@@ -37,7 +37,7 @@ export class Member extends Base {
         });
     }
 
-    public initiateUser(initiateUserRequest: InitUser): Promise<LMResponse<InitiateUserResponse>> {
+    public initiateUser(initiateUserRequest: InitiateUserRequest): Promise<LMResponse<InitiateUserResponse>> {
         const params = {
             api_key: initiateUserRequest?.apiKey,
             is_guest: initiateUserRequest?.isGuest,

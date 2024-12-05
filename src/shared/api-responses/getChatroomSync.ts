@@ -5,6 +5,7 @@ import { Chatroom } from '../interfaces/Chatroom';
 import { Community } from '../interfaces/Community';
 import { Conversation } from '../interfaces/Conversation';
 import { Member } from '../interfaces/Member';
+import { Widget } from '../interfaces/Widgets';
 
 export interface SyncChatroomResponse {
     cardAttachmentsMeta: Record<string, AttachmentMeta[]>;
@@ -13,4 +14,5 @@ export interface SyncChatroomResponse {
     convAttachmentsMeta: Record<string, AttachmentMeta[]>;
     conversationMeta: Record<string, Conversation>;
     userMeta: Record<string, Member>;
+    widgets: Record<string, Widget>;
 }
