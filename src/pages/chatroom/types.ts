@@ -1,41 +1,43 @@
-export declare type Chatroom = {
-    chatroomId: any;
+import { Attachment } from '../../shared/interfaces/Attachment';
+
+export declare type GetChatroomRequest = {
+    chatroomId: number;
     page?: number;
     apiType?: number;
 };
 
-export declare type FollowChatroom = {
+export declare type FollowChatroomRequest = {
     collabcardId: number;
     memberId: number;
     value: boolean;
 };
 
-export declare type FollowChatroomWithUuid = {
+export declare type FollowChatroomWithUuidRequest = {
     collabcardId: number;
     uuid: number | string;
     value: boolean;
 };
 
-export declare type MuteChatroom = {
+export declare type MuteChatroomRequest = {
     chatroomId: number;
     value: boolean;
 };
 
-export declare type MarkRead = {
+export declare type MarkReadRequest = {
     chatroomId: number;
 };
 
-export declare type ShareChatroom = {
+export declare type ShareChatroomRequest = {
     chatroomId: number;
     domain: string;
 };
 
-export declare type SetChatroom = {
+export declare type SetChatroomRequest = {
     chatroomId: number;
     conversationId: number;
 };
 
-export declare type TaggingList = {
+export declare type GetTaggingListRequest = {
     page: number;
     pageSize: number;
     searchName: string;
@@ -44,13 +46,13 @@ export declare type TaggingList = {
     isSecret?: boolean;
 };
 
-export declare type Conversation = {
+export declare type GetConversationRequest = {
     chatroomID: number;
     conversationID?: number;
     scrollDirection?: number;
-    paginateBy: any;
-    topNavigate: any;
-    temporaryID?: any;
+    paginateBy: number;
+    topNavigate: boolean;
+    temporaryID?: number;
     include: boolean;
 };
 export declare type GetConversationsRequest = {
@@ -64,36 +66,37 @@ export declare type GetConversationsRequest = {
     excludedConversationStates?: [];
 };
 
-export declare type PostConversation = {
+export declare type PostConversationRequest = {
     chatroomId: number;
     temporaryId?: number | string;
     text: string;
     hasFiles: boolean;
-    attachmentCount?: number;
     repliedConversationId?: number | string;
     shareLink?: string;
     ogTags?: any;
     metadata?: Record<string, any> | string | null;
+    attachments?: Attachment[];
+    triggerBot?: boolean;
 };
-export declare type EditConversation = {
+export declare type EditConversationRequest = {
     conversationId: number | string;
     text: string;
     shareLink?: string;
     ogTags?: any;
 };
 
-export declare type DeleteConversation = {
+export declare type DeleteConversationRequest = {
     conversationIds: any;
     reason: any;
 };
 
-export declare type PutReaction = {
+export declare type PutReactionRequest = {
     chatroomId?: number;
     conversationId: number;
     reaction: any;
 };
 
-export declare type DeleteReaction = {
+export declare type DeleteReactionRequest = {
     chatroomId: number;
     conversationId: number;
     reaction: any;
@@ -119,21 +122,21 @@ export declare type PutMultimedia = {
     thumbnailUrl?: string;
 };
 
-export declare type DecodeUrl = {
+export declare type GetDecodeUrlRequest = {
     url: string;
 };
 
-export declare type PostPollConversation = {
+export declare type PostPollConversationRequest = {
     chatroomId: number;
     state: number;
     repliedConversationId: number;
-    polls: any;
-    pollType: any;
-    multipleSelectState: any;
-    multipleSelectNo: any;
-    isAnonymous: any;
-    allowAddOption: any;
-    expiryTime: any;
+    polls: { text: string }[];
+    pollType: number;
+    multipleSelectState: number;
+    multipleSelectNo: number;
+    isAnonymous: boolean;
+    allowAddOption: boolean;
+    expiryTime: number;
 };
 // EditConversation ?????????
 
@@ -165,11 +168,11 @@ export declare type TaggingListOld = {
     chatroom_id: string | number;
 };
 
-export declare type GetReportTags = {
+export declare type GetReportTagsRequest = {
     type: number;
 };
 
-export declare type PushReport = {
+export declare type PushReportRequest = {
     tagId: number;
     reason?: string;
     conversationId?: number;
@@ -186,7 +189,7 @@ export declare type LeaveSC = {
     member_id: number;
 };
 
-export declare type LeaveSecretChatroom = {
+export declare type LeaveSecretChatroomRequest = {
     chatroomId: number;
     isSecret: boolean;
 };
@@ -196,7 +199,7 @@ export declare type Profile = {
     member_id: number;
 };
 
-export declare type GetParticipantsType = {
+export declare type GetParticipantsRequest = {
     chatroomID: number;
     isSecret: boolean;
     page?: number;
@@ -204,7 +207,7 @@ export declare type GetParticipantsType = {
     searchKey?: string;
 };
 
-export declare type ParticipantsType = {
+export declare type ViewParticipantsRequest = {
     chatroomId: number;
     isSecret: boolean;
     page?: number;
@@ -233,4 +236,9 @@ export declare type ChatroomSeenWithUuid = {
 export declare type DMSG = {
     conversation_ids: any;
     reason?: string;
+};
+
+export type GetAIChatbotsRequest = {
+    page: number;
+    pageSize: number;
 };

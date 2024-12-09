@@ -1,21 +1,22 @@
-import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
-import { SearchConversation, SearchType } from './types';
+import { SearchConversationRequest, SearchType } from './types';
 import { environment } from 'src/environment';
 import { Base } from 'src/base';
+import { SearchChatroomsResponse } from '../../shared/api-responses/SearchChatroom';
+import { SearchConversationsResponse } from '../../shared/api-responses/SearchConversation';
+import LMResponse from '../../core/services/lmresponse';
 
 // Search.ts
 export class Search extends Base {
-    // public networkLibrary = new NetworkLibrary();
-    searchChatroom(searchType: SearchType): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.SEARCH_CHATROOM}?follow_status=${searchType.followStatus}&page=${searchType.page}&page_size=${searchType.pageSize}&search=${searchType.search}&search_type=${searchType.searchType}`
+    searchChatroom(searchChatroomRequest: SearchType): Promise<LMResponse<SearchChatroomsResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<SearchChatroomsResponse>(
+            `${environment.apiUrl}${API.SEARCH_CHATROOM}?follow_status=${searchChatroomRequest.followStatus}&page=${searchChatroomRequest.page}&page_size=${searchChatroomRequest.pageSize}&search=${searchChatroomRequest.search}&search_type=${searchChatroomRequest.searchType}`
         );
     }
 
-    searchConversation(searchConversation: SearchConversation): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.CONVERSATION_SEARCH}?chatroom_id=${searchConversation.chatroomId}&follow_status=${searchConversation.followStatus}&page=${searchConversation.page}&page_size=${searchConversation.pageSize}&search=${searchConversation.search}`
+    searchConversation(searchConversationRequest: SearchConversationRequest): Promise<LMResponse<SearchConversationsResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<SearchConversationsResponse>(
+            `${environment.apiUrl}${API.CONVERSATION_SEARCH}?chatroom_id=${searchConversationRequest.chatroomId}&follow_status=${searchConversationRequest.followStatus}&page=${searchConversationRequest.page}&page_size=${searchConversationRequest.pageSize}&search=${searchConversationRequest.search}`
         );
     }
 }

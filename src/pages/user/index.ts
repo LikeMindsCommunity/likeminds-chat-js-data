@@ -1,85 +1,66 @@
 // Index.user.class
-import NetworkLibrary from 'src/core/services/networklibrary';
 import { API } from '../../shared/constants/api.constant';
 import {
     EditProfile,
-    GetAllMembers,
-    GetMemberChatroom,
-    GetProfile,
-    InitUser,
+    GetAllMembersRequest,
+    GetMemberChatroomRequest,
+    GetProfileRequest,
+    InitiateUserRequest,
     InitUserWithUuid,
-    LeaveCommunity,
-    Logout,
+    LeaveCommunityRequest,
+    LogoutRequest,
     Search,
     USERTYPE,
-    ValidateUser,
+    ValidateUserRequest,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
-import LMResponse from 'src/core/services/lmresponse';
-import { InitiateUserResponse } from './responseModels/InitiateUserResponse';
-import { ModelConverter } from 'src/utils/ModelConverter';
+
+import { InitiateUserResponse, ValidateUserResponse } from './responseModels/InitiateUserResponse';
+import LMResponse from '../../core/services/lmresponse';
 
 export class Member extends Base {
     // networkLibrary = new NetworkLibrary();
 
-    public async validateUser(request: ValidateUser): Promise<any> {
-        this.networkLibrary.setAccessToken(request.accessToken);
-        this.networkLibrary.setRefreshToken(request.refreshToken);
+    public async validateUser(validateUserRequest: ValidateUserRequest): Promise<LMResponse<ValidateUserResponse>> {
+        this.networkLibrary.setAccessToken(validateUserRequest.accessToken);
+        this.networkLibrary.setRefreshToken(validateUserRequest.refreshToken);
         const params = {
-            access_token: request.accessToken,
-            refresh_token: request.refreshToken,
-            token_expiry_beta: request?.tokenExpiryBeta,
-            rtm_token_expiry_beta: request?.rtmTokenExpiryBeta,
+            access_token: validateUserRequest.accessToken,
+            refresh_token: validateUserRequest.refreshToken,
+            token_expiry_beta: validateUserRequest?.tokenExpiryBeta,
+            rtm_token_expiry_beta: validateUserRequest?.rtmTokenExpiryBeta,
         };
-
-        return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
-                method: 'GET',
-                data: params,
-            })
-            .then((resData: any) => {
-                // Handle the response and return the LMResponse object
-
-                return resData;
-            })
-            .catch((error) => {
-                return {
-                    success: false,
-                    errorMessage: error,
-                };
-            });
+        return this.networkLibrary.makeAuthenticatedRequest<ValidateUserResponse>(`${environment.apiUrl}${API.SDK_INITIATE}`, {
+            method: 'GET',
+            data: params,
+        });
     }
 
-    public initiateUser(initUser: InitUser): Promise<any> {
+    public initiateUser(initiateUserRequest: InitiateUserRequest): Promise<LMResponse<InitiateUserResponse>> {
         const params = {
-            api_key: initUser?.apiKey,
-            is_guest: initUser?.isGuest,
-            user_unique_id: initUser?.userUniqueId,
-            user_name: initUser?.userName,
-            token_expiry_beta: initUser?.tokenExpiryBeta,
-            rtm_token_expiry_beta: initUser?.rtmTokenExpiryBeta,
+            api_key: initiateUserRequest?.apiKey,
+            is_guest: initiateUserRequest?.isGuest,
+            user_unique_id: initiateUserRequest?.userUniqueId,
+            user_name: initiateUserRequest?.userName,
+            token_expiry_beta: initiateUserRequest?.tokenExpiryBeta,
+            rtm_token_expiry_beta: initiateUserRequest?.rtmTokenExpiryBeta,
         };
         this.networkLibrary.setApiKey(params.api_key);
         return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
+            .makeAuthenticatedRequest<InitiateUserResponse>(`${environment.apiUrl}${API.SDK_INITIATE}`, {
                 method: 'POST',
                 data: params,
             })
-            .then((resData: any) => {
+            .then((resData) => {
                 sessionStorage.setItem('iud', JSON.stringify(params));
 
-                const accessToken = resData?.data?.access_token;
+                const accessToken = resData?.data?.accessToken;
                 this.networkLibrary.setAccessToken(accessToken);
-                const refreshToken = resData?.data?.refresh_token;
+                const refreshToken = resData?.data?.refreshToken;
                 this.networkLibrary.setRefreshToken(refreshToken);
 
-                return { data: resData?.data, errorMessage: null, success: true };
-            })
-            .catch((error) => {
-                if (error?.response && error?.response?.status >= 500) {
-                    console.log({ data: null, errorMessage: error.error_message, success: false });
-                }
+                return resData;
             });
     }
 
@@ -92,26 +73,24 @@ export class Member extends Base {
         };
 
         return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.SDK_INITIATE}`, {
+            .makeAuthenticatedRequest<InitiateUserResponse>(`${environment.apiUrl}${API.SDK_INITIATE}`, {
                 method: 'POST',
                 data: params,
             })
-            .then((respData: any) => {
-                const accessToken = respData?.data?.access_token;
+            .then((respData) => {
+                const accessToken = respData?.data?.accessToken;
                 this.networkLibrary.setAccessToken(accessToken);
-                const refreshToken = respData?.data?.refresh_token;
+                const refreshToken = respData?.data?.refreshToken;
                 this.networkLibrary.setRefreshToken(refreshToken);
 
-                const convertedResp: InitiateUserResponse = ModelConverter.responseBodyParser(respData);
-
-                return new LMResponse<InitiateUserResponse>(convertedResp, null, true);
+                return respData;
             })
             .catch((error) => {
-                return new LMResponse<InitiateUserResponse>(null, error.message || 'An error occurred', false);
+                return error;
             });
     }
 
-    logout(logout: Logout): Promise<any> {
+    logout(logout: LogoutRequest): Promise<any> {
         const params = {
             refresh_token: logout.refreshToken,
         };
@@ -123,7 +102,7 @@ export class Member extends Base {
         });
     }
 
-    leaveCommunity(leaveCommunity: LeaveCommunity): Promise<any> {
+    leaveCommunity(leaveCommunity: LeaveCommunityRequest): Promise<any> {
         const params = {
             uuids: leaveCommunity.uuids,
         };
@@ -134,13 +113,13 @@ export class Member extends Base {
         });
     }
 
-    getProfile(getProfile: GetProfile): Promise<any> {
+    getProfile(getProfile: GetProfileRequest): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.COMMUNITY_MEMBER_PROFILE}?user_id=${getProfile.userId}`
         );
     }
 
-    getMemberChatroom(getMemberChatroom: GetMemberChatroom): Promise<any> {
+    getMemberChatroom(getMemberChatroom: GetMemberChatroomRequest): Promise<any> {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.COMMUNITY_MEMBER_CHATROOM}?user_id=${getMemberChatroom.userId}&state=${getMemberChatroom.state}&page=${getMemberChatroom.page}`
         );
@@ -181,7 +160,7 @@ export class Member extends Base {
         }
     }
 
-    getAllMembers(getAllMembers: GetAllMembers): Promise<any> {
+    getAllMembers(getAllMembers: GetAllMembersRequest): Promise<any> {
         if (getAllMembers.memberState) {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.COMMUNITY_MEMBERS}?member_state=${getAllMembers.memberState}&page=${getAllMembers.page}`
