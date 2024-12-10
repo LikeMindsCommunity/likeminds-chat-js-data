@@ -158,12 +158,9 @@ class NetworkLibrary {
                 // Access token expired, refresh the token and retry the request
                 if (url.includes('user/refresh')) {
                     const { accessToken, refreshToken } = await this.lmSdkCallbacks.onRefreshTokenExpired();
-                    // TODO expose functions for storing tokens from DL
-                    // done
+
                     this.tokenManager.setAccessToken(accessToken);
                     this.tokenManager.setRefreshToken(refreshToken);
-                    // TODO add tokens in local storage too
-                    // done
                     this.setAccessTokenInLocalStorage(accessToken);
                     this.setRefreshTokenInLocalStorage(refreshToken);
                 } else {

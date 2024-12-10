@@ -78,6 +78,9 @@ class TokenManager {
                     'x-platform-code': this.getPlatformCode(),
                     'x-version-code': this.getVersionCode(),
                 },
+                data: {
+                    token_expiry_beta: 1,
+                },
             };
 
             const response: any = await axios.post(url, {}, config);
@@ -87,17 +90,18 @@ class TokenManager {
             this.setAccessToken(access_token);
 
             if (this.xPlatformCode === 'rt') {
-                localStorage.setItem(TokenValues.LOCAL_ACCESS_TOKEN, access_token);
-                localStorage.setItem(TokenValues.LOCAL_REFRESH_TOKEN, refresh_token);
+                localStorage.setItem(TokenValues.LOCAL_ACCESS_TOKEN, this.accessToken);
+                localStorage.setItem(TokenValues.LOCAL_REFRESH_TOKEN, this.refreshToken);
             }
-            this.lmSdkCallback.onAccessTokenExpiredAndRefreshed(this.accessToken, this.refreshToken);
-            return access_token;
+            if (this.lmSdkCallback.onAccessTokenExpiredAndRefreshed) {
+                this.lmSdkCallback.onAccessTokenExpiredAndRefreshed(access_token, refresh_token);
+            }
         } catch (error) {
             console.error('Failed to refresh access token:', error);
             const { accessToken, refreshToken } = await this.lmSdkCallback.onRefreshTokenExpired();
-
             this.setAccessToken(accessToken);
             this.setRefreshToken(refreshToken);
+
             if (this.xPlatformCode === 'rt') {
                 localStorage.setItem(TokenValues.LOCAL_ACCESS_TOKEN, accessToken);
                 localStorage.setItem(TokenValues.LOCAL_REFRESH_TOKEN, refreshToken);
