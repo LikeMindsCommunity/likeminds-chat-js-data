@@ -90,7 +90,9 @@ class TokenManager {
                 localStorage.setItem(TokenValues.LOCAL_ACCESS_TOKEN, access_token);
                 localStorage.setItem(TokenValues.LOCAL_REFRESH_TOKEN, refresh_token);
             }
-            this.lmSdkCallback.onAccessTokenExpiredAndRefreshed(this.accessToken, this.refreshToken);
+            if (this.lmSdkCallback.onAccessTokenExpiredAndRefreshed) {
+                this.lmSdkCallback.onAccessTokenExpiredAndRefreshed(this.accessToken, this.refreshToken);
+            }
             return access_token;
         } catch (error) {
             console.error('Failed to refresh access token:', error);
