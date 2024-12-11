@@ -73,7 +73,7 @@ class NetworkLibrary {
         this.tokenManager.setPlatformCode(platFormCode);
     }
 
-    public setVersionCode(versionCode: any) {
+    public setVersionCode(versionCode: number) {
         this.tokenManager.setVersionCode(versionCode);
     }
 
@@ -112,7 +112,7 @@ class NetworkLibrary {
         };
 
         const initApi = url.includes('initiate');
-        const isRefreshRequest = url.includes('refresh');
+
         requestConfig.headers['Content-Type'] = 'application/json';
         // requestConfig.headers['x-platform-code'] = this.tokenManager.getPlatformCode();
         requestConfig.headers['x-version-code'] = this.tokenManager.getVersionCode();
@@ -151,19 +151,17 @@ class NetworkLibrary {
 
         try {
             const response = await this.makeRequest<{ data: T }>(url, requestConfig);
-            return new LMResponse<T>(response?.data?.data, null, true);
+            return new LMResponse<T>(response.data, null, true);
         } catch (error) {
             // if (error?.response && error?.response?.status === 401 && error?.response?.data?.error_message === 'Invalid LTM!') {
             if (error?.response && error?.response?.status === 401) {
                 // Access token expired, refresh the token and retry the request
                 if (url.includes('user/refresh')) {
                     const { accessToken, refreshToken } = await this.lmSdkCallbacks.onRefreshTokenExpired();
-                    // TODO expose functions for storing tokens from DL
-                    // done
+
                     this.tokenManager.setAccessToken(accessToken);
                     this.tokenManager.setRefreshToken(refreshToken);
-                    // TODO add tokens in local storage too
-                    // done
+
                     this.setAccessTokenInLocalStorage(accessToken);
                     this.setRefreshTokenInLocalStorage(refreshToken);
                 } else {
@@ -176,7 +174,7 @@ class NetworkLibrary {
                 // Retry the request
                 return this.makeRequest<{ data: T }>(url, updatedConfig)
                     .then((refreshedResponse) => {
-                        return new LMResponse<T>(refreshedResponse.data.data, null, true);
+                        return new LMResponse<T>(refreshedResponse.data, null, true);
                     })
                     .catch((error) => {
                         if (error?.response && error?.response?.status >= 500) {

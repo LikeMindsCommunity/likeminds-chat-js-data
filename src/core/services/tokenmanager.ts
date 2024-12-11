@@ -81,20 +81,19 @@ class TokenManager {
             };
 
             const response: any = await axios.post(url, {}, config);
-            const accessToken = response.data.data || response.data;
+            const { access_token, refresh_token } = response.data.data;
+            this.accessToken = access_token;
+            this.setRefreshToken(refresh_token);
+            this.setAccessToken(access_token);
 
-            this.accessToken = accessToken.access_token;
-            this.setRefreshToken(accessToken.refresh_token);
-            this.setAccessToken(accessToken.access_token);
-            this.setRefreshToken(accessToken.refresh_token);
-            this.setAccessToken(accessToken.access_token);
-            // TODO set tokens in local storage
             if (this.xPlatformCode === 'rt') {
-                localStorage.setItem(TokenValues.LOCAL_ACCESS_TOKEN, accessToken.access_token);
-                localStorage.setItem(TokenValues.LOCAL_REFRESH_TOKEN, accessToken.refresh_token);
+                localStorage.setItem(TokenValues.LOCAL_ACCESS_TOKEN, access_token);
+                localStorage.setItem(TokenValues.LOCAL_REFRESH_TOKEN, refresh_token);
             }
-            this.lmSdkCallback.onAccessTokenExpiredAndRefreshed(this.accessToken, this.refreshToken);
-            return accessToken.access_token;
+            if (this.lmSdkCallback.onAccessTokenExpiredAndRefreshed) {
+                this.lmSdkCallback.onAccessTokenExpiredAndRefreshed(this.accessToken, this.refreshToken);
+            }
+            return access_token;
         } catch (error) {
             console.error('Failed to refresh access token:', error);
             const { accessToken, refreshToken } = await this.lmSdkCallback.onRefreshTokenExpired();

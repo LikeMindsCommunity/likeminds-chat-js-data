@@ -3,344 +3,310 @@
 // import * as AWS from 'aws-sdk';
 import { API } from '../../shared/constants/api.constant';
 import {
-    Chatroom,
+    GetChatroomRequest,
     CHTYPE,
     CRSeen,
     Media,
-    ParticipantsType,
+    ViewParticipantsRequest,
     Profile,
-    MarkRead,
-    TaggingList,
-    FollowChatroom,
-    MuteChatroom,
-    ShareChatroom,
-    SetChatroom,
-    Conversation,
-    PostConversation,
-    EditConversation,
-    DeleteConversation,
-    PutReaction,
-    DeleteReaction,
+    MarkReadRequest,
+    GetTaggingListRequest,
+    FollowChatroomRequest,
+    MuteChatroomRequest,
+    ShareChatroomRequest,
+    SetChatroomRequest,
+    GetConversationRequest,
+    PostConversationRequest,
+    EditConversationRequest,
+    DeleteConversationRequest,
+    PutReactionRequest,
+    DeleteReactionRequest,
     PutMultimedia,
-    DecodeUrl,
-    PostPollConversation,
-    GetReportTags,
-    PushReport,
-    LeaveSecretChatroom,
+    GetDecodeUrlRequest,
+    PostPollConversationRequest,
+    GetReportTagsRequest,
+    PushReportRequest,
+    LeaveSecretChatroomRequest,
     ChatroomSeen,
     CmetaType,
-    FollowChatroomWithUuid,
+    FollowChatroomWithUuidRequest,
     ChatroomSeenWithUuid,
     GetConversationsRequest,
-    GetParticipantsType,
+    GetParticipantsRequest,
+    GetAIChatbotsRequest,
 } from './types';
 import { Base } from 'src/base';
 import { environment } from 'src/environment';
 import NetworkLibrary from 'src/core/services/networklibrary';
 import { Nothing } from 'src/shared/responseModels/Nothing';
-import LMResponse from 'src/core/services/lmresponse';
 import { ModelConverter } from 'src/utils/ModelConverter';
+import { GetChatroomResponse } from '../../shared/api-responses/getChatroomResponse';
+
+import { GetTaggingListResponse } from '../../shared/api-responses/getTaggingListResponse';
+import { SyncConversationResponse } from '../../shared/api-responses/getSyncConversationsResponse';
+import { PostConversationResponse } from '../../shared/api-responses/postConversationResponse';
+import { DeleteConversationResponse } from '../../shared/api-responses/DeleteConversation';
+import { EditConversationResponse } from '../../shared/api-responses/EditConversation';
+import { DecodeURLResponse } from '../../shared/api-responses/getOgTagResponse';
+import { ViewParticipantsResponse } from '../../shared/api-responses/viewParticipants';
+import { GetAIChatbotsResponse } from '../../shared/api-responses/GetAIChatbotsResponse';
+import LMResponse from '../../core/services/lmresponse';
+import { GetReportTagsResponse } from '../../shared/api-responses/getReportTagsResponse';
+import { GetConversationsResponse } from '../../shared/api-responses/GetConversationResponse';
+import { ShareChatrooomResponse } from '../../shared/api-responses/ShareChatroom';
 
 // Chatroom.ts
 export class ChatroomData extends Base {
-    // public networkLibrary = new NetworkLibrary();
-    getChatroom(chatroom: Chatroom): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM}?chatroom_id=${chatroom.chatroomId}`);
+    getChatroom(getChatroomRequest: GetChatroomRequest): Promise<LMResponse<GetChatroomResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<GetChatroomResponse>(
+            `${environment.apiUrl}${API.CHATROOM}?chatroom_id=${getChatroomRequest.chatroomId}`
+        );
     }
 
-    followChatroom(followChatroom: FollowChatroom): Promise<any> {
+    followChatroom(followChatroomRequest: FollowChatroomRequest): Promise<LMResponse<Nothing>> {
         const params = {
-            collabcard_id: followChatroom.collabcardId,
-            member_id: followChatroom.memberId,
-            value: followChatroom.value,
+            collabcard_id: followChatroomRequest.collabcardId,
+            member_id: followChatroomRequest.memberId,
+            value: followChatroomRequest.value,
         };
 
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_FOLLOW}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CHATROOM_FOLLOW}`, {
             method: 'PUT',
             data: params,
         });
     }
 
-    followChatroomWithUuid(followChatroom: FollowChatroomWithUuid): Promise<LMResponse<Nothing>> {
+    followChatroomWithUuid(followChatroomRequest: FollowChatroomWithUuidRequest): Promise<LMResponse<Nothing>> {
         const params = {
-            collabcard_id: followChatroom.collabcardId,
-            uuid: followChatroom.uuid,
-            value: followChatroom.value,
+            collabcard_id: followChatroomRequest.collabcardId,
+            uuid: followChatroomRequest.uuid,
+            value: followChatroomRequest.value,
         };
 
-        return this.networkLibrary
-            .makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_FOLLOW}`, {
-                method: 'PUT',
-                data: params,
-            })
-            .then((respData: any) => {
-                const convertedResp: Nothing = ModelConverter.responseBodyParser(respData);
-
-                return new LMResponse<Nothing>(convertedResp, null, true);
-            })
-            .catch((error) => {
-                return new LMResponse<Nothing>(null, error.message || 'An error occurred', false);
-            });
-    }
-
-    muteChatroom(muteChatroom: MuteChatroom): Promise<any> {
-        const params = {
-            chatroom_id: muteChatroom.chatroomId,
-            value: muteChatroom.value,
-        };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_MUTE}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CHATROOM_FOLLOW}`, {
             method: 'PUT',
             data: params,
         });
     }
 
-    markReadChatroom(markRead: MarkRead): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_MARK_READ}`, {
+    muteChatroom(muteChatroomRequest: MuteChatroomRequest): Promise<LMResponse<Nothing>> {
+        const params = {
+            chatroom_id: muteChatroomRequest.chatroomId,
+            value: muteChatroomRequest.value,
+        };
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CHATROOM_MUTE}`, {
+            method: 'PUT',
+            data: params,
+        });
+    }
+
+    markReadChatroom(markReadRequest: MarkReadRequest): Promise<LMResponse<Nothing>> {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CHATROOM_MARK_READ}`, {
             method: 'POST',
             data: {
-                chatroom_id: markRead.chatroomId,
+                chatroom_id: markReadRequest.chatroomId,
             },
         });
     }
 
-    shareChatroomUrl(shareChatroom: ShareChatroom): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(
-            `${environment.apiUrl}${API.CHATROOM_SHARED}?chatroom_id=${shareChatroom.chatroomId}&domain=${shareChatroom.domain}`
+    shareChatroomUrl(shareChatroomRequest: ShareChatroomRequest): Promise<LMResponse<ShareChatrooomResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<ShareChatrooomResponse>(
+            `${environment.apiUrl}${API.CHATROOM_SHARED}?chatroom_id=${shareChatroomRequest.chatroomId}&domain=${shareChatroomRequest.domain}`
         );
     }
 
-    setChatroomTopic(setChatroom: SetChatroom): Promise<any> {
+    setChatroomTopic(setChatroomRequest: SetChatroomRequest): Promise<LMResponse<Nothing>> {
         const params = {
-            chatroom_id: setChatroom.chatroomId,
-            conversation_id: setChatroom.conversationId,
+            chatroom_id: setChatroomRequest.chatroomId,
+            conversation_id: setChatroomRequest.conversationId,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_TOPIC}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CONVERSATION_TOPIC}`, {
             method: 'PUT',
             data: params,
         });
     }
 
-    getTaggingList(taggingList: TaggingList): Promise<any> {
-        if (taggingList.chatroomId) {
-            if (taggingList.isSecret) {
-                return this.networkLibrary.makeAuthenticatedRequest(
-                    `${environment.apiUrl}${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}&is_secret=${taggingList.isSecret}`
+    getTaggingList(getTaggingListRequest: GetTaggingListRequest): Promise<LMResponse<GetTaggingListResponse>> {
+        if (getTaggingListRequest.chatroomId) {
+            if (getTaggingListRequest.isSecret) {
+                return this.networkLibrary.makeAuthenticatedRequest<GetTaggingListResponse>(
+                    `${environment.apiUrl}${API.COMMUNITY_TAG}?chatroom_id=${getTaggingListRequest.chatroomId}&search_name=${getTaggingListRequest.searchName}&page=${getTaggingListRequest.page}&page_size=${getTaggingListRequest.pageSize}&is_secret=${getTaggingListRequest.isSecret}`
                 );
             } else {
-                return this.networkLibrary.makeAuthenticatedRequest(
-                    `${environment.apiUrl}${API.COMMUNITY_TAG}?chatroom_id=${taggingList.chatroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
+                return this.networkLibrary.makeAuthenticatedRequest<GetTaggingListResponse>(
+                    `${environment.apiUrl}${API.COMMUNITY_TAG}?chatroom_id=${getTaggingListRequest.chatroomId}&search_name=${getTaggingListRequest.searchName}&page=${getTaggingListRequest.page}&page_size=${getTaggingListRequest.pageSize}`
                 );
             }
         } else {
-            if (taggingList.isSecret) {
-                return this.networkLibrary.makeAuthenticatedRequest(
-                    `${environment.apiUrl}${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}&is_secret=${taggingList.isSecret}`
+            if (getTaggingListRequest.isSecret) {
+                return this.networkLibrary.makeAuthenticatedRequest<GetTaggingListResponse>(
+                    `${environment.apiUrl}${API.COMMUNITY_TAG}?feedroom_id=${getTaggingListRequest.feedroomId}&search_name=${getTaggingListRequest.searchName}&page=${getTaggingListRequest.page}&page_size=${getTaggingListRequest.pageSize}&is_secret=${getTaggingListRequest.isSecret}`
                 );
             } else {
-                return this.networkLibrary.makeAuthenticatedRequest(
-                    `${environment.apiUrl}${API.COMMUNITY_TAG}?feedroom_id=${taggingList.feedroomId}&search_name=${taggingList.searchName}&page=${taggingList.page}&page_size=${taggingList.pageSize}`
+                return this.networkLibrary.makeAuthenticatedRequest<GetTaggingListResponse>(
+                    `${environment.apiUrl}${API.COMMUNITY_TAG}?feedroom_id=${getTaggingListRequest.feedroomId}&search_name=${getTaggingListRequest.searchName}&page=${getTaggingListRequest.page}&page_size=${getTaggingListRequest.pageSize}`
                 );
             }
         }
     }
 
-    getConversation(conversation: Conversation): Promise<any> {
+    getConversation(conversation: GetConversationRequest): Promise<LMResponse<GetConversationsResponse>> {
         if (conversation.scrollDirection) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
             );
         } else if (conversation.conversationID && !conversation.scrollDirection) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&include=${conversation.include}`
             );
         } else if (conversation.conversationID) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}`
             );
         } else if (conversation.temporaryID) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}&conversation_id=${conversation.conversationID}&scroll_direction=${conversation.scrollDirection}&temporary_id=${conversation.temporaryID}`
             );
         } else {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<GetConversationsResponse>(
                 `${environment.apiUrl}${API.CONVERSATION}?chatroom_id=${conversation.chatroomID}&paginate_by=${conversation.paginateBy}`
             );
         }
     }
-    getConversations(getConversationsRequest: GetConversationsRequest): Promise<any> {
+
+    getConversations(getConversationsRequest: GetConversationsRequest): Promise<LMResponse<SyncConversationResponse>> {
         const excludeConversations = this.networkLibrary.getExcludedConversationStates();
 
         if (excludeConversations.length > 0) {
             if (getConversationsRequest.conversationId) {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<SyncConversationResponse>(
                     `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&conversation_id=${getConversationsRequest.conversationId}&excluded_conversation_states=[${excludeConversations}]`
                 );
             } else {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<SyncConversationResponse>(
                     `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&excluded_conversation_states=[${excludeConversations}]`
                 );
             }
         } else {
             if (getConversationsRequest.conversationId) {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<SyncConversationResponse>(
                     `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}&conversation_id=${getConversationsRequest.conversationId}`
                 );
             } else {
-                return this.networkLibrary.makeAuthenticatedRequest(
+                return this.networkLibrary.makeAuthenticatedRequest<SyncConversationResponse>(
                     `${environment.apiUrl}${API.CONVERSATION_SYNC}?page=${getConversationsRequest.page}&page_size=${getConversationsRequest.pageSize}&chatroom_id=${getConversationsRequest.chatroomId}&max_timestamp=${getConversationsRequest.maxTimestamp}&min_timestamp=${getConversationsRequest.minTimestamp}&is_local_db=${getConversationsRequest.isLocalDb}`
                 );
             }
         }
     }
 
-    postConversation(postConversation: PostConversation): Promise<any> {
+    postConversation(postConversationRequest: PostConversationRequest): Promise<LMResponse<PostConversationResponse>> {
         const params: Record<string, any> = {
-            chatroom_id: postConversation.chatroomId,
-            temporary_id: postConversation.temporaryId,
-            text: postConversation.text,
-            has_files: postConversation.hasFiles,
-            attachment_count: postConversation.attachmentCount,
-            replied_conversation_id: postConversation.repliedConversationId,
-            share_link: postConversation.shareLink,
-            og_tags: postConversation.ogTags,
+            chatroom_id: postConversationRequest.chatroomId,
+            temporary_id: postConversationRequest.temporaryId,
+            text: postConversationRequest.text,
+            has_files: postConversationRequest.hasFiles,
+            replied_conversation_id: postConversationRequest.repliedConversationId,
+            share_link: postConversationRequest.shareLink,
+            og_tags: postConversationRequest.ogTags,
+            attachments: postConversationRequest.attachments,
+            trigger_bot: postConversationRequest.triggerBot,
         };
-        if (postConversation.metadata) {
-            params.metadata = postConversation.metadata;
+        if (postConversationRequest.metadata) {
+            params.metadata = postConversationRequest.metadata;
         }
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<PostConversationResponse>(`${environment.apiUrl}${API.CONVERSATION}`, {
             method: 'POST',
             data: params,
         });
     }
 
-    editConversation(conversationId: EditConversation): Promise<any> {
+    editConversation(editConversationRequest: EditConversationRequest): Promise<LMResponse<EditConversationResponse>> {
         const params = {
-            conversation_id: conversationId.conversationId,
-            text: conversationId.text,
-            share_link: conversationId.shareLink,
-            og_tags: conversationId.ogTags,
+            conversation_id: editConversationRequest.conversationId,
+            text: editConversationRequest.text,
+            share_link: editConversationRequest.shareLink,
+            og_tags: editConversationRequest.ogTags,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<EditConversationResponse>(`${environment.apiUrl}${API.CONVERSATION}`, {
             method: 'PUT',
             data: params,
         });
     }
 
-    deleteConversation(deleteConversation: DeleteConversation): Promise<any> {
+    deleteConversation(deleteConversationRequest: DeleteConversationRequest): Promise<LMResponse<DeleteConversationResponse>> {
         const params = {
-            conversation_ids: deleteConversation.conversationIds,
-            reason: deleteConversation.reason,
+            conversation_ids: deleteConversationRequest.conversationIds,
+            reason: deleteConversationRequest.reason,
         };
 
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<DeleteConversationResponse>(`${environment.apiUrl}${API.CONVERSATION}`, {
             method: 'DELETE',
             data: params,
         });
     }
 
-    putReaction(putReaction: PutReaction): Promise<any> {
+    putReaction(putReactionRequest: PutReactionRequest): Promise<LMResponse<Nothing>> {
         let params;
-        if (putReaction.chatroomId) {
+        if (putReactionRequest.chatroomId) {
             params = {
-                chatroom_id: putReaction?.chatroomId,
-                conversation_id: putReaction.conversationId,
-                reaction: putReaction.reaction,
+                chatroom_id: putReactionRequest?.chatroomId,
+                conversation_id: putReactionRequest.conversationId,
+                reaction: putReactionRequest.reaction,
             };
         } else {
             params = {
-                conversation_id: putReaction.conversationId,
-                reaction: putReaction.reaction,
+                conversation_id: putReactionRequest.conversationId,
+                reaction: putReactionRequest.reaction,
             };
         }
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
             method: 'PUT',
             data: params,
         });
     }
 
-    deleteReaction(deleteReaction: DeleteReaction): Promise<any> {
+    deleteReaction(deleteReactionRequest: DeleteReactionRequest): Promise<LMResponse<Nothing>> {
         const params = {
-            chatroom_id: deleteReaction.chatroomId,
-            conversation_id: deleteReaction.conversationId,
-            reaction: deleteReaction.reaction,
+            chatroom_id: deleteReactionRequest.chatroomId,
+            conversation_id: deleteReactionRequest.conversationId,
+            reaction: deleteReactionRequest.reaction,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.CONVERSATION_REACTION}`, {
             method: 'DELETE',
             data: params,
         });
     }
 
-    // Upload Media Fn Start
-    // getAWS(): any {
-    //     (AWS.config.region = 'ap-south-1'),
-    //         (AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    //             IdentityPoolId: environment.awsConfig.poolId,
-    //         }));
-    //     const s3 = new AWS.S3({
-    //         apiVersion: '2006-03-01',
-    //         params: { Bucket: environment.awsConfig.bucket },
-    //     });
+    decodeUrl(decodeUrlRequest: GetDecodeUrlRequest): Promise<LMResponse<DecodeURLResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<DecodeURLResponse>(
+            `${environment.apiUrl}${API.HELPER_URL}?url=${decodeUrlRequest.url}`
+        );
+    }
 
-    //     return s3;``
-    // }
+    getReportTags(getReportTagsRequest: GetReportTagsRequest): Promise<LMResponse<GetReportTagsResponse>> {
+        return this.networkLibrary.makeAuthenticatedRequest<GetReportTagsResponse>(
+            `${environment.apiUrl}${API.FETCH_REPORT_TAGS}?type=${getReportTagsRequest.type}`
+        );
+    }
 
-    // uploadMedia(media: Media) {
-    //     let mediaObject = this.getAWS().upload({
-    //         Key: `files/collabcard/${media.chatroomId}/conversation/${media.messageId}/${media.file.name}`,
-    //         Bucket: environment.awsConfig.bucket,
-    //         Body: media.file,
-    //         ACL: 'public-read-write',
-    //         ContentType: media.file.type,
-    //     });
-    //     return mediaObject.promise();
-    // }
-
-    putMultimedia(putMultimedia: PutMultimedia): Promise<any> {
+    pushReport(pushReportRequest: PushReportRequest): Promise<LMResponse<Nothing>> {
         const params = {
-            conversation_id: putMultimedia.conversationId,
-            url: putMultimedia.url,
-            type: putMultimedia.type,
-            files_count: putMultimedia.filesCount,
-            index: putMultimedia.index,
-            height: putMultimedia.height,
-            width: putMultimedia.width,
-            meta: putMultimedia.meta,
-            name: putMultimedia.name,
-            thumbnail_url: putMultimedia.thumbnailUrl,
+            conversation_id: pushReportRequest?.conversationId,
+            tag_id: pushReportRequest.tagId,
+            reason: pushReportRequest.reason,
+            reported_member_id: pushReportRequest?.reportedMemberId,
         };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.HELPER_MEDIA_UPLOAD}`, {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(`${environment.apiUrl}${API.PUSH_REPORT}`, {
             method: 'POST',
             data: params,
         });
     }
 
-    // Upload Media Function End
-
-    decodeUrl(decodeUrl: DecodeUrl): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.HELPER_URL}?url=${decodeUrl.url}`);
-    }
-
-    getReportTags(getReportTags: GetReportTags): Promise<any> {
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.FETCH_REPORT_TAGS}?type=${getReportTags.type}`);
-    }
-
-    pushReport(pushReport: PushReport): Promise<any> {
+    leaveSecretChatroom(leaveSecretChatroomRequest: LeaveSecretChatroomRequest): Promise<LMResponse<Nothing>> {
         const params = {
-            conversation_id: pushReport?.conversationId,
-            tag_id: pushReport.tagId,
-            reason: pushReport.reason,
-            reported_member_id: pushReport?.reportedMemberId,
-        };
-        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.PUSH_REPORT}`, {
-            method: 'POST',
-            data: params,
-        });
-    }
-
-    leaveSecretChatroom(leaveSecretChatroom: LeaveSecretChatroom): Promise<any> {
-        const params = {
-            chatroom_id: leaveSecretChatroom.chatroomId,
-            is_secret: leaveSecretChatroom?.isSecret,
+            chatroom_id: leaveSecretChatroomRequest.chatroomId,
+            is_secret: leaveSecretChatroomRequest?.isSecret,
         };
         return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}`, {
             method: 'DELETE',
@@ -348,46 +314,44 @@ export class ChatroomData extends Base {
         });
     }
 
-    // ******************************
-
-    profileData(profile: Profile): Promise<any> {
+    profileData(profile: Profile) {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.COMMUNITY_MEMBER_STATE}?community_id=${profile.community_id}&member_id=${profile.member_id}`
         );
     }
 
-    viewParticipants(participantsType: ParticipantsType): Promise<any> {
-        if (participantsType.participantName) {
-            return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&participant_name=${participantsType.participantName}`
+    viewParticipants(viewParticipantsRequest: ViewParticipantsRequest): Promise<LMResponse<ViewParticipantsResponse>> {
+        if (viewParticipantsRequest.participantName) {
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipantsResponse>(
+                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${viewParticipantsRequest.chatroomId}&is_secret=${viewParticipantsRequest.isSecret}&page=${viewParticipantsRequest.page}&page_size=${viewParticipantsRequest.pageSize}&participant_name=${viewParticipantsRequest.participantName}`
             );
-        } else if (participantsType.page) {
-            return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}`
+        } else if (viewParticipantsRequest.page) {
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipantsResponse>(
+                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${viewParticipantsRequest.chatroomId}&is_secret=${viewParticipantsRequest.isSecret}&page=${viewParticipantsRequest.page}&page_size=${viewParticipantsRequest.pageSize}`
             );
         } else {
-            return this.networkLibrary.makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomId}&is_secret=${participantsType.isSecret}`
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipantsResponse>(
+                `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${viewParticipantsRequest.chatroomId}&is_secret=${viewParticipantsRequest.isSecret}`
             );
         }
     }
-    getParticipants(participantsType: GetParticipantsType): Promise<any> {
+    getParticipants(participantsType: GetParticipantsRequest): Promise<LMResponse<ViewParticipantsResponse>> {
         if (participantsType.searchKey) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipantsResponse>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomID}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}&search_key=${participantsType.searchKey}`
             );
         } else if (participantsType.page) {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipantsResponse>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomID}&is_secret=${participantsType.isSecret}&page=${participantsType.page}&page_size=${participantsType.pageSize}`
             );
         } else {
-            return this.networkLibrary.makeAuthenticatedRequest(
+            return this.networkLibrary.makeAuthenticatedRequest<ViewParticipantsResponse>(
                 `${environment.apiUrl}${API.CHATROOM_PARTICIPANTS}?chatroom_id=${participantsType.chatroomID}&is_secret=${participantsType.isSecret}`
             );
         }
     }
 
-    conversationsFetch(cmetaType: CmetaType): Promise<any> {
+    conversationsFetch(cmetaType: CmetaType) {
         if (cmetaType.chatroomId) {
             return this.networkLibrary.makeAuthenticatedRequest(
                 `${environment.apiUrl}${API.CONVERSATION_META}?chatroom_id=${cmetaType.chatroomId}&conversation_id=${cmetaType.conversationId}`
@@ -399,13 +363,13 @@ export class ChatroomData extends Base {
         }
     }
 
-    fetchChatroomHome(chatroom: CHTYPE): Promise<any> {
+    fetchChatroomHome(chatroom: CHTYPE) {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.FETCH_CHATROOM_HOME}?chatroom_id=${chatroom.chatroom_id}`
         );
     }
 
-    crSeenFn(crSeen: CRSeen): Promise<any> {
+    crSeenFn(crSeen: CRSeen) {
         const params = {
             collabcard_id: crSeen.collabcardId,
             member_id: crSeen.memberId,
@@ -417,7 +381,7 @@ export class ChatroomData extends Base {
         });
     }
 
-    chatroomSeen(chatroomSeen: ChatroomSeen): Promise<any> {
+    chatroomSeen(chatroomSeen: ChatroomSeen) {
         return this.networkLibrary.makeAuthenticatedRequest(
             `${environment.apiUrl}${API.COLLABCARD_SEEN}?collabcard_id=${chatroomSeen.collabcardId}&member_id=${chatroomSeen.memberId}&collabcard_type=${chatroomSeen.collabcardType}`,
             {
@@ -427,22 +391,32 @@ export class ChatroomData extends Base {
         );
     }
 
-    chatroomSeenWithUuid(chatroomSeen: ChatroomSeenWithUuid): Promise<LMResponse<Nothing>> {
-        return this.networkLibrary
-            .makeAuthenticatedRequest(
-                `${environment.apiUrl}${API.COLLABCARD_SEEN}?collabcard_id=${chatroomSeen.collabcardId}&uuid=${chatroomSeen.uuid}&collabcard_type=${chatroomSeen.collabcardType}`,
-                {
-                    method: 'PUT',
-                    data: {},
-                }
-            )
-            .then((respData: any) => {
-                const convertedResp: Nothing = ModelConverter.responseBodyParser(respData);
+    chatroomSeenWithUuid(chatroomSeen: ChatroomSeenWithUuid) {
+        return this.networkLibrary.makeAuthenticatedRequest<Nothing>(
+            `${environment.apiUrl}${API.COLLABCARD_SEEN}?collabcard_id=${chatroomSeen.collabcardId}&uuid=${chatroomSeen.uuid}&collabcard_type=${chatroomSeen.collabcardType}`,
+            {
+                method: 'PUT',
+                data: {},
+            }
+        );
+    }
 
-                return new LMResponse<Nothing>(convertedResp, null, true);
-            })
-            .catch((error) => {
-                return new LMResponse<Nothing>(null, error.message || 'An error occurred', false);
-            });
+    /**
+     * Fetches a list of AI chatbots for a community.
+     *
+     * @param {GetAIChatbotsRequest} getAIChatbotsRequest - The request object containing pagination details.
+     * @param {number} getAIChatbotsRequest.page - The page number to fetch.
+     * @param {number} [getAIChatbotsRequest.pageSize=10] - The number of items per page (default is 10).
+     *
+     * @returns {Promise<LMResponse<GetAIChatbotsResponse>>} A promise that resolves to the response containing the list of AI chatbots.
+     */
+    getAIChatbots(getAIChatbotsRequest: GetAIChatbotsRequest): Promise<LMResponse<GetAIChatbotsResponse>> {
+        const { page, pageSize = 10 } = getAIChatbotsRequest;
+        return this.networkLibrary.makeAuthenticatedRequest<GetAIChatbotsResponse>(
+            `${environment.apiUrl}${API.COMMUNITY_CHATBOT}?page=${page}&page_size=${pageSize}`,
+            {
+                method: 'GET',
+            }
+        );
     }
 }
