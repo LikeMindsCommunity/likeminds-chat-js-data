@@ -201,6 +201,7 @@ export class ChatroomData extends Base {
     }
 
     postConversation(postConversationRequest: PostConversationRequest): Promise<LMResponse<PostConversationResponse>> {
+        let attachments = ModelConverter.requestBodyGenerator(postConversationRequest?.attachments);
         const params: Record<string, any> = {
             chatroom_id: postConversationRequest.chatroomId,
             temporary_id: postConversationRequest.temporaryId,
@@ -209,7 +210,7 @@ export class ChatroomData extends Base {
             replied_conversation_id: postConversationRequest.repliedConversationId,
             share_link: postConversationRequest.shareLink,
             og_tags: postConversationRequest.ogTags,
-            attachments: postConversationRequest.attachments,
+            attachments: attachments ?? undefined,
             trigger_bot: postConversationRequest.triggerBot,
         };
         if (postConversationRequest.metadata) {
