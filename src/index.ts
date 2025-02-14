@@ -56,6 +56,7 @@ import LMResponse from './core/services/lmresponse';
 import { InitiateUserResponse } from './pages/user/responseModels/InitiateUserResponse';
 import { GetConversationsResponse } from './shared/api-responses/GetConversationResponse';
 import { Widget } from './shared/interfaces/Widgets';
+import WebSocketService, { LMChatSubscribeChatroomCallback, SubscribeChatroomRequest } from './core/sockets/websocketservice';
 class SDKBuilder {
     xPlatformCode: string;
     xVersionCode: number;
@@ -185,11 +186,33 @@ export {
     SDKClientInfo,
     MemberAction,
     Widget,
+    LMChatSubscribeChatroomCallback,
+    SubscribeChatroomRequest,
+    WebSocketService,
     // Enums
     MemberRole,
     ConversationState,
 };
 
-interface LMChatClient extends HomeFeedClient, PollClient, ChatroomData, ExploreFeed, MemberClient, DirectMessage, Search, CoreServices {}
+interface LMChatClient
+    extends HomeFeedClient,
+        PollClient,
+        ChatroomData,
+        ExploreFeed,
+        MemberClient,
+        DirectMessage,
+        Search,
+        WebSocketService,
+        CoreServices {}
 
-applyMixins(LMChatClient, [HomeFeedClient, PollClient, ChatroomData, ExploreFeed, MemberClient, DirectMessage, Search, CoreServices]);
+applyMixins(LMChatClient, [
+    HomeFeedClient,
+    PollClient,
+    ChatroomData,
+    ExploreFeed,
+    MemberClient,
+    DirectMessage,
+    Search,
+    CoreServices,
+    WebSocketService,
+]);

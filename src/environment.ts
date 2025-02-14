@@ -13,6 +13,7 @@ export const environment = {
         bucket: 'prod-likeminds-media',
         poolId: 'ap-south-1:d73bc2ed-bede-42c8-bab7-0abe0a001325',
     },
+    wsBaseUrl: 'wss://auth-ws.likeminds.community',
 };
 
 // export const environment = {
@@ -31,4 +32,5 @@ export const environment = {
 //         bucket: 'beta-likeminds-media',
 //         poolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
 //     },
+//     wsBaseUrl: 'wss://betaauth-ws.likeminds.community',
 // };
