@@ -1,4 +1,4 @@
-// LMSeverity Enum
+
 export enum LMSeverity {
     INFO = "info",
     DEBUG = "debug",
