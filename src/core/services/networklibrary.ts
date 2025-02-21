@@ -7,7 +7,7 @@ import { LMSDKCallbacks } from '../../LMCallback';
 import { TokenValues } from '../../shared/tokens';
 import { ConversationState } from 'src/shared/enums/conversationstate';
 import { API } from 'src/shared/constants/api.constant';
-import { Nothing } from 'src/shared/responseModels/Nothing';
+
 
 
 class NetworkLibrary {
@@ -188,7 +188,6 @@ class NetworkLibrary {
             }
             return new LMResponse<T>(response.data, null, true);
         } catch (error) {
-            // if (error?.response && error?.response?.status === 401 && error?.response?.data?.error_message === 'Invalid LTM!') {
             if (error?.response && error?.response?.status === 401) {
                 // Access token expired, refresh the token and retry the request
                 if (url.includes('user/refresh')) {
@@ -218,9 +217,9 @@ class NetworkLibrary {
                     });
             }
 
-
-            return new LMResponse<T>(null, error, false);
-
+            if (error?.response && error?.response?.status >= 500) {
+                return new LMResponse<T>(null, error, false);
+            }
         }
     }
 }
