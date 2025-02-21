@@ -67,6 +67,12 @@ class TokenManager {
         return this.xVersionCode;
     }
 
+    // internal function to clear credentials stored in tokenManager class
+    public clearTokenManager() {
+        this.accessToken = null
+        this.refreshToken = null
+    }
+
     public async refreshAccessToken(): Promise<void> {
         try {
             const url = `${environment.apiUrl}${API.REFRESH_TOKEN_API}`;
