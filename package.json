@@ -1,6 +1,6 @@
 {
     "name": "@likeminds.community/chat-js",
-    "version": "1.12.1",
+    "version": "1.13.0",
     "description": "LikeMinds Javascript SDK for chat APIs",
     "main": "dist/index.js",
     "module": "dist/index.m.js",
@@ -10,6 +10,7 @@
         "npm-deploy": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap && npm publish --access public",
         "npm-deploy-beta": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap && npm publish --access public",
         "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
+        "build-windows": "(if exist dist (rmdir /s /q dist)) && microbundle --tsconfig tsconfig.json --no-sourcemap",
         "eslint": "eslint .",
         "eslint:fix": "eslint --fix .",
         "prettier": "prettier --check .",
