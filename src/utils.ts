@@ -5,8 +5,10 @@ export function applyMixins(derivedCtor: any, constructors: any[]) {
         derivedCtor.prototype,
         name,
         Object.getOwnPropertyDescriptor(baseCtor.prototype, name) ||
-          Object.create(null)
+        Object.create(null)
       );
     });
   });
 }
+
+
