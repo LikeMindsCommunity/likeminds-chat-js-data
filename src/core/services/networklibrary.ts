@@ -98,9 +98,45 @@ class NetworkLibrary {
         this.tokenManager.setLMSdkCallbacks(callback);
     }
 
-    private async makeRequest<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-        return axios.request<T>({ url, ...config });
-    }
+    private async makeRequest<T>(
+        url: string,
+        config?: AxiosRequestConfig
+      ): Promise<AxiosResponse<T>> {
+        const requestUrl = url;
+        axios.interceptors.response.use(undefined, async function (error) {
+    
+          const config = error.config;
+    
+    
+          // Check if the error is due to network issues or specific status codes
+          const retriableStatusCodes = [500, 502, 503, 504, 408, 429];
+          const isNetworkError = error?.message === "Network Error"
+          const isRetriableStatusCode = retriableStatusCodes.includes(error?.response?.status);
+    
+    
+          if (!isNetworkError && !isRetriableStatusCode) {
+            // If not a network error or retriable status code, reject immediately
+            return Promise.reject(error);
+          }
+    
+          config._retry = true; // Mark as retried
+          config.retryCount = config.retryCount || 0;
+    
+          const MAX_RETRIES = 3;
+          const RETRY_DELAY = 1000; // Base delay in ms
+    
+          if (config.retryCount < MAX_RETRIES) {
+            config.retryCount += 1;
+            const delay = RETRY_DELAY * 2 ** (config.retryCount - 1); // Exponential backoff
+            await new Promise((resolve) => setTimeout(resolve, delay));
+            return axios(config); // Retry the request
+          }
+    
+          return Promise.reject(error);
+        })
+    
+        return axios.request<T>({ url: requestUrl, ...config });
+      }
 
     public async makeAuthenticatedRequest<T>(url: string, config?: AxiosRequestConfig): Promise<LMResponse<T>> {
         const requestConfig: AxiosRequestConfig = {
