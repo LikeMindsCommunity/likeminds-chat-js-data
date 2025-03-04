@@ -46,7 +46,7 @@ export declare type GetAllMembersRequest = {
     page: number;
 };
 export declare type LogoutRequest = {
-    refreshToken: string;
+    deviceId?: string
 };
 
 export declare type LeaveCommunityRequest = {

@@ -6,7 +6,10 @@ class LMResponse<T> {
     public success: boolean;
 
     constructor(responseObjectFromServer: { data: T }, errorMessage: string | null, success: boolean) {
-        const responseData = ModelConverter.responseBodyParser<T>(responseObjectFromServer.data);
+        let responseData = null
+        if(responseObjectFromServer) {
+             responseData = ModelConverter.responseBodyParser<T>(responseObjectFromServer.data);
+        }
 
         this.data = responseData;
         this.errorMessage = errorMessage;

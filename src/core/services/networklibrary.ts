@@ -6,6 +6,9 @@ import LMResponse from './lmresponse';
 import { LMSDKCallbacks } from '../../LMCallback';
 import { TokenValues } from '../../shared/tokens';
 import { ConversationState } from 'src/shared/enums/conversationstate';
+import { API } from 'src/shared/constants/api.constant';
+
+
 
 class NetworkLibrary {
     private tokenManager: TokenManager;
@@ -98,10 +101,14 @@ class NetworkLibrary {
         this.tokenManager.setLMSdkCallbacks(callback);
     }
 
-    private async makeRequest<T>(
-        url: string,
-        config?: AxiosRequestConfig
-      ): Promise<AxiosResponse<T>> {
+    public clearUser() {
+        localStorage.removeItem(TokenValues.LOCAL_ACCESS_TOKEN)
+        localStorage.removeItem(TokenValues.LOCAL_REFRESH_TOKEN)
+        localStorage.removeItem(TokenValues.LOCAL_USER)
+        this.tokenManager.clearTokenManager()
+    }
+
+    private async makeRequest<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
         const requestUrl = url;
         axios.interceptors.response.use(undefined, async function (error) {
     
@@ -136,7 +143,7 @@ class NetworkLibrary {
         })
     
         return axios.request<T>({ url: requestUrl, ...config });
-      }
+    }
 
     public async makeAuthenticatedRequest<T>(url: string, config?: AxiosRequestConfig): Promise<LMResponse<T>> {
         const requestConfig: AxiosRequestConfig = {
@@ -146,6 +153,27 @@ class NetworkLibrary {
                 'x-sdk-source': 'chat',
             },
         };
+
+        // Block for modifying the logout request
+        const isLogoutRequest = url.includes(API.USER_LOGOUT)
+        if (isLogoutRequest) {
+            const accessTokenFromLocalStorage = this.getAccessTokenFromLocalStorage()
+            const refreshTokenFromLocalStorage = this.getRefreshTokenFromLocalStorage()
+            if (!(accessTokenFromLocalStorage && refreshTokenFromLocalStorage)) {
+                this.clearUser()
+                return new LMResponse<T>(null, null, true);
+            } else {
+                if (requestConfig.data.deviceId) {
+                    requestConfig.headers['x-device-id'] = requestConfig.data.deviceId
+                    requestConfig.data = {
+                        'refresh_token': this.tokenManager.getRefreshToken()
+                    }
+                } else {
+                    this.clearUser()
+                    return new LMResponse<T>(null, null, true);
+                }
+            }
+        }
 
         const initApi = url.includes('initiate');
 
@@ -187,9 +215,11 @@ class NetworkLibrary {
 
         try {
             const response = await this.makeRequest<{ data: T }>(url, requestConfig);
+            if (url.includes(API.USER_LOGOUT)) {
+                this.clearUser()
+            }
             return new LMResponse<T>(response.data, null, true);
         } catch (error) {
-            // if (error?.response && error?.response?.status === 401 && error?.response?.data?.error_message === 'Invalid LTM!') {
             if (error?.response && error?.response?.status === 401) {
                 // Access token expired, refresh the token and retry the request
                 if (url.includes('user/refresh')) {
@@ -214,13 +244,13 @@ class NetworkLibrary {
                     })
                     .catch((error) => {
                         if (error?.response && error?.response?.status >= 500) {
-                            return new LMResponse<T>(null, error.message, false);
+                            return new LMResponse<T>(null, error, false);
                         }
                     });
             }
 
             if (error?.response && error?.response?.status >= 500) {
-                return new LMResponse<T>(null, error.message, false);
+                return new LMResponse<T>(null, error, false);
             }
         }
     }

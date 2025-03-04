@@ -18,6 +18,7 @@ import { environment } from 'src/environment';
 
 import { InitiateUserResponse, ValidateUserResponse } from './responseModels/InitiateUserResponse';
 import LMResponse from '../../core/services/lmresponse';
+import { Nothing } from 'src/shared/responseModels/Nothing';
 
 export class Member extends Base {
     // networkLibrary = new NetworkLibrary();
@@ -90,15 +91,12 @@ export class Member extends Base {
             });
     }
 
-    logout(logout: LogoutRequest): Promise<any> {
-        const params = {
-            refresh_token: logout.refreshToken,
-        };
-        localStorage.clear();
-
-        return this.networkLibrary.makeAuthenticatedRequest(`${API.USER_LOGOUT}`, {
+    logout(logout: LogoutRequest): Promise<LMResponse<Nothing>> {
+        return this.networkLibrary.makeAuthenticatedRequest(`${environment.apiUrl}${API.USER_LOGOUT}`, {
             method: 'POST',
-            data: params,
+            data: {
+                deviceId: logout.deviceId
+            },
         });
     }
 
