@@ -1,14 +1,17 @@
-import { LMPushLogsRequest } from "src/shared/interfaces/PushLogRequest";
-import LMResponse from "src/core/services/lmresponse";
-import { Base } from "src/base";
-import { Nothing } from "src/shared/responseModels/Nothing";
+import { LMPushLogsRequest } from "../../shared/interfaces/PushLogRequest";
+import LMResponse from "../../core/services/lmresponse";
+import { Base } from "../../base";
+import { Nothing } from "../../shared/responseModels/Nothing";
+import { ModelConverter } from "../../utils/ModelConverter";
 
 
 
 export class ErrorLogging extends Base {
     async pushLogs(request: LMPushLogsRequest): Promise<LMResponse<Nothing>> {
         try {
-            const params = { logs: request.logs };
+            const parsedRequest = ModelConverter.requestBodyGenerator(request.logs);
+            console.log(parsedRequest)
+            const params = { logs: parsedRequest };
             const response: LMResponse<Nothing> = await this.networkLibrary.makeAuthenticatedRequest(`/logs`, {
                 method: 'POST',
                 data: params,
@@ -23,9 +26,9 @@ export class ErrorLogging extends Base {
             const success = response.success;
             const errorMessage = success ? null : response.errorMessage || "Unknown error";
 
-            return new LMResponse<Nothing>({ data: response.data }, errorMessage, success);
+            return new LMResponse<Nothing>(null, errorMessage, success);
         } catch (error) {
-            return new LMResponse<Nothing>({ data: "" as Nothing }, error.message, false);
+            return new LMResponse<Nothing>(null , error.message, false);
         }
     }
 }
