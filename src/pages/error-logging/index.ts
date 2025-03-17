@@ -6,8 +6,6 @@ import { ModelConverter } from "../../utils/ModelConverter";
 import { environment } from "../../environment";
 import { API } from "../../shared/constants/api.constant";
 
-
-
 export class ErrorLogging extends Base {
     async pushLogs(request: LMPushLogsRequest): Promise<LMResponse<Nothing>> {
         try {
