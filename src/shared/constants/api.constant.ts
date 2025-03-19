@@ -53,4 +53,5 @@ export const API = {
     CHATROOM_SYNC: '/chatroom/sync',
     CONVERSATION_SYNC: '/conversation/sync',
     COMMUNITY_CHATBOT: '/community/chatbot',
+    ERROR_LOGGING: "/logs"
 };
