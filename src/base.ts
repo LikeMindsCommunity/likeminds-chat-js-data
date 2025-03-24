@@ -2,6 +2,7 @@ import { SdkConfig } from './shared/types';
 import NetworkLibrary from './core/services/networklibrary';
 import { LMSDKCallbacks } from './LMCallback';
 import { ConversationState } from './shared/enums/conversationstate';
+import { LMChatSubscribeChatroomCallback } from './core/sockets/websocketservice';
 
 export class Base {
     xApiKey: string;
@@ -10,12 +11,24 @@ export class Base {
     xSdkSource: string;
     excludedConversationStates: ConversationState[];
     networkLibrary: NetworkLibrary | null;
+    socket: WebSocket | null;
+    wsCallbacks: LMChatSubscribeChatroomCallback | null;
+    wsMaxReconnectAttempts: number;
+    wsReconnectDelay: number;
+    wsReconnectAttempts: number;
+    wsChatroomId: string | null;
 
     constructor(sdkConfig: SdkConfig) {
         this.xPlatformCode = sdkConfig.xPlatformCode;
         this.xVersionCode = sdkConfig.xVersionCode;
         this.excludedConversationStates = sdkConfig.excludedConversationStates;
         this.networkLibrary = new NetworkLibrary(null);
+        this.socket = null;
+        this.wsCallbacks = null;
+        this.wsMaxReconnectAttempts = 5;
+        this.wsReconnectDelay = 1000; // Initial delay in ms
+        this.wsReconnectAttempts = 0;
+        this.wsChatroomId = null;
         this.networkLibrary.setApiKey(this.xApiKey);
         this.networkLibrary.setPlatformCode(this.xPlatformCode);
         this.networkLibrary.setVersionCode(this.xVersionCode);

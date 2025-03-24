@@ -3,6 +3,7 @@ export declare type InitiateUserRequest = {
     userUniqueId: string;
     userName?: string;
     apiKey: string;
+    deviceId?: string;
     tokenExpiryBeta?: number;
     rtmTokenExpiryBeta?: number;
 };
@@ -20,6 +21,7 @@ export declare type InitUserWithUuid = {
     uuid: string;
     userName?: string;
     apiKey: string;
+    deviceId?: string;
     tokenExpiryBeta?: number;
     rtmTokenExpiryBeta?: number;
 };

@@ -73,7 +73,7 @@ class TokenManager {
         this.refreshToken = null
     }
 
-    public async refreshAccessToken(): Promise<void> {
+    public async refreshAccessToken(): Promise<string> {
         try {
             const url = `${environment.apiUrl}${API.REFRESH_TOKEN_API}`;
             const config: AxiosRequestConfig = {
