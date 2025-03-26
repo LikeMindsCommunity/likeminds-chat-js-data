@@ -59,7 +59,9 @@ import LMResponse from './core/services/lmresponse';
 import { InitiateUserResponse } from './pages/user/responseModels/InitiateUserResponse';
 import { GetConversationsResponse } from './shared/api-responses/GetConversationResponse';
 import { Widget } from './shared/interfaces/Widgets';
-import WebSocketService, { LMChatSubscribeChatroomCallback, SubscribeChatroomRequest } from './core/sockets/websocketservice';
+import WebSocketService from './core/sockets/websocketservice';
+import { LMChatSubscribeChatroomCallback } from "../src/shared/interfaces/LMChatSubscribeChatroomCallback"
+import { SubscribeChatroomRequest } from "../src/core/sockets/models/RequestModels/SubscribeChatroomRequest"
 class SDKBuilder {
     xPlatformCode: string;
     xVersionCode: number;
@@ -213,6 +215,8 @@ interface LMChatClient
         DirectMessage,
         Search,
         WebSocketService,
+        ErrorLogging,
+        WebSocketService,
         CoreServices {}
 
 applyMixins(LMChatClient, [
@@ -225,4 +229,5 @@ applyMixins(LMChatClient, [
     Search,
     CoreServices,
     WebSocketService,
+    ErrorLogging
 ]);

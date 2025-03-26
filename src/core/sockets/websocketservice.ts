@@ -2,36 +2,21 @@ import { ModelConverter } from 'src/utils/ModelConverter';
 import { Base } from '../../base';
 import { environment } from '../../environment';
 import { Conversation } from 'src/shared/interfaces/Conversation';
+import { RealtimeTopic } from 'src/shared/enums/realtimeTopic';
+import { LMChatSubscribeChatroomCallback } from 'src/shared/interfaces/LMChatSubscribeChatroomCallback';
+import { WebSocketMessage } from 'src/shared/interfaces/WebSocketMessage';
+import { SubscribeChatroomResponse } from './models/ReponseModels/subscribeChatroomResponse';
+import { SubscribeChatroomRequest } from './models/RequestModels/SubscribeChatroomRequest';
 
-enum RealtimeTopic {
-    CONVERSATION = 'conversation',
-}
-
-export interface SubscribeChatroomRequest {
-    chatroomId: string;
-}
-
-export interface LMChatSubscribeChatroomCallback {
-    onSocketConnectionOpen(): void;
-    onMessageReceived(data: ParsedWebSocketMessage): void;
-    onSocketConnectionClosed(): void;
-    onError(errorMessage: string): void;
-}
-
-interface WebSocketMessage {
-    deviceId: string;
-    topicMessageType: string;
-    rawData: string;
-}
-
-interface ParsedWebSocketMessage {
-    conversation: Conversation;
-    id: number;
-    totalParticipantsCount: number;
-    widgets: Record<string, any>;
-}
 
 class WebSocketService extends Base {
+    private socket: WebSocket | null = null;
+    private wsChatroomId: string | null;
+    private wsCallbacks: LMChatSubscribeChatroomCallback | null;
+    private wsMaxReconnectAttempts: number;
+    private wsReconnectDelay: number;
+    private wsReconnectAttempts: number;
+
     private async connect(): Promise<void> {
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             return;
@@ -71,8 +56,8 @@ class WebSocketService extends Base {
 
         this.socket.onclose = async (event: CloseEvent) => {
             const retriableErrors = [500, 502, 503, 504, 429];
-            const containsRetriableCode = retriableErrors.some((code) => event.reason.includes(code.toString()));
-            if (event.reason.includes('401')) {
+            const containsRetriableCode = retriableErrors.some((code) => event?.reason?.includes?.(code.toString()));
+            if (event?.reason?.includes?.('401')) {
                 await this.refreshTokenAndReconnect();
             } else if (containsRetriableCode) {
                 this.reconnectWithBackoff();
@@ -92,7 +77,7 @@ class WebSocketService extends Base {
             const responseData: WebSocketMessage = ModelConverter.responseBodyParser(parsedData);
             if (responseData?.topicMessageType === RealtimeTopic.CONVERSATION) {
                 const parsedConversation = JSON.parse(responseData?.rawData);
-                const newConversation: ParsedWebSocketMessage = ModelConverter.responseBodyParser(parsedConversation);
+                const newConversation: SubscribeChatroomResponse = ModelConverter.responseBodyParser(parsedConversation);
                 this.wsCallbacks.onMessageReceived(newConversation);
             }
         } catch (error) {
