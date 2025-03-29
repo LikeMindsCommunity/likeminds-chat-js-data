@@ -61,6 +61,8 @@ class WebSocketService extends Base {
                 await this.refreshTokenAndReconnect();
             } else if (containsRetriableCode) {
                 this.reconnectWithBackoff();
+            } else {
+                console.log("socket closed")
             }
         };
     }
@@ -92,6 +94,9 @@ class WebSocketService extends Base {
         }
         this.wsCallbacks = callback;
         this.wsChatroomId = subscribeChatroomRequest.chatroomId;
+        this.wsMaxReconnectAttempts = 5;
+        this.wsReconnectDelay = 1000; // Initial delay in ms
+        this.wsReconnectAttempts = 0;
         this.connect();
     }
 
@@ -117,7 +122,6 @@ class WebSocketService extends Base {
             return;
         }
         const delay = this.wsReconnectDelay * Math.pow(2, this.wsReconnectAttempts);
-        console.log(`Reconnecting in ${delay / 1000} seconds...`);
         setTimeout(() => {
             this.wsReconnectAttempts++;
             this.connect();
