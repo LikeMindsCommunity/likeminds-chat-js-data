@@ -1,14 +1,14 @@
 {
     "name": "@likeminds.community/chat-js",
-    "version": "1.15.0",
+    "version": "1.16.0",
     "description": "LikeMinds Javascript SDK for chat APIs",
     "main": "dist/index.js",
     "module": "dist/index.m.js",
     "unpkg": "dist/index.umd.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "npm-deploy": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap && npm publish --access public",
-        "npm-deploy-beta": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap && npm publish --access public",
+        "npm-deploy": "rm -rf dist && cross-env ENVIRONMENT=production microbundle --define process.env.ENVIRONMENT='\"production\"' --tsconfig tsconfig.json --no-sourcemap && npm publish --access public",
+        "npm-deploy-beta": "rm -rf dist && cross-env ENVIRONMENT=beta microbundle --define process.env.ENVIRONMENT='\"beta\"' --tsconfig tsconfig.json --no-sourcemap && npm publish --access public",
         "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
         "build-windows": "(if exist dist (rmdir /s /q dist)) && microbundle --tsconfig tsconfig.json --no-sourcemap",
         "eslint": "eslint .",
