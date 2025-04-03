@@ -56,6 +56,7 @@ import LMResponse from './core/services/lmresponse';
 import { InitiateUserResponse } from './pages/user/responseModels/InitiateUserResponse';
 import { GetConversationsResponse } from './shared/api-responses/GetConversationResponse';
 import { Widget } from './shared/interfaces/Widgets';
+import { environment } from './environment';
 class SDKBuilder {
     xPlatformCode: string;
     xVersionCode: number;
@@ -126,6 +127,17 @@ class LMChatClient extends Base {
         return this;
     }
 
+    public static getIdentityPoolId() {
+        return environment.awsConfig.poolId
+    }
+
+    public static getBucketId() {
+        return environment.awsConfig.bucket
+    }
+
+    public static getRegion() {
+        return environment.awsConfig.region
+    }
     static build() {
         return new LMChatClient({
             xPlatformCode: this.xPlatformCode,
@@ -190,6 +202,6 @@ export {
     ConversationState,
 };
 
-interface LMChatClient extends HomeFeedClient, PollClient, ChatroomData, ExploreFeed, MemberClient, DirectMessage, Search, CoreServices {}
+interface LMChatClient extends HomeFeedClient, PollClient, ChatroomData, ExploreFeed, MemberClient, DirectMessage, Search, CoreServices { }
 
 applyMixins(LMChatClient, [HomeFeedClient, PollClient, ChatroomData, ExploreFeed, MemberClient, DirectMessage, Search, CoreServices]);

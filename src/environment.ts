@@ -13,6 +13,7 @@ export const environment = process.env.ENVIRONMENT === 'production' ? {
     awsConfig: {
         bucket: 'prod-likeminds-media',
         poolId: 'ap-south-1:d73bc2ed-bede-42c8-bab7-0abe0a001325',
+        region: 'ap-south-1',
     },
 } :
     {
@@ -30,5 +31,6 @@ export const environment = process.env.ENVIRONMENT === 'production' ? {
         awsConfig: {
             bucket: 'beta-likeminds-media',
             poolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
+            region: 'ap-south-1',
         },
     };
