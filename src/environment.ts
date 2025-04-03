@@ -1,4 +1,5 @@
-export const environment = {
+
+export const environment = process.env.ENVIRONMENT === 'production' ? {
     apiUrl: 'https://auth.likeminds.community',
     firebaseConfig: {
         apiKey: 'AIzaSyCmu_u-n31x2WMQlWAciP5RDXGn2qMuXrg',
@@ -12,23 +13,24 @@ export const environment = {
     awsConfig: {
         bucket: 'prod-likeminds-media',
         poolId: 'ap-south-1:d73bc2ed-bede-42c8-bab7-0abe0a001325',
+        region: 'ap-south-1',
     },
-};
-
-// export const environment = {
-//     apiUrl: 'https://betaauth.likeminds.community',
-//     firebaseConfig: {
-//         apiKey: 'AIzaSyBWjDQEiYKdQbQNvoiVvvOn_cbufQzvWuo',
-//         authDomain: 'collabmates-beta.firebaseapp.com',
-//         databaseURL: 'https://collabmates-beta.firebaseio.com',
-//         projectId: 'collabmates-beta',
-//         storageBucket: 'collabmates-beta.appspot.com',
-//         messagingSenderId: '983690302378',
-//         appId: '1:983690302378:web:b2fa2c58f2351d5c1b91d3',
-//         measurementId: 'G-R2PXYC9F4S',
-//     },
-//     awsConfig: {
-//         bucket: 'beta-likeminds-media',
-//         poolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
-//     },
-// };
+} :
+    {
+        apiUrl: 'https://betaauth.likeminds.community',
+        firebaseConfig: {
+            apiKey: 'AIzaSyBWjDQEiYKdQbQNvoiVvvOn_cbufQzvWuo',
+            authDomain: 'collabmates-beta.firebaseapp.com',
+            databaseURL: 'https://collabmates-beta.firebaseio.com',
+            projectId: 'collabmates-beta',
+            storageBucket: 'collabmates-beta.appspot.com',
+            messagingSenderId: '983690302378',
+            appId: '1:983690302378:web:b2fa2c58f2351d5c1b91d3',
+            measurementId: 'G-R2PXYC9F4S',
+        },
+        awsConfig: {
+            bucket: 'beta-likeminds-media',
+            poolId: 'ap-south-1:181963ba-f2db-450b-8199-964a941b38c2',
+            region: 'ap-south-1',
+        },
+    };
