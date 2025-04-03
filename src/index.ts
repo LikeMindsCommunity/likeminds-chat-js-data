@@ -23,6 +23,8 @@ import { Question } from './shared/interfaces/Question';
 import { Reaction } from './shared/interfaces/Reaction';
 import { ReportTag } from './shared/interfaces/ReportTagObject';
 import { ModelConverter } from './utils/ModelConverter';
+import { ErrorLogging } from './pages/error-logging';
+import { LMDeviceDetails, LMPushLogsRequest, LMSDKMeta, LMStackTrace, Log } from "./shared/interfaces/PushLogRequest"
 
 import { AddPollOptionResponse } from './shared/api-responses/AddPollOption';
 import { BlockMemberResponse } from './shared/api-responses/BlockMember';
@@ -50,6 +52,7 @@ import { ViewParticipantsResponse } from './shared/api-responses/viewParticipant
 
 import { ConversationState } from './shared/enums/conversationstate';
 import { MemberRole } from './shared/enums/Roles';
+import { LMSeverity } from './shared/enums/severity'
 import { GetAIChatbotsResponse } from './shared/api-responses/GetAIChatbotsResponse';
 
 import LMResponse from './core/services/lmresponse';
@@ -78,6 +81,7 @@ class SDKBuilder {
         this.excludedConversationStates = excludedConversationStates;
         return this;
     }
+
 
     build() {
         return new LMChatClient({
@@ -179,6 +183,11 @@ export {
     GetConversationsResponse,
 };
 export {
+    LMDeviceDetails,
+    LMPushLogsRequest,
+    LMSDKMeta,
+    LMStackTrace,
+    Log,
     LMSDKCallbacks,
     Member,
     Attachment,
@@ -200,8 +209,9 @@ export {
     // Enums
     MemberRole,
     ConversationState,
+    LMSeverity
 };
 
-interface LMChatClient extends HomeFeedClient, PollClient, ChatroomData, ExploreFeed, MemberClient, DirectMessage, Search, CoreServices { }
+interface LMChatClient extends HomeFeedClient, PollClient, ChatroomData, ExploreFeed, ErrorLogging, MemberClient, DirectMessage, Search, CoreServices { }
 
-applyMixins(LMChatClient, [HomeFeedClient, PollClient, ChatroomData, ExploreFeed, MemberClient, DirectMessage, Search, CoreServices]);
+applyMixins(LMChatClient, [HomeFeedClient, PollClient, ChatroomData, ExploreFeed, ErrorLogging, MemberClient, DirectMessage, Search, CoreServices]);
