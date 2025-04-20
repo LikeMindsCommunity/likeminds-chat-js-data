@@ -18,7 +18,7 @@ class WebSocketService extends Base {
     private wsReconnectAttempts: number;
 
     private async connect(): Promise<void> {
-        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+        if (this.socket && (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)) {
             return;
         }
 
@@ -62,7 +62,10 @@ class WebSocketService extends Base {
             } else if (containsRetriableCode) {
                 this.reconnectWithBackoff();
             } else {
-                console.log("socket closed")
+                if (event.code !== 4400) {
+                    // call callback only if socket is not closed manually
+                    this.wsCallbacks.onSocketConnectionClosed();
+                }
             }
         };
     }
@@ -102,7 +105,7 @@ class WebSocketService extends Base {
 
     async unSubscribeChatroom(): Promise<void> {
         if (this.socket) {
-            this.socket.close();
+            this.socket.close(4400, 'unsubscribe event called');
             this.wsCallbacks.onSocketConnectionClosed();
         }
     }
@@ -112,13 +115,13 @@ class WebSocketService extends Base {
             await this.networkLibrary.onRefreshAccessToken();
             this.reconnectWithBackoff();
         } catch (error) {
-            console.error('Failed to refresh token:', error);
+            this.wsCallbacks.onSocketConnectionClosed();
         }
     }
 
     private reconnectWithBackoff(): void {
         if (this.wsReconnectAttempts >= this.wsMaxReconnectAttempts) {
-            console.error('Max reconnect attempts reached.');
+            this.wsCallbacks.onSocketConnectionClosed();
             return;
         }
         const delay = this.wsReconnectDelay * Math.pow(2, this.wsReconnectAttempts);
