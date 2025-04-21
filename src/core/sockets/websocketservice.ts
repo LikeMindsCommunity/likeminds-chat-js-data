@@ -62,10 +62,7 @@ class WebSocketService extends Base {
             } else if (containsRetriableCode) {
                 this.reconnectWithBackoff();
             } else {
-                if (event.code !== 4400) {
-                    // call callback only if socket is not closed manually
-                    this.wsCallbacks.onSocketConnectionClosed();
-                }
+                this.wsCallbacks.onSocketConnectionClosed();
             }
         };
     }
@@ -105,8 +102,7 @@ class WebSocketService extends Base {
 
     async unSubscribeChatroom(): Promise<void> {
         if (this.socket) {
-            this.socket.close(4400, 'unsubscribe event called');
-            this.wsCallbacks.onSocketConnectionClosed();
+            this.socket.close();
         }
     }
 
